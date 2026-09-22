@@ -1,0 +1,44 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1790046670,
+        "narHash": "sha256-OJe62m8gZx4xEAQnMcqH1u31/uu4Xf0q2ykAEHZfgrg=",
+        "rev": "6774f7bc253789b113a4f39285dc0fa100abeacc",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1077996.6774f7bc2537/nixexprs.tar.xz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1077996.6774f7bc2537/nixexprs.tar.xz"
+      }
+    },
+    "radiance-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787100652,
+        "narHash": "sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=",
+        "ref": "master",
+        "rev": "bcffc2b52d99b908adfdc2543e4cddf83268a125",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/LBNL-ETA/Radiance"
+      },
+      "original": {
+        "ref": "master",
+        "rev": "bcffc2b52d99b908adfdc2543e4cddf83268a125",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/LBNL-ETA/Radiance"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "radiance-src": "radiance-src"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
