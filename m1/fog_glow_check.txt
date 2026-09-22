@@ -1,0 +1,9 @@
+energy out/in = 0.9839   (1 - fraction scattered outside the frame)
+centre pixel keeps 0.5308 of the source
+ theta_deg  measured/ref  spencer/ref   ratio
+     0.094    3.9772e+02   3.9767e+02   1.000
+     0.312    1.9048e+01   1.9047e+01   1.000
+     1.000    1.0000e+00   1.0000e+00   1.000
+     3.000    7.7193e-02   7.6660e-02   1.007
+    10.000    5.6017e-03   5.7529e-03   0.974
+    20.000    1.7011e-03   1.3757e-03   1.237

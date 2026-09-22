@@ -1,0 +1,8 @@
+case                                                                        measured     expected  ratio
+sun E=1 W/m2, rho=0.5 -> rho*E/pi                                         1.5915e-01   1.5915e-01   1.000
+point P=1000 W @10 m, rho=0.5 -> rho*P/(4pi d^2)/pi                       1.2665e-01   1.2665e-01   1.000
+world strength 1e-3 seen directly                                         1.0000e-03   1.0000e-03   1.000
+world 1e-3 on rho=0.5 plane -> rho*B                                      5.0000e-04   5.0000e-04   1.000
+emission strength 2 seen directly                                         2.0000e+00   2.0000e+00   1.000
+sub-pixel a_pointlight @500 m: sum(L*Omega) vs I/d^2 (I=79.58 W/sr)       0.0000e+00   3.1831e-04   0.000
+sub-pixel b_emissive_sphere @500 m: sum(L*Omega) vs I/d^2 (I=3.14 W/sr)   1.2594e-05   1.2566e-05   1.002
