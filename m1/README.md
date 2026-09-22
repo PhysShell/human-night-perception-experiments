@@ -109,7 +109,21 @@ So ACES 2 and PBR Neutral are both hue-preserving, but neither can follow pcond 
 frame. PBR Neutral restricted to the out-of-gamut pixels keeps the lamps warm and leaves pcond's
 darkness untouched.
 
-## 4. Results
+## 4. Results on the scene (1920×820, 512 spp, 7 min on 4 CPU cores)
 
-See [`../docs/research/m1-results/`](../docs/research/m1-results/). The run on the full render is
-summarised in `docs/research/human-night-vision-landscape.md`, section M1.
+Images are in [`../docs/research/m1-results/`](../docs/research/m1-results/).
+
+| output | what |
+|---|---|
+| `1_raw_photometric_100nit` | the scene's own luminance on a 100-nit display: almost everything is black |
+| `2_camera_autoexposure_agx` | the usual render: auto exposure + AgX. Grey sky, green field, "dusk" |
+| `3_pcond_sc` | dark silhouettes, salient ribbon, **white** lamps |
+| `4_pcond_sc_keephue_pbrneutral_oog` | the same darkness, **warm** lamps. **Recommended M1 path** |
+| `4_pcond_sc_keephue_radiance_clipgamut` | warm but pale lamps |
+| `5_fogglow_…` | calibrated eye PSF before pcond: every lamp becomes a white disc about 0.3–0.5° across |
+
+**Why Fog Glow is off by default.** The PSF itself is right: it matches Spencer to within 1 %.
+The problem is how pcond's histogram operator hands out display range. Lamp and halo pixels are
+rare, so everything from about 0.2 cd/m² (halo) to about 300 cd/m² (core) lands on display max,
+and the halo becomes as bright as its source. Before turning it on, check the PSF magnitude
+against CIE 146 for a dark-adapted eye.

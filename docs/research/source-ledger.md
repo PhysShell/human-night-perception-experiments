@@ -78,6 +78,13 @@ All entries were checked on **2026-09-22**.
 | L58 | Fairchild HDR Photographic Survey: 106 EXRs with absolute luminance calibration; McKeesPub multiplier ×6.25; research and non-commercial license | http://markfairchild.org/HDR.html ; http://markfairchild.org/HDRPS/HDRcharacterization.html | doc | H (multiplier from scene page: M) | ✅ downloaded and processed |
 | L59 | Poly Haven night HDRIs are CC0 and unclipped but carry no absolute-luminance calibration | https://polyhaven.com/license ; https://docs.polyhaven.com/en/technical-standards/hdris | doc | M | — |
 
+| L60 | Blender 5.2.2 Fog Glow FOV = `lerp(180°,10°,Size^(1/3))`, independent of camera; kernel deg/px = FOV/max(w,h); kernel = Spencer'95 Eq.5 photopic, sum-normalised, FFT convolution with zero padding | nixpkgs `blender.src` 5.2.2: source/blender/nodes/composite/nodes/node_composite_glare.cc (`compute_fog_glow_field_of_view`, `execute_fog_glow`), source/blender/compositor/cached_resources/intern/fog_glow_kernel.cc | src | H | ✅ single-pixel test (R10) |
+| L61 | Glare node: `Image` output = max(0,input) + glare·tint·strength; `Glare` output = glare only; Threshold 0 makes `adaptive_smooth_clamp` exactly max(0,x); Quality Medium/Low downsample 2×/4× | same file (`execute_mix_cpu`, `write_glare_output_cpu`, `execute_highlights_cpu`, `adaptive_smooth_clamp`) | src | H | ✅ |
+| L62 | Blender 5.x compositor Python API: `scene.compositing_node_group` (a `CompositorNodeTree` with `NodeGroupOutput`); headless needs `render.compositor_device = "CPU"` (GPU/EGL path crashed here) | blender source rna_scene.cc, tests/python/bl_node_group_*.py | src/run | H | ✅ |
+| L63 | pcond `nextscan()`: `matscan()` (colour matrix + `clipgamut`) runs when `lumf == cielum` or `inprims != outprims` (pointer compare), so any PRIMARIES header triggers it; `clipgamut` returns pure white when brightness > max | Radiance src/px/pcond2.c, src/common/spec_rgb.c at bcffc2b | src | H | ✅ (R11) |
+| L64 | Radiance `tabfunc -i` turns a table into an interpolating cal function; `pcomb` `li(n)` = input brightness | Radiance doc/man/man1/tabfunc.1, pcomb.1 | doc | H | ✅ |
+| L65 | Blender 5.2.2's bundled OCIO config (profile 2.5) has views Standard, AgX, ACES 2.0 (SDR/HDR), Khronos PBR Neutral (via `pbrNeutral.cube`) | `share/blender/5.2/datafiles/colormanagement/config.ocio` | src | H | ✅ used via `oiiotool --ociodisplay` |
+
 ## Observations from runs in this repository
 
 These are *our* measurements, not claims from any source.
@@ -92,3 +99,9 @@ These are *our* measurements, not claims from any source.
 | R6 | pattanaik00 outputs NaN (white frame) if any input pixel is negative; resizing with Lanczos creates negatives | see `m0/fetch_fairchild.sh` comment | H |
 | R7 | pattanaik00 `-t --fps 1`, bright frame then 19 dusk frames: mean display value 0.405 → 0.421 (slow drift), static render 0.276; transient direction not validated | README M0 temporal smoke test | M |
 | R8 | Order-of-magnitude CIE 146 check: about 200 lamps of ~1e-4–6e-4 lux each at the eye → E ≈ 0.02–0.1 lux → L_veil ≈ 10·E/θ² ≈ 0.1–1 cd/m² at θ = 1°, i.e. ≫ the 3e-4 cd/m² field. Veiling glare should dominate near the ribbon | hand calculation | L–M |
+| R9 | Cycles 5.2.2 CPU calibration: sun, point light (I = P/4π), world, emission, sub-pixel emitter energy all within 0.2 % of closed form; point lights not camera-visible; World Background default colour 0.05 | `m1/calibrate.py`, `m1/calibration_result.txt` | H |
+| R10 | Fog Glow at Size = ((180−60)/170)³ on a 1920-px frame: profile/Spencer Eq.5 = 1.000 (0.09°–1°), 1.007 (3°), 0.974 (10°), 1.237 (20°); energy out/in 0.984; centre pixel keeps 53 % | `m1/check_fog_glow.py`, `m1/fog_glow_check.txt` | H |
+| R11 | Without a PRIMARIES header, pcond `-s -c` keeps lamp RGB ratios at 10³–10⁴× display max; capping only those pixels (383 of 1.57 M on the synthetic scene) leaves every other pixel bit-identical | `m1/pcond_keep_hue.sh` on m0 synthetic | H |
+| R12 | Lamp hue/saturation after gamut handling (input 31°): Radiance clipgamut 29–30°/0.16; PBR Neutral 31–32°/0.56; ACES 2.0 32–33°/0.35; per-channel clip 50°/0.45. PBR Neutral and ACES 2.0 applied globally crush pcond's dark field 50× | measured on m0 synthetic | H |
+| R13 | M1 render (1920×820, 512 spp, 7 min on 4 CPU cores): sky 4.0e-4, ground 3.1e-5, poplars 2.1e-4 cd/m² (lit from behind by sky), lamp pixels up to 295 cd/m² | `m1/scene.py`, `m1/run_m1.sh` | H |
+| R14 | Fog Glow (calibrated) followed by pcond -s -c turns each lamp into a saturated disc ~0.3–0.5°; `-d 1000` shrinks it only slightly | `m1-results/m1_ribbon_crop_pcond_keephue_fogglow.jpg`, `fogglow_display_range_d100_vs_d1000.jpg` | H |

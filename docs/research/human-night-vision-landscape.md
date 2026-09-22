@@ -1,6 +1,6 @@
 # Human night vision for a rural night scene: survey of existing software (round 1)
 
-Status: first execution round, checked 2026-09-22. Every factual claim is traced in
+Status: round 1 (research + M0) and round 2 (M1, see the section **M1 results** at the end), checked 2026-09-22. Every factual claim is traced in
 [`source-ledger.md`](source-ledger.md) (IDs like **[L12]**). Claims marked *tested* were run
 in this repository. M0 results are in [`m0-results/`](m0-results/). You can reproduce them with
 `nix develop -c m0/run_m0.sh` (see [`../../m0/README.md`](../../m0/README.md)).
@@ -488,12 +488,12 @@ physiological modelling, not exposure.
 
 | Need | Existing solution | Ready now? | Missing piece |
 |---|---|---|---|
-| Scene authoring, HDR radiance | Blender 5.2.2 LTS, Cycles CPU, EXR (nixpkgs) | ✅ yes | radiance → cd/m² factor (G1) |
+| Scene authoring, HDR radiance | Blender 5.2.2 LTS, Cycles CPU, EXR (nixpkgs) | ✅ yes (M1) | done: K = 179 lm/W, radiometry verified |
 | Scotopic/mesopic tone reproduction | Radiance `pcond -s -c` (author's code, Ward Larson '97) | ✅ yes (flake-built) | — |
 | Purkinje shift, desaturation | `pcond -c` | ✅ yes | cross-check with LuxPy CIE 191 |
-| Veiling glare (eye) | Blender Fog Glow (Spencer '95 PSF); pcond `-v` too coarse | ⚠ partial | FOV calibration + CIE 146 check (G3) |
+| Veiling glare (eye) | Blender Fog Glow (Spencer '95 PSF); pcond `-v` too coarse | ⚠ partial (M1) | FOV calibration solved; together with pcond it turns halos into disc sprites; magnitude check vs CIE 146 still open |
 | Acuity loss | pcond `-a` | ❌ artefacts on point sources | defer; banded blur only if needed (G5) |
-| Warm lamp colour preserved | none (all clip to white) | ❌ | hue-preserving clip, ~30 lines of glue (G2) |
+| Warm lamp colour preserved | pcond without PRIMARIES + `-x`/`tabfunc`/`pcomb` + PBR Neutral (Blender OCIO) on out-of-gamut pixels only | ✅ (M1) | no new formula needed |
 | Stable exposure in video | `pcond -I` + `phisto` | ✅ (docs; not yet run on a sequence) | M2 test |
 | Time-course adaptation | `pfstmo_pattanaik00 -t` | ⚠ runs, unvalidated | compare against Pattanaik 2000 figures |
 | Haze / extinction | Blender volumes | ✅ | scene work |
@@ -513,3 +513,105 @@ from Blender, converted to cd/m² with one documented factor.
 3. Try Blender Fog Glow, calibrated to CIE 146, as the only glare (G3).
 
 **Keep off for now:** `pcond -a` and `-v`, pattanaik00 and every custom model.
+
+
+---
+
+## M1 results (round 2)
+
+Details and reproduction steps are in [`../../m1/README.md`](../../m1/README.md). Images are in
+[`m1-results/`](m1-results/). **No vision algorithm, tone mapper, glare kernel or addon was
+written.**
+
+### Calibration (was gate G1): closed
+
+Cycles 5.2.2 CPU matches closed-form radiometry to within 0.2 % in every calibration case:
+- sun on a Lambertian plane;
+- point light, whose intensity is **P/(4π) W/sr**;
+- world background;
+- emission shader;
+- sub-pixel emissive sphere at 500 m (energy conserved).
+
+Pitfalls found along the way:
+- Point lights are not camera-visible.
+- The World Background node's default colour is 0.05, which silently divides the sky by 20.
+
+The photometric scale is one declared convention: **K = 179 lm per Blender-watt** (Radiance's
+`WHTEFFICACY`). Lights are authored in cd, cd/m² or lux and divided by K. The Cycles EXR is then a
+valid Radiance picture as-is, and cd/m² = 179 · Y.
+
+### Fog Glow (gate G3): mechanism solved, perceptual use still open
+
+Findings from the source (`node_composite_glare.cc`, `fog_glow_kernel.cc`):
+- **The camera FOV does not reach the kernel.** The FOV in the cache key is derived from the
+  Size input as `lerp(180°, 10°, Size^(1/3))`.
+- The kernel then samples the PSF at `FOV/max(w,h)` degrees per pixel.
+- So **Size = ((180 − FOV)/170)³** calibrates it to the camera.
+- Required settings:
+  - Threshold 0, which makes the smooth clamp exactly max(0, x);
+  - Quality High;
+  - the **Glare** socket, because the Image socket is input + glare and double-counts the core.
+
+**Single-pixel test:** the profile matches Spencer Eq. 5 within ±1 % over 0.09°–3° and within
+−3 % at 10°. Energy is conserved to 98.4 %.
+
+**In the scene, though, Fog Glow followed by pcond gives visible disc halos**
+(`m1_ribbon_crop_pcond_keephue_fogglow.jpg`):
+- Each lamp becomes a white disc about 0.3–0.5° across with an orange core. This is close to
+  the bloom-sprite look we want to avoid.
+- **Halo colour.** The halo luminance is mesopic, so `-c` makes it grey. That part is legitimate.
+- **Halo size.** This is not a glare error. pcond's histogram operator gives display range in
+  proportion to how many pixels sit at each luminance. Lamp and halo pixels are rare, so
+  everything from about 0.2 cd/m² (halo) to about 300 cd/m² (lamp core) lands on display max.
+- **Display range barely helps.** Raising the display dynamic range from 100:1 to 1000:1
+  (`-d 1000`) shrinks the discs only a little (`fogglow_display_range_d100_vs_d1000.jpg`, from
+  the 16-spp test render).
+- **Open questions** before Fog Glow can go into the default path:
+  - Is Spencer's photopic PSF the right *magnitude* for a dark-adapted, large-pupil eye? The CIE
+    146 check has not been done yet.
+  - How should a halo be allocated display range next to its own source?
+- **Default:** Fog Glow is **off** in the recommended M1 path.
+
+### Warm lamp colour (was gate G2): solved by reuse
+
+**Root cause** (Radiance source): lamps lie above pcond's 1°-foveal histogram. `mapscan()` pushes
+them far above display max *while keeping their RGB ratios*. The white comes only from
+`matscan()` → `clipgamut()`'s over-brightness branch. That step runs whenever a `PRIMARIES=`
+header is present, because the primaries check compares pointers.
+
+**Route** (`m1/pcond_keep_hue.sh`, `m1/run_m1.sh`):
+1. pcond without a PRIMARIES header.
+2. `tabfunc` + `pcomb` rescale only the over-max pixels to pcond's own `-x` display luminance.
+3. **Khronos PBR Neutral** (from Blender's OCIO config) is applied only to pixels outside the
+   display gamut. Everything else stays exactly pcond's output.
+
+**Alternatives measured:**
+- Radiance's own `clipgamut` keeps hue but gives pale lamps (saturation 0.16).
+- PBR Neutral or ACES 2.0 applied to the *whole* pcond output crushes the darkness by up to 50×
+  (PBR's toe, or ACES re-tone-mapping). So they must not follow pcond globally.
+
+### M1 acceptance
+
+| criterion | result |
+|---|---|
+| dark landscape is perceptually dark and silhouette-like | ✅ ground → display ≈ 0.004 (sRGB-encoded mean), sky 0.043, poplars read as dark masses against the sky |
+| distant lights remain salient | ✅ brightest elements; the chain reads as a ribbon receding to about 14 km |
+| lights stay warm instead of clipping to white | ✅ path 4 (PBR Neutral on out-of-gamut pixels); ❌ plain pcond (path 3) |
+| no custom HVS algorithm | ✅ only configuration, calibration tests and glue |
+
+**Recommended perceptual stack after M1:**
+
+    Cycles EXR (K = 179) → [Fog Glow: off for now] → pcond -s -c (no PRIMARIES, -x map)
+        → tabfunc/pcomb luminance cap on over-max pixels → OCIO: Standard view in gamut,
+          Khronos PBR Neutral out of gamut
+
+**Next gates:**
+- **G3′.** Check the Spencer PSF magnitude against the CIE 146 disability-glare equation (young
+  observer, dark-adapted pupil) before enabling Fog Glow.
+  - If the magnitude is right, the disc problem belongs to the display-range allocation. Then
+    test pcond `-i` fixations or `-d`, before any custom code.
+- **G2 closed.** No hue glue needs to be written.
+- **The scene is still too clean.**
+  - No atmospheric scattering around the lamps (layer 1; only baked extinction so far).
+  - No near road, no terrain relief.
+  - This is M3/M4 content, not perceptual-stack work.
