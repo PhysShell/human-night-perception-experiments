@@ -18,7 +18,7 @@ section BRIGHT POINT SOURCE. Answers are from code/doc/paper per the track's `so
 | **Pattanaik 1998** (paper) | Westheimer + Spencer PSF at 130 px/deg | before gain control | before | preserved | yes | adaptation | multiscale model | ? | no | before |
 | **Krawczyk 2005** (thesis) | Gaussian pyramid level on adaptation-scaled luminance (Deeley) | after adaptation | before the local sigmoid | not preserved (added) | yes | pupil of the adapting luminance | sigmoid, then 8 bit | claimed via Spencer, not tested | no | clip only at quantisation |
 | **Ritschel 2009 temporal glare** (paper + co-author demo) | paper: whole HDR image; demo: bright-pixel overlay | only via pupil size | before gamma | **not** preserved (∝D^1.1 in demo) | nominal | pupil (hippus), wavelength | gamma, then clip | **yes**: dynamic > static > none (paper p. 190) | **yes**: hippus; paper also particles, lashes, blinks | paper: float; demo: 8-bit source |
-| **Vangorp 2015 local adaptation** (paper; code BLOCKED) | GSF/OTF (Deeley / CIE 135) on the physical image → retinal image | **before: glare feeds adaptation** | no TM in the model | preserved | yes | not pupil (their fit) | n/a | n/a (visibility, not brightness) | no | no clipping |
+| **Vangorp 2015 local adaptation** (paper; original code BLOCKED; descendant implementation in HDR-VDP-3) | GSF/OTF (Deeley / CIE 135) on the physical image → retinal image | **before: glare feeds adaptation** | no TM in the model | preserved | yes | not pupil (their fit) | n/a | n/a (visibility, not brightness) | no | no clipping |
 | **Jacobs 2015 GazeHDR** (paper + author video) | **no PSF** | n/a | n/a | n/a | yes | n/a | Naka–Rushton compression → source saturates; gaze-locked afterimage | afterimages: no significant gain (p = 0.449) | no | n/a |
 | **Tariq 2023 perceptually adaptive TM** | **no PSF** | n/a | n/a | not preserved (saturates) | yes | n/a | global curve; lamp barely affects it (pixel-average pooling) | no halo | parameter smoothing only | n/a |
 | **ISETBio/ISETCam** (Octave, partly run) | oiCompute on spectral radiance | before (outer segment) | no tone mapping | preserved | yes | pupil, wavelength (field angle only in cMosaic) | n/a (retina, no display) | n/a | **no** | no clipping |
@@ -38,22 +38,33 @@ section BRIGHT POINT SOURCE. Answers are from code/doc/paper per the track's `so
    an LDR effect (VSS, OpenVisSim, VisSimFramework's demo default, Ritschel's demo). So the
    order is not in dispute: **convolve radiance, then map to the display.** Our baseline
    already did that in M1; the result was a 0.3–0.5° disc.
-2. **Nobody has solved the step after that.** Once the halo is in the radiance, a 100:1
-   display clips everything above white. Spencer's own answer is perceptual: the halo is there
+2. **The step after that is solved differently by different schools, and we found no open
+   drop-in method for our exact case.** Once the halo is in the radiance, a 100:1 display clips
+   everything above white. Several schools address exactly this:
+   - Temporal Glare 2009 was designed to convey HDR sources on LDR media, and its user study
+     shows increased perceived brightness;
+   - Speos states that Human Vision exists to overcome display range limits;
+   - Vangorp 2015 measured a 5000 cd/m² source on a dark field and routes glare into local
+     adaptation;
+   - Tariq 2023 preserves perceived contrast instead of drawing glare. Spencer's own answer is perceptual: the halo is there
    *so that* the source reads brighter than white (his 7-subject test; Ritschel repeats it for
    temporal glare). The systems then differ:
    - Ocean gates the PSF to pixels above 10× the mean;
    - Speos and Ocean use adaptation plus a white point;
    - GazeHDR and Tariq 2023 let the source saturate with no halo.
 
-   **So the "huge disc vs square pixel" choice is not settled by any donor; it is a display
-   design decision.**
-3. **The eye's own optics are small for a point at night.** ISET (Thibos aberrations, 3–7 mm
-   pupil) puts 98.8 % of a point's energy in a 3 × 3 block at 32 px/deg: encircled energy
-   1.2–2.4′ for warm sources, ~5′ for blue. The big halo in Spencer and Vos is the **wide-angle
+   **So the open question is which perceptual encoding of brightness fits a distant lamp
+   ribbon.** That is what the B0 bake-off compares; see `b0/`.
+3. **In the ISET configuration we ran, the optical core is a few arcmin.** That configuration
+   is ISETBio/ISETCam 'wvf human': Thibos 2009 *mean* Zernikes, 3 and 7 mm pupils, on-axis, no
+   defocus beyond the model's LCA, focus at 550 nm. It puts 98.8 % of a point's energy in a
+   3 × 3 block at 32 px/deg: encircled energy 1.2–2.4′ for warm sources, ~5′ for blue.
+   **This is not a universal constant.** The human PSF varies between individual eyes, with
+   pupil (larger at night, which increases aberrations), defocus and astigmatism, wavelength
+   and eccentricity. The big halo in Spencer and Vos is the **wide-angle
    straylight** term (θ⁻²), not the aberration core. So "the lamp looks like a small bright
    point with a faint wide veil" is what the optics predict. The 2 × 2-pixel core at 74 px/deg
-   from M2.6 is already about optics-sized (1.6′).
+   from M2.6 (1.6′) is of that order for this configuration.
 4. **"Breathing" candidates, measured:**
    - **Eye:** Ritschel's pupil hippus is a 3–5 % halo pulsation below ~0.6 Hz with 0.07 px
      centroid motion (co-author demo). Small, and its perceptual weight is only claimed for

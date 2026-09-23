@@ -1,5 +1,13 @@
 # Next experiment options (after round 8)
 
+> **Naming after review.** The former M3a/M3b are renamed:
+> - E1 = ocular dynamics (hippus, temporal glare);
+> - E2 = atmospheric dynamics (image motion, seeing, scintillation).
+>
+> Together with the display-grid artefact, the three stay separate experimental branches, never
+> mixed before a separate A/B/C comparison. The next step is the **B0 bright-point bake-off**
+> (`b0/`), run before any of these.
+
 Not a recommendation of a winner. These are experimentally distinct directions, each with:
 - the donor that supports it;
 - what is missing;
@@ -38,7 +46,7 @@ The baseline stays frozen until one of them is chosen.
   is negligible at our levels, B adds nothing.
 - **New code:** a wrapper around existing Matlab/Octave code.
 
-## C. Temporal glare (the eye breathes)
+## C. Temporal glare (the eye breathes) = E1, ocular dynamics
 
 - **Support:** Ritschel 2009 (co-author demo ran natively), with its perceptual claim that
   dynamic glare looks brighter.
@@ -50,7 +58,7 @@ The baseline stays frozen until one of them is chosen.
 - **New code:** none if the PNG sequences are obtained; otherwise it would need a
   reimplementation (not allowed).
 
-## D. Atmosphere first (the air twinkles)
+## D. Atmosphere first (the air twinkles) = E2, atmospheric dynamics
 
 - **Support:** HCIPy (native tests pass) + textbook horizontal-path formulas. At our geometry
   scintillation is the only large effect: σ_I² 0.1–1.7, pupil averaging negligible, 6–90 Hz.

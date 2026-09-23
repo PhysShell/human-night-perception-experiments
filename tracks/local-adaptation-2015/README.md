@@ -75,5 +75,11 @@ The worker spent the time on HDR-VDP-3 under Octave and did not document this tr
 asking the user to download the MPI package manually.
 
 ## VERDICT
-**BLOCKED** (code). As a paper: HISTORICAL REFERENCE, and the architectural reference for
-"glare → retinal image → local adaptation".
+**ORIGINAL SOURCE BLOCKED; DESCENDANT IMPLEMENTATION AVAILABLE via HDR-VDP-3.** HDR-VDP 3.0.7
+ships `utils/hdrvdp_local_adapt.m`:
+- model #7 of this paper (a Gaussian of log retinal luminance, σ = 10^−0.781 deg ≈ 0.17°);
+- the best model #1 is present but disabled, because it "cannot handle luminance levels
+  < 1 cd/m²" (source comment).
+
+Provenance: model = Vangorp et al. 2015; implementation = HDR-VDP-3 (Mantiuk). Used as the
+adaptation oracle in `b0/`.

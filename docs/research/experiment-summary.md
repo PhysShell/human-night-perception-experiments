@@ -28,7 +28,12 @@ frozen, and nothing was added to the Blender pipeline.
   - Windows/Unity builds (VisSimFramework, OpenVisSim);
   - commercial systems (Speos, Ocean: documentation only).
 - **Stopped:** the local-adaptation worker ran HDR-VDP-3 but never documented Vangorp 2015. The
-  coordinator wrote that track from the paper; the code is not obtained.
+  coordinator wrote that track from the paper.
+- **Corrected after review:**
+  - Local Adaptation: the original code is blocked, but a descendant implementation ships
+    inside HDR-VDP-3 (`utils/hdrvdp_local_adapt.m`, model #7).
+  - Temporal Glare: a partial author implementation is available via Frisvad (glare demo +
+    hippus demo).
 
 ## What we learned (cross-cutting)
 
@@ -36,16 +41,18 @@ frozen, and nothing was added to the Blender pipeline.
    reproduction, energy-preserving. Every system that clips first is an LDR effect. Vangorp 2015
    goes further: glare's main job is to set the **adaptation** state near the source, not to be
    a visible bloom.
-2. **No donor solves showing the above-white part** of a point source on a limited display.
-   The options are:
+2. **We found no open drop-in method for our exact case** (an unresolved, very bright source
+   on a limited display), but several schools solve the general problem, each in its own way:
    - industrial threshold gating (Ocean, 10× the mean);
    - adaptation plus white point (Speos, Ocean);
    - plain saturation with no halo (GazeHDR, Tariq 2023);
    - Spencer's argument that the halo exists to make the source look brighter.
 
-   This is a design decision to test, not something to adopt.
-3. **The eye's optical core is small.** Warm lamps give 1–2′ (ISET, Thibos). The M2.6 core of
-   2×2 px at 74 px/deg (~1.6′) is already at that scale. The large halo in Spencer/Vos is the
+   Which perceptual encoding fits our case is what the B0 bake-off (`b0/`) compares.
+3. **In the ISET configuration run (Thibos *mean* eye, 3 and 7 mm, on-axis), the optical core is
+   a few arcmin**: warm lamps 1–2′. This is not a universal constant; it varies with the eye,
+   pupil, defocus, wavelength and eccentricity. The M2.6 core of 2×2 px at 74 px/deg (~1.6′) is
+   of that order. The large halo in Spencer/Vos is the
    wide-angle straylight, and M1's disc came from clipping it.
 4. **Three candidate "breathing" sources, now with numbers:**
    - display-grid modulation ~11 % (M2.6);
