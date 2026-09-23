@@ -4,7 +4,8 @@
 old = M1 route (Rec.709 data given to pcond WITHOUT primaries, i.e. mislabelled)
 A   = Rec.709 -> XYZE (ra_xyze) -> pcond -p Rec.709 (pcond as shipped, clipped)
 B   = Rec.709 -> Radiance-standard RGB (ra_xyze -r) -> pcond (unclipped) -> Y cap -> Rec.709
-AB  = A where pcond did not clip, B where it did (recommended)
+AB  = A where pcond did not clip, B where it did (rejected: temporal seam)
+LC  = luminance of A, chromaticity of B, every pixel (used)
 All values are display-linear (1 = Ldmax) before any gamut handling.
 """
 import colorsys, sys
@@ -19,14 +20,16 @@ def hue_sat(rgb):
     h, s, v = colorsys.rgb_to_hsv(*(rgb / rgb.max()))
     return round(h * 360), round(s, 2)
 
-print("== 1. AB vs pcond's own XYZE output (oracle) on pixels pcond did not clip")
+print("== 1. vs pcond's own XYZE output (oracle): AB pixels where pcond did not clip; LC luminance on all pixels")
 for name, scale in (("mckeespub", 1 / 179), ("synthetic", 1 / 179), ("scene", 1.0)):
     inp = load(f"{D}/{name}_in.exr") * scale * 179            # cd/m^2 per channel
     Lw = inp @ Yw
-    for m in ("AB",):
+    for m in ("AB", "LC"):
         rec = load(f"{D}/{name}_{m}.exr")
         pc = load(f"{D}/{name}_{m}.pcond.exr")
         sel = (pc.max(-1) < 0.98) & (pc.min(-1) > 1e-3)
+        if m == "LC":
+            rec, pc, sel = rec @ Yw, pc @ Yw, (pc @ Yw) > 1e-3
         err = np.abs(rec[sel] - pc[sel]) / pc[sel]
         print(f"  {name:10s} {m}: {sel.sum():7d} px  median rel.err {np.median(err):.4f}  p99 {np.percentile(err, 99):.4f}")
 
@@ -34,7 +37,7 @@ print("== 2. synthetic probes (equal photopic Y = 0.03 cd/m^2) and lamp")
 regions = {"red probe": (slice(705, 755), slice(565, 615)), "blue probe": (slice(705, 755), slice(645, 695)),
            "field": (slice(600, 650), slice(900, 1000)), "sky": (slice(50, 100), slice(900, 1000))}
 lamp = (372, 585)   # warm LED village light, input RGB ratio (1, .72, .42)
-for m in ("old", "A", "B", "AB"):
+for m in ("old", "A", "B", "AB", "LC"):
     a = load(f"{D}/synthetic_{m}.exr")
     vals = "  ".join(f"{k} {a[r].mean(axis=(0, 1)).round(4).tolist()}" for k, r in regions.items())
     print(f"  {m:3s} {vals}")

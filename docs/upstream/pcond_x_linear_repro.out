@@ -1,0 +1,8 @@
+histogram mode, pcond -s -u 100  (expect histogram-model ratio 1):
+   528 px: histogram-model ratio 0.9997, linear-model ratio 0.8366   (Ldmax/179 = 0.5587)
+linear mode,    pcond -l -u 100  (linear-model ratio = 100/179 -> bug):
+   184 px: histogram-model ratio 0.7095, linear-model ratio 0.5581   (Ldmax/179 = 0.5587)
+linear mode,    pcond -l -u 50   (linear-model ratio = 50/179  -> bug):
+   184 px: histogram-model ratio 0.4329, linear-model ratio 0.2790   (Ldmax/179 = 0.2793)
+linear mode,    pcond -e +2 -u 100:
+   182 px: histogram-model ratio 0.7101, linear-model ratio 0.5578   (Ldmax/179 = 0.5587)

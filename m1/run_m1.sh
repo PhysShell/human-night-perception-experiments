@@ -23,9 +23,9 @@ hdr2exr() { oiiotool "$1" -o "$2"; }   # stored pcond values are display-linear 
 
 REC709="0.640 0.330 0.300 0.600 0.150 0.060 0.3127 0.3290"
 
-# Honest colorimetry (M1.1, m1/pcond_colorimetric.sh AB): Rec.709 -> XYZE via ra_xyze -> pcond
-# for every pixel pcond does not clip; clipped (lamp) pixels come from pcond's own unclipped
-# run on Radiance-standard RGB, scaled to display max, so lamps keep their chromaticity.
+# Honest colorimetry (M1.1, m1/pcond_colorimetric.sh LC): luminance of pcond on honest XYZE
+# input (pcond as shipped), chromaticity of pcond's own unclipped run on Radiance-standard
+# RGB, for every pixel; lamps keep their colour, no per-pixel switch (continuity-tested).
 # Gamut: only pixels outside the display cube go through Khronos PBR Neutral (highlight
 # compression, hue-preserving); every displayable pixel is pcond's output unchanged.
 honest() { # in.exr mode out_prefix
@@ -49,13 +49,13 @@ oiiotool "$IN" --ch R,G,B --mulc "$K" -o "$T/autoexp.exr"
 view "$T/autoexp.exr" AgX "$OUT/2_camera_autoexposure_agx.png"
 
 # 3 + 4. pcond -s -c as shipped (honest XYZE input, lamps clipped to white) and with lamp colour
-honest "$IN" AB 4_pcond_sc_AB
-hdr2exr "$T/4_pcond_sc_AB.pcond.hdr" "$T/pcond_sc.exr"
+honest "$IN" LC 4_pcond_sc_LC
+hdr2exr "$T/4_pcond_sc_LC.pcond.hdr" "$T/pcond_sc.exr"
 view "$T/pcond_sc.exr" Standard "$OUT/3_pcond_sc.png"
 
 # 5. eye glare first (Blender Fog Glow = Spencer'95 PSF, FOV-calibrated), then as 4
 blender -b --factory-startup --python m1/fog_glow.py -- "$IN" "$T/glare.exr" "$HFOV" 2>&1 | grep "fog glow"
-honest "$T/glare.exr" AB 5_fogglow_pcond_sc_AB
+honest "$T/glare.exr" LC 5_fogglow_pcond_sc_LC
 
 # contact sheets: full frames + 4x crop of the lamp ribbon
 cd "$OUT"

@@ -643,12 +643,15 @@ The red probe came out 14 % too bright, i.e. a weaker Purkinje shift.
   - **A:** XYZE → pcond (pcond's `cielum` scotopic formula);
   - **B:** Radiance-standard RGB → pcond (pcond's `rgblum` weights).
 - **Whole images agree:** mean |A−B| 0.0002–0.0026.
-- **Saturated dark colours differ.** An independent bracket from existing code decides it:
-  colour-science's five published spectral-recovery methods with CIE 1951 V′(λ).
+- **Saturated dark colours differ.** A plausibility bracket from existing code, *not an
+  oracle*: colour-science's five published spectral-recovery methods with CIE 1951 V′(λ).
+  RGB → spectrum is ambiguous (metamers), so the recoveries are plausible candidates, not
+  physical truth. Real lamp SPDs (LuxPy TM-30 sets, IES/PNNL calculator) are the clean check,
+  deferred to G7.
   - **A** falls inside the spectral range for red, blue, sodium and warm-LED colours.
   - **B** overestimates the scotopic efficiency of reds and warm colours.
 
-**Used: AB.**
+**Used first: AB. Replaced by LC after the temporal sweep (see M1.1b).**
 - pcond's XYZE output everywhere it did not clip. This equals pcond as shipped, median and p99
   error 0.0000 on 4.1 M pixels.
 - On the pixels pcond clipped: pcond's own **unclipped** result from the honest standard-RGB
@@ -708,3 +711,24 @@ On the lamp pixels (Y ≤ 1, a channel > 1, all components ≥ 0.14):
   - Then investigate existing options (pcond `-u`/`-d`, fixation `-i`) before anything custom.
 - **G7 (spectral):** only if the A-vs-spectral bracket turns out to matter visibly. It currently
   sits inside the range.
+
+
+## M1.1b: temporal continuity, freeze (round 4)
+
+- **The AB per-pixel switch creates temporal seams.** A test source ramped through pcond's clip
+  point pops +36 % in luminance (red) and +5 % (sodium) at the switch frame. That is invisible
+  in a still, ugly in video.
+- **Replaced by LC:** luminance from pcond as shipped (honest XYZE), chromaticity from pcond's
+  own unclipped run (honest standard RGB), for every pixel.
+  - LC adds **no** colour seams, luminance pops or falls relative to pcond for sodium, warm LED,
+    red or blue.
+  - It is gated in `nix flake check`.
+  - **LC is a project-specific composition of two outputs of an existing operator, not a
+    validated vision model.**
+- **The display gamut step has no fully clean existing option in motion:**
+  - PBR Neutral on out-of-gamut pixels: a 12–16 % luminance drop at gamut exit. Stills only.
+  - Radiance `clipgamut`: continuous for our lamp colours, paler; used for motion.
+- **The pcond `-x` bug is written up for upstream** (`docs/upstream/`). A Radiance-only repro
+  shows the error follows `-u` exactly (Ldmax/179). Not blocking.
+- **The perceptual stack is frozen** (m1/README.md, section 6). Fog Glow stays off; G3′ and G7
+  are deferred.

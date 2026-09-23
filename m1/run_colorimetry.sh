@@ -5,7 +5,7 @@ D=m1/out/colorimetry; mkdir -p "$D"
 run() { # name exr hfov scale
   local n=$1 f=$2 h=$3 s=$4
   oiiotool "$f" --ch R,G,B --clamp:min=0 -o "$D/${n}_in.exr"
-  for m in A B AB; do
+  for m in A B AB LC; do
     m1/pcond_colorimetric.sh "$f" "$h" $m "$D/${n}_$m.hdr" "$s"
     oiiotool "$D/${n}_$m.hdr" -o "$D/${n}_$m.exr"
     oiiotool "$D/${n}_$m.pcond.hdr" -o "$D/${n}_$m.pcond.exr"

@@ -1,0 +1,28 @@
+mode AB: 61 frames per colour, luminance step 12.2%; pcond EXPOSURE values seen: ['1.3904e+03']
+  sodium    linear   : colour seams -       (max du'v' step 0.0070, max hue arc 0.0013); luminance pops vs pcond -         added falls 19                     [pcond clips from frame 18]  FAIL
+  sodium    pbr_oog  : colour seams -       (max du'v' step 0.0050, max hue arc 0.0011); luminance pops vs pcond 18,19     added falls 18,19,37,42            [pcond clips from frame 18]  FAIL
+  sodium    clipgamut: colour seams 18      (max du'v' step 0.0047, max hue arc 0.0009); luminance pops vs pcond -         added falls 19                     [pcond clips from frame 18]  FAIL
+  warm LED  linear   : colour seams -       (max du'v' step 0.0040, max hue arc 0.0011); luminance pops vs pcond -         added falls -                      [pcond clips from frame 15]  ok
+  warm LED  pbr_oog  : colour seams -       (max du'v' step 0.0035, max hue arc 0.0011); luminance pops vs pcond 15        added falls 15                     [pcond clips from frame 15]  FAIL
+  warm LED  clipgamut: colour seams -       (max du'v' step 0.0010, max hue arc 0.0006); luminance pops vs pcond -         added falls -                      [pcond clips from frame 15]  ok
+  red       linear   : colour seams -       (max du'v' step 0.0131, max hue arc 0.0037); luminance pops vs pcond 20,22,23,24,25 added falls 21,22,23,24,25         [pcond clips from frame 20]  FAIL
+  red       pbr_oog  : colour seams -       (max du'v' step 0.0066, max hue arc 0.0013); luminance pops vs pcond 21,22,23,24,25 added falls 20,21,22,23,24,25,26,2 [pcond clips from frame 20]  FAIL
+  red       clipgamut: colour seams 20      (max du'v' step 0.0236, max hue arc 0.0011); luminance pops vs pcond 20,21,22,23,24,25,40,43 added falls 21,22,23,24,25,32,34,3 [pcond clips from frame 20]  FAIL
+  blue      linear   : colour seams -       (max du'v' step 0.0251, max hue arc 0.0019); luminance pops vs pcond -         added falls -                      [pcond clips from frame 5]  ok
+  blue      pbr_oog  : colour seams -       (max du'v' step 0.0051, max hue arc 0.0010); luminance pops vs pcond 5         added falls 5,30,31,32,33,34,35,36 [pcond clips from frame 5]  FAIL
+  blue      clipgamut: colour seams 49,54,55 (max du'v' step 0.0063, max hue arc 0.0005); luminance pops vs pcond 44,45,46  added falls 40,42,43,44,45,46      [pcond clips from frame 5]  FAIL
+CONTINUITY SWEEP (AB) FAILED: sodium/linear, sodium/pbr_oog, sodium/clipgamut, warm LED/pbr_oog, red/linear, red/pbr_oog, red/clipgamut, blue/pbr_oog, blue/clipgamut
+mode LC: 61 frames per colour, luminance step 12.2%; pcond EXPOSURE values seen: ['1.3904e+03']
+  sodium    linear   : colour seams -       (max du'v' step 0.0075, max hue arc 0.0014); luminance pops vs pcond -         added falls -                      [pcond clips from frame 18]  ok
+  sodium    pbr_oog  : colour seams -       (max du'v' step 0.0052, max hue arc 0.0011); luminance pops vs pcond 19        added falls 19,37,42               [pcond clips from frame 18]  FAIL
+  sodium    clipgamut: colour seams 19      (max du'v' step 0.0038, max hue arc 0.0007); luminance pops vs pcond -         added falls -                      [pcond clips from frame 18]  FAIL
+  warm LED  linear   : colour seams -       (max du'v' step 0.0040, max hue arc 0.0017); luminance pops vs pcond -         added falls -                      [pcond clips from frame 15]  ok
+  warm LED  pbr_oog  : colour seams -       (max du'v' step 0.0034, max hue arc 0.0017); luminance pops vs pcond 15        added falls 15                     [pcond clips from frame 15]  FAIL
+  warm LED  clipgamut: colour seams -       (max du'v' step 0.0008, max hue arc 0.0005); luminance pops vs pcond -         added falls -                      [pcond clips from frame 15]  ok
+  red       linear   : colour seams -       (max du'v' step 0.0129, max hue arc 0.0047); luminance pops vs pcond -         added falls -                      [pcond clips from frame 20]  ok
+  red       pbr_oog  : colour seams -       (max du'v' step 0.0037, max hue arc 0.0016); luminance pops vs pcond 21,22,23,24,25 added falls 21,22,23,24,25,26,28,2 [pcond clips from frame 20]  FAIL
+  red       clipgamut: colour seams 52,58   (max du'v' step 0.0070, max hue arc 0.0011); luminance pops vs pcond 40,43     added falls 22,24,25,33,34,35,37,3 [pcond clips from frame 20]  FAIL
+  blue      linear   : colour seams -       (max du'v' step 0.0251, max hue arc 0.0025); luminance pops vs pcond -         added falls -                      [pcond clips from frame 5]  ok
+  blue      pbr_oog  : colour seams -       (max du'v' step 0.0056, max hue arc 0.0010); luminance pops vs pcond 6,38      added falls 6,27,29,31,32,34,35,36 [pcond clips from frame 5]  FAIL
+  blue      clipgamut: colour seams 51,57   (max du'v' step 0.0079, max hue arc 0.0010); luminance pops vs pcond 44,45,46  added falls 40,42,43,44,45,46,51,5 [pcond clips from frame 5]  FAIL
+CONTINUITY SWEEP (LC) FAILED: sodium/pbr_oog, sodium/clipgamut, warm LED/pbr_oog, red/pbr_oog, red/clipgamut, blue/pbr_oog, blue/clipgamut

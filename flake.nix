@@ -42,6 +42,9 @@
         # and pcond_colorimetric.sh == pcond on every unclipped photopic pixel
         pcond-mapping = m1Test "pcond-mapping-test" [ radiance pyEnv pkgs.openimageio ]
           "python3 m1/test_pcond_mapping.py";
+        # LC composition adds no temporal seams to pcond (colour ramp through the clip point)
+        pcond-continuity = m1Test "pcond-continuity-test" [ radiance pyEnv pkgs.openimageio pkgs.blender ]
+          "python3 m1/test_continuity_sweep.py synthetic $TMPDIR/sweep LC";
         # Blender 5.2.2 Fog Glow at Size = ((180-FOV)/170)^3 must reproduce Spencer'95 Eq. 5
         fog-glow-psf = m1Test "fog-glow-psf-test" [ pkgs.blender pyEnv ]
           "bash m1/test_fog_glow.sh $TMPDIR/fg";

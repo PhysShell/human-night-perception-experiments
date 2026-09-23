@@ -3,9 +3,10 @@
  1. histogram mode: stored display value == (Ld - Ldmin)/(Ldmax - Ldmin) with Ld from -x;
  2. linear mode (-l): the -x table overstates display luminance by exactly 179/Ldmax
     (pcond putmapping() quirk) -- if upstream fixes it, this test tells us;
- 3. pcond_colorimetric.sh B/AB: equal pcond's own output (B: its Radiance-standard-RGB run,
-    AB: its XYZE run) on every pixel pcond did not clip, keep the input chromaticity on
-    clipped photopic pixels, and never exceed display luminance 1 (both pcond modes).
+ 3. pcond_colorimetric.sh B / LC: B equals pcond's own run on Radiance-standard RGB on every
+    pixel pcond did not clip; LC has exactly pcond's (XYZE run) luminance on every pixel.
+    Both keep the input chromaticity on clipped photopic pixels and never exceed display
+    luminance 1 (both pcond modes).
 Input: a log ramp 1e-3..1e3 cd/m^2 in grey, warm (1,.72,.42) and blue (.3,.5,1) rows."""
 import os, subprocess, sys, tempfile
 import numpy as np
@@ -51,7 +52,7 @@ for flags, expect in (("-s", 1.0), ("-l", 100 / 179)):
 
 # 3: pcond_colorimetric.sh B / AB vs pcond's own runs, both pcond modes
 sh(f"ra_xyze -r {T}/in709.hdr > {T}/instd.hdr")           # oracle input for B (std RGB, honest)
-for mode in ("B", "AB"):
+for mode in ("B", "LC"):
     for extra in ("", "-l"):
         out = f"{T}/r_{mode}{extra}.hdr"
         sh(f"{HERE}/pcond_colorimetric.sh {T}/ramp.exr 60 {mode} {out} 0.00558659 {extra}")
@@ -63,18 +64,24 @@ for mode in ("B", "AB"):
             pc = stored(out.replace(".hdr", ".pcond.hdr"))
         Lw = img @ Yw
         sel = (pc.max(-1) < 0.98) & (pc.min(-1) > 1e-3)
-        err = np.median(np.abs(rec[sel] - pc[sel]) / pc[sel]) if sel.any() else 0.0
+        if mode == "LC":          # LC's contract is pcond's luminance, on every pixel
+            sel = (pc @ Yw) > 1e-3
+            err = np.median(np.abs(rec[sel] @ Yw - pc[sel] @ Yw) / (pc[sel] @ Yw))
+        else:
+            err = np.median(np.abs(rec[sel] - pc[sel]) / pc[sel]) if sel.any() else 0.0
         clipped = (Lw >= 5.62) & (pc.max(-1) >= 0.999)
         chroma = rec[clipped] / (rec[clipped] @ Yw)[:, None]
         want = img[clipped] / (img[clipped] @ Yw)[:, None]
-        # RGBE stores a shared exponent + 8-bit mantissas: absolute step <= max component / 128;
-        # the chain quantises twice (in709.hdr, pcomb output) -> bound 2/128
+        # RGBE stores a shared exponent + 8-bit mantissas: absolute step <= max component / 128.
+        # Colour reaches the output through two RGBE writes in B and one more in LC (the final
+        # pcomb applying pcond's luminance) -> bound 2/128 (B), 3/128 (LC)
         cerr = (np.abs(chroma - want) / want.max(-1, keepdims=True)).max() if clipped.any() else 0.0
         ymax = (rec @ Yw).max()
-        ok = err < 0.01 and cerr <= 2 / 128 and ymax <= 1 + 2 / 128
+        steps = 3 if mode == "LC" else 2
+        ok = err < 0.01 and cerr <= steps / 128 and ymax <= 1 + 2 / 128
         print(f"path {mode:2s} {extra or '(histogram)':12s}: {int(sel.sum()):5d} unclipped px, median err {err:.4f}; "
               f"max Y {ymax:.3f}; {int(clipped.sum()):5d} clipped px, chroma err {cerr:.4f} "
-              f"(bound 2 RGBE steps {2/128:.4f})  {'ok' if ok else 'FAIL'}")
+              f"(bound {steps} RGBE steps {steps/128:.4f})  {'ok' if ok else 'FAIL'}")
         if not ok:
             fails.append(f"pcond_colorimetric {mode}{extra}")
 

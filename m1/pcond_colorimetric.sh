@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # pcond -s -c with honest colorimetry and warm lamps kept (M1.1; replaces pcond_keep_hue.sh).
 #
-#   pcond_colorimetric.sh in_rec709.exr HFOV A|B|AB out.hdr [SCALE] [extra pcond flags]
+#   pcond_colorimetric.sh in_rec709.exr HFOV A|B|AB|LC out.hdr [SCALE] [extra pcond flags]
 #
 # Input: linear Rec.709/D65 EXR (Blender's scene-linear space). SCALE converts pixel values
 # to Radiance radiometric units: 1 for Cycles renders authored with Radiance's 179 lm/W
 # equal-energy-white convention, 1/179 = 0.00558659 for images whose Y is already cd/m^2.
-# Output: display-linear Rec.709/D65 (1 = Ldmax), luminance <= 1. In B/AB, over-bright lamp
+# Output: display-linear Rec.709/D65 (1 = Ldmax), luminance <= 1. In B/AB/LC, over-bright lamp
 # pixels keep their chromaticity and may have a channel > 1 (gamut handling is downstream).
 #
 # All colour conversion is Radiance's own (ra_xyze, von Kries to Radiance's white), starting
@@ -19,7 +19,14 @@
 #       pcond then skips matscan() and returns its own UNCLIPPED result; over-bright pixels
 #       are scaled to luminance 1 (pcond's clip point) keeping chromaticity. Its RGB scotopic
 #       weights (rgblum) overestimate reds/oranges vs. the spectral range.
-#   AB (default): A wherever pcond did not clip, B on the pixels it clipped.
+#   AB: A wherever pcond did not clip, B on the pixels it clipped. REJECTED by the temporal
+#       sweep (m1/test_ab_boundary.py): at the switch the two scotopic estimates disagree and
+#       a red source jumps +36 % in luminance between frames.
+#   LC (default): Luminance from A (pcond as shipped, honest XYZE input), Chromaticity from B
+#       (pcond's own unclipped result), for every pixel. No per-pixel switch, so no seam:
+#       deep-scotopic pixels are grey in both; lamps get A's luminance (1 when pcond clips to
+#       white) with B's colour. This is a project-specific composition of two pcond outputs,
+#       not a validated vision model.
 set -euo pipefail
 IN=$(realpath "$1") HFOV=$2 MODE=$3 OUT=$(realpath -m "$4") SCALE=${5:-1}
 shift 4; [ $# -gt 0 ] && shift
@@ -52,13 +59,17 @@ path_B() { # -> $T/B.hdr, Rec.709 display values, unclipped chroma, luminance <=
 case $MODE in
   A)  path_A "$@"; cp "$T/A.hdr" "$OUT" ;;
   B)  path_B "$@"; cp "$T/B.hdr" "$OUT" ;;
+  LC) path_A "$@"; path_B "$@"
+      pcomb -h -e "lum(r,g,b)=.2126*r+.7152*g+.0722*b; ya=lum(ri(1),gi(1),bi(1)); yb=lum(ri(2),gi(2),bi(2));" \
+            -e "s=if(yb-1e-9,ya/yb,0); ro=s*ri(2); go=s*gi(2); bo=s*bi(2)" \
+            "$T/A.hdr" "$T/B.hdr" > "$OUT" ;;
   AB) path_A "$@"; path_B "$@"
       # clipgamut() puts every pixel it touches on the display cube (max channel = 1):
       # over-bright ones become (1,1,1), in-range ones with a channel > 1 are desaturated
       pcomb -h -e "M(a,b)=if(a-b,a,b); c=M(M(ri(1),gi(1)),bi(1)); clipped=if(c-.999,1,0);" \
             -e "ro=if(clipped-.5,ri(2),ri(1)); go=if(clipped-.5,gi(2),gi(1)); bo=if(clipped-.5,bi(2),bi(1))" \
             "$T/A.hdr" "$T/B.hdr" > "$OUT" ;;
-  *)  echo "mode must be A, B or AB" >&2; exit 2 ;;
+  *)  echo "mode must be A, B, AB or LC" >&2; exit 2 ;;
 esac
 # pcond as shipped (honest XYZE input, clipped) next to the result, for comparison and tests
 [ -f "$T/A.hdr" ] || path_A "$@"

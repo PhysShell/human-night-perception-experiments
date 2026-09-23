@@ -1,7 +1,7 @@
 # M1 / M1.1: a Blender-rendered, calibrated night scene through existing tools only
 
     nix develop
-    nix flake check                                              # regression tests (pcond mapping, Fog Glow PSF)
+    nix flake check                                              # regression tests (pcond mapping + continuity, Fog Glow PSF)
     blender -b --factory-startup --python m1/calibrate.py -- m1/out/calib && python3 m1/check_calibration.py
     blender -b --factory-startup --python m1/scene.py -- m1/out/scene.exr 512    # ~7 min on 4 CPU cores
     m1/run_m1.sh m1/out/scene.exr 60 m1/out/results              # all display variants + contact sheets
@@ -16,16 +16,17 @@ configuration of existing tools, tests, or glue:
 |---|---|---|
 | `calibrate.py`, `check_calibration.py` | closed-form radiometry checks of Cycles | test |
 | `scene.py` | minimal scene (ground, poplars, lamps) with photometric light authoring | scene data |
-| `pcond_colorimetric.sh` | Rec.709 → Radiance via `ra_xyze`, `pcond -s -c`, per-pixel select of pcond outputs | glue |
+| `pcond_colorimetric.sh` | Rec.709 → Radiance via `ra_xyze`, `pcond -s -c`, LC composition of two pcond outputs | glue |
 | `fog_glow.py` | drives Blender's stock Glare node headless (version-pinned adapter) | configuration |
-| `test_pcond_mapping.py`, `test_fog_glow.sh` (+ `check_fog_glow.py`) | regression tests, run by `nix flake check` | test |
+| `test_pcond_mapping.py`, `test_continuity_sweep.py`, `test_fog_glow.sh` (+ `check_fog_glow.py`) | regression tests, run by `nix flake check` | test |
 | `check_colorimetry.py`, `run_colorimetry.sh`, `scotopic_oracle.py`, `gamut_compare.py` | M1.1 comparisons | test |
 | `run_m1.sh` | conversions, OCIO display views, contact sheets | glue |
 | `pcond_keep_hue.sh` | **deprecated** M1 route (Rec.709 data relabelled as Radiance RGB), kept as the "old" baseline | — |
 
 Result files committed next to the scripts: `calibration_result.txt`, `fog_glow_check.txt`,
 `pcond_mapping_test.txt`, `colorimetry_result.txt`, `scotopic_oracle_result.txt`,
-`gamut_result.txt`.
+`gamut_result.txt`, `continuity_sweep_result.txt`. The pcond `-x` bug report and its minimal
+repro are in [`../docs/upstream/`](../docs/upstream/).
 
 ## 1. Calibration: Blender linear → cd/m²
 
@@ -100,16 +101,25 @@ equal-energy white, verified in `spec_rgb.c`.
 |---|---|---|
 | **A** | Rec.709 → XYZE (`ra_xyze`) → `pcond -s -c -p Rec.709` | pcond as shipped; scotopic estimate from XYZ (`cielum`); over-bright pixels clipped to white by `clipgamut()` |
 | **B** | Rec.709 → Radiance-standard RGB (`ra_xyze -r`) → pcond | this is pcond's *default* space, so the redundant PRIMARIES line is moved to the header history (`pcomb` pass-through, after verifying it is the standard set). pcond then skips `matscan()` and returns its **own unclipped** result; over-bright pixels are scaled to luminance 1 (pcond's clip point) with their chromaticity kept |
-| **AB** (used) | A where pcond did not clip, B where it did | pcond's XYZ scotopic behaviour for everything visible, colour kept only on clipped lamp pixels |
+| AB (rejected) | A where pcond did not clip, B where it did | per-pixel switch: the temporal sweep shows a +36 % luminance pop for red, +5 % for sodium at the switch frame |
+| **LC** (used) | luminance of A, chromaticity of B, every pixel | pcond's own luminance (as shipped, honest XYZE) with pcond's own unclipped colour; no switch |
 
-**Oracle checks** (`colorimetry_result.txt`, `pcond_mapping_test.txt`):
+**LC is a project-specific composition of two outputs of an existing operator.** It is not a
+validated model of human vision. What is validated is narrower:
+- its luminance is pcond's on every pixel;
+- its colour equals pcond's unclipped result;
+- it adds no temporal seams (section 3c).
+
+**Checks against pcond itself** (`colorimetry_result.txt`, `pcond_mapping_test.txt`):
 - AB equals pcond's own XYZE output on every pixel pcond did not clip: median and p99 relative
   error **0.0000** on
   - the synthetic image (1.44 M px),
   - McKeesPub (2.0 M px),
   - the M1 scene (0.67 M px).
-- On a coloured log ramp, both pcond modes, the clipped photopic pixels keep the input
-  chromaticity within 2 RGBE quantisation steps, and luminance never exceeds 1.
+- **LC's luminance equals pcond's on every pixel**: median relative error 0.0000–0.0007, p99
+  ≤ 0.5 %, on the same three images. The difference is one extra RGBE write.
+- On a coloured log ramp, in both pcond modes, the clipped photopic pixels keep the input
+  chromaticity within 2 RGBE quantisation steps (3 for LC), and luminance never exceeds 1.
 
 **A vs B, i.e. Radiance's two scotopic approximations.**
 - On the whole image they agree: mean |A−B| is 0.0002 (synthetic) and 0.0026 (McKeesPub).
@@ -127,9 +137,21 @@ Relative scotopic efficiency, normalised to white:
 | Radiance A (`cielum`) | **0.23** | 2.35 | **0.47** | **0.74** |
 | Radiance B (`rgblum`) | 0.34 ✗ | 2.49 | 0.64 ✗ | 0.83 ✗ |
 
-**A lies inside or at the edge of the spectral range. B overestimates reds and warm colours,
-which weakens the Purkinje shift.** Hence AB. Spectral truth remains gate G7 (Mitsuba/PBRT),
-not needed now.
+**A lies inside or at the edge of the recovered range. B lies above it for reds and warm
+colours, i.e. it weakens the Purkinje shift.** Hence LC takes its luminance from A.
+
+This is a **plausibility check, not an oracle**:
+- RGB → spectrum is fundamentally ambiguous (metamers).
+- The recovery methods return a smooth, colorimetrically consistent *candidate*, not the
+  physical spectrum.
+
+The clean check (gate G7, deliberately not done now) would use **real lamp SPDs** instead of
+recovered ones. Options:
+- LuxPy's IES TM-30 source sets;
+- measured HPS / LPS / LED spectra through the IES/PNNL spectral calculator.
+
+Low-pressure sodium (589 nm) is the textbook case where photopic and scotopic/mesopic ratings
+diverge.
 
 ## 3b. What pcond actually does on these night scenes
 
@@ -146,9 +168,37 @@ contains 179/Ldmax). Measured 0.556 against the expected 0.559. In histogram mod
 correct (0.997). The AB path does not use `-x` at all. The test guards our reading of it and
 will flag it if upstream changes.
 
+## 3c. Temporal continuity sweep (`test_continuity_sweep.py`, `continuity_sweep_result.txt`)
+
+**Setup.**
+- A 4×4-pixel source (sodium, warm LED, red, blue) sits in the dark sky of the M1 scene.
+- It ramps 0.03 → 30 cd/m² over 61 frames (+12 %/frame), through pcond's clip point
+  (0.17–0.3 cd/m²) and on into the photopic range.
+- pcond's exposure is identical in all frames.
+
+**Reference: pcond as shipped (A).** Only artefacts *added* by our composition count. Its own
+hard knee at display max does not.
+
+**Thresholds.**
+- Colour seam: a Δu′v′ step more than 3× its neighbours and above 0.002 (half a JND).
+- Luminance pop: a step more than 5 % away from pcond's step.
+- Added fall: more than 3 RGBE steps below pcond's step.
+- Hue is reported as a u′v′ arc. For these near-grey mesopic colours, 1° of hue is ~0.0007 u′v′,
+  i.e. RGBE quantisation noise.
+
+| stage | sodium | warm LED | red | blue |
+|---|---|---|---|---|
+| **LC (pcond stage)** | ok | ok | ok | ok |
+| AB (pcond stage) | Y pop at switch | ok | **+36 % Y pop**, falls | ok |
+| display: PBR Neutral on out-of-gamut pixels | −12…16 % Y drop at gamut exit, falls later | Y drop at exit | pops + falls | drop + falls |
+| display: Radiance `clipgamut` | ok (synthetic sky); one ~1-JND colour step at onset (scene) | ok | pops/falls later | pops/falls later |
+
+The sweep runs on a synthetic sky in `nix flake check` (pcond-continuity). Only the pcond stage
+gates the check; the display stages are reported.
+
 ## 4. Gamut: bringing the warm lamp pixels onto the display
 
-Input: the AB output. Luminance is ≤ 1 everywhere; the lamp pixels have a channel above 1, and
+Input: the LC output (the table below was measured on AB, which is identical on these pixels). Luminance is ≤ 1 everywhere; the lamp pixels have a channel above 1, and
 **all their components are ≥ 0.14** (inside the Rec.709 triangle). `gamut_result.txt`, M1
 scene, 1096 lamp pixels, input hue 31°:
 
@@ -175,8 +225,16 @@ to them is its designed function: hue-preserving **highlight compression** of va
 The non-standard part is restricting it to the pixels above display white, because its toe would
 otherwise shift pcond's darkness.
 
-**Kept with this explicit caveat.** Radiance `clipgamut` is the fallback if the restriction is
-ever unacceptable: same hue, paler lamps.
+**Two existing options, each with a measured defect. Neither passes the temporal sweep for all
+colours:**
+- **stills (M2):** PBR Neutral on the out-of-gamut pixels. Best saturation (0.67), but a 12–16 %
+  luminance drop at the moment a pixel leaves gamut, so **not for motion**.
+- **motion (M3):** Radiance `clipgamut`. Luminance-continuous for sodium and warm LEDs, which are
+  our lamp colours; paler (0.20); not monotonic for saturated red and blue.
+
+A continuous, hue-preserving highlight compressor that can be restricted to part of the image
+was not found among the existing tools tested. Writing one is a gate only if M3 motion shows the
+`clipgamut` compromise is visible.
 
 ## 5. Results on the scene (1920×820, 512 spp)
 
@@ -187,7 +245,7 @@ Images are in [`../docs/research/m1-results/`](../docs/research/m1-results/).
 | `1_raw_photometric_100nit` | the scene's own luminance on a 100-nit display: almost black |
 | `2_camera_autoexposure_agx` | auto exposure + AgX: grey sky, green field, "dusk" |
 | `3_pcond_sc` | pcond as shipped (honest XYZE): dark silhouettes, **white** lamps |
-| `4_pcond_sc_AB_pbrneutral_oog` | the same pixels, **warm sodium lamps**, whiter 4000 K LEDs. **Recommended** |
+| `4_pcond_sc_LC_pbrneutral_oog` | the same pixels, **warm sodium lamps**, whiter 4000 K LEDs. **Recommended for stills** |
 | `5_fogglow_…` | calibrated eye PSF before pcond: every lamp becomes a disc about 0.3–0.5° across |
 
 **Why the discs** (corrected from M1). pcond is in linear mode here, and the display clips at
@@ -200,3 +258,14 @@ about 0.13 cd/m².
   as CIE 146:2002 for this geometry and a chosen observer (age, pigmentation)? For that
   comparison, CIE 146 is an independent glare reference for the *veil*, not a model of the
   dark-adapted eye.
+
+## 6. FROZEN perceptual stack (end of M1.1)
+
+    Cycles EXR (scene-linear Rec.709; 179 lm/W equal-energy-white convention)
+      -> m1/pcond_colorimetric.sh LC   (ra_xyze; pcond -s -c; luminance A x chromaticity B)
+      -> display: PBR Neutral on out-of-gamut pixels (stills) | Radiance clipgamut (motion)
+      Fog Glow: OFF (adapter + test kept; G3' deferred)
+
+It is guarded by `nix flake check` (pcond-mapping, pcond-continuity, fog-glow-psf), pinned to
+Blender 5.2.2 and Radiance bcffc2b, and CPU-only. Changes to this stack need a failing test or a
+visible defect in a real scene, not curiosity.
