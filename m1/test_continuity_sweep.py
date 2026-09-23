@@ -15,6 +15,8 @@ artefacts that pcond itself does not have (pcond's own hard knee at display max 
                  each side AND > 0.002 (half a colour JND of ~0.004). Hue is reported as the
                  u'v' arc (chroma x angle): for these mesopic, near-grey colours (chroma
                  0.005-0.04) a 1 deg hue step is only ~0.0007 u'v', below RGBE quantisation.
+  intensity    = (T2) the pcond stage's luminance never falls by more than 3 RGBE steps while
+                 the source brightens, and no stage produces NaN/Inf;
   luminance    = pop if |dlog Y_stage - dlog Y_pcond| > log 1.05 between two frames;
                  "added fall" if Y_stage falls relative to pcond's own step by more than
                  3 RGBE quantisation steps (2.4 %; the LC chain quantises three times).
@@ -117,11 +119,16 @@ for name in COLS:
         dY = np.diff(np.log(np.maximum(Y, 1e-9)))
         pop = np.abs(dY - dYA) > np.log(1.05)
         fall = (dY - dYA) < np.log(1 - 3 / 128)
-        ok = not seam.any() and not pop.any() and not fall.any()
+        finite = bool(np.isfinite(arr).all())
+        mono = bool((dY >= np.log(1 - 3 / 128)).all()) if stage == "linear" else True
+        ok = not seam.any() and not pop.any() and not fall.any() and finite and mono
         where = lambda m: ",".join(str(i + 1) for i in np.flatnonzero(m)) or "-"
         print(f"  {name:9s} {stage:9s}: colour seams {where(seam):7s} (max du'v' step {duv.max():.4f}, "
               f"max hue arc {arc.max():.4f}); luminance pops vs pcond {where(pop):9s} added falls {where(fall)[:22]:22s}"
+              f"{'' if finite else ' NaN/Inf!'}{'' if mono else ' non-monotonic!'}"
               f" [pcond clips from frame {k}]  {'ok' if ok else ('FAIL' if stage == 'linear' else 'defect (reported)')}")
+        if not finite:
+            fails.append(f"{name}/{stage}: NaN/Inf")
         if not ok and stage == "linear":
             fails.append(f"{name}/{stage}")
         np.savetxt(f"{out}/{MODE}_{name.replace(' ', '_')}_{stage}.txt", np.c_[L, h, ch, Y, YA, clipped],

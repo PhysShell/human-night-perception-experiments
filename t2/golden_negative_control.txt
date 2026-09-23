@@ -1,0 +1,16 @@
+== mild vs clear reference
+  Max error  = 213.25 @ (44, 64, R)  values are 49.75, 21.484375, 3.4980469 vs 263, 107.375, 15.6640625
+  43741 pixels (99.8%) over 1e-06
+  16898 pixels (38.5%) over 0.0001
+FAILURE
+  Max error  = 0.858824 @ (234, 64, R)  values are 0.97647065, 0.74509805, 0.4784314 vs 0.11764707, 0.11764707, 0.11764707
+  20867 pixels (47.6%) over 1e-06
+  484 pixels (1.1%) over 0.016
+FAILURE
+== clear, scene x1.10
+  Max error  = 9.9375 @ (207, 64, R)  values are 99.5625, 41.21875, 6.109375 vs 109.5, 45.34375, 6.71875
+  43840 pixels (100%) over 1e-06
+  812 pixels (1.85%) over 0.0001
+FAILURE
+== clear, scene x1.03 (below the 5 % tolerance)
+PASS

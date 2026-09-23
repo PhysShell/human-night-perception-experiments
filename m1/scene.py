@@ -34,6 +34,13 @@ HFOV_DEG = 60.0
 RES = (1920, 820)
 if os.environ.get("M2_HALF_RES"):            # M2 comparisons: same FOV, 4x fewer pixels
     RES = (960, 410)
+# T2 test views of the SAME scene code (tests/): "golden" = full 60 deg view at 320x137 for
+# render regression; "ribbon" = 8 deg x 2 deg window on the lamp ribbon around 4 km.
+TEST_VIEW = os.environ.get("T2_VIEW", "")
+if TEST_VIEW == "golden":
+    RES = (320, 137)
+elif TEST_VIEW == "ribbon":
+    RES = (240, 60)
 EYE_HEIGHT = 1.7                # m
 SKY_CDM2 = 4e-4                 # moonless rural sky, with a little skyglow
 VISIBILITY_M = 25_000.0 if ATMOSPHERE == "none" else math.inf   # baked extinction only without a medium
@@ -192,11 +199,13 @@ for cx, cy, count in ((1200, 6500, 40), (-3800, 9000, 25), (5400, 15500, 30)):
 # --- camera: eye height, looking across the valley, not along a road ---------------------
 cd = bpy.data.cameras.new("Eye")
 cd.sensor_fit = "HORIZONTAL"
-cd.angle = math.radians(HFOV_DEG)
+cd.angle = math.radians(8.0 if TEST_VIEW == "ribbon" else HFOV_DEG)
 cd.clip_end = 60_000
 cam = bpy.data.objects.new("Eye", cd)
 cam.location = (0, 0, EYE_HEIGHT)
 cam.rotation_euler = (math.radians(89.3), 0, math.radians(-4))
+if TEST_VIEW == "ribbon":                   # level view at the road point u=0.2 (~4.2 km)
+    cam.rotation_euler = (math.radians(90.0), 0, -math.atan2(300.0, 4140.0))
 sc.collection.objects.link(cam)
 sc.camera = cam
 

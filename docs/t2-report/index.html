@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><title>T2 render report</title>
+<style>
+:root{--bg:#fff;--fg:#1a1a1a;--mut:#666;--line:#ddd}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141414;--fg:#e8e8e8;--mut:#999;--line:#333}}
+body{background:var(--bg);color:var(--fg);font:14px/1.4 system-ui,sans-serif;margin:16px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--line);padding:6px;vertical-align:top;text-align:left}
+th small{color:var(--mut);font-weight:normal}img{width:100%;max-width:340px;image-rendering:pixelated}
+.wrap{overflow-x:auto}
+</style></head><body>
+<h1>T2 render report</h1>
+<p>Frozen baseline (<code>t2/golden</code>) vs current render; diagnostic only. FLIP maps: magma, brighter = more
+noticeable when flipping between the images. The last two rows are deliberate changes, shown for scale.</p>
+<div class="wrap"><table><tr><th></th><th>reference</th><th>current</th><th>|diff| &times;8</th><th>LDR-FLIP (display)</th><th>HDR-FLIP (scene)</th></tr>
+<tr><th>vacuum: golden vs current<br><small>LDR-FLIP mean 0.000000<br>HDR-FLIP mean 0.000000<br>scene max |d| 0 cd/m&sup2;</small></th>
+<td><img src="img/vacuum_ref.png"></td><td><img src="img/vacuum_new.png"></td><td><img src="img/vacuum_diff.png"></td>
+<td><img src="img/vacuum_flip.png"></td><td><img src="img/vacuum_hdrflip.png"></td></tr>
+<tr><th>clear: golden vs current<br><small>LDR-FLIP mean 0.000000<br>HDR-FLIP mean 0.000000<br>scene max |d| 0 cd/m&sup2;</small></th>
+<td><img src="img/clear_ref.png"></td><td><img src="img/clear_new.png"></td><td><img src="img/clear_diff.png"></td>
+<td><img src="img/clear_flip.png"></td><td><img src="img/clear_hdrflip.png"></td></tr>
+<tr><th>mild: golden vs current<br><small>LDR-FLIP mean 0.000000<br>HDR-FLIP mean 0.000000<br>scene max |d| 0 cd/m&sup2;</small></th>
+<td><img src="img/mild_ref.png"></td><td><img src="img/mild_new.png"></td><td><img src="img/mild_diff.png"></td>
+<td><img src="img/mild_flip.png"></td><td><img src="img/mild_hdrflip.png"></td></tr>
+<tr><th>vacuum -> clear (for scale)<br><small>LDR-FLIP mean 0.037507<br>HDR-FLIP mean 0.383368<br>scene max |d| 67.3691 cd/m&sup2;</small></th>
+<td><img src="img/vc_ref.png"></td><td><img src="img/vc_new.png"></td><td><img src="img/vc_diff.png"></td>
+<td><img src="img/vc_flip.png"></td><td><img src="img/vc_hdrflip.png"></td></tr>
+<tr><th>clear -> mild (for scale)<br><small>LDR-FLIP mean 0.026165<br>HDR-FLIP mean 0.319972<br>scene max |d| 213.25 cd/m&sup2;</small></th>
+<td><img src="img/cm_ref.png"></td><td><img src="img/cm_new.png"></td><td><img src="img/cm_diff.png"></td>
+<td><img src="img/cm_flip.png"></td><td><img src="img/cm_hdrflip.png"></td></tr>
+</table></div></body></html>

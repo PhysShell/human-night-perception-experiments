@@ -102,6 +102,11 @@ All entries were checked on **2026-09-22**.
 | L79 | Koschmieder: meteorological visibility V ↔ extinction σ = 3.912/V (2 % contrast threshold); Rayleigh extinction of sea-level air at 550 nm ≈ 1.16e-5 1/m; continental aerosol Ångström exponent ~1.3, single-scattering albedo ~0.9, HG asymmetry ~0.7 | textbook atmospheric optics (e.g. Middleton 1952; Bohren & Huffman); values not re-derived here | paper | M (typical values, not site data for East Kazakhstan) | — |
 | L80 | Radiance forum for bug reports is https://discourse.radiance-online.org/ (GitHub repo is a CVS mirror) | user report + LBNL-ETA/Radiance README | doc | M | — |
 
+| L81 | Blender's render tests compare reference/new with `oiiotool --fail 0.016 --failpercent 1` (defaults) and write an HTML report | Blender 5.2.2 tests/python/modules/render_report.py | src | H | ✅ thresholds reused for the display gate |
+| L82 | OpenImageIO `idiff`: -fail / -failrelative / -failpercent / -warn / -hardfail / -p (perceptual) | `idiff --help` (OIIO 3.1.17) | doc | H | ✅ |
+| L83 | NVlabs FLIP 1.2 in nixpkgs (`flip`): LDR-FLIP for PNG, HDR-FLIP for EXR (tone mapper ACES/Hable/Reinhard, exposure bracket from the reference), error/exposure maps, `--exit-on-test` gate | nixpkgs `flip`; `flip --help`; https://github.com/NVlabs/flip | doc | H | ✅ |
+| L84 | pwcmp (pairwise-comparison scaling to JOD) and ASAP (active sampling for pairwise comparisons) from Mantiuk's group as tools for 2AFC studies | https://github.com/mantiuk/pwcmp ; https://github.com/gfxdisp/asap | doc | L (from memory, not re-checked this round) | — |
+
 ## Observations from runs in this repository
 
 These are *our* measurements, not claims from any source.
@@ -138,3 +143,7 @@ These are *our* measurements, not claims from any source.
 | R28 | Distant lamp hue (u'v') 47.1° vacuum → 43.4° clear → 37.3° mild; after pcond far-lamp chroma 0.081 → 0.055 → 0.018 (mesopic -c) | same | H |
 | R29 | Split lamps vs mesh emitters in haze: sky p99/median 3.9 → 1.24 at 128 spp; lower-hemisphere sphere leaked upward light (false light dome, sky 4× authored) | `m2/sky_noise.py` | H |
 | R30 | Moderate haze, 64 spp: volume_bounces 0 → 8 raises sky 9.1e-5 → 2.2e-4 cd/m² and poplar contrast 0.16 → 0.61, but sky p99.9/median rises to ~100 (fireflies) | `m2/sky_noise_result.txt` | H |
+| R31 | T2 extinction sweep (r = 2 m lamp resolved by a narrow view): T / Beer–Lambert = 1.000–1.004 per channel at 1–15 km for clear and mild (first design with constant angular size failed at 10–15 km by +12…+120 % from the emitter's own lit neighbourhood) | `t2/extinction_sweep.py`, `t2/extinction_sweep_result.txt` | H |
+| R32 | T2 haze metamorphic (ribbon view): direct energy 3726 → 2571 → 1330, display contrast 4162 → 629 → 564, ribbon RMS width 4.04′ → 4.31′ → 4.69′ (vacuum → clear → mild) | `t2/haze_metamorphic.py` | H |
+| R33 | Golden rerun bit-identical (same machine and Nix sandbox); negative controls: mild vs clear ref fails (scene 38.5 % px, display 1.1 % px), ×1.10 fails, ×1.03 passes | `t2/golden.sh`, `t2/golden_negative_control.txt` | H |
+| R34 | FLIP vacuum → clear: LDR-FLIP (pcond display) 0.038, HDR-FLIP (scene, ACES bracket) 0.383; clear → mild 0.026 / 0.320 — HDR-FLIP flags the hazy sky a camera would see, LDR-FLIP only the lamp ribbon | `t2/report.sh`, `docs/t2-report/` | H |

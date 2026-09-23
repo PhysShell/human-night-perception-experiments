@@ -1,0 +1,16 @@
+clear  d=  1.0 km  T=[0.9211 0.9076 0.8791]  Beer-Lambert=[0.9203 0.9068 0.8782]  ratio=[1.001 1.001 1.001]  checked=[True, True, True]  ok
+clear  d=  3.0 km  T=[0.7802 0.7464 0.678 ]  Beer-Lambert=[0.7796 0.7457 0.6772]  ratio=[1.001 1.001 1.001]  checked=[True, True, True]  ok
+clear  d=  5.0 km  T=[0.6603 0.6133 0.5224]  Beer-Lambert=[0.6603 0.6132 0.5222]  ratio=[1. 1. 1.]  checked=[True, True, True]  ok
+clear  d= 10.0 km  T=[0.4364 0.3765 0.2731]  Beer-Lambert=[0.436  0.3761 0.2727]  ratio=[1.001 1.001 1.001]  checked=[True, True, True]  ok
+clear  d= 15.0 km  T=[0.2884 0.2311 0.1427]  Beer-Lambert=[0.2879 0.2306 0.1424]  ratio=[1.002 1.002 1.002]  checked=[True, True, True]  ok
+mild   d=  1.0 km  T=[0.7992 0.7717 0.7186]  Beer-Lambert=[0.7981 0.7704 0.717 ]  ratio=[1.001 1.002 1.002]  checked=[True, True, True]  ok
+mild   d=  3.0 km  T=[0.5099 0.4588 0.37  ]  Beer-Lambert=[0.5084 0.4573 0.3686]  ratio=[1.003 1.003 1.004]  checked=[True, True, True]  ok
+mild   d=  5.0 km  T=[0.3246 0.2721 0.1901]  Beer-Lambert=[0.3239 0.2714 0.1895]  ratio=[1.002 1.003 1.003]  checked=[True, True, True]  ok
+mild   d= 10.0 km  T=[0.1051 0.0738 0.036 ]  Beer-Lambert=[0.1049 0.0737 0.0359]  ratio=[1.002 1.002 1.002]  checked=[True, True, True]  ok
+mild   d= 15.0 km  T=[0.034  0.02   0.0068]  Beer-Lambert=[0.034  0.02   0.0068]  ratio=[1.001 1.002 1.002]  checked=[True, True, False]  ok
+monotonic in density @   1.0 km: vacuum 356.8 >= clear 322.1 >= mild 272.3  ok
+monotonic in density @   3.0 km: vacuum 356.8 >= clear 262.2 >= mild 159.2  ok
+monotonic in density @   5.0 km: vacuum 356.8 >= clear 213.6 >= mild 93.6  ok
+monotonic in density @  10.0 km: vacuum 356.8 >= clear 129.2 >= mild 25.6  ok
+monotonic in density @  15.0 km: vacuum 356.8 >= clear 78.8 >= mild 7.2  ok
+PASS
