@@ -332,9 +332,26 @@ if M25_PASS in ("lamps", "occluders"):
     sc.render.border_max_y = min(1.0, max(ys) + pad)
     print(f"M2.5 lamps pass: band y {sc.render.border_min_y:.3f}..{sc.render.border_max_y:.3f}")
 
+if os.environ.get("M25_TRACKS"):
+    # analysis aid (m25/analyse_clip.py): every lamp's projected position on every frame of
+    # the camera path, then exit without rendering
+    import json
+    from bpy_extras.object_utils import world_to_camera_view
+    from mathutils import Vector
+    frames = []
+    for k in range(max(M25_FRAMES, 1)):
+        cam.location.x = M25_WALK * k / M25_FPS
+        bpy.context.view_layer.update()
+        frames.append([[round(c, 5) for c in world_to_camera_view(sc, cam, Vector(p))[:2]] for p in LAMP_LOCS])
+    with open(os.environ["M25_TRACKS"], "w") as fh:
+        json.dump({"res": RES_OUT, "locs": LAMP_LOCS, "cam": [0.0, 0.0, EYE_HEIGHT], "frames": frames}, fh)
+    sys.exit(0)
+
 sc.render.filepath = OUT
 if M25_FRAMES:
     sc.render.fps, sc.frame_start, sc.frame_end = M25_FPS, 1, M25_FRAMES
+    # resume an interrupted clip: render only frames M25_START..end (same camera path)
+    sc.frame_start = int(os.environ.get("M25_START", "1"))
     bpy.context.preferences.edit.keyframe_new_interpolation_type = "LINEAR"   # constant speed
     for f, x in ((1, 0.0), (M25_FRAMES, M25_WALK * (M25_FRAMES - 1) / M25_FPS)):
         cam.location.x = x

@@ -18,7 +18,7 @@
               moving gap between trees does blink, physically;
   display     the displayed PNGs contain no NaN-like codes (checked by decoding) and the
               ribbon band's displayed luminance changes by < 2 % per frame.
-  python3 m25/check_clip.py CLIPDIR
+  python3 m25/check_clip.py CLIPDIR [png|png_pbr]   (which display to check; default png)
 """
 import glob, os, sys
 import numpy as np
@@ -43,7 +43,8 @@ res, ok = [], True
 haze = [load(f"{D}/haze_{f}.exr") for f in frames]
 lamps = [load(f"{D}/lamps_{f}.exr") for f in frames]
 lc = [load(f"{D}/lc/{f}.exr") for f in frames]
-png = [load(f"{D}/png/{f}.png") for f in frames]
+PNG = sys.argv[2] if len(sys.argv) > 2 else "png"
+png = [load(f"{D}/{PNG}/{f}.png") for f in frames]
 occ = [load(f"{D}/occ_{f}.exr")[..., 1] if os.path.exists(f"{D}/occ_{f}.exr") else None for f in frames]
 fin = all(np.isfinite(x).all() for x in haze + lamps + lc + png)
 res.append(("finite", fin, f"{len(frames)} frames"))
