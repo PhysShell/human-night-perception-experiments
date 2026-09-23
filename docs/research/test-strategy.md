@@ -33,7 +33,7 @@ Deferred).
 | `fog-glow-psf` | physical | Blender 5.2.2 Fog Glow at Size = ((180 − FOV)/170)³ follows Spencer Eq. 5 (±2 % at 0.09–3°, ±5 % at 10°), energy ≥ 0.97; has a negative control | pass |
 | `t2-extinction` | physical + metamorphic | a small lamp at 1–15 km through the scene's own clear/mild layer: **T/T_Beer–Lambert ∈ [0.99, 1.02] per channel** where T ≥ 0.02 (measured within 0.4 %); T(vacuum) ≥ T(clear) ≥ T(mild) at every distance | pass |
 | `t2-haze` | metamorphic | real scene, 8° window on the ribbon, vacuum → clear → mild through the frozen stack: direct lamp energy decreases; lamp contrast does not increase (scene and display); ribbon RMS width does not decrease; finite everywhere | pass |
-| `t2-golden` | baseline | 320×137, 128 spp, fixed seed. Scene in cd/m²: a pixel fails if \|d\| > 10⁻⁴ **and** > 5 %, ≤ 1 % may fail. Display PNG: Blender's render-test defaults (`--fail 0.016 --failpercent 1`) | pass (bit-identical rerun) |
+| `t2-golden` | baseline | 320×137, 128 spp, fixed seed. Scene in cd/m²: a pixel fails if \|d\| > 10⁻⁴ **and** > 5 %, ≤ 1 % may fail. Display PNG: `--fail 0.016 --failpercent 1`, our starting threshold, taken from the base default of Blender 5.2.2's `render_report.py` (Cycles' own suites raise it per directory, e.g. volume 0.048 / 3 %) | pass (bit-identical rerun) |
 
 Tests also run outside Nix: `t2/run_extinction.sh`, `t2/run_haze_metamorphic.sh`,
 `t2/golden.sh check`, `python3 m1/test_*.py`, `m1/test_fog_glow.sh`.
@@ -66,22 +66,39 @@ Tests also run outside Nix: `t2/run_extinction.sh`, `t2/run_haze_metamorphic.sh`
 ## Diagnostics (not gates): `t2/report.sh`
 
 The HTML report follows the model of Blender's own render tests (`render_report.py`):
-reference / current / |diff| / FLIP. It uses NVlabs **FLIP** 1.2 (nixpkgs `flip`):
-- **LDR-FLIP on the displayed image**, i.e. what the viewer sees after the frozen stack;
-- **HDR-FLIP on the scene radiance.**
+reference / current / |diff| / FLIP. A copy is in [`../t2-report/`](../t2-report/). It uses
+NVlabs **FLIP**:
+- **LDR-FLIP on the displayed PNG** (display-referred sRGB in [0, 1], what FLIP's LDR mode
+  expects): what changed in the image the viewer actually sees after the frozen stack.
+- **HDR-FLIP on the scene EXR**: FLIP runs its own bracket of exposures through its own tone
+  mapper (ACES by default) and pools the differences. It answers what changed anywhere in the
+  space of exposures of the HDR render, not through our pipeline.
 
-Two "for scale" rows show deliberate changes. A copy is in [`../t2-report/`](../t2-report/).
+Two "for scale" rows show deliberate changes.
 
-**Why the two FLIPs disagree, and which one matters.**
-- vacuum → clear: LDR-FLIP (display) 0.038 vs HDR-FLIP (scene) 0.383.
-- HDR-FLIP tone-maps the scene itself (ACES) over a bracket of exposures. It sees the scene the
-  way a bracketing camera does, so it flags the whole hazy sky.
-- LDR-FLIP on pcond's output flags only the lamp ribbon, which is what an observer of our
-  display would notice.
-- **For "would a viewer notice?", use LDR-FLIP on the pipeline output.** HDR-FLIP diagnoses the
-  render itself.
-- FLIP has a built-in gate mode (`--exit-on-test`, mean/median/max threshold). Kept off until
-  the baseline has been compared across machines.
+**Reading the two numbers.**
+- vacuum → clear: LDR-FLIP 0.037, HDR-FLIP 0.390; clear → mild: 0.025 and 0.336.
+- HDR-FLIP is high because the haze changes the sky and the ground. Those changes show up at
+  some exposures of the HDR bracket. After pcond, the sky sits below the display's black level
+  (Ldmax / 100 = 1 cd/m²), and LDR-FLIP flags only the lamp ribbon.
+- So: HDR-FLIP = "what changed substantially in the HDR render"; LDR-FLIP after pcond = "what
+  changed in the viewer's final image". Both are useful; neither says which is more realistic.
+
+**Pinned conditions.**
+- **Version: FLIP 1.2** (nixpkgs; upstream is newer). This is the diagnostic baseline. After a
+  FLIP upgrade, regenerate the reference report before comparing numbers. Upstream notes that
+  error-map pixels can differ slightly between implementations and platforms; pooled values
+  are more stable.
+- **Viewing condition**, declared rather than FLIP's default (0.7 m from a 0.7 m-wide 4K
+  display, ~67 ppd). **The image fills the camera's own 60° horizontal field of view.**
+  - This is the only viewing in which angular sizes on screen equal those in the scene. Our
+    ribbon widths are quoted in arcmin, and pcond's view header assumes the same.
+  - ppd = image width / 60: 5.33 for the 320 px golden, 16 for the 960 px M2.5 clips.
+  - `t2/report.sh` passes `-ppd` explicitly and prints it; `PPD=… t2/report.sh` overrides it
+    for a real target display.
+  - At 5.33 instead of 67 ppd, the numbers above moved by < 3 %.
+- FLIP's gate mode (`--exit-on-test`) stays off until the baseline has been compared across
+  machines.
 
 ## Deferred, with the tool already identified
 
@@ -102,6 +119,7 @@ Two "for scale" rows show deliberate changes. A copy is in [`../t2-report/`](../
 - `idiff -p` (Yee perceptual): superseded here by FLIP.
 
 **Cross-machine note.** The golden rerun is bit-identical on this machine and in the Nix sandbox.
-A different CPU or Blender build may differ slightly in floating point, and the thresholds follow
-Blender's own render-test practice. If a legitimate platform difference ever trips them, widen
+A different CPU or Blender build may differ slightly in floating point. Blender's own practice is
+per-suite thresholds, raised where platforms or devices differ (its Cycles volume tests use
+0.048 / 3 %). If a legitimate platform difference ever trips them, widen
 them with evidence (a report showing FLIP ≈ 0), not by guesswork.

@@ -5,14 +5,25 @@
 #
 #   t2/report.sh [current_dir=t2/out/golden] [report_dir=t2/out/report]
 #
-# FLIP (NVlabs, nixpkgs flip 1.2) answers "would an observer notice this difference when
-# flipping between the two images?" (default: 67 pixels/degree, 0.7 m from a 0.7 m 4K display).
-# It does not say which image is more realistic, and here there is no ground-truth image of
-# the scene, so it only characterises changes against the frozen baseline.
+# FLIP (NVlabs; diagnostic baseline = nixpkgs flip 1.2, upstream is newer: re-run this report
+# before comparing numbers across versions) answers "would an observer notice this difference
+# when flipping between the two images?". It does not say which image is more realistic, and
+# there is no ground-truth image of the scene, so it only characterises changes against the
+# frozen baseline.
+#   LDR-FLIP on the displayed PNG: what changed in the image the viewer actually sees.
+#   HDR-FLIP on the scene EXR: what changed anywhere in the space of exposures of the HDR
+#     render (its own exposure bracket + ACES tone mapper, not our pipeline).
+# Viewing condition (declared, not FLIP's default 0.7 m / 0.7 m-wide 4K display): the image
+# fills the camera's own 60 deg horizontal field of view, the only viewing in which angular
+# sizes on screen (ribbon width in arcmin) equal those in the scene and the one pcond's view
+# header assumes. PPD = width / 60 (320 px golden: 5.33).
 set -euo pipefail
 CUR=$(realpath "${1:-t2/out/golden}"); REP=$(realpath -m "${2:-t2/out/report}"); REF=$(realpath t2/golden)
 mkdir -p "$REP/img"
-flipmean() { flip -r "$1" -t "$2" -d "$REP/img" -b "$3" 2>&1 | awk '/Mean:/{print $2; exit}'; }
+HFOV=60
+PPD=${PPD:-$(oiiotool --info "$REF/vacuum_display.png" | sed -E 's/.* : +([0-9]+) x.*/\1/' | awk -v h=$HFOV '{printf "%.4f", $1 / h}')}
+FLIPV=$( { flip -h 2>&1 || true; } | sed -nE 's/^FLIP (v[0-9.]+).*/\1/p' | head -1); FLIPV=${FLIPV%.}
+flipmean() { flip -r "$1" -t "$2" -d "$REP/img" -b "$3" -ppd "$PPD" 2>&1 | awk '/Mean:/{print $2; exit}'; }
 row() { # label ref_png new_png ref_exr new_exr tag
   local label=$1 rp=$2 np=$3 re=$4 ne=$5 t=$6
   cp "$rp" "$REP/img/${t}_ref.png"; cp "$np" "$REP/img/${t}_new.png"
@@ -41,6 +52,9 @@ th small{color:var(--mut);font-weight:normal}img{width:100%;max-width:340px;imag
 <h1>T2 render report</h1>
 <p>Frozen baseline (<code>t2/golden</code>) vs current render; diagnostic only. FLIP maps: magma, brighter = more
 noticeable when flipping between the images. The last two rows are deliberate changes, shown for scale.</p>
+<p>LDR-FLIP (displayed PNG) = what changed in the image the viewer sees after the frozen stack. HDR-FLIP (scene EXR) =
+what changed anywhere across FLIP's own exposure bracket of the HDR render (ACES tone mapper), not through our pipeline.
+FLIP FLIPV_, viewing condition: the image fills the camera's 60&deg; field of view, PPD_ pixels per degree.</p>
 <div class="wrap"><table><tr><th></th><th>reference</th><th>current</th><th>|diff| &times;8</th><th>LDR-FLIP (display)</th><th>HDR-FLIP (scene)</th></tr>
 HEAD
 for a in vacuum clear mild; do
@@ -49,4 +63,6 @@ done
 row "vacuum -> clear (for scale)" "$REF/vacuum_display.png" "$REF/clear_display.png" "$REF/vacuum_scene.exr" "$REF/clear_scene.exr" vc
 row "clear -> mild (for scale)" "$REF/clear_display.png" "$REF/mild_display.png" "$REF/clear_scene.exr" "$REF/mild_scene.exr" cm
 echo "</table></div></body></html>" >> "$REP/index.html"
+sed -i "s/FLIPV_/$FLIPV/; s/PPD_/$PPD/" "$REP/index.html"
+echo "FLIP $FLIPV, ppd $PPD (image fills its ${HFOV} deg field of view)"
 echo "report: $REP/index.html"

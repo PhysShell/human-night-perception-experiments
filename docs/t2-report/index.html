@@ -10,6 +10,9 @@ th small{color:var(--mut);font-weight:normal}img{width:100%;max-width:340px;imag
 <h1>T2 render report</h1>
 <p>Frozen baseline (<code>t2/golden</code>) vs current render; diagnostic only. FLIP maps: magma, brighter = more
 noticeable when flipping between the images. The last two rows are deliberate changes, shown for scale.</p>
+<p>LDR-FLIP (displayed PNG) = what changed in the image the viewer sees after the frozen stack. HDR-FLIP (scene EXR) =
+what changed anywhere across FLIP's own exposure bracket of the HDR render (ACES tone mapper), not through our pipeline.
+FLIP v1.2, viewing condition: the image fills the camera's 60&deg; field of view, 5.3333 pixels per degree.</p>
 <div class="wrap"><table><tr><th></th><th>reference</th><th>current</th><th>|diff| &times;8</th><th>LDR-FLIP (display)</th><th>HDR-FLIP (scene)</th></tr>
 <tr><th>vacuum: golden vs current<br><small>LDR-FLIP mean 0.000000<br>HDR-FLIP mean 0.000000<br>scene max |d| 0 cd/m&sup2;</small></th>
 <td><img src="img/vacuum_ref.png"></td><td><img src="img/vacuum_new.png"></td><td><img src="img/vacuum_diff.png"></td>
@@ -20,10 +23,10 @@ noticeable when flipping between the images. The last two rows are deliberate ch
 <tr><th>mild: golden vs current<br><small>LDR-FLIP mean 0.000000<br>HDR-FLIP mean 0.000000<br>scene max |d| 0 cd/m&sup2;</small></th>
 <td><img src="img/mild_ref.png"></td><td><img src="img/mild_new.png"></td><td><img src="img/mild_diff.png"></td>
 <td><img src="img/mild_flip.png"></td><td><img src="img/mild_hdrflip.png"></td></tr>
-<tr><th>vacuum -> clear (for scale)<br><small>LDR-FLIP mean 0.037507<br>HDR-FLIP mean 0.383368<br>scene max |d| 67.3691 cd/m&sup2;</small></th>
+<tr><th>vacuum -> clear (for scale)<br><small>LDR-FLIP mean 0.036639<br>HDR-FLIP mean 0.390233<br>scene max |d| 67.3691 cd/m&sup2;</small></th>
 <td><img src="img/vc_ref.png"></td><td><img src="img/vc_new.png"></td><td><img src="img/vc_diff.png"></td>
 <td><img src="img/vc_flip.png"></td><td><img src="img/vc_hdrflip.png"></td></tr>
-<tr><th>clear -> mild (for scale)<br><small>LDR-FLIP mean 0.026165<br>HDR-FLIP mean 0.319972<br>scene max |d| 213.25 cd/m&sup2;</small></th>
+<tr><th>clear -> mild (for scale)<br><small>LDR-FLIP mean 0.025117<br>HDR-FLIP mean 0.336122<br>scene max |d| 213.25 cd/m&sup2;</small></th>
 <td><img src="img/cm_ref.png"></td><td><img src="img/cm_new.png"></td><td><img src="img/cm_diff.png"></td>
 <td><img src="img/cm_flip.png"></td><td><img src="img/cm_hdrflip.png"></td></tr>
 </table></div></body></html>

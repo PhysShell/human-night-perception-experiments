@@ -1,0 +1,11 @@
+== negative controls for m25/golden_clip.sh (same thresholds as the gate). Result: an energy change (x1.10) FAILS; sub-pixel camera shifts (0.23 and 0.7 px of the nearest poplars) only WARN, because < 1 % of pixels change. The golden clip guards energy and pipeline changes, not sub-pixel geometry; motion properties are checked by m25/check_clip.py.
+-- frame 2 vs frame 1 reference (camera 0.125 m apart, poplars move 0.23 px):
+WARNING
+-- frame 4 vs frame 1 reference (0.375 m, ~0.7 px):
+  373 pixels (0.851%) over 0.0001
+WARNING
+  169 pixels (0.385%) over 0.016
+WARNING
+-- frame 1 scene x1.10:
+  979 pixels (2.23%) over 0.0001
+FAILURE

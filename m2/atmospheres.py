@@ -34,8 +34,13 @@ def coefficients(V, alpha, ssa, g):
     return [a * (1 - ssa) for a in aer], [a * ssa for a in aer], ray, g
 
 
-def add_boundary_layer(scene, case, extent=(60_000.0, 60_000.0), centre_y=15_000.0, bounces=None):
+def add_boundary_layer(scene, case, extent=(60_000.0, 60_000.0), centre_y=15_000.0, bounces=None,
+                       absorb_only=False):
+    """absorb_only: the same total extinction as pure absorption (for the direct, unscattered
+    view of the camera-only lamp spheres in the M2.5 "lamps" pass)."""
     sa, ss, sr, g = coefficients(**case)
+    if absorb_only:
+        sa, ss, sr = [a + s + r for a, s, r in zip(sa, ss, sr)], [0.0] * 3, [0.0] * 3
     m = bpy.data.materials.new("BoundaryLayer")
     m.use_nodes = True
     nt = m.node_tree

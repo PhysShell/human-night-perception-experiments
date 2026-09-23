@@ -10,7 +10,8 @@
 # (pcond_colorimetric.sh LC + stills display: PBR Neutral on out-of-gamut pixels only).
 # Two comparisons per case:
 #   scene.exr (cd/m^2)  : a pixel fails if |d| > 1e-4 cd/m^2 AND |d|/ref > 5 %; <= 1 % may fail
-#   display.png         : Blender's render-test defaults: --fail 0.016 --failpercent 1
+#   display.png         : --fail 0.016 --failpercent 1 (our starting threshold = the base default
+#                         of Blender 5.2.2 render_report.py; Cycles' suites raise it per directory)
 # 'moderate' is not a golden case (single-scattering issue, see m2/README.md section 5).
 set -euo pipefail
 MODE=${1:-check}; OUT=${2:-t2/out/golden}; REF=t2/golden

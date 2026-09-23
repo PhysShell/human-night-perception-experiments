@@ -41,6 +41,30 @@ if TEST_VIEW == "golden":
     RES = (320, 137)
 elif TEST_VIEW == "ribbon":
     RES = (240, 60)
+# M2.5 (m25/): render passes and camera motion for the video test. Same scene; the
+# full image is the sum of the two passes (lamp spheres are seen by camera rays only):
+#   "haze"  = everything except the camera-visible lamp spheres;
+#   "lamps" = only the lamp spheres, seen through an absorbing medium with the same total
+#             extinction (the direct, unscattered part), occluders black, no sky, no lights.
+#             M25_LAMP_PX > 0 enlarges each sphere to that many pixels across at its distance
+#             and lowers its radiance by the same area, so its intensity (cd) is unchanged: an
+#             unresolved source is defined by intensity alone, and a larger disc is hit by
+#             many more camera samples (less Monte Carlo twinkle in motion).
+#   "occluders" = (test aid) white poplars on black, same band as "lamps": where a lamp may
+#             legitimately blink by passing behind a tree edge (m25/check_clip.py)
+M25_PASS = os.environ.get("M25_PASS", "")
+M25_LAMP_PX = float(os.environ.get("M25_LAMP_PX", "0"))
+M25_FRAMES = int(os.environ.get("M25_FRAMES", "0"))        # > 0: render an animation
+M25_FPS = int(os.environ.get("M25_FPS", "24"))
+M25_WALK = float(os.environ.get("M25_WALK", "0"))          # m/s, camera moves along +x
+M25_SEED = int(os.environ.get("M25_SEED", "0"))            # Cycles seed (0 = default)
+# lamps pass only: render at M25_SS x the resolution with a 1-pixel box filter; the caller
+# (m25/render_clip.sh) resamples it to RES with Blackman-Harris 1.5 px (Cycles' own pixel
+# filter). The filter tails then come from many well-sampled pixels instead of rare
+# Monte Carlo hits, which blinked at pcond's exposure (M2.5 pilot).
+M25_SS = int(os.environ.get("M25_SS", "1")) if M25_PASS == "lamps" else 1
+RES_OUT = RES
+RES = (RES[0] * M25_SS, RES[1] * M25_SS)
 EYE_HEIGHT = 1.7                # m
 SKY_CDM2 = 4e-4                 # moonless rural sky, with a little skyglow
 VISIBILITY_M = 25_000.0 if ATMOSPHERE == "none" else math.inf   # baked extinction only without a medium
@@ -70,6 +94,28 @@ sc.cycles.samples = SAMPLES
 sc.cycles.use_adaptive_sampling = False
 sc.cycles.use_denoising = False          # a denoiser would smear sub-pixel lamps
 sc.cycles.max_bounces = 4
+sc.cycles.seed = M25_SEED
+if M25_PASS == "haze" and os.environ.get("M25_DENOISE", "0") == "1":
+    # the haze pass has no camera-visible sub-pixel emitters (those are in the lamps pass),
+    # so Cycles' own OIDN denoiser can be tested on it (bias checked in m25/README.md)
+    sc.cycles.use_denoising = True
+    sc.cycles.denoiser = "OPENIMAGEDENOISE"
+    sc.cycles.denoising_input_passes = "RGB_ALBEDO_NORMAL"
+    sc.cycles.denoising_prefilter = "ACCURATE"
+if M25_PASS == "lamps":
+    sc.cycles.transparent_max_bounces = 256         # see-through lamp spheres (emission())
+    if M25_SS > 1:
+        sc.cycles.pixel_filter_type = "BOX"
+        sc.cycles.filter_width = 1.0
+if M25_PASS == "lamps" and os.environ.get("M25_ADAPTIVE", "0") == "1":
+    # NOT used for clips: a pixel in the tail of a lamp's filter footprint then stops at the
+    # minimum with zero hits in one frame and continues in the next, so it blinks (seen in the
+    # M2.5 pilot). Without it, a fixed seed keeps every pixel's sample positions fixed and a
+    # slowly moving lamp changes its pixels smoothly; cost is bounded by rendering only the
+    # band that contains the lamps (below).
+    sc.cycles.use_adaptive_sampling = True
+    sc.cycles.adaptive_min_samples = int(os.environ.get("M25_MIN_SAMPLES", "256"))
+    sc.cycles.adaptive_threshold = float(os.environ.get("M25_THRESHOLD", "0.002"))
 sc.render.resolution_x, sc.render.resolution_y = RES
 sc.render.resolution_percentage = 100
 sc.view_settings.view_transform = "Standard"
@@ -82,7 +128,7 @@ world = bpy.data.worlds.new("NightSky")
 world.use_nodes = True
 bg = world.node_tree.nodes["Background"]
 bg.inputs["Color"].default_value = (*unit_lum(SKY_TINT), 1)
-bg.inputs["Strength"].default_value = SKY_CDM2 / K
+bg.inputs["Strength"].default_value = 0.0 if M25_PASS in ("lamps", "occluders") else SKY_CDM2 / K
 sc.world = world
 
 
@@ -91,9 +137,14 @@ def diffuse(name, rgb):
     m.use_nodes = True
     nt = m.node_tree
     nt.nodes.clear()
-    d = nt.nodes.new("ShaderNodeBsdfDiffuse")
-    d.inputs["Color"].default_value = (*rgb, 1)
     o = nt.nodes.new("ShaderNodeOutputMaterial")
+    if M25_PASS == "occluders":       # mask of the only near occluders of the lamps: poplars
+        e = nt.nodes.new("ShaderNodeEmission")
+        e.inputs["Strength"].default_value = 1.0 if name == "poplar" else 0.0
+        nt.links.new(e.outputs[0], o.inputs["Surface"])
+        return m
+    d = nt.nodes.new("ShaderNodeBsdfDiffuse")
+    d.inputs["Color"].default_value = (0, 0, 0, 1) if M25_PASS == "lamps" else (*rgb, 1)
     nt.links.new(d.outputs[0], o.inputs["Surface"])
     return m
 
@@ -119,6 +170,23 @@ def emission(name, rgb, radiance):
     e.inputs["Color"].default_value = (*rgb, 1)
     e.inputs["Strength"].default_value = radiance
     o = nt.nodes.new("ShaderNodeOutputMaterial")
+    if M25_PASS == "lamps":
+        # enlarged unresolved lamps overlap on screen where the road recedes; they must add
+        # up, not hide each other: emit from the front face only and let rays pass through
+        g = nt.nodes.new("ShaderNodeNewGeometry")
+        front = nt.nodes.new("ShaderNodeMath")
+        front.operation = "MULTIPLY"
+        front.inputs[1].default_value = -radiance
+        nt.links.new(g.outputs["Backfacing"], front.inputs[0])
+        strength = nt.nodes.new("ShaderNodeMath")                 # radiance * (1 - backfacing)
+        strength.inputs[1].default_value = radiance
+        nt.links.new(front.outputs[0], strength.inputs[0])
+        nt.links.new(strength.outputs[0], e.inputs["Strength"])
+        add = nt.nodes.new("ShaderNodeAddShader")
+        nt.links.new(e.outputs[0], add.inputs[0])
+        nt.links.new(nt.nodes.new("ShaderNodeBsdfTransparent").outputs[0], add.inputs[1])
+        nt.links.new(add.outputs[0], o.inputs["Surface"])
+        return m
     nt.links.new(e.outputs[0], o.inputs["Surface"])
     return m
 
@@ -126,6 +194,9 @@ def emission(name, rgb, radiance):
 # --- terrain -----------------------------------------------------------------------------
 bpy.ops.mesh.primitive_plane_add(size=40_000, location=(0, 15_000, 0))
 bpy.context.active_object.data.materials.append(diffuse("field", (0.07, 0.08, 0.06)))
+# lamps pass: the flat ground never hides a lamp from eye height, but it would cut the
+# enlarged unresolved spheres of distant low lamps in half
+bpy.context.active_object.hide_render = M25_PASS == "lamps"
 
 # distant low hills (~20 km, beyond the road), barely darker than the sky
 hill_mat = diffuse("hill", (0.08, 0.08, 0.07))
@@ -151,17 +222,32 @@ for x, y in rows:
 lamp_mats = {}
 
 
+LAMP_LOCS = []
+
+
 def lamp(loc, intensity_cd, rgb):
+    LAMP_LOCS.append(loc)
+    if M25_PASS == "occluders":
+        return
     d = math.dist((0, 0, EYE_HEIGHT), loc)
     intensity_cd *= math.exp(-3.912 / VISIBILITY_M * d)   # baked extinction (Koschmieder); 1 with a medium
-    radiance = intensity_cd / (math.pi * LAMP_RADIUS ** 2) / K
-    key = (rgb, round(radiance, 4))
+    r = LAMP_RADIUS
+    if M25_PASS == "lamps" and M25_LAMP_PX > 0:
+        r = max(r, 0.5 * M25_LAMP_PX * math.radians(HFOV_DEG) / RES_OUT[0] * d)
+    radiance = intensity_cd / (math.pi * r ** 2) / K
+    key = (rgb, round(radiance, 4 if r == LAMP_RADIUS else 9))
     if key not in lamp_mats:
         lamp_mats[key] = emission("lamp", unit_lum(rgb), radiance)
-    bpy.ops.mesh.primitive_uv_sphere_add(radius=LAMP_RADIUS, location=loc, segments=12, ring_count=6)
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=r, location=loc, segments=12, ring_count=6)
     sphere = bpy.context.active_object
     sphere.data.materials.append(lamp_mats[key])
+    sphere.hide_render = M25_PASS == "haze"
     if SPLIT_LAMPS:
+        if M25_PASS == "lamps":
+            for attr in ("visible_diffuse", "visible_glossy", "visible_transmission",
+                         "visible_volume_scatter", "visible_shadow"):
+                setattr(sphere, attr, False)
+            return
         for attr in ("visible_diffuse", "visible_glossy", "visible_transmission",
                      "visible_volume_scatter", "visible_shadow"):
             setattr(sphere, attr, False)
@@ -209,11 +295,12 @@ if TEST_VIEW == "ribbon":                   # level view at the road point u=0.2
 sc.collection.objects.link(cam)
 sc.camera = cam
 
-if ATMOSPHERE not in ("none", "vacuum"):
+if ATMOSPHERE not in ("none", "vacuum") and M25_PASS != "occluders":
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "m2"))
     import atmospheres
     atmospheres.add_boundary_layer(sc, atmospheres.CASES[ATMOSPHERE],
-                                   bounces=int(os.environ.get("M2_VOLUME_BOUNCES", "0")))
+                                   bounces=int(os.environ.get("M2_VOLUME_BOUNCES", "0")),
+                                   absorb_only=M25_PASS == "lamps")
     # Single scattering of ~500 tiny lamps in a thin medium is a hard sampling problem;
     # Cycles' own path guiding (Open PGL, CPU) is used rather than a denoiser, which would
     # smear the sub-pixel lamps. M2_SAMPLING=plain|guided|guided_biased selects the variant.
@@ -227,7 +314,33 @@ if ATMOSPHERE not in ("none", "vacuum"):
     if mode.endswith("biased"):
         sc.cycles.volume_biased = True
 
+if M25_PASS in ("lamps", "occluders"):
+    # render only the image band that contains every lamp over the whole camera path (+6 px);
+    # the rest of the lamps pass is black by construction
+    from bpy_extras.object_utils import world_to_camera_view
+    from mathutils import Vector
+    ys = []
+    for x in (0.0, M25_WALK * max(M25_FRAMES - 1, 0) / M25_FPS):
+        cam.location.x = x
+        bpy.context.view_layer.update()
+        ys += [world_to_camera_view(sc, cam, Vector(p)).y for p in LAMP_LOCS]
+    cam.location.x = 0.0
+    pad = 6.0 / RES_OUT[1]
+    sc.render.use_border, sc.render.use_crop_to_border = True, False
+    sc.render.border_min_x, sc.render.border_max_x = 0.0, 1.0
+    sc.render.border_min_y = max(0.0, min(ys) - pad)
+    sc.render.border_max_y = min(1.0, max(ys) + pad)
+    print(f"M2.5 lamps pass: band y {sc.render.border_min_y:.3f}..{sc.render.border_max_y:.3f}")
+
 sc.render.filepath = OUT
-bpy.ops.render.render(write_still=True)
+if M25_FRAMES:
+    sc.render.fps, sc.frame_start, sc.frame_end = M25_FPS, 1, M25_FRAMES
+    bpy.context.preferences.edit.keyframe_new_interpolation_type = "LINEAR"   # constant speed
+    for f, x in ((1, 0.0), (M25_FRAMES, M25_WALK * (M25_FRAMES - 1) / M25_FPS)):
+        cam.location.x = x
+        cam.keyframe_insert("location", index=0, frame=f)
+    bpy.ops.render.render(animation=True)
+else:
+    bpy.ops.render.render(write_still=True)
 print(f"M1 scene: {n} road lamp slots, {len(lamp_mats)} lamp materials, samples={SAMPLES}, "
       f"atmosphere={ATMOSPHERE} -> {OUT}")

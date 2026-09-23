@@ -1,0 +1,11 @@
+{
+  "m25_geometric": {
+    "name": "M2.5 reference viewing: pcond's display (Ldmax 100 cd/m^2, dynamic range 100:1, pcond defaults), dark room, the 960 px clip filling the camera's 60 deg horizontal field of view (16 px/deg)",
+    "resolution": [960, 410],
+    "pixels_per_degree": 16.0,
+    "max_luminance": 100,
+    "contrast": 100,
+    "E_ambient": 0,
+    "source": "m1/pcond_colorimetric.sh (pcond -u/-d defaults: LDMAX 100, LDDYN 100 in pcond.c); geometry = t2 FLIP viewing condition"
+  }
+}
