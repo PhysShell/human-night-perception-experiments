@@ -34,7 +34,7 @@ def coefficients(V, alpha, ssa, g):
     return [a * (1 - ssa) for a in aer], [a * ssa for a in aer], ray, g
 
 
-def add_boundary_layer(scene, case, extent=(60_000.0, 60_000.0), centre_y=15_000.0):
+def add_boundary_layer(scene, case, extent=(60_000.0, 60_000.0), centre_y=15_000.0, bounces=None):
     sa, ss, sr, g = coefficients(**case)
     m = bpy.data.materials.new("BoundaryLayer")
     m.use_nodes = True
@@ -58,6 +58,8 @@ def add_boundary_layer(scene, case, extent=(60_000.0, 60_000.0), centre_y=15_000
     slab.scale = (extent[0], extent[1], LAYER_TOP + 2.0)   # starts 1 m below the ground plane
     slab.data.materials.append(m)
     slab.name = "BoundaryLayer"
+    if bounces is not None:
+        scene.cycles.volume_bounces = bounces           # 0 = single scattering (Cycles default)
     return sa, ss, sr
 
 

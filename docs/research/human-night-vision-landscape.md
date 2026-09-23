@@ -732,3 +732,33 @@ On the lamp pixels (Y ≤ 1, a channel > 1, all components ≥ 0.14):
   shows the error follows `-u` exactly (Ldmax/179). Not blocking.
 - **The perceptual stack is frozen** (m1/README.md, section 6). Fog Glow stays off; G3′ and G7
   are deferred.
+
+
+## M2: atmosphere between the lamps and the eye (round 5)
+
+Details are in [`../../m2/README.md`](../../m2/README.md). The M1.1 stack was not changed.
+
+- **Stock Cycles is enough for extinction and haze.**
+  - The Volume Coefficients node takes per-channel coefficients, and its Beer–Lambert
+    behaviour is verified to 0.1 %.
+  - The atmospheres are built from visibility (Koschmieder), Rayleigh and continental aerosol
+    parameters.
+- **Measured on the scene:**
+  - Clear (V = 40 km): lamp transmittance matches Beer–Lambert along the whole 2.6–13.8 km
+    ribbon (0.757 / 0.323 against 0.746 / 0.325).
+  - Mild and moderate agree in the near zone.
+  - Distant lamps redden (hue 47° → 37°), and after pcond they lose colour as they dim into
+    the mesopic range.
+  - The ribbon softens from 6′ to 13–15′ from haze lit from below.
+  - Silhouettes lose contrast with haze.
+- **Two scene-side fixes were needed:**
+  - Split lamps: a camera-only sphere plus a 180° spot light. Without them, mesh emitters in a
+    medium turn the glow into noise.
+  - Real cut-off luminaires: an emitting lower hemisphere still leaks upward and created a false
+    light dome.
+- **Open (next decision):** single scattering, Cycles' default, darkens hazy skies and washes out
+  nearby silhouettes. Multiple scattering fixes this (moderate: poplar contrast 0.16 → 0.61) but
+  brings firefly noise at CPU sample counts.
+  - Recommendation for the art scene now: **clear to mild haze, single scattering**.
+- **Next:** watch a slow camera move over that scene before deciding whether scintillation (M3)
+  is needed.

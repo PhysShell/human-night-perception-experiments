@@ -100,13 +100,18 @@ print(f"\n== 1. lamp transmittance vs distance: energy per {BIN}-column bin, med
 for c in CASES[1:]:
     T = E0[c] / E0["vacuum"]
     # fit only where the lamps are measurable above the Monte Carlo noise of the haze glow
-    # (expected T > 5 %); farther, background subtraction dominates and biases T low
-    ok = (T > 1e-3) & (np.exp(-coeff[c] * bd) > 0.05)
-    sig = -np.polyfit(bd[ok], np.log(T[ok]), 1)[0] if ok.sum() > 2 else np.nan
-    t3, t10 = (np.median(T[(bd >= lo) & (bd < hi)]) for lo, hi in ((2000, 4000), (9000, 14000)))
+    # (expected T > 20 %); farther, only a few samples reach a sub-pixel lamp per bin
+    ok = (T > 1e-3) & (np.exp(-coeff[c] * bd) > 0.2)
+    span = np.ptp(bd[ok]) if ok.any() else 0
+    sig = -np.polyfit(bd[ok], np.log(T[ok]), 1)[0] if ok.sum() > 2 and span > 2500 else np.nan
+    # ratio of summed energies (not a median of per-bin ratios): behind a few optical depths
+    # only a handful of camera samples reach a sub-pixel lamp, so per-bin values are
+    # unbiased but heavily skewed, and their median is biased low
+    t3, t10 = (E0[c][(bd >= lo) & (bd < hi)].sum() / E0["vacuum"][(bd >= lo) & (bd < hi)].sum()
+               for lo, hi in ((2000, 4000), (9000, 14000)))
     e3, e10 = math.exp(-coeff[c] * 3000), math.exp(-coeff[c] * 11500)
     print(f"  {c:9s} T(2-4 km) {t3:.3f} (Beer-Lambert @3 km {e3:.3f})   T(9-14 km) {t10:.4f} "
-          f"(@11.5 km {e10:.4f})   fitted sigma {sig:.2e} vs input {coeff[c]:.2e} 1/m "
+          f"(@11.5 km {e10:.4f})   fitted sigma {'n/a' if np.isnan(sig) else f'{sig:.2e}'} vs input {coeff[c]:.2e} 1/m "
           f"(fit over {ok.sum()} bins up to {bd[ok].max() / 1000:.1f} km)")
 
 print("\n== 2. lamp colour (u'v' hue deg / chroma), background-subtracted lamp energy: scene | after pcond (LC)")

@@ -1,0 +1,6 @@
+scene_vacuum.exr                   sky median 4.00e-04  p99 4.00e-04  p99.9 4.00e-04  max 4.00e-04  | lamps max 99 cd/m2
+scene_clear.exr                    sky median 2.99e-04  p99 3.31e-04  p99.9 3.36e-04  max 3.41e-04  | lamps max 88 cd/m2
+scene_mild.exr                     sky median 1.86e-04  p99 2.26e-04  p99.9 2.31e-04  max 2.38e-04  | lamps max 58 cd/m2
+scene_moderate.exr                 sky median 9.20e-05  p99 1.12e-04  p99.9 1.15e-04  max 1.20e-04  | lamps max 49 cd/m2
+mod64_b0.exr                       sky median 9.06e-05  p99 1.20e-04  p99.9 1.31e-04  max 1.48e-04  | lamps max 140 cd/m2
+mod64_b8.exr                       sky median 2.16e-04  p99 3.27e-03  p99.9 2.56e-02  max 1.22e-01  | lamps max 140 cd/m2

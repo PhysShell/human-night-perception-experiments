@@ -203,7 +203,8 @@ sc.camera = cam
 if ATMOSPHERE not in ("none", "vacuum"):
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "m2"))
     import atmospheres
-    atmospheres.add_boundary_layer(sc, atmospheres.CASES[ATMOSPHERE])
+    atmospheres.add_boundary_layer(sc, atmospheres.CASES[ATMOSPHERE],
+                                   bounces=int(os.environ.get("M2_VOLUME_BOUNCES", "0")))
     # Single scattering of ~500 tiny lamps in a thin medium is a hard sampling problem;
     # Cycles' own path guiding (Open PGL, CPU) is used rather than a denoiser, which would
     # smear the sub-pixel lamps. M2_SAMPLING=plain|guided|guided_biased selects the variant.
