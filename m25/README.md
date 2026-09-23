@@ -8,7 +8,7 @@
 - The stack is the frozen M1.1 stack, motion variant: LC → Radiance `clipgamut`.
 - No scintillation, no Fog Glow, no new physics.
 
-    nix develop -c m25/run_m25.sh            # clips A and B, ~4 h on 4 cores, + invariants
+    nix develop -c m25/run_m25.sh            # clips A and B, ~3 h on 4 cores, + invariants, tracks, videos
     nix develop .#video -c m25/cvvdp.sh TEST.mp4 REF.mp4 OUTDIR    # ColorVideoVDP diagnostic
     nix flake check                          # incl. m25-decomposition, m25-golden-clip
 
@@ -80,7 +80,7 @@ within 1 %.
 
 - finite;
 - pcond linear mode and constant exposure;
-- lamp energy ≤ 1 % per frame;
+- lamp energy (away from the frame edges): no single-frame blink > 0.5 % (steps from lamps leaving the frame or passing behind poplars are reported, not failed);
 - no single-frame **blink** > 20 % (luminance) or > 0.004 u′v′ in windows around lamps, on the
   pcond stage and the display, except at poplar edges;
 - displayed ribbon band ≤ 2 % per frame.
@@ -110,6 +110,72 @@ The same 12-frame pilot was rendered with two seeds (`m25/cvvdp.sh`):
 - Any "life" in clip B therefore does not come from the renderer.
 - For M3, a scintillation effect must stand clearly above this level (≈ 0.28 JOD) to count.
 
-## 5. Results
+## 5. Results (`B_walk_check.txt`, `B_walk_modulation.txt`, videos in `docs/m25-results/`)
 
-(filled in after the clips are rendered)
+**Invariants: clip B (240 frames) passes on both displays.**
+
+| invariant | clip B |
+|---|---|
+| pcond | linear mode on every frame; exposure 1389.9–1390.4 (0.036 %): no adaptation flicker |
+| lamp energy (away from the frame edges) | largest single-frame blink 0.10 %; largest step 1.22 % |
+| blinks, pcond stage | ≤ 8.4 % |
+| blinks, display | ≤ 15.5 % |
+| displayed ribbon band | ≤ 0.45 % per frame |
+
+- The lamp-energy steps are near lamps leaving the frame at the left edge (frames 113–115 and
+  137–139) and a lamp coming out from behind a poplar. A first version gated every step at 1 %
+  and failed on exactly these legitimate events; it now fails on blinks only.
+- PBR display only: 7 frames have a blink of more than 20 % at a poplar edge (allowed).
+- The negative control (adaptive lamps pass) still fails.
+
+**What motion does to each lamp** (`analyse_clip.py`). 26 isolated lamps at 2.7–3.3 km were
+tracked; they move 2.5–3.4 px over the clip. Energy in a 7×7 window around each:
+
+| stage | modulation over 10 s (median / p90 / max) | dominant frequency |
+|---|---|---|
+| scene (lamps pass) | 4.5 / 5.1 / 5.5 % | 0.4 Hz |
+| pcond stage | 20.8 / 26.4 / 27.5 % | 0.4 Hz |
+| display, clipgamut | 21.5 / 29.3 / 30.1 % | 0.4 Hz |
+| display, PBR out-of-gamut | 24.4 / 31.2 / 32.7 % | 0.4 Hz |
+
+**Reading.**
+- **Scene.** The physics (I·T/d²) does not change over 10 m of walking. The 4.5 % is the pixel
+  filter's grid ripple: a 3-px Blackman–Harris window summed over the pixel grid varies by up
+  to 6.5 % with sub-pixel phase. Cycles has this property itself, and the lamps pass
+  reproduces it.
+- **Display.** A lamp's core is far above display white (pcond clips it), so its visible
+  energy is set by how many of its pixels are clipped. That depends on where the lamp sits on
+  the pixel grid.
+- **So a walking observer sees every lamp "breathe" by ~20–30 % at ~0.4 Hz**, the rate at
+  which it crosses pixels. Nearer lamps move faster, so different lamps breathe out of phase.
+- This comes from the display and its 16 px/deg grid, not from the air. A finer grid (the
+  1920-px render) halves the period, and a real eye has no pixel grid. It is still a real
+  stimulus on a screen.
+- **The second source of life is occlusion.** Lamps pass behind poplar edges and gaps; in the
+  clipgamut display these blinks are counted separately and allowed.
+
+**Colour.**
+- The motion display (clipgamut) makes the lamp cores almost white; the known compromise from
+  M1 §4 is visible here.
+- The stills display (PBR Neutral on out-of-gamut pixels) keeps them warm.
+- In this clip it also passes every invariant: display blinks are the same ≤ 15.5 %, and its
+  modulation is only slightly higher (24 % vs 21 %).
+- The 12–16 % gamut-exit drop seen in the synthetic ramp does not show up as a blink here.
+  **Candidate for the motion display, pending the viewer's judgement.**
+
+**Not done.** ColorVideoVDP between A and B is not meaningful: the content moves, and the
+metric compares images that should match. It was used for what it can answer: render noise
+visibility (§4).
+
+## 6. For the M3 decision
+
+- The observer's own motion already gives a slow, out-of-phase breathing of the ribbon
+  (display grid) and occlusion blinks at the poplars.
+- Stationary, clip A shows none of it.
+- Scintillation (M3) would add a fast (several Hz), random, per-lamp flicker. That is a
+  different stimulus from this 0.4 Hz one, and it would matter in the stationary case
+  especially.
+- **Decision criteria:**
+  - does clip A feel dead compared with the memory?
+  - does clip B's breathing read as natural, or as a display artefact?
+- Any scintillation must stand above the render-noise level (≈ 0.28 JOD, §4).

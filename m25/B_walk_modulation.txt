@@ -1,0 +1,8 @@
+m25/out/B_walk (png): 240 frames, 492 lamps, kept 26 (inside, not near a poplar, isolated); distance 2.7-3.3 km; moves 2.53-3.39 px over the clip
+  scene    modulation over the clip: median   4.52 %  p90   5.07 %  max   5.54 %   dominant frequency 0.40 Hz
+  pcond    modulation over the clip: median  20.76 %  p90  26.36 %  max  27.54 %   dominant frequency 0.40 Hz
+  display  modulation over the clip: median  21.49 %  p90  29.25 %  max  30.09 %   dominant frequency 0.40 Hz
+m25/out/B_walk (png_pbr): 240 frames, 492 lamps, kept 26 (inside, not near a poplar, isolated); distance 2.7-3.3 km; moves 2.53-3.39 px over the clip
+  scene    modulation over the clip: median   4.52 %  p90   5.07 %  max   5.54 %   dominant frequency 0.40 Hz
+  pcond    modulation over the clip: median  20.76 %  p90  26.36 %  max  27.54 %   dominant frequency 0.40 Hz
+  display  modulation over the clip: median  24.42 %  p90  31.20 %  max  32.66 %   dominant frequency 0.40 Hz

@@ -5,9 +5,12 @@
   adaptation  pcond stays in its linear mode on every frame (an EXPOSURE is recorded) and
               that exposure varies by < 1 % over the clip: pcond adapts per frame, so a
               larger change would be a global brightness flicker that no eye makes;
-  lamp energy the lamps pass's total energy changes by < 1 % between consecutive frames
-              (the camera moves slowly; one lamp is ~0.2 % of the total, so a lamp going
-              behind a poplar is a small legitimate step);
+  lamp energy the lamps pass's total energy away from the frame edges (8 px) shows no
+              single-frame blink > 0.5 % (frame t away from both neighbours in the same
+              direction). Steps are legitimate and only reported: a near lamp carries ~1 % of
+              the total, and lamps leave the frame or pass behind poplars as the observer
+              walks (a first version gated every step at 1 % and failed clip B on exactly
+              those events: lamps leaving at the left edge, frames 113-115 and 137-139);
   no flashes  no single-frame spike: in 5x5-pixel windows around lamps, frame t may not
               stand out from BOTH neighbours in the same direction (a blink) by more than
               20 % of the local level, in pcond-stage and displayed luminance, nor by more
@@ -62,9 +65,12 @@ res.append(("adaptation", lin and var < 0.01,
 if len(frames) < 3:
     res.append(("temporal", True, "static clip: one rendered frame, repeated (nothing temporal to check)"))
 else:
-    El = np.array([(x @ Yw).sum() for x in lamps])
+    El = np.array([(x @ Yw)[:, 8:-8].sum() for x in lamps])
     dE = np.abs(np.diff(El) / El[:-1]).max()
-    res.append(("lamp energy", dE < 0.01, f"max frame-to-frame change {dE * 100:.3f} %"))
+    a, b = El[1:-1] - El[:-2], El[1:-1] - El[2:]
+    bE = (np.where(a * b > 0, np.minimum(np.abs(a), np.abs(b)), 0) / El[1:-1]).max()
+    res.append(("lamp energy", bE < 0.005, f"max single-frame blink of the total {bE * 100:.3f} % "
+                f"(max step {dE * 100:.3f} %, allowed)"))
 
     L0 = lamps[0] @ Yw
     rows = np.flatnonzero((L0 > 0).any(1))

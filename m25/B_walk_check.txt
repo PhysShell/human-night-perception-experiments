@@ -1,0 +1,28 @@
+== png
+finite                     ok   240 frames
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1389.9..1390.4 (0.036 %)
+lamp energy                ok   max single-frame blink of the total 0.104 % (max step 1.221 %, allowed)
+no flashes (pcond stage)   ok   max single-frame luminance spike 8.36 %, chromaticity spike 0.00272 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+no flashes (display)       ok   max single-frame luminance spike 15.49 %, chromaticity spike 0.00192 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+display ribbon             ok   max frame-to-frame change of displayed ribbon band 0.446 %
+PASS
+== png_pbr
+finite                     ok   240 frames
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1389.9..1390.4 (0.036 %)
+lamp energy                ok   max single-frame blink of the total 0.104 % (max step 1.221 %, allowed)
+no flashes (pcond stage)   ok   max single-frame luminance spike 8.36 %, chromaticity spike 0.00272 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+no flashes (display)       ok   max single-frame luminance spike 15.49 %, chromaticity spike 0.00192 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 7
+display ribbon             ok   max frame-to-frame change of displayed ribbon band 0.432 %
+PASS
+== pilot_s0
+lamp energy                ok   max single-frame blink of the total 0.033 % (max step 0.156 %, allowed)
+no flashes (display)       ok   max single-frame luminance spike 4.52 %, chromaticity spike 0.00183 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+PASS
+== golden_clip
+lamp energy                ok   max single-frame blink of the total 0.019 % (max step 0.101 %, allowed)
+no flashes (display)       ok   max single-frame luminance spike 4.30 %, chromaticity spike 0.00080 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 1
+PASS
+== pilot_negctl
+lamp energy                ok   max single-frame blink of the total 0.043 % (max step 0.138 %, allowed)
+no flashes (display)       FAIL max single-frame luminance spike 86.00 %, chromaticity spike 0.00227 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+FAIL

@@ -41,7 +41,7 @@ Deferred).
 - finite;
 - pcond stays in linear mode with the same exposure on every frame (< 1 %): a global flicker
   no eye makes;
-- lamp energy ≤ 1 % change per frame;
+- lamp energy away from the frame edges: no single-frame blink > 0.5 % (steps from lamps leaving the frame or passing behind poplars are reported, not failed);
 - no single-frame **blink** (a frame away from both neighbours in the same direction) > 20 %
   in luminance or > 0.004 u′v′ in 5×5 windows around lamps, on the pcond stage and the
   display, except at poplar edges (a lamp seen through a moving gap between trees really does

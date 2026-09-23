@@ -3,8 +3,8 @@
 
 Every lamp is followed along its projected track (M25_TRACKS, from m1/scene.py). Kept: lamps
 inside the frame all the time, never within 3 px of a poplar (occluders pass) and with no
-other lamp within 4 px (so a window holds one lamp). For each kept lamp and frame, the energy
-in a 5x5 window at its tracked position is measured in:
+other lamp within 6 px (so a window holds one lamp). For each kept lamp and frame, the energy
+in a 7x7 window (the spot's 3-px Blackman-Harris footprint plus rounding fits inside) at its tracked position is measured in:
   scene    the lamps pass (physics: I * T / d^2, constant to < 0.1 % over 10 m of walking);
   pcond    the pcond (LC) stage, display-linear;
   display  the displayed PNG, decoded to linear light (sRGB EOTF).
@@ -36,7 +36,7 @@ for k in range(F):
         for dx in range(-3, 4):
             near_tree |= occ[k, (iy[k] + dy).clip(0, H - 1), (ix[k] + dx).clip(0, W - 1)] > 0.02
 d = np.hypot(px[0][:, None] - px[0][None], py[0][:, None] - py[0][None]) + np.eye(px.shape[1]) * 99
-isolated = d.min(1) > 4
+isolated = d.min(1) > 6
 keep = np.flatnonzero(inside & ~near_tree & isolated)
 dist = np.linalg.norm(np.array(TR["locs"]) - np.array(TR["cam"]), axis=1)
 print(f"{D} ({PNG}): {F} frames, {px.shape[1]} lamps, kept {len(keep)} (inside, not near a poplar, isolated); "
@@ -49,9 +49,9 @@ stages = {"scene": lambda k: load(f"{D}/lamps_{k:04d}.exr") @ Yw,
 for name, get in stages.items():
     E = np.zeros((F, len(keep)))
     for k in range(F):
-        img = np.pad(get(k + 1), 2)
+        img = np.pad(get(k + 1), 3)
         for j, n in enumerate(keep):
-            E[k, j] = img[iy[k, n]:iy[k, n] + 5, ix[k, n]:ix[k, n] + 5].sum()
+            E[k, j] = img[iy[k, n]:iy[k, n] + 7, ix[k, n]:ix[k, n] + 7].sum()
     mod = (E.max(0) - E.min(0)) / np.maximum(E.mean(0), 1e-30)
     spec = np.abs(np.fft.rfft(E - E.mean(0), axis=0)) ** 2
     fr = np.fft.rfftfreq(F, d=1 / 24)
