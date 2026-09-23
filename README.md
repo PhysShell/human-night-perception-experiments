@@ -10,6 +10,7 @@ perception**, not a camera render, assembled from **existing** software.
 - M2 (calibrated atmospheres between lamps and eye): [`m2/`](m2/README.md)
 - T2 (test strategy, `nix flake check` gates, golden baseline): [`docs/research/test-strategy.md`](docs/research/test-strategy.md)
 - M2.5 (slow camera move over the frozen scene, video; two-pass clip render, clip invariants, ColorVideoVDP): [`m25/`](m25/README.md)
+- M2.6 (sampling density 16/32/64 px/deg; form the image at the display before pcond): [`m26/`](m26/README.md)
 
 Environment (Nix flakes; x86_64-linux):
 

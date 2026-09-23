@@ -1,0 +1,11 @@
+{
+  "m26_phone": {
+    "name": "M2.6 target display: phone in landscape, the 1920 x 820 clip full width (~14 cm) at 30 cm, i.e. ~26 deg wide, 74 px/deg; pcond's display (Ldmax 100 cd/m^2, 100:1), dark room",
+    "resolution": [1920, 820],
+    "pixels_per_degree": 74.0,
+    "max_luminance": 100,
+    "contrast": 100,
+    "E_ambient": 0,
+    "source": "viewing condition proposed by the user for M2.6; photometry as m25/display_models_m25.json"
+  }
+}

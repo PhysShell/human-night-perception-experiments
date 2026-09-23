@@ -1,0 +1,24 @@
+== p16_t
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1389.9..1389.9 (0.000 %)
+no flashes (pcond stage)   ok   max single-frame luminance spike 6.78 %, chromaticity spike 0.00095 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+no flashes (display)       ok   max single-frame luminance spike 11.60 %, chromaticity spike 0.00218 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+PASS
+  clipped core on the display: median 49.2 arcmin^2 of the scene (= 14.0 px; a 7.0' square), p90 59.8; its area changes over the clip by median 32 %
+  display  modulation over the clip: median   5.94 %  p90   9.15 %  max  10.47 %   dominant frequency 0.50 Hz;   spot RMS radius 5.86' of the scene (modulation 2 %)
+== p32_t
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1390..1390 (0.000 %)
+no flashes (pcond stage)   ok   max single-frame luminance spike 7.23 %, chromaticity spike 0.00277 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 2
+no flashes (display)       ok   max single-frame luminance spike 12.72 %, chromaticity spike 0.00238 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 3
+PASS
+  clipped core on the display: median 14.1 arcmin^2 of the scene (= 4.0 px; a 3.8' square), p90 21.1; its area changes over the clip by median 44 %
+  display  modulation over the clip: median  10.45 %  p90  26.39 %  max  33.16 %   dominant frequency 0.50 Hz;   spot RMS radius 5.78' of the scene (modulation 7 %)
+== p64_t
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1389.9..1390 (0.007 %)
+no flashes (pcond stage)   ok   max single-frame luminance spike 6.05 %, chromaticity spike 0.00354 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+no flashes (display)       ok   max single-frame luminance spike 11.92 %, chromaticity spike 0.00172 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+PASS
+  clipped core on the display: median 14.1 arcmin^2 of the scene (= 4.0 px; a 3.8' square), p90 21.1; its area changes over the clip by median 44 %
+  display  modulation over the clip: median  10.94 %  p90  26.86 %  max  29.88 %   dominant frequency 0.50 Hz;   spot RMS radius 5.59' of the scene (modulation 4 %)
+cvvdp p16 vs p64 (ref), target-first: cvvdp=7.4199 [JOD]
+cvvdp p32 vs p64 (ref), target-first: cvvdp=9.7475 [JOD]
+cvvdp p16 vs p32 (ref), target-first: cvvdp=7.2820 [JOD]

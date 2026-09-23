@@ -1,0 +1,33 @@
+== p16
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1390..1390.4 (0.029 %)
+no flashes (pcond stage)   FAIL max single-frame luminance spike 7.67 %, chromaticity spike 0.00421 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+no flashes (display)       FAIL max single-frame luminance spike 11.42 %, chromaticity spike 0.01189 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+FAIL
+m26/out/p16 (png_pbr): 48 frames, 492 lamps, kept 27 (inside, not near a poplar, isolated); distance 2.6-3.3 km; moves 1.00-1.50 px over the clip
+  clipped core on the display: median 14.1 arcmin^2 of the scene (= 4.0 px; a 3.8' square), p90 21.1; its area changes over the clip by median 78 %
+  scene    modulation over the clip: median   2.59 %  p90   3.30 %  max   3.51 %   dominant frequency 0.50 Hz;   spot RMS radius 3.25' of the scene (modulation 3 %)
+  pcond    modulation over the clip: median   8.61 %  p90  19.30 %  max  29.23 %   dominant frequency 0.50 Hz;   spot RMS radius 4.95' of the scene (modulation 2 %)
+  display  modulation over the clip: median  10.45 %  p90  21.33 %  max  34.18 %   dominant frequency 0.50 Hz;   spot RMS radius 5.32' of the scene (modulation 2 %)
+== p32
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1390..1390 (0.000 %)
+no flashes (pcond stage)   ok   max single-frame luminance spike 7.23 %, chromaticity spike 0.00277 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 2
+no flashes (display)       ok   max single-frame luminance spike 12.72 %, chromaticity spike 0.00238 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 3
+PASS
+m26/out/p32 (png_pbr): 48 frames, 492 lamps, kept 27 (inside, not near a poplar, isolated); distance 2.6-3.3 km; moves 1.00-1.50 px over the clip
+  clipped core on the display: median 14.1 arcmin^2 of the scene (= 4.0 px; a 3.8' square), p90 21.1; its area changes over the clip by median 44 %
+  scene    modulation over the clip: median   3.78 %  p90   4.36 %  max   5.19 %   dominant frequency 0.50 Hz;   spot RMS radius 1.21' of the scene (modulation 11 %)
+  pcond    modulation over the clip: median   7.74 %  p90  15.90 %  max  21.45 %   dominant frequency 0.50 Hz;   spot RMS radius 5.20' of the scene (modulation 6 %)
+  display  modulation over the clip: median  10.45 %  p90  26.39 %  max  33.16 %   dominant frequency 0.50 Hz;   spot RMS radius 5.78' of the scene (modulation 7 %)
+== p64
+adaptation                 ok   linear mode on all frames: True; EXPOSURE 1390.4..1390.4 (0.000 %)
+no flashes (pcond stage)   ok   max single-frame luminance spike 7.06 %, chromaticity spike 0.00269 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+no flashes (display)       ok   max single-frame luminance spike 9.69 %, chromaticity spike 0.00309 u'v'; frames with a > 20 % blink at a poplar edge (allowed): 0
+PASS
+m26/out/p64 (png_pbr): 48 frames, 492 lamps, kept 27 (inside, not near a poplar, isolated); distance 2.6-3.3 km; moves 1.00-1.50 px over the clip
+  clipped core on the display: median 0.0 arcmin^2 of the scene (= 0.0 px; a 0.0' square), p90 3.5; its area changes over the clip by median 600 %
+  scene    modulation over the clip: median   4.56 %  p90   5.30 %  max   5.79 %   dominant frequency 0.50 Hz;   spot RMS radius 1.26' of the scene (modulation 6 %)
+  pcond    modulation over the clip: median   6.70 %  p90  11.31 %  max  12.14 %   dominant frequency 0.50 Hz;   spot RMS radius 6.75' of the scene (modulation 4 %)
+  display  modulation over the clip: median   6.92 %  p90  11.96 %  max  17.75 %   dominant frequency 0.50 Hz;   spot RMS radius 6.86' of the scene (modulation 4 %)
+cvvdp p16 vs p64 (ref): cvvdp=7.2561 [JOD]
+cvvdp p32 vs p64 (ref): cvvdp=9.1437 [JOD]
+cvvdp p16 vs p32 (ref): cvvdp=7.9333 [JOD]

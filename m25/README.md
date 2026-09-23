@@ -1,5 +1,10 @@
 # M2.5: a slow look at the frozen scene (video, no new physics)
 
+> **Superseded in part by [M2.6](../m26/README.md).** The 960-px clips here were formed at 16 px/deg
+> and the phone copies were upscaled nearest-neighbour. Hence the square lamps and most of the
+> 20–30 % "breathing", which came from the render grid, not the air. Clips for viewing: render at
+> ≥ 32 px/deg, resample the scene radiance to the device, then pcond.
+
 **Question.** Does the distant ribbon already feel "alive" from the observer's own motion
 (sub-pixel motion, occlusion by the poplars, atmosphere), before any scintillation (M3)?
 

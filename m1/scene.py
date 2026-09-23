@@ -41,6 +41,9 @@ if TEST_VIEW == "golden":
     RES = (320, 137)
 elif TEST_VIEW == "ribbon":
     RES = (240, 60)
+# M2.6 sampling-density test: same 60 deg view at another resolution (16/32/64 px/deg)
+if os.environ.get("M26_RES"):
+    RES = tuple(int(v) for v in os.environ["M26_RES"].split(","))
 # M2.5 (m25/): render passes and camera motion for the video test. Same scene; the
 # full image is the sum of the two passes (lamp spheres are seen by camera rays only):
 #   "haze"  = everything except the camera-visible lamp spheres;
@@ -331,6 +334,16 @@ if M25_PASS in ("lamps", "occluders"):
     sc.render.border_min_y = max(0.0, min(ys) - pad)
     sc.render.border_max_y = min(1.0, max(ys) + pad)
     print(f"M2.5 lamps pass: band y {sc.render.border_min_y:.3f}..{sc.render.border_max_y:.3f}")
+if os.environ.get("M26_CROP") and M25_PASS in ("haze", "lamps"):
+    # M2.6: render only this image region (fractions x0,x1,y0,y1, y up), intersected with the
+    # lamps band; the caller fills the rest of the frame from the 16 px/deg clip
+    x0, x1, y0, y1 = (float(v) for v in os.environ["M26_CROP"].split(","))
+    if not sc.render.use_border:
+        sc.render.border_min_y, sc.render.border_max_y = 0.0, 1.0
+    sc.render.use_border, sc.render.use_crop_to_border = True, False
+    sc.render.border_min_x, sc.render.border_max_x = x0, x1
+    sc.render.border_min_y = max(sc.render.border_min_y, y0)
+    sc.render.border_max_y = min(sc.render.border_max_y, y1)
 
 if os.environ.get("M25_TRACKS"):
     # analysis aid (m25/analyse_clip.py): every lamp's projected position on every frame of
@@ -352,6 +365,7 @@ if M25_FRAMES:
     sc.render.fps, sc.frame_start, sc.frame_end = M25_FPS, 1, M25_FRAMES
     # resume an interrupted clip: render only frames M25_START..end (same camera path)
     sc.frame_start = int(os.environ.get("M25_START", "1"))
+    sc.frame_end = int(os.environ.get("M25_END", str(M25_FRAMES)))
     bpy.context.preferences.edit.keyframe_new_interpolation_type = "LINEAR"   # constant speed
     for f, x in ((1, 0.0), (M25_FRAMES, M25_WALK * (M25_FRAMES - 1) / M25_FPS)):
         cam.location.x = x

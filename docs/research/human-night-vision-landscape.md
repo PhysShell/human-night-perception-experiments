@@ -786,3 +786,18 @@ Details: [`test-strategy.md`](test-strategy.md), [`../../m25/README.md`](../../m
 - **ColorVideoVDP** (packaged from PyPI): with a fixed seed the remaining render noise is a
   frozen spatial pattern (9.72 JOD moving = 9.72 static), not temporal. It sets the bar a
   scintillation effect must clear in M3.
+
+## M2.6: sampling density and where the display is formed (round 7)
+
+Details: [`../../m26/README.md`](../../m26/README.md).
+
+- The viewer saw square lamps in M2.5. The cause: 960-px clips formed at 16 px/deg and then
+  shown 2× nearest-neighbour on a phone.
+- 16/32/64 px/deg render densities, one target display (phone, 74 px/deg):
+  - **Wrong order** (pcond at the render resolution, then resample): no convergence
+    (32 vs 64: 9.14 JOD); finer renders lose more lamp energy above white.
+  - **Right order** (resample scene radiance to the display, then pcond): 32 vs 64 = 9.75 JOD,
+    at the render-noise level.
+- Lamps become 2 × 2-pixel points. A ~11 % "breathing" stays at any density. It is the
+  display's own grid with clipped cores, so not atmosphere and not something to keep. The next
+  question is the eye's optics (PSF) against the display's range, before any M3 turbulence.
