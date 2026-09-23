@@ -1,0 +1,22 @@
+=== synthetic
+383 over-range (lamp) pixels; in-gamut pixels: 1574017
+method                      in-gamut max|d|  p99.9|d|  lamp hue err  lamp sat  lamp Y
+clip_standard                       0.00001   0.00000        23.1deg      0.85   0.809
+radiance_clipgamut                  0.00001   0.00000         0.6deg      0.30   0.850
+pbr_neutral_oog_only                0.00001   0.00000         0.2deg      0.83   0.558
+aces13_rgc_lmt                      0.00001   0.00000        23.1deg      0.85   0.809
+aces20_roundtrip                    0.00001   0.00001        23.1deg      0.85   0.809
+pbr_neutral_whole_image             0.03716   0.03700         0.2deg      0.83   0.558
+aces20_view_whole_image             0.22918   0.22643         2.4deg      0.79   0.461
+input lamp saturation (median): 0.92
+=== scene
+1096 over-range (lamp) pixels; in-gamut pixels: 1573304
+method                      in-gamut max|d|  p99.9|d|  lamp hue err  lamp sat  lamp Y
+clip_standard                       0.00000   0.00000        22.7deg      0.55   0.871
+radiance_clipgamut                  0.00000   0.00000         0.8deg      0.20   0.896
+pbr_neutral_oog_only                0.00000   0.00000         0.2deg      0.67   0.625
+aces13_rgc_lmt                      0.00000   0.00000        22.7deg      0.55   0.871
+aces20_roundtrip                    0.00000   0.00000        22.7deg      0.55   0.871
+pbr_neutral_whole_image             0.03835   0.00328         0.2deg      0.67   0.625
+aces20_view_whole_image             0.04040   0.00329         1.8deg      0.49   0.456
+input lamp saturation (median): 0.71

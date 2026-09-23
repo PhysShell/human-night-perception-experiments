@@ -17,13 +17,24 @@ def spencer(t):
     return (0.384 * 2.61e6 * np.exp(-(t / 0.02) ** 2)
             + 0.478 * 20.91 / (t + 0.02) ** 3 + 0.138 * 72.37 / (t + 0.02) ** 2)
 
-print(f"energy out/in = {g.sum() / a.sum():.4f}   (1 - fraction scattered outside the frame)")
+energy = g.sum() / a.sum()
+failures = []
+if energy < 0.97:
+    failures.append(f"energy out/in {energy:.4f} < 0.97")
+print(f"energy out/in = {energy:.4f}   (1 - fraction scattered outside the frame)")
 print(f"centre pixel keeps {g[cy, cx] / a.sum():.4f} of the source")
 ref_r = 32                                      # 1 degree at 32 px/deg
 ref = g[cy, cx + ref_r]
-print(" theta_deg  measured/ref  spencer/ref   ratio")
-for r in (3, 10, 32, 96, 320, 640):
+print(" theta_deg  measured/ref  spencer/ref   ratio  tolerance")
+# tolerances: the kernel is exact up to a few degrees; far out, FFT padding/frame edge dominate
+for r, tol in ((3, .02), (10, .02), (32, 0.0), (96, .02), (320, .05), (640, None)):
     t = r * deg_px
     m = g[cy, cx + r] / ref
     s = spencer(t) / spencer(ref_r * deg_px)
-    print(f"{t:10.3f}  {m:12.4e}  {s:11.4e}  {m / s:6.3f}")
+    ok = tol is None or abs(m / s - 1) <= tol + 1e-6
+    if not ok:
+        failures.append(f"theta {t:.3f} deg: ratio {m / s:.3f} outside +-{tol}")
+    print(f"{t:10.3f}  {m:12.4e}  {s:11.4e}  {m / s:6.3f}  {'info' if tol is None else f'+-{tol:.0%}'}{'' if ok else '  FAIL'}")
+if failures:
+    sys.exit("FOG GLOW PSF REGRESSION FAILED: " + "; ".join(failures))
+print("PASS: Fog Glow reproduces Spencer et al. 1995 Eq. 5 at the calibrated Size")

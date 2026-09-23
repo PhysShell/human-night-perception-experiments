@@ -3,10 +3,11 @@ warm sub-pixel lamps. Built and rendered headless with Cycles CPU:
 
     blender -b --factory-startup --python m1/scene.py -- OUT.exr [samples]
 
-Photometric authoring (see m1/README.md, "Calibration"):
-  K = 179 lm per Blender-watt (Radiance's white efficacy). Every light is specified in
-  photometric units and divided by K, so the rendered EXR is directly a Radiance picture
-  (luminance = 179 * Y) and cd/m^2 = 179 * Y.
+Photometric authoring (see m1/README.md, section 1): we adopt Radiance's 179 lm/W
+equal-energy-white convention as the RGB radiometric -> photometric calibration. Every light
+is specified in photometric units and divided by K = 179; luminance = 179 * Y (Rec.709 Y).
+The EXR stays in Blender's scene-linear Rec.709; conversion to Radiance's own RGB/XYZ is
+done by ra_xyze (m1/pcond_colorimetric.sh), not by relabelling.
   Verified by m1/calibrate.py: Cycles point-light intensity = P/(4 pi) W/sr, emission
   strength = radiance, world strength = radiance, sub-pixel emitters conserve energy.
 Visible lamps are emissive spheres: Cycles point lights are not camera-visible.
@@ -21,7 +22,7 @@ args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 OUT = args[0] if args else "m1/out/scene.exr"
 SAMPLES = int(args[1]) if len(args) > 1 else 256
 
-K = 179.0                       # lm/W, Radiance WHTEFFICACY
+K = 179.0                       # lm/W, Radiance's equal-energy-white convention (not a lamp efficacy)
 HFOV_DEG = 60.0
 RES = (1920, 820)
 EYE_HEIGHT = 1.7                # m

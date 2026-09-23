@@ -12,8 +12,17 @@ Settings, all from reading node_composite_glare.cc / fog_glow_kernel.cc (Blender
   * the "Glare" output socket = normalised PSF (*) image; the "Image" socket would be
     image + glare, i.e. double-counting the unscattered light, so it is not used.
 """
+import os
 import sys
+
 import bpy
+
+# The Size <-> FOV relation below is read from Blender 5.2.2's source, not a public API
+# contract. Other versions must pass m1/test_fog_glow.sh before being trusted.
+TESTED_VERSION = (5, 2, 2)
+if bpy.app.version != TESTED_VERSION and not os.environ.get("FOG_GLOW_ALLOW_UNTESTED"):
+    sys.exit(f"fog_glow.py: adapter verified for Blender {TESTED_VERSION}, running {bpy.app.version}; "
+             "run m1/test_fog_glow.sh with FOG_GLOW_ALLOW_UNTESTED=1 and update TESTED_VERSION")
 
 in_path, out_path, fov = sys.argv[sys.argv.index("--") + 1:][:3]
 fov = float(fov)

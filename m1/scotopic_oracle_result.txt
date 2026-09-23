@@ -1,0 +1,9 @@
+relative scotopic efficiency (S/P) / (S/P of white)
+                               red probe      blue probe     sodium lamp  warm LED 3000K  blue/red
+Radiance B (rgblum)                0.336           2.492           0.642           0.827      7.42
+Radiance A (cielum)                0.230           2.345           0.472           0.737     10.20
+colour: Jakob 2019                 0.221           4.887           0.511           0.780     22.10
+colour: Otsu 2018                  0.272           1.986           0.477           0.749      7.30
+colour: Meng 2015                  0.132           2.940           0.507           0.769     22.20
+colour: Mallett 2019               0.222           2.833           0.572           0.796     12.76
+colour: Smits 1999                 0.213           2.692           0.598           0.811     12.67

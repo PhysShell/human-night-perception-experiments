@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# DEPRECATED (M1.1): relies on giving pcond Rec.709 data without a PRIMARIES header, i.e.
+# mislabelled as Radiance-standard RGB. Kept only as the "old" baseline in
+# m1/run_colorimetry.sh. Use m1/pcond_colorimetric.sh.
 # pcond -s -c with warm light colour kept -- Radiance tools only, no new formula.
 #
 # Why this exists (verified in pcond source, Radiance master bcffc2b):
@@ -28,7 +31,8 @@ pcond -s -c "$@" -x "$T/map.dat" "$IN" > "$T/mapped.hdr"
 LDMAX=100 LDDYN=100
 while [ $# -gt 0 ]; do case $1 in -u) LDMAX=$2; shift;; -d) LDDYN=$2; shift;; esac; shift; done
 
-pcomb -e "$(tabfunc -i Ld < "$T/map.dat")" \
+tabfunc -i Ld < "$T/map.dat" > "$T/curve.cal"
+pcomb -f "$T/curve.cal" \
       -e "ldmax=$LDMAX; ldmin=ldmax/$LDDYN; Lw=179*li(1); Yp=li(2);" \
       -e "Yd=(Ld(Lw)-ldmin)/(ldmax-ldmin); s=if(Yp-1, Yd/Yp, 1);" \
       -e "ro=s*ri(2); go=s*gi(2); bo=s*bi(2)" \

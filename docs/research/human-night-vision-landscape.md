@@ -1,6 +1,6 @@
 # Human night vision for a rural night scene: survey of existing software (round 1)
 
-Status: round 1 (research + M0) and round 2 (M1, see the section **M1 results** at the end), checked 2026-09-22. Every factual claim is traced in
+Status: round 1 (research + M0), round 2 (M1) and round 3 (M1.1 colorimetry gate); see the sections **M1 results** and **M1.1** at the end. Checked 2026-09-22/23. Every factual claim is traced in
 [`source-ledger.md`](source-ledger.md) (IDs like **[L12]**). Claims marked *tested* were run
 in this repository. M0 results are in [`m0-results/`](m0-results/). You can reproduce them with
 `nix develop -c m0/run_m0.sh` (see [`../../m0/README.md`](../../m0/README.md)).
@@ -536,9 +536,12 @@ Pitfalls found along the way:
 - Point lights are not camera-visible.
 - The World Background node's default colour is 0.05, which silently divides the sky by 20.
 
-The photometric scale is one declared convention: **K = 179 lm per Blender-watt** (Radiance's
-`WHTEFFICACY`). Lights are authored in cd, cd/m² or lux and divided by K. The Cycles EXR is then a
-valid Radiance picture as-is, and cd/m² = 179 · Y.
+The photometric scale is one declared convention. We adopt Radiance's 179 lm/W
+equal-energy-white convention as the RGB radiometric → photometric calibration: lights are
+authored in cd, cd/m² or lux and divided by 179, so cd/m² = 179 · Y.
+- 179 lm/W is not the efficacy of any real lamp.
+- *Corrected in M1.1:* the EXR is **not** "a Radiance picture as-is" for colour. Its values are
+  on Radiance's scale, but its space is Rec.709/D65 and must be converted with `ra_xyze`.
 
 ### Fog Glow (gate G3): mechanism solved, perceptual use still open
 
@@ -560,24 +563,28 @@ Findings from the source (`node_composite_glare.cc`, `fog_glow_kernel.cc`):
 - Each lamp becomes a white disc about 0.3–0.5° across with an orange core. This is close to
   the bloom-sprite look we want to avoid.
 - **Halo colour.** The halo luminance is mesopic, so `-c` makes it grey. That part is legitimate.
-- **Halo size.** This is not a glare error. pcond's histogram operator gives display range in
-  proportion to how many pixels sit at each luminance. Lamp and halo pixels are rare, so
-  everything from about 0.2 cd/m² (halo) to about 300 cd/m² (lamp core) lands on display max.
+- **Halo size.** This is not a glare error. *Corrected in M1.1:* pcond is **not** allocating
+  display range by histogram here. On these night scenes it falls back to a CSF-chosen linear
+  exposure, and the display clips at about 0.13 cd/m², so halo and core land on the same
+  display max.
 - **Display range barely helps.** Raising the display dynamic range from 100:1 to 1000:1
   (`-d 1000`) shrinks the discs only a little (`fogglow_display_range_d100_vs_d1000.jpg`, from
   the 16-spp test render).
 - **Open questions** before Fog Glow can go into the default path:
-  - Is Spencer's photopic PSF the right *magnitude* for a dark-adapted, large-pupil eye? The CIE
-    146 check has not been done yet.
+  - Does the Spencer PSF predict the same veiling luminance as CIE 146:2002 for the same source
+    geometry and a chosen observer? This comparison has not been done yet.
+  - CIE 146 is an independent disability-glare reference. It is not a model of the dark-adapted
+    eye, so agreement would validate the veil, not "human night vision".
   - How should a halo be allocated display range next to its own source?
 - **Default:** Fog Glow is **off** in the recommended M1 path.
 
 ### Warm lamp colour (was gate G2): solved by reuse
 
-**Root cause** (Radiance source): lamps lie above pcond's 1°-foveal histogram. `mapscan()` pushes
-them far above display max *while keeping their RGB ratios*. The white comes only from
-`matscan()` → `clipgamut()`'s over-brightness branch. That step runs whenever a `PRIMARIES=`
-header is present, because the primaries check compares pointers.
+**Root cause** (Radiance source): the white comes from `matscan()` → `clipgamut()`'s
+over-brightness branch. That step runs whenever a `PRIMARIES=` header is present (the primaries
+check compares pointers) and always for XYZE input.
+- *Superseded in M1.1:* the route below relabelled Rec.709 data as Radiance RGB. See M1.1 for
+  the honest route.
 
 **Route** (`m1/pcond_keep_hue.sh`, `m1/run_m1.sh`):
 1. pcond without a PRIMARIES header.
@@ -615,3 +622,89 @@ header is present, because the primaries check compares pointers.
   - No atmospheric scattering around the lamps (layer 1; only baked extinction so far).
   - No near road, no terrain relief.
   - This is M3/M4 content, not perceptual-stack work.
+
+
+---
+
+## M1.1: colorimetry gate (round 3)
+
+Details are in [`../../m1/README.md`](../../m1/README.md), sections 2–5. Tests run with
+`nix flake check`.
+
+### 1. Colour provenance: fixed
+
+**The M1 bug.** Giving pcond Rec.709 data without PRIMARIES meant pcond read it as
+Radiance-standard RGB (equal-energy white): wrong luminance weights and wrong scotopic weights.
+The red probe came out 14 % too bright, i.e. a weaker Purkinje shift.
+
+**Now all conversion is done by `ra_xyze`**, starting from a truthful Rec.709/D65 header.
+
+- Two honest paths were compared:
+  - **A:** XYZE → pcond (pcond's `cielum` scotopic formula);
+  - **B:** Radiance-standard RGB → pcond (pcond's `rgblum` weights).
+- **Whole images agree:** mean |A−B| 0.0002–0.0026.
+- **Saturated dark colours differ.** An independent bracket from existing code decides it:
+  colour-science's five published spectral-recovery methods with CIE 1951 V′(λ).
+  - **A** falls inside the spectral range for red, blue, sodium and warm-LED colours.
+  - **B** overestimates the scotopic efficiency of reds and warm colours.
+
+**Used: AB.**
+- pcond's XYZE output everywhere it did not clip. This equals pcond as shipped, median and p99
+  error 0.0000 on 4.1 M pixels.
+- On the pixels pcond clipped: pcond's own **unclipped** result from the honest standard-RGB
+  run, scaled to display luminance 1.
+  - That run needs no relabelling. Standard RGB is pcond's default space, so the redundant
+    PRIMARIES line is moved into the header history after being verified.
+- No pcond formula is re-implemented.
+
+### 2. Lamp colour, pcond `-c` and M0 probes after the fix
+
+- **Purkinje probe (red / blue at equal 0.03 cd/m²):** A and AB 0.057 / 0.51; B 0.080 / 0.52;
+  old M1 route 0.091 / 0.51.
+- **Lamps** keep their hue (31°) and saturation (0.58) before gamut handling.
+- **Sodium lamps render orange and 4000 K LEDs whitish** (`m1-results/m1_ribbon_crop_pcond_AB_fogglow.jpg`).
+
+### 3. Gamut compression: existing transforms compared
+
+On the lamp pixels (Y ≤ 1, a channel > 1, all components ≥ 0.14):
+
+- **Do nothing (identical to a clip, 23° hue error):**
+  - ACES 1.3 Reference Gamut Compression (OCIO builtin). It compresses chroma outside the
+    working gamut, which these pixels are not.
+  - ACES 2.0 SDR used as inverse → forward. The inverse clamps to the display cube by design.
+- **Shift pcond's darkness when applied to the whole frame:** ACES 2.0 or PBR Neutral as a view.
+- **Radiance `clipgamut`:** hue kept, saturation 0.20.
+- **Khronos PBR Neutral on the lamp pixels only:** hue error 0.2°, saturation 0.67 of 0.71.
+  - Khronos's precondition (input inside Rec.709) holds.
+  - What it applies is its designed hue-preserving highlight compression.
+  - **Kept, with the pixel restriction documented as the non-standard part.**
+
+### 4. Fog Glow: adapter pinned, still off
+
+- `fog_glow.py` refuses any Blender other than 5.2.2 unless explicitly overridden.
+- The PSF regression test is part of `nix flake check`. Its negative control (wrong FOV) fails
+  as it should.
+
+### New findings
+
+- **pcond is in linear mode on these night scenes.** `mkbrmap()` returns "no compression
+  needed" because 1°-foveal averages fit the display. So `pcond -s -c` acts as a CSF-chosen
+  linear exposure + mesopic colour + clip; in the M1 scene the display saturates at
+  ~0.13 cd/m².
+  - This, not histogram allocation, is why calibrated glare halos become discs.
+- **pcond bug:** in linear mode the `-x` table overstates display luminance by 179/Ldmax.
+  Confirmed on a ramp (0.556 vs 0.559) and guarded by `m1/test_pcond_mapping.py`.
+- **OpenImageIO's RGBE reader fails on long Radiance header lines** (e.g. Nix sandbox paths in
+  recorded command lines). Radiance steps run with short relative names; `pcomb -h` is used for
+  the final merge.
+
+### M1 status
+
+**Closed**, with these gates left open:
+- **G3′ (glare):** compare Spencer-predicted veiling luminance with CIE 146 for the same
+  geometry and observer before enabling Fog Glow.
+  - If the magnitudes agree, the disc problem is the display's range at a dark-adapted linear
+    exposure.
+  - Then investigate existing options (pcond `-u`/`-d`, fixation `-i`) before anything custom.
+- **G7 (spectral):** only if the A-vs-spectral bracket turns out to matter visibly. It currently
+  sits inside the range.

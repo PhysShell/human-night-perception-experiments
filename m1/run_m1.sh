@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # M1: the SAME Cycles render through existing tools only.
 # Usage (inside `nix develop`):  m1/run_m1.sh [scene.exr] [hfov_deg] [outdir]
-# Input contract: Cycles EXR authored with K = 179 lm/W (m1/scene.py), i.e. already a
-# Radiance picture: luminance [cd/m^2] = 179 * (0.2126 R + 0.7152 G + 0.0722 B).
+# Input contract: Cycles EXR in Blender's scene-linear Rec.709, lights authored with Radiance's
+# 179 lm/W equal-energy-white convention (m1/scene.py): cd/m^2 = 179 * (0.2126 R + 0.7152 G
+# + 0.0722 B). Conversion to Radiance's own RGB/XYZ is done by ra_xyze, never by relabelling.
 set -euo pipefail
 IN=${1:-m1/out/scene.exr}
 HFOV=${2:-60}
@@ -20,28 +21,22 @@ view() { # in.exr view out.png
   oiiotool --colorconfig "$CFG" "$1" --iscolorspace "Linear Rec.709" --ociodisplay sRGB "$2" -d uint8 -o "$3"; }
 hdr2exr() { oiiotool "$1" -o "$2"; }   # stored pcond values are display-linear (1 = Ldmax)
 
-# Radiance picture headers. VIEW is needed by pcond for the angular field.
-# No PRIMARIES header: with one, pcond's matscan()/clipgamut() turns every lamp white.
-prep() { # in.exr stem
-  oiiotool "$1" --ch R,G,B --clamp:min=0 -o "$T/$2_raw.hdr"
-  getinfo -a "VIEW= -vtv -vh $HFOV -vv $VFOV" < "$T/$2_raw.hdr" > "$T/$2.hdr"
-  getinfo -a "PRIMARIES= 0.640 0.330 0.300 0.600 0.150 0.060 0.3127 0.3290" \
-    < "$T/$2.hdr" > "$T/$2_prim.hdr"; }
+REC709="0.640 0.330 0.300 0.600 0.150 0.060 0.3127 0.3290"
 
-# pcond -s -c, lamp colour kept (Radiance only), then the out-of-gamut pixels
-# (and only those) rendered with Khronos PBR Neutral from Blender's OCIO config.
-keephue() { # stem out_prefix
-  KEEP_CAPPED="$T/$1_capped.hdr" m1/pcond_keep_hue.sh "$T/$1.hdr" "$T/$1_clipgamut.hdr"
-  hdr2exr "$T/$1_clipgamut.hdr" "$T/$1_clipgamut.exr"
-  view "$T/$1_clipgamut.exr" Standard "$OUT/$2_radiance_clipgamut.png"
-  hdr2exr "$T/$1_capped.hdr" "$T/$1_capped.exr"
-  oiiotool "$T/$1_capped.exr" --maxchan --subc 1 --mulc 1e9 --clamp:min=0:max=1 --ch 0,0,0 -o "$T/$1_oog.exr"
-  view "$T/$1_capped.exr" Standard "$T/$1_std.png"
-  view "$T/$1_capped.exr" "Khronos PBR Neutral" "$T/$1_pbr.png"
-  oiiotool "$T/$1_pbr.png" "$T/$1_std.png" --sub "$T/$1_oog.exr" --mul "$T/$1_std.png" --add \
-    -d uint8 -o "$OUT/$2_pbrneutral_oog.png"; }
-
-prep "$IN" scene
+# Honest colorimetry (M1.1, m1/pcond_colorimetric.sh AB): Rec.709 -> XYZE via ra_xyze -> pcond
+# for every pixel pcond does not clip; clipped (lamp) pixels come from pcond's own unclipped
+# run on Radiance-standard RGB, scaled to display max, so lamps keep their chromaticity.
+# Gamut: only pixels outside the display cube go through Khronos PBR Neutral (highlight
+# compression, hue-preserving); every displayable pixel is pcond's output unchanged.
+honest() { # in.exr mode out_prefix
+  local st=$T/$(basename "$3")
+  m1/pcond_colorimetric.sh "$1" "$HFOV" "$2" "$st.hdr" 1 2>/dev/null
+  hdr2exr "$st.hdr" "$st.exr"
+  oiiotool "$st.exr" --maxchan --subc 1 --mulc 1e9 --clamp:min=0:max=1 --ch 0,0,0 -o "${st}_oog.exr"
+  view "$st.exr" Standard "${st}_std.png"
+  view "$st.exr" "Khronos PBR Neutral" "${st}_pbr.png"
+  oiiotool "${st}_pbr.png" "${st}_std.png" --sub "${st}_oog.exr" --mul "${st}_std.png" --add \
+    -d uint8 -o "$OUT/$3_pbrneutral_oog.png"; }
 
 # 1. raw linear render, photometric: 1 cd/m^2 in the scene = 1 cd/m^2 on a 100-nit display
 oiiotool "$IN" --ch R,G,B --mulc 1.79 -o "$T/photometric.exr"
@@ -53,18 +48,14 @@ K=$(python3 -c "import sys,numpy as np,OpenImageIO as o; a=o.ImageBuf(sys.argv[1
 oiiotool "$IN" --ch R,G,B --mulc "$K" -o "$T/autoexp.exr"
 view "$T/autoexp.exr" AgX "$OUT/2_camera_autoexposure_agx.png"
 
-# 3. pcond -s -c, standard path (input declares Rec.709 primaries)
-pcond -s -c "$T/scene_prim.hdr" > "$T/pcond_sc.hdr"
-hdr2exr "$T/pcond_sc.hdr" "$T/pcond_sc.exr"
+# 3 + 4. pcond -s -c as shipped (honest XYZE input, lamps clipped to white) and with lamp colour
+honest "$IN" AB 4_pcond_sc_AB
+hdr2exr "$T/4_pcond_sc_AB.pcond.hdr" "$T/pcond_sc.exr"
 view "$T/pcond_sc.exr" Standard "$OUT/3_pcond_sc.png"
-
-# 4. pcond -s -c keeping lamp colour
-keephue scene 4_pcond_sc_keephue
 
 # 5. eye glare first (Blender Fog Glow = Spencer'95 PSF, FOV-calibrated), then as 4
 blender -b --factory-startup --python m1/fog_glow.py -- "$IN" "$T/glare.exr" "$HFOV" 2>&1 | grep "fog glow"
-prep "$T/glare.exr" glare
-keephue glare 5_fogglow_pcond_sc_keephue
+honest "$T/glare.exr" AB 5_fogglow_pcond_sc_AB
 
 # contact sheets: full frames + 4x crop of the lamp ribbon
 cd "$OUT"

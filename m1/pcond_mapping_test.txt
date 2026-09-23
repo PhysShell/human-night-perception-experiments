@@ -1,0 +1,7 @@
+pcond -s: output / (-x table) = 0.9974, expected 1.0000  ok
+pcond -l: output / (-x table) = 0.5564, expected 0.5587  ok
+path B  (histogram) : 65560 unclipped px, median err 0.0044; max Y 0.990;  4800 clipped px, chroma err 0.0153 (bound 2 RGBE steps 0.0156)  ok
+path B  -l          : 34280 unclipped px, median err 0.0000; max Y 1.007; 19000 clipped px, chroma err 0.0141 (bound 2 RGBE steps 0.0156)  ok
+path AB (histogram) : 65440 unclipped px, median err 0.0000; max Y 0.992;  4760 clipped px, chroma err 0.0153 (bound 2 RGBE steps 0.0156)  ok
+path AB -l          : 34400 unclipped px, median err 0.0000; max Y 1.007; 19000 clipped px, chroma err 0.0141 (bound 2 RGBE steps 0.0156)  ok
+PASS
