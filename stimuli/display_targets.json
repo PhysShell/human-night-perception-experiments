@@ -1,0 +1,21 @@
+{
+ "PHONE_TARGET": {
+  "what": "phone in landscape, the 1920 x 820 content shown full width, held at 30 cm (the M2.6 target)",
+  "content_px": [1920, 820], "content_width_m": 0.14, "viewing_distance_m": 0.30,
+  "fov_deg_horizontal": 26.3, "px_per_deg_centre": 73.0,
+  "peak_cd_m2": 100, "contrast": 100, "E_ambient_lux": 0,
+  "photometry_note": "100 cd/m^2 and 100:1 are pcond's defaults (the display the frozen stack targets), NOT a measured phone; a real OLED phone has a much deeper black and 500-1000+ cd/m^2 peak. The viewer's actual phone is unknown."
+ },
+ "DESKTOP_TARGET": {
+  "what": "27-inch 2560 x 1440 monitor at 60 cm, content shown 1:1 (1920 px wide = 39.7 deg)",
+  "display_px": [2560, 1440], "display_width_m": 0.5977, "viewing_distance_m": 0.60,
+  "fov_deg_horizontal_display": 52.9, "px_per_deg_centre": 48.4,
+  "peak_cd_m2": 200, "contrast": 1000, "E_ambient_lux": 0,
+  "photometry_note": "a generic SDR office monitor in a dark room (ColorVideoVDP's standard_4k photometry), not a measured display"
+ },
+ "SCENE_GEOMETRIC": {
+  "what": "reference only: the image fills the camera's own 60 deg field (true angular sizes); used by T2 FLIP and M2.5",
+  "px_per_deg_centre": "image width / 60"
+ },
+ "rule": "every metric or model that accepts viewing geometry gets it explicitly from this file; no silent defaults"
+}

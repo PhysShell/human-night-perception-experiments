@@ -1,0 +1,2 @@
+VIEW= -vtv -vh 32 -vv 16.3181
+EXPOSURE=1.2712e+03
