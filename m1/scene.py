@@ -1,7 +1,11 @@
 """M1 minimal night test scene: dark ground, poplar silhouettes, a distant dense chain of
 warm sub-pixel lamps. Built and rendered headless with Cycles CPU:
 
-    blender -b --factory-startup --python m1/scene.py -- OUT.exr [samples]
+    blender -b --factory-startup --python m1/scene.py -- OUT.exr [samples] [atmosphere]
+
+atmosphere: none (M1: extinction baked into lamp intensities, V = 25 km) or one of
+m2/atmospheres.py (clear / mild / moderate): a homogeneous boundary-layer medium built from
+Cycles' Volume Coefficients node, with the baked extinction switched off.
 
 Photometric authoring (see m1/README.md, section 1): we adopt Radiance's 179 lm/W
 equal-energy-white convention as the RGB radiometric -> photometric calibration. Every light
@@ -13,6 +17,7 @@ done by ra_xyze (m1/pcond_colorimetric.sh), not by relabelling.
 Visible lamps are emissive spheres: Cycles point lights are not camera-visible.
 """
 import math
+import os
 import random
 import sys
 
@@ -21,13 +26,16 @@ import bpy
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 OUT = args[0] if args else "m1/out/scene.exr"
 SAMPLES = int(args[1]) if len(args) > 1 else 256
+ATMOSPHERE = args[2] if len(args) > 2 else "none"
 
 K = 179.0                       # lm/W, Radiance's equal-energy-white convention (not a lamp efficacy)
 HFOV_DEG = 60.0
 RES = (1920, 820)
+if os.environ.get("M2_HALF_RES"):            # M2 comparisons: same FOV, 4x fewer pixels
+    RES = (960, 410)
 EYE_HEIGHT = 1.7                # m
 SKY_CDM2 = 4e-4                 # moonless rural sky, with a little skyglow
-VISIBILITY_M = 25_000.0         # meteorological visibility for baked extinction (Koschmieder)
+VISIBILITY_M = 25_000.0 if ATMOSPHERE == "none" else math.inf   # baked extinction only without a medium
 LAMP_CD = 800.0                 # luminous intensity of a road luminaire toward the observer
 LAMP_RADIUS = 0.25              # m, luminaire size (sub-pixel at km range)
 LAMP_HEIGHT = 9.0               # m
@@ -82,16 +90,36 @@ def diffuse(name, rgb):
     return m
 
 
-def emission(name, rgb, radiance):
+# Road luminaires are shielded: with a scattering medium (M2) the light they would throw
+# upward dominates the haze glow, so there only the lower hemisphere of each lamp sphere
+# emits (stock Geometry normal), at twice the radiance: seen from the side half the disc is
+# lit, so the luminous intensity towards a horizontal observer stays LAMP_CD. M1 (no medium)
+# keeps the full-sphere emitters, where upward light has no effect on the image.
+SHIELDED = ATMOSPHERE != "none"
+
+
+def emission(name, rgb, radiance, shielded=False):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
     nt.nodes.clear()
     e = nt.nodes.new("ShaderNodeEmission")
     e.inputs["Color"].default_value = (*rgb, 1)
-    e.inputs["Strength"].default_value = radiance
+    e.inputs["Strength"].default_value = radiance * (2.0 if shielded else 1.0)
     o = nt.nodes.new("ShaderNodeOutputMaterial")
-    nt.links.new(e.outputs[0], o.inputs["Surface"])
+    if shielded:
+        geo = nt.nodes.new("ShaderNodeNewGeometry")
+        sep = nt.nodes.new("ShaderNodeSeparateXYZ")
+        down = nt.nodes.new("ShaderNodeMath"); down.operation = "LESS_THAN"
+        down.inputs[1].default_value = 0.0                     # normal.z < 0: lower hemisphere
+        mix = nt.nodes.new("ShaderNodeMixShader")
+        nt.links.new(geo.outputs["Normal"], sep.inputs[0])
+        nt.links.new(sep.outputs["Z"], down.inputs[0])
+        nt.links.new(down.outputs[0], mix.inputs["Fac"])
+        nt.links.new(e.outputs[0], mix.inputs[2])              # Fac 1 -> emission, 0 -> black
+        nt.links.new(mix.outputs[0], o.inputs["Surface"])
+    else:
+        nt.links.new(e.outputs[0], o.inputs["Surface"])
     return m
 
 
@@ -125,11 +153,11 @@ lamp_mats = {}
 
 def lamp(loc, intensity_cd, rgb):
     d = math.dist((0, 0, EYE_HEIGHT), loc)
-    intensity_cd *= math.exp(-3.912 / VISIBILITY_M * d)   # baked extinction (Koschmieder)
+    intensity_cd *= math.exp(-3.912 / VISIBILITY_M * d)   # baked extinction (Koschmieder); 1 with a medium
     radiance = intensity_cd / (math.pi * LAMP_RADIUS ** 2) / K
     key = (rgb, round(radiance, 4))
     if key not in lamp_mats:
-        lamp_mats[key] = emission("lamp", unit_lum(rgb), radiance)
+        lamp_mats[key] = emission("lamp", unit_lum(rgb), radiance, SHIELDED)
     bpy.ops.mesh.primitive_uv_sphere_add(radius=LAMP_RADIUS, location=loc, segments=12, ring_count=6)
     bpy.context.active_object.data.materials.append(lamp_mats[key])
 
@@ -165,6 +193,24 @@ cam.rotation_euler = (math.radians(89.3), 0, math.radians(-4))
 sc.collection.objects.link(cam)
 sc.camera = cam
 
+if ATMOSPHERE != "none":
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "m2"))
+    import atmospheres
+    atmospheres.add_boundary_layer(sc, atmospheres.CASES[ATMOSPHERE])
+    # Single scattering of ~500 tiny lamps in a thin medium is a hard sampling problem;
+    # Cycles' own path guiding (Open PGL, CPU) is used rather than a denoiser, which would
+    # smear the sub-pixel lamps. M2_SAMPLING=plain|guided|guided_biased selects the variant.
+    # Measured (m2/README.md): guiding cut the sky-noise tail by only 3-5 % for +21 % time.
+    mode = os.environ.get("M2_SAMPLING", "plain")
+    if mode.startswith("guided"):
+        sc.cycles.use_guiding = True
+        sc.cycles.use_volume_guiding = True
+        sc.cycles.use_surface_guiding = True
+        sc.cycles.use_guiding_direct_light = True
+    if mode.endswith("biased"):
+        sc.cycles.volume_biased = True
+
 sc.render.filepath = OUT
 bpy.ops.render.render(write_still=True)
-print(f"M1 scene: {n} road lamp slots, {len(lamp_mats)} lamp materials, samples={SAMPLES} -> {OUT}")
+print(f"M1 scene: {n} road lamp slots, {len(lamp_mats)} lamp materials, samples={SAMPLES}, "
+      f"atmosphere={ATMOSPHERE} -> {OUT}")
