@@ -6,7 +6,7 @@ set -euo pipefail
 D=m2/out; R=$D/results; mkdir -p "$R"
 CFG=$(ls "$(dirname "$(readlink -f "$(command -v blender)")")"/../share/blender/*/datafiles/colormanagement/config.ocio)
 view() { oiiotool --colorconfig "$CFG" "$1" --iscolorspace "Linear Rec.709" --ociodisplay sRGB "$2" -d uint8 -o "$3"; }
-for a in none clear mild moderate; do
+for a in vacuum clear mild moderate; do
   m1/pcond_colorimetric.sh "$D/scene_$a.exr" 60 LC "$D/lc_$a.hdr" 1
   oiiotool "$D/lc_$a.hdr" -o "$D/lc_$a.exr"
   oiiotool "$D/lc_$a.exr" --maxchan --subc 1 --mulc 1e9 --clamp:min=0:max=1 --ch 0,0,0 -o "$D/oog_$a.exr"
@@ -16,8 +16,8 @@ for a in none clear mild moderate; do
 done
 ( cd "$R"
   magick montage -label '%t' -font DejaVu-Sans -pointsize 14 -tile 1x -geometry +3+3 -background '#222' -fill '#ddd' \
-    none.png clear.png mild.png moderate.png sheet_full.png
-  for a in none clear mild moderate; do magick "$a.png" -crop 480x60+240+160 +repage -filter point -resize 300% "crop_$a.png"; done
+    vacuum.png clear.png mild.png moderate.png sheet_full.png
+  for a in vacuum clear mild moderate; do magick "$a.png" -crop 480x60+240+160 +repage -filter point -resize 300% "crop_$a.png"; done
   magick montage -label '%t' -font DejaVu-Sans -pointsize 14 -tile 1x -geometry +3+3 -background '#222' -fill '#ddd' \
-    crop_none.png crop_clear.png crop_mild.png crop_moderate.png sheet_crop_ribbon.png )
+    crop_vacuum.png crop_clear.png crop_mild.png crop_moderate.png sheet_crop_ribbon.png )
 python3 m2/compare_atmospheres.py | tee m2/compare_result.txt

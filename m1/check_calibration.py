@@ -23,6 +23,8 @@ def check(label, measured, expected):
 check("sun E=1 W/m2, rho=0.5 -> rho*E/pi", centre(img("c1_sun_E1_rho05")), 0.5 / math.pi)
 check("point P=1000 W @10 m, rho=0.5 -> rho*P/(4pi d^2)/pi",
       centre(img("c2_point_P1000_d10_rho05")), 0.5 * 1000 / (4 * math.pi * 100) / math.pi)
+check("spot 180 deg P=1000 W @10 m (as point light)",
+      centre(img("c2b_spot180_P1000_d10_rho05")), 0.5 * 1000 / (4 * math.pi * 100) / math.pi)
 check("world strength 1e-3 seen directly", centre(img("c3_world_B1e-3")), 1e-3)
 check("world 1e-3 on rho=0.5 plane -> rho*B", centre(img("c3b_world_B1e-3_plane_rho05")), 0.5e-3)
 check("emission strength 2 seen directly", centre(img("c4_emission_S2")), 2.0)

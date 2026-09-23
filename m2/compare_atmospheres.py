@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""M2: compare the same scene through no medium / clear / mild / moderate atmospheres.
+"""M2: compare the same scene in vacuum and through clear / mild / moderate atmospheres.
 
 Inputs per case (from m2/run_m2.sh):
   m2/out/scene_<case>.exr        Cycles render (179 lm/W convention: cd/m^2 = 179 * Y)
   m2/out/lc_<case>.exr           M1.1 pcond stage (display-linear Rec.709, unchanged pipeline)
   m2/out/results/<case>.png      M1.1 display for stills (PBR Neutral on out-of-gamut pixels)
 Measured:
-  * lamp transmittance vs distance: ribbon peak / no-medium peak per column, fitted to
-    exp(-sigma d) and compared with the medium's input extinction (G channel);
+  * lamp transmittance vs distance: lamp ENERGY (sum over a window around the ribbon, minus
+    the local glow background) per 20-column bin, medium / vacuum, fitted to exp(-sigma d)
+    and compared with the input extinction. Single-pixel peaks are not photometry: a lamp
+    covers ~2 % of a pixel and the pixel filter shares it differently between renders;
   * lamp colour near (2-4 km) and far (10-14 km): CIE 1976 u'v' hue/chroma, scene and
     after pcond;
   * apparent ribbon width: vertical extent of the glow above display thresholds, arcmin;
@@ -19,7 +21,7 @@ import numpy as np
 import OpenImageIO as oiio
 
 D = "m2/out"
-CASES = ["none", "clear", "mild", "moderate"]
+CASES = ["vacuum", "clear", "mild", "moderate"]
 Yw = np.array([0.2126, 0.7152, 0.0722])
 HFOV, YAW = 60.0, 4.0                     # camera: 60 deg, yawed 4 deg towards +x (scene.py)
 ROAD = ((-1500.0, 1800.0), (7500.0, 13500.0))
@@ -62,9 +64,9 @@ def road_distance(W):
 scene = {c: load(f"{D}/scene_{c}.exr") * 179 for c in CASES}
 lc = {c: load(f"{D}/lc_{c}.exr") for c in CASES}
 disp = {c: srgb_decode(load(f"{D}/results/{c}.png")) for c in CASES}
-H, W = scene["none"].shape[:2]
+H, W = scene["vacuum"].shape[:2]
 arcmin = HFOV * 60 / W
-Lnone = scene["none"] @ Yw
+Lnone = scene["vacuum"] @ Yw
 dist = road_distance(W)
 band = slice(int(H * 0.40), int(H * 0.55))                   # rows around the horizon
 row = np.argmax(Lnone[band], axis=0) + band.start             # ribbon row per column
@@ -76,26 +78,46 @@ print(f"{W}x{H}, {arcmin:.2f} arcmin/px; lamp columns near (2-4 km) {near.sum()}
 # total input extinction at 550 nm (Koschmieder, m2/atmospheres.py)
 coeff = {"clear": 3.912 / 40e3, "mild": 3.912 / 15e3, "moderate": 3.912 / 7e3}
 
-print("\n== 1. lamp transmittance vs distance (ribbon peak / no-medium peak)")
-for c in CASES[1:]:
-    L = scene[c] @ Yw
-    cols = np.flatnonzero(has_lamp & ~np.isnan(dist))
-    ratio = L[row[cols], cols] / Lnone[row[cols], cols]
-    ok = ratio > 0
-    sig = -np.polyfit(dist[cols][ok], np.log(ratio[ok]), 1)[0]
-    tn = np.median(ratio[near[cols]]) if near.any() else np.nan
-    tf = np.median(ratio[far[cols]]) if far.any() else np.nan
-    print(f"  {c:9s} T near {tn:.3f}  T far {tf:.4f}   fitted sigma {sig:.2e} 1/m  vs input {coeff[c]:.2e} (550 nm)")
+BIN = 20
 
-print("\n== 2. lamp colour (u'v' hue deg / chroma): scene | after pcond (LC)")
+
+def lamp_energy(L, k0):
+    """Energy of the lamps in columns k0..k0+BIN (window +-3 rows around the ribbon row),
+    minus the glow background measured 6-10 rows above and below."""
+    r = int(np.median(row[k0:k0 + BIN][has_lamp[k0:k0 + BIN]]))      # lamp columns only
+    win = L[r - 3:r + 4, k0:k0 + BIN]
+    bg = np.median(np.r_[L[r - 10:r - 6, k0:k0 + BIN].ravel(), L[r + 6:r + 10, k0:k0 + BIN].ravel()])
+    return win.sum(axis=(0, 1)) - bg * win.shape[0] * win.shape[1]
+
+
+bins = [k for k in range(0, W - BIN + 1, BIN) if has_lamp[k:k + BIN].sum() >= 3
+        and not np.isnan(dist[k:k + BIN]).any()]
+bd = np.array([np.nanmean(dist[k:k + BIN]) for k in bins])
+E0 = {c: np.array([lamp_energy(scene[c] @ Yw, k) for k in bins]) for c in CASES}
+# reference = "vacuum": same M2 lamps, no medium, no baked extinction
+print(f"\n== 1. lamp transmittance vs distance: energy per {BIN}-column bin, medium / vacuum "
+      f"({len(bins)} bins, {bd.min() / 1000:.1f}-{bd.max() / 1000:.1f} km)")
+for c in CASES[1:]:
+    T = E0[c] / E0["vacuum"]
+    # fit only where the lamps are measurable above the Monte Carlo noise of the haze glow
+    # (expected T > 5 %); farther, background subtraction dominates and biases T low
+    ok = (T > 1e-3) & (np.exp(-coeff[c] * bd) > 0.05)
+    sig = -np.polyfit(bd[ok], np.log(T[ok]), 1)[0] if ok.sum() > 2 else np.nan
+    t3, t10 = (np.median(T[(bd >= lo) & (bd < hi)]) for lo, hi in ((2000, 4000), (9000, 14000)))
+    e3, e10 = math.exp(-coeff[c] * 3000), math.exp(-coeff[c] * 11500)
+    print(f"  {c:9s} T(2-4 km) {t3:.3f} (Beer-Lambert @3 km {e3:.3f})   T(9-14 km) {t10:.4f} "
+          f"(@11.5 km {e10:.4f})   fitted sigma {sig:.2e} vs input {coeff[c]:.2e} 1/m "
+          f"(fit over {ok.sum()} bins up to {bd[ok].max() / 1000:.1f} km)")
+
+print("\n== 2. lamp colour (u'v' hue deg / chroma), background-subtracted lamp energy: scene | after pcond (LC)")
 for c in CASES:
     out = []
-    for name, m in (("near", near), ("far", far)):
-        cols = np.flatnonzero(m)
-        if not len(cols):
+    for name, lo, hi in (("near", 2000, 4000), ("far", 9000, 14000)):
+        sel = [k for k, d in zip(bins, bd) if lo <= d < hi]
+        if not sel:
             out.append(f"{name}: -"); continue
-        s_rgb = np.array([scene[c][row[k] - 1:row[k] + 2, k].sum(0) for k in cols]).sum(0)
-        l_rgb = np.array([lc[c][row[k] - 1:row[k] + 2, k].sum(0) for k in cols]).sum(0)
+        s_rgb = sum(np.array([lamp_energy(scene[c][..., i], k) for i in range(3)]) for k in sel)
+        l_rgb = sum(np.array([lamp_energy(lc[c][..., i], k) for i in range(3)]) for k in sel)
         (hs, cs), (hl, cl) = uv(s_rgb), uv(l_rgb)
         out.append(f"{name}: {hs:5.1f}/{cs:.3f} | {hl:5.1f}/{cl:.3f}")
     print(f"  {c:9s} " + "    ".join(out))

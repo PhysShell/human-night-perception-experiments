@@ -1,6 +1,0 @@
-/home/user/human-night-perception-experiments/m2/check_shielded_lamp.py:24: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
-00:03.112  render           | Saved: '/tmp/nix-shell.qhefAr/tmpdf22ks5t/shielded_side.exr'
-00:03.205  render           | Saved: '/tmp/nix-shell.qhefAr/tmpdf22ks5t/shielded_above.exr'
-full sphere, side view:     I = 0.19677  (expected pi r^2 = 0.19635)
-shielded,    side view:     I = 0.19726  ratio to full 1.002
-shielded,    view from top: I = 0.00000  ratio to full 0.000

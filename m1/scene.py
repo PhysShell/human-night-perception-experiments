@@ -3,9 +3,10 @@ warm sub-pixel lamps. Built and rendered headless with Cycles CPU:
 
     blender -b --factory-startup --python m1/scene.py -- OUT.exr [samples] [atmosphere]
 
-atmosphere: none (M1: extinction baked into lamp intensities, V = 25 km) or one of
-m2/atmospheres.py (clear / mild / moderate): a homogeneous boundary-layer medium built from
-Cycles' Volume Coefficients node, with the baked extinction switched off.
+atmosphere: none (M1: extinction baked into lamp intensities, V = 25 km), vacuum (M2
+reference: M2 lamps, no medium, no baked extinction) or one of m2/atmospheres.py (clear /
+mild / moderate): a homogeneous boundary-layer medium built from Cycles' Volume
+Coefficients node, with the baked extinction switched off.
 
 Photometric authoring (see m1/README.md, section 1): we adopt Radiance's 179 lm/W
 equal-energy-white convention as the RGB radiometric -> photometric calibration. Every light
@@ -90,36 +91,28 @@ def diffuse(name, rgb):
     return m
 
 
-# Road luminaires are shielded: with a scattering medium (M2) the light they would throw
-# upward dominates the haze glow, so there only the lower hemisphere of each lamp sphere
-# emits (stock Geometry normal), at twice the radiance: seen from the side half the disc is
-# lit, so the luminous intensity towards a horizontal observer stays LAMP_CD. M1 (no medium)
-# keeps the full-sphere emitters, where upward light has no effect on the image.
-SHIELDED = ATMOSPHERE != "none"
+# M2 lamps (any atmosphere argument other than "none") are split into two parts carrying the
+# same energy, a standard rendering technique that changes no physics:
+#   * what the eye sees: the emissive sphere at M1 radiance, visible to CAMERA rays only;
+#   * what the lamp lights (ground, haze): a spot light at the same place, 180 deg cone
+#     pointing down (a shielded road luminaire: nothing above the horizontal), luminous
+#     intensity LAMP_CD -> power 4*pi*I/K (Cycles spot = point light masked by the cone,
+#     verified in m1/calibrate.py). Point/spot lights are sampled far better than mesh
+#     emitters from inside a volume, which is what keeps the haze glow from being noise.
+# M1 ("none") keeps the plain emissive spheres: without a medium the upward light is unseen.
+SPLIT_LAMPS = ATMOSPHERE != "none"
 
 
-def emission(name, rgb, radiance, shielded=False):
+def emission(name, rgb, radiance):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
     nt.nodes.clear()
     e = nt.nodes.new("ShaderNodeEmission")
     e.inputs["Color"].default_value = (*rgb, 1)
-    e.inputs["Strength"].default_value = radiance * (2.0 if shielded else 1.0)
+    e.inputs["Strength"].default_value = radiance
     o = nt.nodes.new("ShaderNodeOutputMaterial")
-    if shielded:
-        geo = nt.nodes.new("ShaderNodeNewGeometry")
-        sep = nt.nodes.new("ShaderNodeSeparateXYZ")
-        down = nt.nodes.new("ShaderNodeMath"); down.operation = "LESS_THAN"
-        down.inputs[1].default_value = 0.0                     # normal.z < 0: lower hemisphere
-        mix = nt.nodes.new("ShaderNodeMixShader")
-        nt.links.new(geo.outputs["Normal"], sep.inputs[0])
-        nt.links.new(sep.outputs["Z"], down.inputs[0])
-        nt.links.new(down.outputs[0], mix.inputs["Fac"])
-        nt.links.new(e.outputs[0], mix.inputs[2])              # Fac 1 -> emission, 0 -> black
-        nt.links.new(mix.outputs[0], o.inputs["Surface"])
-    else:
-        nt.links.new(e.outputs[0], o.inputs["Surface"])
+    nt.links.new(e.outputs[0], o.inputs["Surface"])
     return m
 
 
@@ -157,9 +150,23 @@ def lamp(loc, intensity_cd, rgb):
     radiance = intensity_cd / (math.pi * LAMP_RADIUS ** 2) / K
     key = (rgb, round(radiance, 4))
     if key not in lamp_mats:
-        lamp_mats[key] = emission("lamp", unit_lum(rgb), radiance, SHIELDED)
+        lamp_mats[key] = emission("lamp", unit_lum(rgb), radiance)
     bpy.ops.mesh.primitive_uv_sphere_add(radius=LAMP_RADIUS, location=loc, segments=12, ring_count=6)
-    bpy.context.active_object.data.materials.append(lamp_mats[key])
+    sphere = bpy.context.active_object
+    sphere.data.materials.append(lamp_mats[key])
+    if SPLIT_LAMPS:
+        for attr in ("visible_diffuse", "visible_glossy", "visible_transmission",
+                     "visible_volume_scatter", "visible_shadow"):
+            setattr(sphere, attr, False)
+        ld = bpy.data.lights.new("lamp", "SPOT")
+        ld.energy = 4 * math.pi * intensity_cd / K
+        ld.color = unit_lum(rgb)
+        ld.spot_size = math.pi
+        ld.spot_blend = 0.0
+        ld.shadow_soft_size = LAMP_RADIUS
+        lo = bpy.data.objects.new("lamp", ld)
+        lo.location = loc                                  # default orientation points down (-Z)
+        sc.collection.objects.link(lo)
 
 
 # distant road receding diagonally across the valley, ~2.2 km (left) .. ~14 km (right):
@@ -193,7 +200,7 @@ cam.rotation_euler = (math.radians(89.3), 0, math.radians(-4))
 sc.collection.objects.link(cam)
 sc.camera = cam
 
-if ATMOSPHERE != "none":
+if ATMOSPHERE not in ("none", "vacuum"):
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "m2"))
     import atmospheres
     atmospheres.add_boundary_layer(sc, atmospheres.CASES[ATMOSPHERE])

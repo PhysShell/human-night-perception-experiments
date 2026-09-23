@@ -113,6 +113,16 @@ lo = bpy.data.objects.new("P", ld); lo.location = (0, 0, 10); sc.collection.obje
 camera(sc, (0, 0, 9.0), (0, 0, 0), "ORTHO", ortho=0.2)
 render(sc, "c2_point_P1000_d10_rho05")
 
+# 2b) Spot light, cone 180 deg pointing down, P = 1000 W, same geometry as 2):
+#     if Cycles treats spots like points (cone = mask only), L = 0.126651 again.
+sc = reset()
+plane(sc, 1000, diffuse("g", (0.5, 0.5, 0.5)))
+ld = bpy.data.lights.new("S", "SPOT"); ld.energy = 1000.0; ld.shadow_soft_size = 0.0
+ld.spot_size = math.pi; ld.spot_blend = 0.0
+lo = bpy.data.objects.new("S", ld); lo.location = (0, 0, 10); sc.collection.objects.link(lo)
+camera(sc, (0, 0, 9.0), (0, 0, 0), "ORTHO", ortho=0.2)
+render(sc, "c2b_spot180_P1000_d10_rho05")
+
 # 3) World background colour 1, strength 1e-3, seen directly: expected L = 1e-3.
 #    Plus the same world lighting a rho=0.5 plane: expected L = rho*B = 5e-4.
 sc = reset()
