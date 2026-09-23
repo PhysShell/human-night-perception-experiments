@@ -1,0 +1,2 @@
+results/native/vss/ADAPTED_marketplace.vss.srgbfix.png vs research-cache/vss/visual-system-simulator/assets/marketplace.png: max |diff| = 1 codes, mean = 0.188 codes, pixels differing by >=1 code = 39.028 %
+results/native/vss/ADAPTED_shanghai-night.vss.srgbfix.png vs research-cache/vss/visual-system-simulator/assets/shanghai-night.png: max |diff| = 1 codes, mean = 0.165 codes, pixels differing by >=1 code = 38.474 %

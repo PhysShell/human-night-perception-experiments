@@ -1,0 +1,26 @@
+# Donor atlas (round 8): one line per donor, links to the evidence
+
+Rules for all tracks: [`../../tracks/RULES.md`](../../tracks/RULES.md) (native before common, no
+reimplementation, frozen baseline). Common stimuli: `stimuli/make_stimuli.py` + `stimuli/manifest.json`.
+Display targets: `stimuli/display_targets.json`. Baseline outputs: `results/baseline/`.
+Contact sheets: `results/reports/`.
+
+| track | verdict | NATIVE | COMMON | one-line finding |
+|---|---|---|---|---|
+| [temporal-glare-2009](../../tracks/temporal-glare-2009/README.md) | BEHAVIORAL ORACLE | PASS, qualitative (co-author GPU demo + `hippus.m` under Mesa and Octave; published PNG sequences BLOCKED, 403) | ADAPTED S0/S1 | pupil hippus makes the glare pulse: halo 3–5 % peak-to-peak, below ~0.6 Hz, centroid < 0.07 px. Not a translation. Particles and lashes are only in the paper |
+| [mpi2005](../../tracks/mpi2005/README.md) | HISTORICAL REFERENCE | BLOCKED (no code; paper 403, thesis used) | — | full pipeline reconstructed from Krawczyk's thesis; only its key formula survives in game engines (RBDOOM has it compiled out) |
+| [local-adaptation-2015](../../tracks/local-adaptation-2015/README.md) | BLOCKED (code); paper = architectural reference | BLOCKED (source on the MPI page, 403) | — | **glare → retinal image → local adaptation**; pooling levels off at ~0.5° (log-domain Gaussian mixture); pupil did not matter in their fit |
+| [hdrvdp3](../../tracks/hdrvdp3/README.md) | SCIENTIFIC ORACLE (metric) | PASS (shipped examples under Octave) | S0/S1, S7/S7v (explicit PHONE/DESKTOP) | luminance-based: an equal-luminance colour change of a point scores 10 JOD by construction |
+| [gazehdr-2015](../../tracks/gazehdr-2015/README.md) | BEHAVIORAL ORACLE | PASS (measurements of the authors' video) | not possible without a reimplementation | asymmetric adaptation (−0.35 vs +0.20 log10/s); dark desaturation −36 %; stochastic acuity flicker; **no glare** |
+| [pa-tonemapping-2023](../../tracks/pa-tonemapping-2023/README.md) | HISTORICAL REFERENCE | BLOCKED (no code) | — | Tariq et al. (Meta/USI): a per-frame global key from perceived contrast; lamps saturate to plain discs |
+| [iset](../../tracks/iset/README.md) | SCIENTIFIC ORACLE | PARTIAL PASS (Octave: human wavefront optics + rod/cone calibration validations; cMosaic, ISET3d BLOCKED by MATLAB/Docker) | S0 | human optics keep 98.8 % of a point in 3×3 px at 32 px/deg; warm-lamp EE90 1.2–2.2′, blue ~5′; no straylight, no temporal PSF |
+| [vissimframework](../../tracks/vissimframework/README.md) | CODE DONOR (PSF) | BLOCKED (Windows/VS/GL 4.3/MATLAB) | — | BSD-2 wavefront PSF code with pupil, focus, λ, field angle; HDR mode convolves before the clip, but the demo default clips first |
+| [vss](../../tracks/vss/README.md) | NOT RELEVANT (impairments) | PASS (lavapipe; its batch path double-encodes sRGB) | S7 (identity) | the normal eye is an identity; nyctalopia etc. are unitless impairment filters |
+| [openvissim](../../tracks/openvissim/README.md) | HISTORICAL REFERENCE | BLOCKED (Unity excluded) | — | gaze-contingent impairment framework; "glare" = LDR bright-pass bloom |
+| [speos-reference](../../tracks/speos-reference/README.md) | BEHAVIORAL ORACLE | BLOCKED (commercial, login) | — | Vos 1984 glare recommended; Monte-Carlo noise makes glare "sparkle"; Dynamic Adaptation 2019 |
+| [ocean-reference](../../tracks/ocean-reference/README.md) | SCIENTIFIC ORACLE (docs) | BLOCKED (commercial) | — | Spencer-based P/M/S PSF, age, dispersion, applied only above 10× the image mean; glare as a visible post-effect |
+| [hcipy](../../tracks/hcipy/README.md) | SCIENTIFIC ORACLE (atmosphere) | PASS (tests, tutorial, theory agreement) | analysis for our path only | at our path: image motion and seeing are sub-pixel; **scintillation σ_I² 0.1–1.7 (often saturated), 6–90 Hz** |
+| [vdp-metrics](../../tracks/vdp-metrics/README.md) | BEHAVIORAL ORACLE (metrics) | PASS (authors' numbers) | ADAPTED S6 | a 1-px-in-2-s moving point: 9.8–9.9 JOD vs static on PHONE/DESKTOP |
+| [mitsuba-spectral](../../tracks/mitsuba-spectral/README.md) | SCIENTIFIC ORACLE (radiometry) | PASS | n/a | units verified (×683 → cd/m²); S/P: LPS 0.23, HPS 0.56, LED 1.21; **LuxPy's CIE 191 mesopic has a bug** |
+| [datasets](../../tracks/datasets/README.md) | data | calibration PASS (Fairchild Golden Gate 2) | S8 candidate | MPI gallery and video BLOCKED (403); real night photos clip lamp cores |
+| [historical-roots](../../tracks/historical-roots/README.md) | HISTORICAL REFERENCE | — | — | see [model-genealogy.md](model-genealogy.md) |

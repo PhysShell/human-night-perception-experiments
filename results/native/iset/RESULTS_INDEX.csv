@@ -1,0 +1,20 @@
+file,label,what,status
+logs/t_wvfHuman.log,NATIVE,isetbio/tutorials/wavefront/t_wvfHuman.m (official human wavefront tutorial) under GNU Octave 11.3 + GUI shims,PASS (runs to end; no numeric reference)
+logs/s_humanOptics.log,NATIVE,isetbio/examples/human/s_humanOptics.m (human OTF: Marimont-Wandell vs Thibos wvf) under Octave,PASS (runs to end)
+logs/v_icam_oiWVF.log,NATIVE,isetvalidate v_icam_oiWVF (wvf->oi OTF identity asserts <1e-6),PASS
+logs/v_icam_wvfWaveDefocus.log,NATIVE,isetvalidate v_icam_wvfWaveDefocus (defocus vs wavelength asserts),PASS
+logs/v_ibio_calibrationRods.log,NATIVE,isetvalidate v_ibio_calibrationRods (rod absorptions 3 mm pupil 2060 cd/m2; assert within 5% of 7.5e5 R*/s),PASS (772461 R*/s)
+logs/v_ibio_calibrationPugh.log,NATIVE,isetvalidate v_ibio_calibrationPugh (cone isomerisation calibration),PASS
+logs/v_ibio_coneAdaptation.log,NATIVE,isetvalidate v_ibio_coneAdaptation (osBioPhys photocurrent adaptation),PASS
+logs/t_oiIntroduction.log,NATIVE,isetcam/tutorials/oi/t_oiIntroduction.m (official ISETCam OI tutorial),FAIL (oiPlot.m:200 MATLAB graphics dot syntax)
+logs/v_icam_opticsWVF.log,NATIVE,isetvalidate v_icam_opticsWVF,FAIL (oiPlot.m:200 graphics dot syntax)
+logs/t_humanLineSpreadOI.log,NATIVE,isetbio t_humanLineSpreadOI,FAIL (oiPlot.m:200)
+logs/s_humanLSF.log,NATIVE,isetbio s_humanLSF,FAIL (imageMultiview.m:118 figure-object indexing)
+logs/t_osFoveaPeriphery.log,NATIVE,isetbio outer-segment tutorial,BLOCKED (classdef matlab.mixin.Copyable not in Octave: cMosaic / photoPigment)
+logs/v_ibio_pigments.log,NATIVE,isetvalidate v_ibio_pigments,BLOCKED (matlab.mixin.Copyable)
+logs/v_icam_opticsFlare.log,NATIVE,isetvalidate v_icam_opticsFlare,BLOCKED (insertShape = MATLAB Computer Vision Toolbox)
+logs/v_ibio_photonNoise.log,NATIVE,isetvalidate v_ibio_photonNoise,FAIL (poissrnd: complex lambda; Octave ifft2 leaves ~1e-8 imaginary residue)
+ADAPTED_e8_point_source_metrics.csv,ADAPTED,E8 point source x 5 spectra x 4 pupils through unmodified wvf-human oiCompute; encircled energy (photopic & scotopic weighting),done
+ADAPTED_e8_encircled_energy.png,ADAPTED,E8 plot,done
+ADAPTED_e9_psf_vs_wavelength_pupil.png,ADAPTED,E9 the model's own PSF per wavelength/pupil (wvfGet psf),done
+logs/ADAPTED_e8_point_source.log,ADAPTED,E8 run log,PASS

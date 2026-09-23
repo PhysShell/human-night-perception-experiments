@@ -1,0 +1,63 @@
+{
+ "sunset": {
+  "gaze_to_sun_602.0s_darkening_slope_log10_per_s_grass": -0.32880455507856843,
+  "gaze_to_sun_614.0s_darkening_slope_log10_per_s_grass": -0.36862453775242426,
+  "gaze_off_sun_606.6s_brightening_slope_log10_per_s_grass": 0.1971517504228975,
+  "gaze_off_sun_618.0s_brightening_slope_log10_per_s_grass": 0.19671885296354658,
+  "grass_log10_before_sun_fixation_601.9s": -0.5441384057557718,
+  "grass_log10_end_of_sun_fixation_606.4s": -1.980426797904361,
+  "sun_disk_max_code_600.4-601.9_gaze_on_house": 255.0,
+  "sun_disk_max_code_606.7-607.9_just_after_sun_fixation": [
+   222.4,
+   237.9
+  ],
+  "sun_disk_max_code_608-613.8": [
+   247.2,
+   255.0
+  ],
+  "note": "sun_disk patch is masked within 14 px of the gaze marker, so during fixation it is NaN; the max is read before/after"
+ },
+ "lamp_passes_trel_6.0-8.3s_gaze_on_dark_half_afterimage_faded": {
+  "P1_global": {
+   "leftchk_Ylin": 0.00968585294117647,
+   "leftchk_sat": 0.38884411764705884,
+   "leftchk_edge_rel": 0.15145441176470587
+  },
+  "P2_afterimages": {
+   "leftchk_Ylin": 0.010024661764705883,
+   "leftchk_sat": 0.40741764705882355,
+   "leftchk_edge_rel": 0.15738455882352942
+  },
+  "P3_lowlight": {
+   "leftchk_Ylin": 0.009090102941176471,
+   "leftchk_sat": 0.24874264705882354,
+   "leftchk_edge_rel": 0.12881764705882354
+  }
+ },
+ "lamp_passes_trel_9.0-11.4s_gaze_on_bright_right_checker": {
+  "P1_global": {
+   "leftchk_Ylin": 0.008302535211267607,
+   "leftchk_sat": 0.386043661971831,
+   "leftchk_edge_rel": 0.1020680281690141
+  },
+  "P2_afterimages": {
+   "leftchk_Ylin": 0.008323169014084508,
+   "leftchk_sat": 0.38545633802816903,
+   "leftchk_edge_rel": 0.10681028169014085
+  },
+  "P3_lowlight": {
+   "leftchk_Ylin": 0.0076775492957746475,
+   "leftchk_sat": 0.24017042253521126,
+   "leftchk_edge_rel": 0.06646957746478872
+  }
+ },
+ "lamp_pass1": {
+  "gaze_lamp_to_dark_left_28.8-33.6s_brightening_slope_log10_per_s_bg": 0.07380713232366366,
+  "gaze_dark_to_bright_right_37.2-37.8s_darkening_slope_log10_per_s_bg": -0.12022524541380214,
+  "gaze_to_lamp_44.4-46.2s_darkening_slope_log10_per_s_bg": -0.1465236436264355,
+  "bg_log10_range": [
+   -2.7318902701915215,
+   -2.319845858265627
+  ]
+ }
+}

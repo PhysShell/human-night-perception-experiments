@@ -1,0 +1,4 @@
+== fvvdp README simple image (pytorch_examples/ex_simple_image.py)
+Noise - Quality: 9.538 JOD
+Blur - Quality: 8.693 JOD
+  axs[0][0].imshow( I_test_noise/(2**16 - 1) )

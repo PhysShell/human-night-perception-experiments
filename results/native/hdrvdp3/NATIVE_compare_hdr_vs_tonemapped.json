@@ -1,0 +1,2 @@
+{"label":"NATIVE","script":"examples/compare_hdr_vs_tonemapped.m (HDR-VDP 3.0.7, unmodified)","octave":"11.3.0","seconds":42.1,"stopped_at":"no graphics toolkits are available!","ppd":52.7224,
+ "civdm_grid":"NATIVE_compare_hdr_vs_tonemapped_civdm_grid.png (top: mai11, saturated, mantiuk06 tone maps; bottom: civdm visualisation)"}

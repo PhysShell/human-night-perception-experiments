@@ -1,0 +1,6 @@
+{"label":"COMMON","metric":"HDR-VDP 3.07 (hdrvdp_version.m; release 3.0.7) Octave 11.3.0","test":"/home/user/human-night-perception-experiments/stimuli/pack/S1/S1.exr","ref":"/home/user/human-night-perception-experiments/stimuli/pack/S0/S0.exr","target":"PHONE_TARGET","ppd":73,"peak_cd_m2":100,"contrast":100,"black_cd_m2":1,"E_ambient_lux":0,
+ "color_encoding":"rgb-bt.709","display_model":"none","mtf":"hdrvdp","age":null,"surround":"none","size":[1024,512],
+ "input_Y_ref_min_med_max":[0.0004,0.0004,74.6853],"input_Y_test_min_med_max":[0.0004,0.0004,74.6853],"pixels_clipped_ref":0,"pixels_clipped_test":0,
+ "results":{
+  "side-by-side":{"P_det":0.018094,"C_max":0.0420294,"Q":10.0000,"Q_JOD":10.0000,"P_map_max":0.023298,"pixels_P_gt_0.5":0,"pixels_P_gt_0.75":0,"seconds":4.7},
+  "flicker":{"P_det":0.001430,"C_max":0.00359368,"Q":10.0000,"Q_JOD":10.0000,"P_map_max":0.001934,"pixels_P_gt_0.5":0,"pixels_P_gt_0.75":0,"seconds":4.8}}}

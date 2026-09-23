@@ -1,0 +1,3 @@
+{"label":"NATIVE","script":"examples/example_octave.m (HDR-VDP 3.0.7, unmodified)","imread":"raw8","octave":"11.3.0","ppd":52.7224,"I_ref_max":0.003891,
+ "side_by_side":{"Q_JOD":8.8266,"P_det":0.7037,"C_max":2.3106},
+ "flicker":{"Q_JOD":7.6502,"P_det":0.9997,"C_max":219.4141},"seconds":28.1,"plot_error":"no graphics toolkits are available!"}

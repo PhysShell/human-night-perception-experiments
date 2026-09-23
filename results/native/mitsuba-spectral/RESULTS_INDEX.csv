@@ -1,0 +1,5 @@
+file,label,what,status
+NATIVE_cbox_{llvm_ad_rgb,scalar_spectral,llvm_ad_spectral}.{exr,png},NATIVE,official quickstart (mitsuba-tutorials/quickstart/mitsuba_quickstart.ipynb) cbox.xml 256 spp in 3 variants,PASS (spectral vs rgb channel means within 3.2%; scalar vs llvm spectral within 0.2%)
+NATIVE_cbox_stats.json,NATIVE,timings + channel means of the three renders,PASS
+ADAPTED_n4_emitter_units.json,ADAPTED,N4 area emitter (specfilm CIE xyz + V' bands; hdrfilm xyz) and point emitter over Lambertian plane for LPS/HPS/LED_warm/E/BLUE,PASS (units verified to <=1.5% except LPS noise)
+ADAPTED_n5_photometry.{csv,json},ADAPTED,N5 S/P ratio / CIE 1931 xy / CCT / mesopic (luxpy CIE191 FLAGGED; colour MOVE table),done; luxpy CIE 191 routine fails S/P=1 invariant

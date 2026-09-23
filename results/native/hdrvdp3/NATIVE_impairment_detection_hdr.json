@@ -1,0 +1,5 @@
+{"label":"NATIVE","script":"examples/impairment_detection_hdr.m (HDR-VDP 3.0.7, unmodified)","octave":"11.3.0","seconds":13.0,"stopped_at":"no graphics toolkits are available!","ppd":52.7224,
+ "res_blur_flicker":{"Q_JOD":7.3086,"Q":6.3920,"P_det":0.9995,"C_max":7737.1825},
+ "res_blur_sbs":{"Q_JOD":8.0593,"Q":7.2048,"P_det":0.9668,"C_max":38.7712},
+ "res_noise_flicker":{"Q_JOD":7.8277,"Q":6.9476,"P_det":0.9992,"C_max":227.1352},
+ "res_noise_sbs":{"Q_JOD":8.6088,"Q":7.8444,"P_det":0.7825,"C_max":3.9286}}

@@ -1,0 +1,293 @@
+[
+ {
+  "target": "PHONE_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 73.0,
+  "resample_scale": 2.28125,
+  "display_px": [
+   1920,
+   820
+  ],
+  "crop_offset_px": [
+   208,
+   174
+  ],
+  "source_px_on_display": [
+   959.5,
+   409.5
+  ],
+  "luminance_integral_ratio_after_resample": 0.9702345331260195,
+  "exposure": 1.3389522090126953,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 114.49072265625,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "ColorVideoVDP 0.5.7",
+  "metric_id": "\"ColorVideoVDP v0.5.7, 73 [pix/deg], Lpeak=100, Lblack=1, Lrefl=0 [cd/m^2], (custom-display: hnp_phone_target)\"",
+  "display_model": "hnp_phone_target",
+  "encoding": "float",
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.844193458557129,
+  "seconds": 95.4
+ },
+ {
+  "target": "PHONE_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 73.0,
+  "resample_scale": 2.28125,
+  "display_px": [
+   1920,
+   820
+  ],
+  "crop_offset_px": [
+   208,
+   174
+  ],
+  "source_px_on_display": [
+   959.5,
+   409.5
+  ],
+  "luminance_integral_ratio_after_resample": 0.9702345331260195,
+  "exposure": 1.3389522090126953,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 114.49072265625,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "ColorVideoVDP 0.5.7",
+  "metric_id": "\"ColorVideoVDP v0.5.7, 73 [pix/deg], Lpeak=100, Lblack=1, Lrefl=0 [cd/m^2], (custom-display: hnp_phone_target)\"",
+  "display_model": "hnp_phone_target",
+  "encoding": "8bit",
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.844826698303223,
+  "seconds": 94.1
+ },
+ {
+  "target": "PHONE_TARGET",
+  "exposure_mode": "allframes",
+  "declared_ppd": 73.0,
+  "resample_scale": 2.28125,
+  "display_px": [
+   1920,
+   820
+  ],
+  "crop_offset_px": [
+   208,
+   174
+  ],
+  "source_px_on_display": [
+   959.5,
+   409.5
+  ],
+  "luminance_integral_ratio_after_resample": 0.9702345331260195,
+  "exposure": 0.8734332151980791,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 114.49072265625,
+  "frames_clipped": 0,
+  "frames": 48,
+  "sky_relative_code_linear": 3.5070204467686234e-06,
+  "tool": "ColorVideoVDP 0.5.7",
+  "metric_id": "\"ColorVideoVDP v0.5.7, 73 [pix/deg], Lpeak=100, Lblack=1, Lrefl=0 [cd/m^2], (custom-display: hnp_phone_target)\"",
+  "display_model": "hnp_phone_target",
+  "encoding": "float",
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.864869117736816
+ },
+ {
+  "target": "PHONE_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 73.0,
+  "resample_scale": 2.28125,
+  "display_px": [
+   1920,
+   820
+  ],
+  "crop_offset_px": [
+   208,
+   174
+  ],
+  "source_px_on_display": [
+   959.5,
+   409.5
+  ],
+  "luminance_integral_ratio_after_resample": 0.9702345331260195,
+  "exposure": 1.3389522090126953,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 114.49072265625,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "ColorVideoVDP",
+  "display_model": "hnp_phone_target",
+  "encoding": "float",
+  "test": "CONTROL S6 frame 1 x8",
+  "reference": "S6 frame 1 x8",
+  "JOD": 10.0
+ },
+ {
+  "target": "DESKTOP_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 48.4,
+  "resample_scale": 1.5125,
+  "display_px": [
+   1548,
+   774
+  ],
+  "crop_offset_px": [
+   0,
+   0
+  ],
+  "source_px_on_display": [
+   773.9,
+   386.6
+  ],
+  "luminance_integral_ratio_after_resample": 0.9998508081523168,
+  "exposure": 2.6779044180253906,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 105.77214050292969,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "ColorVideoVDP 0.5.7",
+  "metric_id": "\"ColorVideoVDP v0.5.7, 48.4 [pix/deg], Lpeak=200, Lblack=0.2, Lrefl=0 [cd/m^2], (custom-display: hnp_desktop_target)\"",
+  "display_model": "hnp_desktop_target",
+  "encoding": "float",
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.834556579589844,
+  "seconds": 71.9
+ },
+ {
+  "target": "DESKTOP_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 48.4,
+  "resample_scale": 1.5125,
+  "display_px": [
+   1548,
+   774
+  ],
+  "crop_offset_px": [
+   0,
+   0
+  ],
+  "source_px_on_display": [
+   773.9,
+   386.6
+  ],
+  "luminance_integral_ratio_after_resample": 0.9998508081523168,
+  "exposure": 2.6779044180253906,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 105.77214050292969,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "ColorVideoVDP 0.5.7",
+  "metric_id": "\"ColorVideoVDP v0.5.7, 48.4 [pix/deg], Lpeak=200, Lblack=0.2, Lrefl=0 [cd/m^2], (custom-display: hnp_desktop_target)\"",
+  "display_model": "hnp_desktop_target",
+  "encoding": "8bit",
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.834875106811523,
+  "seconds": 69.1
+ },
+ {
+  "target": "DESKTOP_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 48.4,
+  "resample_scale": 1.5125,
+  "display_px": [
+   1548,
+   774
+  ],
+  "crop_offset_px": [
+   0,
+   0
+  ],
+  "source_px_on_display": [
+   773.9,
+   386.6
+  ],
+  "luminance_integral_ratio_after_resample": 0.9998508081523168,
+  "exposure": 2.6779044180253906,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 105.77214050292969,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "ColorVideoVDP 0.5.7",
+  "metric_id": "\"ColorVideoVDP v0.5.7, 44.86 [pix/deg], Lpeak=200, Lblack=0.2, Lrefl=0 [cd/m^2], (custom-display: hnp_desktop_target_physical_centre_ppd)\"",
+  "display_model": "hnp_desktop_target_physical_centre_ppd",
+  "encoding": "float",
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.837470054626465,
+  "seconds": 67.8
+ },
+ {
+  "target": "DESKTOP_TARGET",
+  "exposure_mode": "allframes",
+  "declared_ppd": 48.4,
+  "resample_scale": 1.5125,
+  "display_px": [
+   1548,
+   774
+  ],
+  "crop_offset_px": [
+   0,
+   0
+  ],
+  "source_px_on_display": [
+   773.9,
+   386.6
+  ],
+  "luminance_integral_ratio_after_resample": 0.9998508081523168,
+  "exposure": 1.8908570730348448,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 105.77214050292969,
+  "frames_clipped": 0,
+  "frames": 48,
+  "sky_relative_code_linear": 3.7960970006999436e-06,
+  "tool": "ColorVideoVDP 0.5.7",
+  "metric_id": "\"ColorVideoVDP v0.5.7, 48.4 [pix/deg], Lpeak=200, Lblack=0.2, Lrefl=0 [cd/m^2], (custom-display: hnp_desktop_target)\"",
+  "display_model": "hnp_desktop_target",
+  "encoding": "float",
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.84432601928711
+ },
+ {
+  "target": "DESKTOP_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 48.4,
+  "resample_scale": 1.5125,
+  "display_px": [
+   1548,
+   774
+  ],
+  "crop_offset_px": [
+   0,
+   0
+  ],
+  "source_px_on_display": [
+   773.9,
+   386.6
+  ],
+  "luminance_integral_ratio_after_resample": 0.9998508081523168,
+  "exposure": 2.6779044180253906,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 105.77214050292969,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "ColorVideoVDP",
+  "display_model": "hnp_desktop_target",
+  "encoding": "float",
+  "test": "CONTROL S6 frame 1 x8",
+  "reference": "S6 frame 1 x8",
+  "JOD": 10.0
+ }
+]

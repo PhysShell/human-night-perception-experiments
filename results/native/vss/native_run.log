@@ -1,0 +1,37 @@
+render: device setup 43.162 ms
+render /home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/marketplace.png: config 0.038 ms, context 0.032 ms, endpoints/decode 52.212 ms, graph 924.470 ms, finalize 8.301 ms, gpu/readback 559.516 ms
+render: batch total 1610.230 ms
+render: device setup 31.190 ms
+render /home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/shanghai-night.png: config 0.032 ms, context 0.025 ms, endpoints/decode 47.052 ms, graph 910.162 ms, finalize 7.200 ms, gpu/readback 217.413 ms
+render: batch total 1252.775 ms
+render: device setup 31.657 ms
+render /home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/shanghai-night.png: config 0.071 ms, context 0.066 ms, endpoints/decode 48.246 ms, graph 902.941 ms, finalize 8.103 ms, gpu/readback 1733.078 ms
+render: batch total 2783.629 ms
+render: device setup 41.509 ms
+render /home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/marketplace.png: config 0.066 ms, context 0.023 ms, endpoints/decode 45.727 ms, graph 918.146 ms, finalize 17.089 ms, gpu/readback 876.570 ms
+render: batch total 1941.643 ms
+render: device setup 33.001 ms
+render /home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/marketplace.png: config 0.069 ms, context 0.015 ms, endpoints/decode 43.556 ms, graph 911.987 ms, finalize 13.888 ms, gpu/readback 714.958 ms
+render: batch total 1741.199 ms
+render: device setup 33.336 ms
+render /home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/marketplace.rgbd.png: config 0.075 ms, context 0.179 ms, endpoints/decode 69.313 ms, graph 894.967 ms, finalize 143.572 ms, gpu/readback 1156.802 ms
+render: batch total 2332.078 ms
+render: device setup 31.540 ms
+render /home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/marketplace.rgbd.png: config 0.026 ms, context 0.023 ms, endpoints/decode 64.893 ms, graph 914.081 ms, finalize 13.257 ms, gpu/readback 222.621 ms
+render: batch total 1271.893 ms
+Computing diff of "/home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/marketplace.png" vs "/home/user/human-night-perception-experiments/results/native/vss/NATIVE_marketplace.vss.png"
+  Mean error = 0.210123
+  RMS error = 0.224848
+  Peak SNR = 12.9622
+  Max error  = 0.2862745225429535 @ (0, 0, R)  values are 0.21176472, 0.10588236, 0.078431375 vs 0.49803925, 0.36078432, 0.30980393
+  1980782 pixels (95.5%) over 1e-06
+  1980782 pixels (95.5%) over 1e-06
+FAILURE
+Computing diff of "/home/user/human-night-perception-experiments/research-cache/vss/visual-system-simulator/assets/shanghai-night.png" vs "/home/user/human-night-perception-experiments/results/native/vss/NATIVE_shanghai-night.vss.png"
+  Mean error = 0.222101
+  RMS error = 0.236645
+  Peak SNR = 12.518
+  Max error  = 0.2862745225429535 @ (693, 0, G)  values are 0.19607845, 0.20392159, 0.15294118 vs 0.4784314, 0.4901961, 0.427451
+  2303611 pixels (100%) over 1e-06
+  2303611 pixels (100%) over 1e-06
+FAILURE

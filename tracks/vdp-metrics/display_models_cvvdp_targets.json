@@ -1,0 +1,32 @@
+{
+  "hnp_phone_target": {
+    "name": "PHONE_TARGET from stimuli/display_targets.json: 1920x820 content, 0.14 m wide at 0.30 m, 73.0 px/deg (declared px_per_deg_centre), peak 100 cd/m^2, contrast 100:1, E_ambient 0 lux (pcond defaults, not a measured phone)",
+    "resolution": [1920, 820],
+    "pixels_per_degree": 73.0,
+    "max_luminance": 100,
+    "contrast": 100,
+    "E_ambient": 0,
+    "colorspace": "BT.709",
+    "source": "stimuli/display_targets.json PHONE_TARGET (all fields); colorspace BT.709 = sRGB EOTF, i.e. we feed display-encoded values in [0,1]"
+  },
+  "hnp_desktop_target": {
+    "name": "DESKTOP_TARGET from stimuli/display_targets.json: 27-inch 2560x1440 at 0.60 m, content 1:1, 48.4 px/deg (declared px_per_deg_centre), peak 200 cd/m^2, contrast 1000:1, E_ambient 0 lux",
+    "resolution": [2560, 1440],
+    "pixels_per_degree": 48.4,
+    "max_luminance": 200,
+    "contrast": 1000,
+    "E_ambient": 0,
+    "colorspace": "BT.709",
+    "source": "stimuli/display_targets.json DESKTOP_TARGET (all fields)"
+  },
+  "hnp_desktop_target_physical_centre_ppd": {
+    "name": "SENSITIVITY VARIANT of hnp_desktop_target: ppd recomputed from the file's own physical geometry at the display centre (0.5977 m / 2560 px at 0.60 m -> 44.86 px/deg); the file's 48.4 = 2560 px / 52.9 deg is the MEAN ppd over the width",
+    "resolution": [2560, 1440],
+    "pixels_per_degree": 44.86,
+    "max_luminance": 200,
+    "contrast": 1000,
+    "E_ambient": 0,
+    "colorspace": "BT.709",
+    "source": "derived from stimuli/display_targets.json DESKTOP_TARGET display_width_m and viewing_distance_m"
+  }
+}

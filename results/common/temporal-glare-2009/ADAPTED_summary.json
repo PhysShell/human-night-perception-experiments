@@ -1,0 +1,111 @@
+{
+ "mapping": {
+  "label": "ADAPTED",
+  "psf_source": "glare_demo float PSF (fbo 1 RGB32F, before the demo's tone pass), PSF view, frames listed in psf_frames",
+  "psf_angular_scale": "532.0 px/deg, DERIVED from glare.cpp constants (N=10 mm/512 px, d=20.32 mm, lambda1=N/d -> 1 um per FFT px, glare_scale 1.5); paper states none",
+  "psf_centre": "(256,256) = FFT DC after the demo's size/2 shift",
+  "resampling_to_stimulus": "flux-conserving area rebin from PSF px to 32 px/deg (stimulus pack)",
+  "normalisation": "each PSF frame and colour channel normalised to unit sum (energy-conserving billboard; source colour preserved; the demo's own per-frame energy change is NOT applied, it is reported separately in results/native)",
+  "demo_rgb": "demo RGB is Stockman-Sharpe-based spectrum2rgb.h, used only as relative per-channel spatial distribution",
+  "billboard": "source-only component (stimulus minus median sky) convolved with the kernel, sky kept; equivalent to a per-light billboard for an isolated point",
+  "display": "PHONE_TARGET from stimuli/display_targets.json: 73.0 px/deg, peak 100 cd/m^2; value = clip(Y_scene/peak,0,1) per channel (absolute, NO pcond, no tone curve, black floor ignored), sRGB OETF; 32->73 px/deg by bilinear (luminance-preserving) resampling",
+  "time_base": "simulated time = demo frame index x 20 ms (glare.cpp sim_timer)"
+ },
+ "psf_frames": [
+  40,
+  54,
+  67,
+  80,
+  94,
+  107,
+  121,
+  134,
+  147,
+  161,
+  174,
+  188,
+  201,
+  214,
+  228,
+  241,
+  255,
+  268,
+  281,
+  295,
+  308,
+  322,
+  335,
+  349,
+  362,
+  375,
+  389,
+  402,
+  416,
+  429,
+  442,
+  456,
+  469
+ ],
+ "kernel_px_at_32ppd": 35,
+ "kernel_energy_in_centre_px_mean": 0.11729359722699738,
+ "kernel_energy_in_centre_px_range": [
+  0.11711285191546257,
+  0.1175860461980946
+ ],
+ "stimuli": {
+  "S0": {
+   "source_px": [
+    512,
+    256
+   ],
+   "sky_rgb": [
+    0.0003792145580518991,
+    0.00040152130532078445,
+    0.0004461347998585552
+   ],
+   "Y_peak_without_glare_cd_m2": 74.68526302642822,
+   "Y_peak_with_billboard_range": [
+    11.76880425481695,
+    11.807973608554144
+   ],
+   "Y_peak_rel_p2p": 0.003323316758331941,
+   "ring_rel_p2p": 0.039697543054525504,
+   "ring_mean_cd_m2": 0.28470050687472653,
+   "E_total_frac_range": [
+    0.9999999999999989,
+    1.0000000000000013
+   ],
+   "phone_clipped_px_range": [
+    0,
+    0
+   ]
+  },
+  "S1": {
+   "source_px": [
+    512,
+    256
+   ],
+   "sky_rgb": [
+    0.0003792145580518991,
+    0.00040152130532078445,
+    0.0004461347998585552
+   ],
+   "Y_peak_without_glare_cd_m2": 74.6852656431198,
+   "Y_peak_with_billboard_range": [
+    11.967639597918835,
+    12.007169693382894
+   ],
+   "Y_peak_rel_p2p": 0.00329865591113682,
+   "ring_rel_p2p": 0.049818996453844175,
+   "ring_mean_cd_m2": 0.28111326737725983,
+   "E_total_frac_range": [
+    0.999999999999999,
+    1.0000000000000013
+   ],
+   "phone_clipped_px_range": [
+    0,
+    0
+   ]
+  }
+ }
+}

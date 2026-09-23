@@ -1,0 +1,120 @@
+%% Genealogy of night-vision / glare models used in image synthesis.
+%% Edge labels say WHAT is inherited. Evidence (file:line or paper section) is in README.md and sources.md.
+%% Node shapes: [paper] ([data/standard]) {{implementation}} [[our baseline]]
+flowchart LR
+  %% ---------- measured data / standards ----------
+  Holladay26(["Holladay 1926 / Stiles 1929<br/>veiling luminance ~ E/θ²"])
+  MS44(["Moon & Spencer 1944<br/>pupil D(L)=4.9-3tanh(0.4(logL+1))"])
+  MS45(["Moon & Spencer 1945<br/>adaptation integral, K=0.0096"])
+  Shaler37(["Shaler 1937<br/>acuity vs luminance"])
+  TVI(["rod/cone t.v.i. data<br/>(Blackwell/CIE 1981 et al.)"])
+  Hecht(["Hecht 1934, Adelson 1982, Baker 1949<br/>adaptation time course"])
+  Vos84(["Vos 1984 CIE J. 3(2)<br/>disability glare state of the art"])
+  Simpson(["Simpson 1953, Hemenger 1992<br/>lenticular halo / ciliary corona"])
+  Westh(["Westheimer 1986<br/>optical PSF"])
+  Hunt95(["Hunt 1995<br/>rod & cone response model"])
+  Vprime(["CIE 1951 scotopic V'(λ)"])
+  Deeley91(["Deeley et al. 1991 OTF(ρ,d)"])
+  Normann83(["Normann & Baxter 1983 OTF"])
+  Ijs93(["Ijspeert et al. 1993<br/>MTF form Σ a·e^(-bρ)"])
+  CIE135(["Vos & van den Berg 1999<br/>CIE 135/1 GSF (age, pigment)"])
+  CIE146(["CIE 146:2002<br/>disability glare equations"])
+  CIE191(["CIE 191:2010 MES2<br/>mesopic photometry"])
+  Cao08(["Cao, Pokorny, Smith, Zele 2008<br/>rod intrusion in cone pathways"])
+  Kul76(["Kulikowski 1976<br/>contrast matching"])
+  Fry(["Fry pupil data<br/>(hippus)"])
+  Shin04(["Shin, Matsuki, Yaguchi, Shioiri 2004<br/>mesopic colour appearance model"])
+  WS82(["Wyszecki & Stiles (Color Science)<br/>V, V', acuity & Weber data"])
+
+  %% ---------- papers ----------
+  Spencer95["Spencer, Shirley, Zimmerman,<br/>Greenberg 1995 SIGGRAPH<br/>glare PSF f0..f3"]
+  Ferwerda96["Ferwerda, Pattanaik, Shirley,<br/>Greenberg 1996 SIGGRAPH<br/>TVI, mesopic, acuity, time"]
+  Ward97["Ward Larson, Rushmeier, Piatko<br/>1997 IEEE TVCG<br/>histogram + veil + acuity + colour"]
+  Patt98["Pattanaik, Ferwerda, Fairchild,<br/>Greenberg 1998 SIGGRAPH<br/>multiscale"]
+  Patt00["Pattanaik, Tumblin, Yee,<br/>Greenberg 2000 SIGGRAPH<br/>time-dependent"]
+  DD00["Durand & Dorsey 2000"]
+  Thom02["Thompson, Shirley, Ferwerda<br/>2002 JGT<br/>night blur + noise"]
+  Kraw05["Krawczyk, Myszkowski, Seidel<br/>2005 SCCG"]
+  Zhou09["Zhou, Dong, Wang, Paul<br/>2009 Tsinghua Sci. Tech."]
+  Rit09["Ritschel et al. 2009 EG<br/>Temporal Glare"]
+  Kirk11["Kirk & O'Brien 2011 TOG"]
+  VDP2["Mantiuk et al. 2011 HDR-VDP-2"]
+  Wanat14["Wanat & Mantiuk 2014 TOG"]
+  Vang15["Vangorp et al. 2015<br/>local adaptation"]
+  Jac15["Jacobs et al. 2015 TOG<br/>bright & dark scenes (gaze)<br/>node only, not read here"]
+
+  %% ---------- implementations ----------
+  pcond{{"Radiance pcond<br/>-s -c -a -v (Radiance lic.)"}}
+  Fog{{"Blender Glare 'Fog Glow'<br/>fog_glow_kernel.cc (GPL-2+)"}}
+  Mts{{"Mitsuba 0.6 mtsutil tonemap -B<br/>(GPL-3)"}}
+  Ocean{{"Eclat Ocean Human Vision<br/>glare filter (commercial)"}}
+  Celes{{"Celestia PSF star renderer<br/>(GPL-2+, 2026)"}}
+  Brun{{"Bruneton 2020 black-hole<br/>bloom (BSD-3)"}}
+  VDP1{{"HDR-VDP 1.x otf.cpp (GPL-2)"}}
+  VDP3{{"HDR-VDP-3 hdrvdp_mtf 'cie'"}}
+  pfsP00{{"pfstmo_pattanaik00<br/>(3rd party, LGPL)"}}
+  LHDR{{"Luminance HDR ferwerda96<br/>(GPL-2, TVI typo)"}}
+  HDRTB{{"HDR Toolbox FerwerdaTMO,<br/>WardHistAdjTMO (GPL-3)"}}
+  luxpy{{"LuxPy vlbar_cie_mesopic<br/>(GPL-3)"}}
+  TGdemo{{"Frisvad/DTU glare demo +<br/>hippus WebGL (temporal-glare-2009 track)"}}
+  GIMPk{{"GIMP plugin (Y.J. Lee, GPL)"}}
+  M1[["baseline M1: pcond -s -c<br/>+ fog_glow.py (OFF)"]]
+
+  Holladay26 --> MS45
+  MS45 -->|"veil 0.913Lf + K∫L/θ²"| Ward97
+  Vos84 -->|"f0,f1,f2 + weights"| Spencer95
+  Simpson -->|"f3 halo, flare lines"| Spencer95
+  MS44 -->|"pupil gates halo"| Spencer95
+  MS44 -->|"mean pupil"| Rit09
+  MS44 -->|"pupil for OTF"| Kraw05
+  MS44 --> VDP1
+  TVI --> Ferwerda96
+  Shaler37 --> Ferwerda96
+  Hecht --> Ferwerda96
+  Vprime --> Ferwerda96
+  Ferwerda96 -->|"rod+cone TVI"| Ward97
+  Ferwerda96 -->|"mesopic ramp idea"| Ward97
+  Shaler37 -->|"fit R(La)"| Ward97
+  Ward97 -->|"implemented as"| pcond
+  pcond --> M1
+  Westh -->|"optical PSF"| Patt98
+  Spencer95 -->|"glare convolution"| Patt98
+  Hunt95 --> Patt98
+  Hunt95 -->|"static response + bleaching"| Patt00
+  Patt00 --> pfsP00
+  Ferwerda96 --> LHDR
+  Ferwerda96 --> HDRTB
+  Ward97 --> HDRTB
+  Ward97 -->|"Yscot formula"| Thom02
+  Ferwerda96 -->|"blur rejected as too blurry"| Thom02
+  DD00 -->|"exp. adaptation"| Kraw05
+  Ward97 -->|"Shaler fit"| Kraw05
+  Deeley91 -->|"glare OTF (not Spencer)"| Kraw05
+  Hunt95 -->|"rod sensitivity"| Kraw05
+  Spencer95 -->|"f0,f1,f2 photopic Eq.5"| Fog
+  Spencer95 -->|"Eq.5"| Mts
+  Spencer95 -->|"'fully based'"| Ocean
+  Spencer95 -->|"approx. r^-2.5"| Celes
+  Spencer95 -->|"f1 only"| Brun
+  Fog --> M1
+  Normann83 --> VDP1
+  Ijs93 -->|"MTF form"| VDP2
+  CIE135 -->|"fit target"| VDP2
+  CIE135 -->|"'cie' option"| VDP3
+  VDP2 --> VDP3
+  CIE135 --> CIE146
+  Vos84 --> CIE135
+  CIE135 -->|"glare model"| Vang15
+  VDP2 -->|"CSF"| Vang15
+  CIE135 -->|"comparison"| Rit09
+  Fry -->|"hippus"| Rit09
+  Rit09 --> TGdemo
+  Cao08 --> Kirk11
+  Cao08 --> Wanat14
+  Kul76 --> Wanat14
+  Kirk11 --> GIMPk
+  Vprime --> VDP2
+  CIE191 --> luxpy
+  Shin04 -->|"cone/rod weights a,b"| Zhou09
+  WS82 -->|"Fig.1 curves [12]"| Zhou09
+  Thom02 -.->|"cited"| Zhou09

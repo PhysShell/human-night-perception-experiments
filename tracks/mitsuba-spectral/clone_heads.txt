@@ -1,0 +1,6 @@
+iset/iset3d https://github.com/ISET/iset3d.git 177300f1684f81158c2b7729e600b1e8ea3ec9d7 Sat Aug 22 12:01:51 2026 -0700
+iset/isetbio https://github.com/isetbio/isetbio.git af1cf1507304d077d2c623d089db9991f45449a7 Wed Sep 23 11:07:49 2026 -0400
+iset/isetcam https://github.com/ISET/isetcam.git b66ecb6f8f6470f9d1a86cfd23dc03745a7519b2 Wed Sep 16 16:12:36 2026 -0700
+iset/isetvalidate https://github.com/ISET/isetvalidate.git 14a1eef4f23d5606faa0c4f57f95afe6cc2ea45b Wed Jul 22 09:40:41 2026 -0400
+mitsuba-spectral/mitsuba3 https://github.com/mitsuba-renderer/mitsuba3.git de4fde8e32872c0c6e5b4cd271b39b53a3295b99 Wed Sep 23 14:55:16 2026 +0200
+mitsuba-spectral/mitsuba-tutorials https://github.com/mitsuba-renderer/mitsuba-tutorials.git 22db0a75f8b04c2bcf696ca0eb80ff24769a09e1 Wed Sep 16 11:55:00 2026 +0200

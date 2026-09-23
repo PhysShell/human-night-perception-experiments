@@ -1,0 +1,165 @@
+{
+ "label": "NATIVE",
+ "px_per_deg_native_derived": 531.9763560078717,
+ "px_per_deg_note": "derived from glare.cpp constants (N=10 mm/512 px, d=20.32 mm, lambda1=N/d, glare_scale=1.5); the paper states no PSF angular scale",
+ "hippus_trace": {
+  "n_steps": 631,
+  "sim_duration_s": 12.6,
+  "initial_mean_pupil_mm_eq2": 6.629918,
+  "mean_mm": 6.65649924088748,
+  "std_mm": 0.10900990876059244,
+  "min_mm": 6.371008,
+  "max_mm": 6.870814,
+  "halves_mean_mm": [
+   6.6795144920634915,
+   6.63355682278481
+  ],
+  "halves_std_mm": [
+   0.06116450808664842,
+   0.137641117694657
+  ],
+  "autocorr_1_over_e_lag_s": 0.74,
+  "spectrum_peak_hz": 0.23771790808240886,
+  "spectrum_median_hz": 0.31695721077654515,
+  "spectrum_90pct_hz": 0.6339144215530903,
+  "relative_pupil_area_pp": 0.14936795580256476
+ },
+ "hippus_matlab_octave": [
+  {
+   "curve": 1,
+   "mean_mm": 4.053778741935484,
+   "std_mm": 0.2045950968416474,
+   "peak_to_peak_mm": 1.06906,
+   "spectrum_median_hz": 0.29899338892395594
+  },
+  {
+   "curve": 2,
+   "mean_mm": 4.532090129032258,
+   "std_mm": 0.18967762361263965,
+   "peak_to_peak_mm": 0.9764400000000002,
+   "spectrum_median_hz": 0.29899338892395594
+  },
+  {
+   "curve": 3,
+   "mean_mm": 6.054826677419355,
+   "std_mm": 0.1665310604417797,
+   "peak_to_peak_mm": 0.7393799999999997,
+   "spectrum_median_hz": 0.13288595063286932
+  },
+  {
+   "curve": 4,
+   "mean_mm": 7.2100283870967745,
+   "std_mm": 0.11518112262157494,
+   "peak_to_peak_mm": 0.4850599999999998,
+   "spectrum_median_hz": 0.13288595063286932
+  },
+  {
+   "curve": 5,
+   "mean_mm": 8.483326225806453,
+   "std_mm": 0.03654690730855312,
+   "peak_to_peak_mm": 0.18445999999999962,
+   "spectrum_median_hz": 0.26577190126573863
+  }
+ ],
+ "psf_frames_used": [
+  40,
+  54,
+  67,
+  80,
+  94,
+  107,
+  121,
+  134,
+  147,
+  161,
+  174,
+  188,
+  201,
+  214,
+  228,
+  241,
+  255,
+  268,
+  281,
+  295,
+  308,
+  322,
+  335,
+  349,
+  362,
+  375,
+  389,
+  402,
+  416,
+  429,
+  442,
+  456,
+  469
+ ],
+ "psf_summary": {
+  "n_frames": 33,
+  "energy_rel_std": 0.008722428589951611,
+  "energy_rel_peak_to_peak": 0.038223825046073856,
+  "corr_energy_vs_pupil_area": 0.9954022405260362,
+  "fit_log_energy_vs_log_D_slope": 1.1279314479002518,
+  "peak_rel_peak_to_peak": 0.025941465998976475,
+  "fit_log_peak_vs_log_D_slope": -0.7790746875625595,
+  "centroid_motion_px_max": 0.0623936092415942,
+  "ring_radius_px_range": [
+   175,
+   184
+  ],
+  "ring_prominence_range": [
+   1.1666258343426346,
+   1.2091395589208962
+  ],
+  "corr_ring_prominence_vs_pupil": 0.9929437832799163,
+  "core_hwhm_px_range": [
+   3,
+   3
+  ],
+  "note": "energy = sum of the demo's RGB PSF before its tone pass (fbo 1, RGB32F). In PSF view the demo divides by max_intensity=1; in glare view it additionally divides by pupil area (glare.cpp display()). The demo's PSF is the Fourier AMPLITUDE |F| (FFT.cpp display1_frag: gl_FragColor.r = length(ffts.rg)), not |F|^2 as in paper Eq. 3."
+ },
+ "capture_psf": {
+  "n_grabs": 1275,
+  "n_distinct_consecutive": 1255,
+  "resolution": [
+   512,
+   512
+  ],
+  "format": "uint8",
+  "wall_duration_s": 539.9398636817932,
+  "demo_fps_median": 10.66,
+  "sim_time_estimate_s": 110.9864,
+  "display_energy_rel_std": 0.03327563157787859,
+  "display_energy_rel_p2p": 0.1658477099401339,
+  "centroid_motion_px_std": [
+   0.025045762651937854,
+   0.03318728344410985
+  ],
+  "clipped_pixel_fraction_mean": 0.0032642140107996325,
+  "corner_veil_rel_std": 0.0692465444368332,
+  "centre_rel_std": 0.005664704194233294
+ },
+ "capture_glare": {
+  "n_grabs": 568,
+  "n_distinct_consecutive": 568,
+  "resolution": [
+   512,
+   512
+  ],
+  "format": "uint8",
+  "wall_duration_s": 239.75962352752686,
+  "demo_fps_median": 4.371,
+  "sim_time_estimate_s": 19.04118,
+  "display_energy_rel_std": 0.03206622600939931,
+  "display_energy_rel_p2p": 0.15586790350171661,
+  "centroid_motion_px_std": [
+   0.031277607188451566,
+   0.08625081412281511
+  ],
+  "clipped_pixel_fraction_mean": 0.01700564505348743,
+  "corner_veil_rel_std": 0.08253671723818165,
+  "centre_rel_std": 0.002115001639117106
+ }
+}

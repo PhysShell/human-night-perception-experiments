@@ -1,0 +1,5 @@
+== cvvdp examples/ex_hdr_images.py
+  I_ref = I_ref/I_ref.max() * L_peak * 4
+  I_test_noise = (I_ref + I_ref*np.random.randn(*I_ref.shape)*0.3).astype(I_ref.dtype)
+Noise - Quality: 9.454 JOD
+Blur - Quality: 8.696 JOD

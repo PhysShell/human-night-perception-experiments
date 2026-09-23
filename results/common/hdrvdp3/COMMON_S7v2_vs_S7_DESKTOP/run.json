@@ -1,0 +1,6 @@
+{"label":"COMMON","metric":"HDR-VDP 3.07 (hdrvdp_version.m; release 3.0.7) Octave 11.3.0","test":"/home/user/human-night-perception-experiments/stimuli/pack/S7v/S7v_0002.exr","ref":"/home/user/human-night-perception-experiments/stimuli/pack/S7/S7.exr","target":"DESKTOP_TARGET","ppd":48.4,"peak_cd_m2":200,"contrast":1000,"black_cd_m2":0.2,"E_ambient_lux":0,
+ "color_encoding":"rgb-bt.709","display_model":"clip","mtf":"hdrvdp","age":null,"surround":"none","size":[1920,820],
+ "input_Y_ref_min_med_max":[2.13475e-05,7.04855e-05,301.883],"input_Y_test_min_med_max":[2.13474e-05,7.04877e-05,301.769],"pixels_clipped_ref":15,"pixels_clipped_test":15,
+ "results":{
+  "side-by-side":{"P_det":-0.000014,"C_max":9.10203e-07,"Q":10.0000,"Q_JOD":10.0000,"P_map_max":-0.000026,"pixels_P_gt_0.5":0,"pixels_P_gt_0.75":0,"seconds":22.8},
+  "flicker":{"P_det":-0.000014,"C_max":2.87922e-10,"Q":10.0000,"Q_JOD":10.0000,"P_map_max":-0.000026,"pixels_P_gt_0.5":0,"pixels_P_gt_0.75":0,"seconds":23.3}}}

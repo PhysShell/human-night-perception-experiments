@@ -1,0 +1,158 @@
+[
+ {
+  "target": "PHONE_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 73.0,
+  "resample_scale": 2.28125,
+  "display_px": [
+   1920,
+   820
+  ],
+  "crop_offset_px": [
+   208,
+   174
+  ],
+  "source_px_on_display": [
+   959.5,
+   409.5
+  ],
+  "luminance_integral_ratio_after_resample": 0.9702345331260195,
+  "exposure": 1.3389522090126953,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 114.49072265625,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "FovVideoVDP 1.2.2 (foveated=True)",
+  "metric_id": "\"FovVideoVDP v1.2.2, 71.81 [pix/deg], Lpeak=100, Lblack=1 [cd/m^2], foveated\"",
+  "display_model": "hnp_phone_target",
+  "fvvdp_ppd_centre_physical": 71.80760414979945,
+  "encoding": "float",
+  "fixation": "fixation on source",
+  "fixation_px": [
+   959.5,
+   409.5
+  ],
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.807198524475098,
+  "seconds": 60.0
+ },
+ {
+  "target": "PHONE_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 73.0,
+  "resample_scale": 2.28125,
+  "display_px": [
+   1920,
+   820
+  ],
+  "crop_offset_px": [
+   208,
+   174
+  ],
+  "source_px_on_display": [
+   959.5,
+   409.5
+  ],
+  "luminance_integral_ratio_after_resample": 0.9702345331260195,
+  "exposure": 1.3389522090126953,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 114.49072265625,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "FovVideoVDP 1.2.2 (foveated=True)",
+  "metric_id": "\"FovVideoVDP v1.2.2, 71.81 [pix/deg], Lpeak=100, Lblack=1 [cd/m^2], foveated\"",
+  "display_model": "hnp_phone_target",
+  "fvvdp_ppd_centre_physical": 71.80760414979945,
+  "encoding": "float",
+  "fixation": "fixation 10 deg right of source",
+  "fixation_px": [
+   1685.0,
+   409.5
+  ],
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.88177490234375,
+  "seconds": 59.1
+ },
+ {
+  "target": "DESKTOP_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 48.4,
+  "resample_scale": 1.5125,
+  "display_px": [
+   1548,
+   774
+  ],
+  "crop_offset_px": [
+   0,
+   0
+  ],
+  "source_px_on_display": [
+   773.9,
+   386.6
+  ],
+  "luminance_integral_ratio_after_resample": 0.9998508081523168,
+  "exposure": 2.6779044180253906,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 105.77214050292969,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "FovVideoVDP 1.2.2 (foveated=True)",
+  "metric_id": "\"FovVideoVDP v1.2.2, 44.85 [pix/deg], Lpeak=200, Lblack=0.2 [cd/m^2], foveated\"",
+  "display_model": "hnp_desktop_content",
+  "fvvdp_ppd_centre_physical": 44.85233748293843,
+  "encoding": "float",
+  "fixation": "fixation on source",
+  "fixation_px": [
+   773.9,
+   386.6
+  ],
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.86573314666748,
+  "seconds": 41.3
+ },
+ {
+  "target": "DESKTOP_TARGET",
+  "exposure_mode": "frame1",
+  "declared_ppd": 48.4,
+  "resample_scale": 1.5125,
+  "display_px": [
+   1548,
+   774
+  ],
+  "crop_offset_px": [
+   0,
+   0
+  ],
+  "source_px_on_display": [
+   773.9,
+   386.6
+  ],
+  "luminance_integral_ratio_after_resample": 0.9998508081523168,
+  "exposure": 2.6779044180253906,
+  "point_peak_cd_m2_frame1_before_exposure": 74.68526458740234,
+  "point_peak_cd_m2_all_frames_max_before_exposure": 105.77214050292969,
+  "frames_clipped": 46,
+  "frames": 48,
+  "sky_relative_code_linear": 5.376178387249252e-06,
+  "tool": "FovVideoVDP 1.2.2 (foveated=True)",
+  "metric_id": "\"FovVideoVDP v1.2.2, 44.85 [pix/deg], Lpeak=200, Lblack=0.2 [cd/m^2], foveated\"",
+  "display_model": "hnp_desktop_content",
+  "fvvdp_ppd_centre_physical": 44.85233748293843,
+  "encoding": "float",
+  "fixation": "fixation 10 deg right of source",
+  "fixation_px": [
+   1227.0,
+   386.6
+  ],
+  "test": "S6 moving (48 f)",
+  "reference": "S6 frame 1 x48",
+  "JOD": 9.902342796325684,
+  "seconds": 40.9
+ }
+]

@@ -1,0 +1,4 @@
+mitsuba-spectral: no COMMON output by design. Mitsuba 3 is a spectral renderer (research oracle),
+not an image-to-image vision model; the stimuli pack (linear Rec.709 EXR, cd/m^2) is an already
+rendered RGB image, and re-rendering the Blender scene was out of scope (task N-rules: no scene port).
+The photometric results for the test spectra are in results/native/mitsuba-spectral/ADAPTED_n*.

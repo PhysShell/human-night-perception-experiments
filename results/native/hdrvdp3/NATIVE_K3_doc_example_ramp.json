@@ -1,0 +1,3 @@
+{"label":"NATIVE","example":"hdrvdp3.m header example (luminance ramp 0.1-1000 cd/m^2 + 5% noise, side-by-side, surround 13)","ppd":27.283,"P_det":0.9982,"Q_JOD":7.2779,
+ "mean_P_map_by_luminance_decade":{"0.1-1 cd/m2":0.0378,"1-10 cd/m2":0.4778,"10-100 cd/m2":0.9646,"100-1000 cd/m2":0.9710},
+ "claim":"noise more visible in the brighter part (bottom)","top_quarter_P":0.0378,"bottom_quarter_P":0.9679,"claim_reproduced":true}

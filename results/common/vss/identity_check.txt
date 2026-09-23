@@ -1,0 +1,1 @@
+results/common/vss/ADAPTED_S7_BASELINE.vss.srgbfix.png vs results/baseline/S7/S7_BASELINE.png: max |diff| = 1 codes, mean = 0.002 codes, pixels differing by >=1 code = 0.351 %

@@ -1,0 +1,8 @@
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=38417 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+
+RESULT FAIL v_ibio_photonNoise.m: poissrnd: LAMBDA must not be complex.
+  at poissrnd:56 (/nix/store/xz0i17v6n49ad0k9i082g6kqd8kbabw0-octave-11.3.0-env/share/octave/octave_packages/statistics-1.8.4/dist_fun/poissrnd.m)
+  at oiPhotonNoise:60 (/home/user/human-night-perception-experiments/research-cache/iset/isetcam/opticalimage/oiPhotonNoise.m)
+  at oiGet:614 (/home/user/human-night-perception-experiments/research-cache/iset/isetcam/opticalimage/oiGet.m)
+  at v_ibio_photonNoise:37 (/home/user/human-night-perception-experiments/research-cache/iset/isetvalidate/isetbio/oi/v_ibio_photonNoise.m)
+  at run:78 (/nix/store/nmjpg3yrhkg30kpchnn5jk1fgzx3k5ag-octave-11.3.0/share/octave/11.3.0/m/miscellaneous/run.m)

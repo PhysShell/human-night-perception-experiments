@@ -1,0 +1,44 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/user/human-night-perception-experiments/research-cache/hcipy/venv, got /home/user/human-night-perception-experiments/research-cache/hcipy/src/tests/../../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/user/human-night-perception-experiments/research-cache/hcipy/venv, got /home/user/human-night-perception-experiments/research-cache/hcipy/src/tests/../../venv
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /home/user/human-night-perception-experiments/research-cache/hcipy/src/tests/../../venv/bin/python
+rootdir: /home/user/human-night-perception-experiments/research-cache/hcipy/src
+configfile: pyproject.toml
+collecting ... collected 34 items
+
+test_atmosphere.py::test_atmosphere_total_variance[baseline-infinite] PASSED [  2%]
+test_atmosphere.py::test_atmosphere_total_variance[baseline-finite] PASSED [  5%]
+test_atmosphere.py::test_atmosphere_total_variance[longer_wavelength-infinite] SKIPPED [  8%]
+test_atmosphere.py::test_atmosphere_total_variance[longer_wavelength-finite] SKIPPED [ 11%]
+test_atmosphere.py::test_atmosphere_total_variance[larger_pupil_diameter-infinite] SKIPPED [ 14%]
+test_atmosphere.py::test_atmosphere_total_variance[larger_pupil_diameter-finite] SKIPPED [ 17%]
+test_atmosphere.py::test_atmosphere_total_variance[larger_fried_parameter-infinite] SKIPPED [ 20%]
+test_atmosphere.py::test_atmosphere_total_variance[larger_fried_parameter-finite] SKIPPED [ 23%]
+test_atmosphere.py::test_atmosphere_total_variance[larger_outer_diameter-infinite] SKIPPED [ 26%]
+test_atmosphere.py::test_atmosphere_total_variance[larger_outer_diameter-finite] SKIPPED [ 29%]
+test_atmosphere.py::test_atmosphere_zernike_variances[baseline-infinite] PASSED [ 32%]
+test_atmosphere.py::test_atmosphere_zernike_variances[baseline-finite] PASSED [ 35%]
+test_atmosphere.py::test_atmosphere_zernike_variances[longer_wavelength-infinite] SKIPPED [ 38%]
+test_atmosphere.py::test_atmosphere_zernike_variances[longer_wavelength-finite] SKIPPED [ 41%]
+test_atmosphere.py::test_atmosphere_zernike_variances[larger_pupil_diameter-infinite] SKIPPED [ 44%]
+test_atmosphere.py::test_atmosphere_zernike_variances[larger_pupil_diameter-finite] SKIPPED [ 47%]
+test_atmosphere.py::test_atmosphere_zernike_variances[larger_fried_parameter-infinite] SKIPPED [ 50%]
+test_atmosphere.py::test_atmosphere_zernike_variances[larger_fried_parameter-finite] SKIPPED [ 52%]
+test_atmosphere.py::test_atmosphere_zernike_variances[larger_outer_diameter-infinite] SKIPPED [ 55%]
+test_atmosphere.py::test_atmosphere_zernike_variances[larger_outer_diameter-finite] SKIPPED [ 58%]
+test_atmosphere.py::test_atmospheric_layer_reset[InfiniteAtmosphericLayer] PASSED [ 61%]
+test_atmosphere.py::test_atmospheric_layer_reset[FiniteAtmosphericLayer] PASSED [ 64%]
+test_atmosphere.py::test_modal_ao_evolve_until_none_framerate PASSED     [ 67%]
+test_atmosphere.py::test_modal_ao_evolve_until_fixed_framerate PASSED    [ 70%]
+test_atmosphere.py::test_multi_layer_atmosphere PASSED                   [ 73%]
+test_atmosphere.py::test_standard_atmosphere_factory[mauna_kea] PASSED   [ 76%]
+test_atmosphere.py::test_standard_atmosphere_factory[las_campanas] PASSED [ 79%]
+test_atmosphere.py::test_standard_atmosphere_factory[keck] PASSED        [ 82%]
+test_atmosphere.py::test_standard_atmosphere_factory_unknown PASSED      [ 85%]
+test_atmosphere.py::test_fried_parameter_seeing PASSED                   [ 88%]
+test_atmosphere.py::test_phase_covariance_phase_structure_function_von_karman[0.1-10] PASSED [ 91%]
+test_atmosphere.py::test_phase_covariance_phase_structure_function_von_karman[0.1-20] PASSED [ 94%]
+test_atmosphere.py::test_phase_covariance_phase_structure_function_von_karman[0.2-10] PASSED [ 97%]
+test_atmosphere.py::test_phase_covariance_phase_structure_function_von_karman[0.2-20] PASSED [100%]
+
+======================= 18 passed, 16 skipped in 50.46s ========================

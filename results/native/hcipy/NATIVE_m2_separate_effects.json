@@ -1,0 +1,62 @@
+{
+ "hcipy_version": "0.7.1",
+ "seed": 1,
+ "a_image_motion_timeseries": {
+  "frames": 400,
+  "dt_s": 0.01,
+  "wind_m_s": 10,
+  "rms_one_axis_x_arcsec": 0.02639025866171512,
+  "rms_one_axis_y_arcsec": 0.020129797701285625,
+  "note": "frozen flow: 400 frames = 40 m of screen = ~5 pupil crossings; statistics correlated"
+ },
+ "a_image_motion_independent": {
+  "realisations": 200,
+  "rms_one_axis_arcsec (PSF centroid = G-tilt)": 0.03112561339080907,
+  "rms_one_axis_arcsec (phase Zernike Z2/Z3 = Z-tilt)": 0.03777837523063704,
+  "reference_vonKarman_Ztilt_one_axis_arcsec (hcipy test formula, L0=20 m)": 0.03794415099767596,
+  "reference_Kolmogorov_Gtilt_one_axis_arcsec (0.170 (lambda/D)^2 (D/r0)^5/3, L0=inf)": 0.11449652161528531,
+  "note": "finite L0=20 m (D/L0=0.41) must reduce tilt below the L0=inf reference"
+ },
+ "b_psf": {
+  "r0_at_lambda_m": 0.45947934199881396,
+  "diffraction_FWHM_arcsec (1.03 lambda/D)": 0.025908872004208446,
+  "short_exposure_equivFWHM_arcsec_mean": 0.0594547244900682,
+  "long_exposure_equivFWHM_arcsec (400 correlated frames, still speckled)": 0.11264362527468608,
+  "ensemble_long_exposure_radial_FWHM_arcsec (200 independent realisations)": 0.30077023802060243,
+  "reference_vonKarman_seeing_FWHM_arcsec (Tokovinin 2002: x sqrt(1-2.183 (r0/L0)^0.356))": 0.288579785570905,
+  "reference_seeing_FWHM_0.98lambda_over_r0_arcsec (Kolmogorov)": 0.4399316610031103,
+  "short_exposure_peak_over_diffraction_mean": 0.03293563178549129,
+  "long_exposure_peak_over_diffraction": 0.012270872497192513,
+  "note": "short-exposure \"equivalent FWHM\" of a speckled PSF is only the area above half of its brightest speckle"
+ },
+ "seconds_part_ab": 75.2,
+ "c_scintillation": {
+  "wavelength_m": 2e-06,
+  "realisations": 60,
+  "layer_heights_m": [
+   500,
+   1000,
+   2000,
+   4000,
+   8000,
+   16000
+  ],
+  "layer_Cn2dh": [
+   1.9214644989267492e-13,
+   7.431682665581776e-14,
+   5.605323505410491e-14,
+   1.2271113619952697e-13,
+   2.8194945560247966e-13,
+   1.136214224069694e-13
+  ],
+  "sigma_I2_point (pupil pixels 5.9 mm)": 0.09553200878551177,
+  "reference_weak_plane_wave sigma_I2 = 2.25 k^7/6 sum Cn2_i h_i^5/6": 0.09229399697558194,
+  "sigma_I2_aperture_averaged": {
+   "0.05 m": 0.10986434094405015,
+   "0.2 m": 0.025952199451897882,
+   "1.0 m": 0.0009177805306696327
+  },
+  "note": "periodic 1.5 m grid: Fresnel zones sqrt(lambda h) up to 0.18 m, wrap-around; indicative only"
+ },
+ "seconds_part_c": 29.9
+}

@@ -1,0 +1,52 @@
+[
+ {
+  "cell": 1,
+  "status": "ok",
+  "patched": [],
+  "seconds": 1.64
+ },
+ {
+  "cell": 3,
+  "status": "ok",
+  "patched": [
+   "make_focal_grid(8, 16, spatial_resolution=wavelength / D_tel)"
+  ],
+  "seconds": 0.01
+ },
+ {
+  "cell": 5,
+  "status": "ok",
+  "patched": [],
+  "seconds": 8.15
+ },
+ {
+  "cell": 7,
+  "status": "ok",
+  "patched": [],
+  "seconds": 0.39
+ },
+ {
+  "cell": 9,
+  "status": "ok",
+  "patched": [],
+  "seconds": 0.33
+ },
+ {
+  "cell": 10,
+  "status": "ok",
+  "patched": [],
+  "seconds": 0.44
+ },
+ {
+  "cell": 12,
+  "status": "ok",
+  "patched": [],
+  "seconds": 7.02
+ },
+ {
+  "cell": 14,
+  "status": "ok",
+  "patched": [],
+  "seconds": 0.8
+ }
+]

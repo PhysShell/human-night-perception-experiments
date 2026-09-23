@@ -1,0 +1,340 @@
+{
+ "track": "datasets",
+ "generated_by": "tracks/datasets/fetch.sh + stats.py + make_s8.py",
+ "date": "2026-09-23",
+ "cache_root": "research-cache/datasets (gitignored; nothing here is committed)",
+ "commit_policy": "NO dataset pixels are committed to the repo; fetch.sh re-downloads and verifies SHA-256.",
+ "datasets": [
+  {
+   "id": "fairchild_hdrps",
+   "name": "Mark Fairchild's HDR Photographic Survey (HDRPS)",
+   "source": "http://markfairchild.org/HDR.html (thumbnails: http://markfairchild.org/HDRPS/HDRthumbs.html)",
+   "reachable": "YES (HTTP 200 from this container)",
+   "licence": "Copyright 2006-2007 Mark D. Fairchild, all rights reserved; 'made publicly available, free of charge, for research purposes and non-commercial publication in research journals, presentations, and conference proceedings. Any commercial publication of these images is prohibited.' Acknowledge \"Mark Fairchild's HDR Photographic Survey\". (http://markfairchild.org/HDR.html)",
+   "redistribution": "NO (all rights reserved; research use only) -> fetch script only",
+   "absolute_luminance": "YES per scene: 'Luminance multipliers to convert the OpenEXR data to absolute luminance are included in the data files or on the web page itself'; 28 scenes also have Minolta CS-100 spot measurements (Y,x,y) and appearance scaling",
+   "camera": "Nikon D2x (4288x2848, 23.7x15.7 mm DX CMOS), mostly Nikkor 17-55 mm f/2.8; NEF->16-bit TIFF (Photoshop CS2 raw) -> Photoshop 'merge to HDR', white-balanced to in-camera white point (CIC15HDRSurvey.pdf)",
+   "colour_space": "white-balanced camera RGB; XYZ = M_D65 * RGB with M_D65=[[0.4024,0.4610,0.0871],[0.1904,0.7646,0.0450],[-0.0249,0.1264,0.9873]] (D2xCharacterization.pdf p.1); Y (cd/m^2) = factor * (0.1904R+0.7646G+0.0450B)",
+   "bit_depth": "OpenEXR half (16-bit float), PIZ, RGB (checked with oiiotool --info)",
+   "known_defect": "hard ceiling from the HDR merge: every scene checked has a plateau at the raw max (GoldenGate(2) 128.875, Zentrum 171.875, McKeesPub 45.78, OCanadaLights 93.94); lamp cores are clipped -> source luminance/energy are lower bounds. WaffleHouse has 19 % zero pixels (crushed shadows). Negative channel values exist (matrix/merge).",
+   "files_fetched": [
+    "EXRs/GoldenGate(2).exr",
+    "EXRs/Zentrum.exr",
+    "EXRs/McKeesPub.exr",
+    "EXRs/WaffleHouse.exr",
+    "EXRs/OCanadaLights.exr",
+    "Data/GoldenGateData.xls",
+    "Data/OCanadaLightsData.xls",
+    "docs/CIC15HDRSurvey.pdf",
+    "docs/D2xCharacterization.pdf",
+    "docs/D2xSimpleSpectralModel.pdf"
+   ],
+   "night_scenes": [
+    {
+     "scene": "GoldenGate(2)",
+     "what": "Golden Gate Bridge + SF 'well after sunset' from Marin Headlands, distant lamps",
+     "factor": 0.28,
+     "factor_source": "scene page + GoldenGateData.xls summary row (2)",
+     "measurements": "CS-100: sky above left tower Y=0.63 cd/m^2 x=0.26 y=0.23",
+     "focal_length": "18 mm, f/8, 9+/-4 exposures (xls)",
+     "size": [
+      4288,
+      2847
+     ],
+     "stats_cd_m2": {
+      "Y_p0.1": 0.005622,
+      "Y_median": 0.16786,
+      "Y_p99.99": 18.848,
+      "Y_max": 36.085,
+      "DR_p0.1_to_p99.99": 3353
+     },
+     "calibration_check": "image median over sky region = 0.633 cd/m^2 vs 0.63 measured (ratio 1.005) -> PASS",
+     "fetched": true,
+     "S8_source": true
+    },
+    {
+     "scene": "Zentrum",
+     "what": "BMW Zentrum Spartanburg, night",
+     "factor": 7,
+     "factor_source": "scene page",
+     "size": [
+      4288,
+      2412
+     ],
+     "stats_cd_m2": {
+      "Y_p0.1": 0.000123,
+      "Y_median": 0.02801,
+      "Y_p99.99": 253.997,
+      "Y_max": 1203.125,
+      "DR_p0.1_to_p99.99": 2070793
+     },
+     "fetched": true
+    },
+    {
+     "scene": "McKeesPub",
+     "what": "night shot of a pub, 8 exposures",
+     "factor": 6.25,
+     "factor_source": "scene page",
+     "size": [
+      4286,
+      2411
+     ],
+     "stats_cd_m2": {
+      "Y_p0.1": 0.016025,
+      "Y_median": 0.47299,
+      "Y_p99.99": 282.67,
+      "Y_max": 286.133,
+      "DR_p0.1_to_p99.99": 17639
+     },
+     "fetched": true
+    },
+    {
+     "scene": "WaffleHouse",
+     "what": "night shot, restaurant",
+     "factor": 94,
+     "factor_source": "scene page",
+     "size": [
+      4286,
+      2411
+     ],
+     "stats_cd_m2": {
+      "Y_p0.1": 0.00211,
+      "Y_median": 1.84549,
+      "Y_p99.99": 2858.739,
+      "Y_max": 9098.972,
+      "DR_p0.1_to_p99.99": 1354794
+     },
+     "fetched": true,
+     "note": "19 % zero pixels"
+    },
+    {
+     "scene": "OCanadaLights",
+     "what": "Ottawa parliament well after sunset, lights on",
+     "factor": null,
+     "factor_source": "UNKNOWN: page gives none and Data/OCanadaLightsData.xls is actually the 'O Canada! No Lights' sheet (multiplier 40.8, 8:08 PM) - do not use as absolute",
+     "size": [
+      2644,
+      4156
+     ],
+     "stats_raw_x1": {
+      "Y_p0.1": 0.007635,
+      "Y_median": 0.61592,
+      "Y_p99.99": 93.859,
+      "Y_max": 93.938,
+      "DR_p0.1_to_p99.99": 12294
+     },
+     "fetched": true
+    },
+    {
+     "scene": "Frontier",
+     "what": "Las Vegas night, sign + oncoming headlights, just after sunset",
+     "factor": 42,
+     "factor_source": "scene page",
+     "fetched": false,
+     "url": "http://markfairchild.org/HDRPS/EXRs/Frontier.exr",
+     "size_bytes": 35343880
+    },
+    {
+     "scene": "Peppermill",
+     "what": "Las Vegas restaurant (night)",
+     "factor": 60,
+     "factor_source": "scene page",
+     "fetched": false
+    },
+    {
+     "scene": "Flamingo",
+     "what": "Las Vegas strip, pink illumination",
+     "factor": 280,
+     "factor_source": "scene page",
+     "fetched": false
+    },
+    {
+     "scene": "LasVegasStore",
+     "what": "Las Vegas strip store",
+     "factor": 140,
+     "factor_source": "scene page",
+     "fetched": false
+    },
+    {
+     "scene": "MtRushmoreFlags",
+     "what": "dusk, lights just switched on",
+     "factor": "in Data/MtRushmoreData.xls (not fetched)",
+     "fetched": false
+    }
+   ],
+   "not_fetched": "all RAW NEFs (http://markfairchild.org/files/HDRPS_Raws.zip, '14+ GB') - over the 2 GB budget",
+   "intended_donor_tracks": [
+    "pcond baseline (cd/m^2 input)",
+    "hdrvdp3 / vdp-metrics",
+    "local-adaptation-2015",
+    "temporal-glare-2009",
+    "vss",
+    "openvissim",
+    "vissimframework (after RGB->their input)",
+    "iset / mitsuba-spectral only via spectral upsampling (HDRPS has 9-channel spectral only for Luxo)"
+   ]
+  },
+  {
+   "id": "mpi_hdr_gallery",
+   "name": "MPI Informatik HDR image gallery (Drago, Mantiuk)",
+   "source": "https://resources.mpi-inf.mpg.de/hdr/gallery.html ; files https://resources.mpi-inf.mpg.de/hdr/img_hdr/<name>.exr",
+   "reachable": "NO: HTTP 403 Forbidden (Apache/2.4.68 (Debian), 'You don't have permission to access this resource'), also via WebFetch (403); web.archive.org connection reset",
+   "status": "BLOCKED",
+   "metadata_from_mirror": "copy of the gallery page in https://github.com/hxa7241/p3tonemapper/blob/master/images/mpg-gallery.html ('page last modified 20 June 2005')",
+   "licence": "gallery page: 'All of the images shown in this page can be freely downloaded and used although their copyrights belong to the original authors' (AtriumMorning/AtriumNight/Iwate (c) Frederic Drago; snow, nancy_cathedral_1/2, mpi_atrium_1 (c) 2004 Rafal Mantiuk). Redistribution not explicitly granted -> do not commit.",
+   "absolute_luminance": "YES (claimed): each entry 'has been calibrated in absolute units of cd/m^2' (Mantiuk's via PFScalibration, Robertson merge)",
+   "images": [
+    {
+     "name": "AtriumNight",
+     "place": "atrium of the University of Aizu at night",
+     "DR": "1:9,673 (80 dB)",
+     "L_min_cd_m2": 0.707749,
+     "L_max_cd_m2": 6846.03,
+     "night_relevance": "indoor artificial lighting; min 0.7 cd/m^2 = upper mesopic, not a dark outdoor night"
+    },
+    {
+     "name": "AtriumMorning",
+     "DR": "1:1,250",
+     "L_min_cd_m2": 1.81607,
+     "L_max_cd_m2": 2270.53
+    },
+    {
+     "name": "nancy_cathedral_1",
+     "DR": "1:17,082",
+     "L_min_cd_m2": 1.67243,
+     "L_max_cd_m2": 28568.6
+    },
+    {
+     "name": "mpi_atrium_1",
+     "camera": "Kodak DCS-560",
+     "DR": "1:2,877",
+     "L_min_cd_m2": 2.00328,
+     "L_max_cd_m2": 5763.13
+    }
+   ],
+   "colour_space": "OpenEXR, primaries not stated on the page",
+   "intended_donor_tracks": [
+    "hdrvdp3",
+    "local-adaptation-2015",
+    "pcond baseline"
+   ]
+  },
+  {
+   "id": "ward_anyhere_atriumnight",
+   "name": "AtriumNight re-encoded by Greg Ward for the HDR-encodings comparison",
+   "source": "http://www.anyhere.com/gward/hdrenc/pages/originals.html -> img/AtriumNight_oA9D.hdr ('Image courtesy Karol Myszkowski', 'Source photo', 'Dynamic range (log10) 4.1')",
+   "reachable": "YES",
+   "fetched": true,
+   "sha256": "0b3016351750cf992982e88ba80ad8b97bdf904e8e76ca4e48921abbd068b4ca",
+   "format": "Radiance RGBE 760x1016, PRIMARIES= 0.64 0.33 0.29 0.60 0.15 0.06 0.3333 0.3333",
+   "licence": "no licence text on the page; image courtesy K. Myszkowski -> research use, do not commit",
+   "absolute_luminance": "PROBABLE, NOT VERIFIED: with the Radiance 179 lm/W convention max = 7518 cd/m^2, p0.1 = 0.32 cd/m^2 vs MPI's stated 6846 / 0.708 (max within 10 %); without x179 max = 42. Treat scale as unverified.",
+   "stats_x179": {
+    "Y_p0.1": 0.320217,
+    "Y_median": 13.22432,
+    "Y_p99.99": 7518.0,
+    "Y_max": 7518.0,
+    "DR_p0.1_to_p99.99": 23478
+   }
+  },
+  {
+   "id": "mpi_hdr_video",
+   "name": "MPI HDR video (Tunnel, Highway; Krawczyk)",
+   "source": "https://resources.mpi-inf.mpg.de/hdr/video/",
+   "reachable": "NO: HTTP 403 (same server) - BLOCKED",
+   "claims_unverified": "search-result summary of that page: Tunnel = drive through a small tunnel in Saarbruecken, Highway = highway near Saarbruecken facing the sun, captured by G. Krawczyk from a car with an HDR video camera, 640x480 @ 30 fps, DR 1e5:1 and 1e7:1; the MPI HDR video cameras (Silicon Vision Lars III, IMS Chips HDRC VGAx) were photometrically calibrated (Krawczyk, Goesele, Seidel). Mantiuk et al. 2004 (research-cache/datasets/papers/mantiuk04pmhdrve.pdf) confirms a Lars III 'returned linear radiance values' and was calibrated 'using a Kodak GrayCard with 80% reflectance' for their sequences.",
+   "night_relevance": "Tunnel is a dark->bright driving transition (temporal adaptation), not a night scene",
+   "intended_donor_tracks": [
+    "pattanaik00 / temporal adaptation donors",
+    "vdp-metrics (ColorVideoVDP)"
+   ]
+  },
+  {
+   "id": "laval_photometric_indoor",
+   "name": "Laval Photometric Indoor HDR Dataset (Bolduc et al., ICCV 2023)",
+   "source": "https://arxiv.org/abs/2304.12372 ; http://www.hdrdb.com/indoor_hdr_photometric/ (404 from this container; hdrdb.com root 200)",
+   "absolute_luminance": "YES (per-pixel calibrated against a chroma meter; 360 deg panoramas)",
+   "licence": "full set after signed licence agreement for non-profit/educational use; 100-sample subset openly downloadable (per paper/search result)",
+   "night_relevance": "indoor artificial light only",
+   "fetched": false
+  },
+  {
+   "id": "upiq",
+   "name": "UPIQ Unified Photometric Image Quality (Mikhailiuk, Mantiuk et al. 2021)",
+   "source": "https://www.repository.cam.ac.uk/items/c2d00e29-07b5-4b67-bcfc-80893b17fa53",
+   "absolute_luminance": "display-referred absolute units ('light emitted from a display'), NOT scene luminance",
+   "night_relevance": "none (quality dataset)",
+   "fetched": false
+  },
+  {
+   "id": "hdm_hdr_2014",
+   "name": "HdM-HDR-2014 (Froehlich et al.)",
+   "source": "https://hdm-stuttgart.de/vmlab/hdm-hdr-2014/",
+   "absolute_luminance": "NO (relative scene radiance from ARRI Alexa; graded versions for 0.005-4000 cd/m^2 displays)",
+   "licence": "educational use only; commercial licence separate; 'Please note the redistribution ...' restricted",
+   "fetched": false
+  },
+  {
+   "id": "isethdr",
+   "name": "ISETHDR synthetic night-driving radiance (Stanford, arXiv 2408.12048)",
+   "source": "https://arxiv.org/pdf/2408.12048",
+   "absolute_luminance": "physically-based synthetic radiance (not measured)",
+   "note": "belongs to the iset track; night street lamps/headlamps 5 orders above surround",
+   "fetched": false
+  }
+ ],
+ "S8_candidate": {
+  "path": "research-cache/datasets/S8/",
+  "meta": "research-cache/datasets/S8/meta.json",
+  "summary": {
+   "what": "real night photograph: Golden Gate Bridge + San Francisco well after sunset, from Marin Headlands (Fairchild HDR Photographic Survey 'Golden Gate (2)'); distant unresolved bridge/city lamps at km range",
+   "px_per_deg": 32.0,
+   "px_per_deg_native_estimated": 56.846064616858484,
+   "size_px": [
+    1024,
+    512
+   ],
+   "fov_deg": [
+    32.0,
+    16.0
+   ],
+   "L_min": 0.03227311807777733,
+   "L_max": 35.983282386779784,
+   "L_median": 0.29422456174865363,
+   "label": "ADAPTED (format conversion of third-party calibrated data; no vision model applied)"
+  },
+  "clipping": {
+   "raw_max_value": 128.875,
+   "native_px_at_ceiling": 1936,
+   "S8_px_touched_by_clipping": 654,
+   "note": "the HDR merge has a hard ceiling (raw 128.875 -> ~36 cd/m^2): every lamp core is CLIPPED, so lamp luminances/energies are LOWER BOUNDS; the scene is NOT a valid photometric reference for the point sources themselves, only for the surround."
+  },
+  "calibration_check": {
+   "reference": "GoldenGateData.xls row (2) 'Sky Above Left Tower' Y=0.63 cd/m^2 x=0.26 y=0.23 (Minolta CS-100, 1 deg)",
+   "region_native_rows_cols": [
+    [
+     50,
+     550
+    ],
+    [
+     1400,
+     1750
+    ]
+   ],
+   "image_median_Y": 0.6329427890625,
+   "image_mean_xy": [
+    0.19497320253610131,
+    0.21414848606840511
+   ],
+   "ratio": 1.00467109375
+  },
+  "sha256": {
+   "S8.exr": "c91079c29d35c1405f3e80a50555e5b01fb03437ae45a366240f8952d47fe754",
+   "S8_Y.pfm": "3c4555ace28358e65a0709933e67d787e03c2fc8cb013d46683b353d692186f8",
+   "S8_clipmask.exr": "309392dff821f553ce2028a740b7463874ac87cf001ee30dd04ecf5e744ead47",
+   "S8_native_rec709_cdm2.exr": "90f4768189af1fcbb19b713a228cfb9f871c6498cb58f32f8875e5f06410c8b0",
+   "S8_preview_log10Y_clipred.png": "3c99223b2b4f3f5424e38e91aa422d928567c6c7630ef58eb773f776c6fbe8dd"
+  },
+  "pfm_orientation": "same as stimuli/pack (OIIO writes PFM bottom-to-top rows; verified identical behaviour on S7)"
+ }
+}

@@ -1,0 +1,406 @@
+{
+ "tools": {
+  "luxpy": "v1.12.5",
+  "colour": "0.4.7"
+ },
+ "spectra": {
+  "LPS": {
+   "luxpy_photopic_cd_m2": 1.0000029801251256,
+   "luxpy_scotopic_cd_m2": 0.22540359405536214,
+   "S_over_P": 0.22540292232644996,
+   "Y_colour_cd_m2": 1.0000000518672858,
+   "x": 0.5703891117715532,
+   "y": 0.428974179492774,
+   "CCT_K_Ohno2013": 1772.475162062171,
+   "Duv": 0.0070472514770565375,
+   "mesopic": [
+    {
+     "Lp": 0.005,
+     "luxpy_Lmes": 0.08555884192706241,
+     "luxpy_m": 0.41101765362176473,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.00112014632387827
+    },
+    {
+     "Lp": 0.01,
+     "luxpy_Lmes": 0.08792084662994744,
+     "luxpy_m": 0.41495947906989294,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.00224029264775654
+    },
+    {
+     "Lp": 0.03,
+     "luxpy_Lmes": 0.09784781452975445,
+     "luxpy_m": 0.4304491306361835,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.006720877943269622
+    },
+    {
+     "Lp": 0.1,
+     "luxpy_Lmes": 0.13801769152476837,
+     "luxpy_m": 0.480253876339362,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.06598814877505357
+    },
+    {
+     "Lp": 0.3,
+     "luxpy_Lmes": 0.2834171933804141,
+     "luxpy_m": 0.584438844529833,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.1979644463251607
+    },
+    {
+     "Lp": 1.0,
+     "luxpy_Lmes": 0.9098980659075322,
+     "luxpy_m": 0.7533277123991423,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.8765571328285697
+    },
+    {
+     "Lp": 3.0,
+     "luxpy_Lmes": 2.90821836653679,
+     "luxpy_m": 0.9215727004609975,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 2.6296713984857094
+    },
+    {
+     "Lp": 5.0,
+     "luxpy_Lmes": 5.000073498616053,
+     "luxpy_m": 1.0000382934992502,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 4.382785664142848
+    }
+   ]
+  },
+  "HPS": {
+   "luxpy_photopic_cd_m2": 1.0000029399284471,
+   "luxpy_scotopic_cd_m2": 0.5604088660747532,
+   "S_over_P": 0.5604072185176294,
+   "Y_colour_cd_m2": 1.0000000116707264,
+   "x": 0.5327799687699211,
+   "y": 0.4151706830744217,
+   "CCT_K_Ohno2013": 1962.2467768643153,
+   "Duv": 0.0008317340151507022,
+   "mesopic": [
+    {
+     "Lp": 0.005,
+     "luxpy_Lmes": 0.16249137135555747,
+     "luxpy_m": 0.5038923238249229,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.0027939583713141214
+    },
+    {
+     "Lp": 0.01,
+     "luxpy_Lmes": 0.16505970533840494,
+     "luxpy_m": 0.506163352237269,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.005587916742628243
+    },
+    {
+     "Lp": 0.03,
+     "luxpy_Lmes": 0.17560442702556678,
+     "luxpy_m": 0.5151296723359742,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.016763750227884726
+    },
+    {
+     "Lp": 0.1,
+     "luxpy_Lmes": 0.2157202601557794,
+     "luxpy_m": 0.5449187304488864,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.08066123884614086
+    },
+    {
+     "Lp": 0.3,
+     "luxpy_Lmes": 0.35219883618133024,
+     "luxpy_m": 0.6158993559802007,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.24198371653842252
+    },
+    {
+     "Lp": 1.0,
+     "luxpy_Lmes": 0.9503925417028537,
+     "luxpy_m": 0.7596328452081217,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 0.9298117443031055
+    },
+    {
+     "Lp": 3.0,
+     "luxpy_Lmes": 2.919928285661736,
+     "luxpy_m": 0.922154810719545,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 2.789435232909317
+    },
+    {
+     "Lp": 5.0,
+     "luxpy_Lmes": 5.000068316846207,
+     "luxpy_m": 1.0000382795910339,
+     "colour_MOVE_source": "Red Heavy",
+     "colour_MOVE_Lmes": 4.6490587215155275
+    }
+   ]
+  },
+  "LED_warm": {
+   "luxpy_photopic_cd_m2": 1.0000029474969108,
+   "luxpy_scotopic_cd_m2": 1.213964183436269,
+   "S_over_P": 1.2139606052911351,
+   "Y_colour_cd_m2": 1.0000000192391683,
+   "x": 0.4559192149757448,
+   "y": 0.4079042473229176,
+   "CCT_K_Ohno2013": 2734.740418978978,
+   "Duv": -0.0006625300265957523,
+   "mesopic": [
+    {
+     "Lp": 0.005,
+     "luxpy_Lmes": 0.2767333660343574,
+     "luxpy_m": 0.580981585700029,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.005775991813732202
+    },
+    {
+     "Lp": 0.01,
+     "luxpy_Lmes": 0.2794096704546485,
+     "luxpy_m": 0.582375495952147,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.011551983627464403
+    },
+    {
+     "Lp": 0.03,
+     "luxpy_Lmes": 0.29027971883974146,
+     "luxpy_m": 0.5879045226200461,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.03465595088239321
+    },
+    {
+     "Lp": 0.1,
+     "luxpy_Lmes": 0.330344662794464,
+     "luxpy_m": 0.6066245414638185,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.10759945211623081
+    },
+    {
+     "Lp": 0.3,
+     "luxpy_Lmes": 0.4599673899656969,
+     "luxpy_m": 0.6545529539932987,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.3227983563486924
+    },
+    {
+     "Lp": 1.0,
+     "luxpy_Lmes": 1.0229054305253609,
+     "luxpy_m": 0.7702791267464772,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 1.0312869889561043
+    },
+    {
+     "Lp": 3.0,
+     "luxpy_Lmes": 2.942249520572471,
+     "luxpy_m": 0.9232576915251607,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 3.093860966868313
+    },
+    {
+     "Lp": 5.0,
+     "luxpy_Lmes": 5.00005806168153,
+     "luxpy_m": 1.0000381493430393,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 5.1564349447805204
+    }
+   ]
+  },
+  "E": {
+   "luxpy_photopic_cd_m2": 1.0000029676608304,
+   "luxpy_scotopic_cd_m2": 2.2612023427944066,
+   "S_over_P": 2.2611956323326985,
+   "Y_colour_cd_m2": 0.9999981592575938,
+   "x": 0.3333134327756549,
+   "y": 0.33328786635460933,
+   "CCT_K_Ohno2013": 5456.3515806086325,
+   "Duv": -0.004438819901875002,
+   "mesopic": [
+    {
+     "Lp": 0.005,
+     "luxpy_Lmes": 0.41936581286266345,
+     "luxpy_m": 0.6411744813547049,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.009591942897323808
+    },
+    {
+     "Lp": 0.01,
+     "luxpy_Lmes": 0.4220790729565587,
+     "luxpy_m": 0.6421079627510774,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.019183885794647616
+    },
+    {
+     "Lp": 0.03,
+     "luxpy_Lmes": 0.433045740592415,
+     "luxpy_m": 0.6458185955064603,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.05755165738394285
+    },
+    {
+     "Lp": 0.1,
+     "luxpy_Lmes": 0.47278617905618553,
+     "luxpy_m": 0.6585359384174249,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.14496963073631208
+    },
+    {
+     "Lp": 0.3,
+     "luxpy_Lmes": 0.5972211074306886,
+     "luxpy_m": 0.6923625421108776,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.4349088922089362
+    },
+    {
+     "Lp": 1.0,
+     "luxpy_Lmes": 1.1256628985477675,
+     "luxpy_m": 0.7841394053614401,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 1.1851374876052885
+    },
+    {
+     "Lp": 3.0,
+     "luxpy_Lmes": 2.976659924860524,
+     "luxpy_m": 0.9249412848564632,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 3.555412462815866
+    },
+    {
+     "Lp": 5.0,
+     "luxpy_Lmes": 5.000041593544782,
+     "luxpy_m": 1.0000377787347734,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 5.925687438026443
+    }
+   ]
+  },
+  "BLUE": {
+   "luxpy_photopic_cd_m2": 1.0000029133770718,
+   "luxpy_scotopic_cd_m2": 22.209172916453305,
+   "S_over_P": 22.209108212946653,
+   "Y_colour_cd_m2": 0.9999999851194288,
+   "x": 0.1433069535976868,
+   "y": 0.033006773633190996,
+   "CCT_K_Ohno2013": 148150.9275422712,
+   "Duv": -0.2016473390837561,
+   "mesopic": [
+    {
+     "Lp": 0.005,
+     "luxpy_Lmes": NaN,
+     "luxpy_m": NaN,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.08227768432247959
+    },
+    {
+     "Lp": 0.01,
+     "luxpy_Lmes": NaN,
+     "luxpy_m": NaN,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.16455536864495918
+    },
+    {
+     "Lp": 0.03,
+     "luxpy_Lmes": NaN,
+     "luxpy_m": NaN,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.49366610593487753
+    },
+    {
+     "Lp": 0.1,
+     "luxpy_Lmes": NaN,
+     "luxpy_m": NaN,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 0.8567966244037165
+    },
+    {
+     "Lp": 0.3,
+     "luxpy_Lmes": NaN,
+     "luxpy_m": NaN,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 2.5703898732111496
+    },
+    {
+     "Lp": 1.0,
+     "luxpy_Lmes": 2.134277873894639,
+     "luxpy_m": 0.8767676402932243,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 4.115735007647977
+    },
+    {
+     "Lp": 3.0,
+     "luxpy_Lmes": 3.4339445434894906,
+     "luxpy_m": 0.9456317657871215,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 12.347205022943932
+    },
+    {
+     "Lp": 5.0,
+     "luxpy_Lmes": 4.9997980586249025,
+     "luxpy_m": 1.0000291908808292,
+     "colour_MOVE_source": "Blue Heavy",
+     "colour_MOVE_Lmes": 20.578675038239883
+    }
+   ]
+  }
+ },
+ "luxpy_invariant_SP1": [
+  {
+   "Lp": 0.005,
+   "SP": 1.0,
+   "luxpy_Lmes": 0.24247761076723157,
+   "luxpy_m": 0.5618514500069418,
+   "expected_Lmes_for_SP1": 0.005
+  },
+  {
+   "Lp": 0.01,
+   "SP": 1.0,
+   "luxpy_Lmes": 0.24513342179792896,
+   "luxpy_m": 0.5634283458965541,
+   "expected_Lmes_for_SP1": 0.01
+  },
+  {
+   "Lp": 0.03,
+   "SP": 1.0,
+   "luxpy_Lmes": 0.2559449811415441,
+   "luxpy_m": 0.56967448791514,
+   "expected_Lmes_for_SP1": 0.03
+  },
+  {
+   "Lp": 0.1,
+   "SP": 1.0,
+   "luxpy_Lmes": 0.2960455245041716,
+   "luxpy_m": 0.590749958059287,
+   "expected_Lmes_for_SP1": 0.1
+  },
+  {
+   "Lp": 0.3,
+   "SP": 1.0,
+   "luxpy_Lmes": 0.4273217916843557,
+   "luxpy_m": 0.6438940812252787,
+   "expected_Lmes_for_SP1": 0.3
+  },
+  {
+   "Lp": 1.0,
+   "SP": 1.0,
+   "luxpy_Lmes": 1.0,
+   "luxpy_m": 0.767,
+   "expected_Lmes_for_SP1": 1.0
+  },
+  {
+   "Lp": 3.0,
+   "SP": 1.0,
+   "luxpy_Lmes": 2.9350163568145695,
+   "luxpy_m": 0.9229012520324782,
+   "expected_Lmes_for_SP1": 3.0
+  },
+  {
+   "Lp": 5.0,
+   "SP": 1.0,
+   "luxpy_Lmes": 5.0000614308990095,
+   "luxpy_m": 1.0000382040563236,
+   "expected_Lmes_for_SP1": 5.0
+  }
+ ]
+}

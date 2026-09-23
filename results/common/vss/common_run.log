@@ -1,0 +1,11 @@
+render: device setup 35.952 ms
+render /tmp/tmp.6YJrJve6UM/S7_BASELINE.png: config 0.026 ms, context 0.024 ms, endpoints/decode 20.355 ms, graph 831.559 ms, finalize 5.457 ms, gpu/readback 192.192 ms
+render: batch total 1096.945 ms
+Computing diff of "results/baseline/S7/S7_BASELINE.png" vs "/home/user/human-night-perception-experiments/results/common/vss/COMMON_S7_BASELINE.vss.png"
+  Mean error = 0.0985607
+  RMS error = 0.113018
+  Peak SNR = 18.9371
+  Max error  = 0.2862745225429535 @ (35, 383, R)  values are 0.25882354, 0.25882354, 0.25882354 vs 0.54509807, 0.54509807, 0.54509807
+  1574369 pixels (100%) over 1e-06
+  1574369 pixels (100%) over 1e-06
+FAILURE

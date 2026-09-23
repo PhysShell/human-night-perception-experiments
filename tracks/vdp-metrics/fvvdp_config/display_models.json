@@ -1,0 +1,24 @@
+{
+  "hnp_phone_target": {
+    "name": "PHONE_TARGET (stimuli/display_targets.json): the 1920x820 content region, 0.140 x 0.0598 m (diagonal 0.15223 m) at 0.30 m; FovVideoVDP derives ppd from this physical geometry: 71.8 px/deg at the centre (the file's 73.0 is the mean over the width); peak 100 cd/m^2, 100:1, 0 lux",
+    "resolution": [1920, 820],
+    "viewing_distance_meters": 0.30,
+    "diagonal_size_meters": 0.152234,
+    "max_luminance": 100,
+    "contrast": 100,
+    "E_ambient": 0,
+    "EOTF": "sRGB",
+    "source": "stimuli/display_targets.json PHONE_TARGET content_px, content_width_m, viewing_distance_m, peak_cd_m2, contrast, E_ambient_lux"
+  },
+  "hnp_desktop_content": {
+    "name": "DESKTOP_TARGET (stimuli/display_targets.json): only the 1548x774 region where the 32x16 deg stimulus is shown (resampled to the declared 48.4 px/deg) at the monitor's physical pixel pitch 0.5977/2560 m, centred, at 0.60 m (diagonal 0.404082 m); FovVideoVDP maps the image onto this region, so eccentricities are measured from its centre = the display centre; physical centre ppd 44.9",
+    "resolution": [1548, 774],
+    "viewing_distance_meters": 0.60,
+    "diagonal_size_meters": 0.404082,
+    "max_luminance": 200,
+    "contrast": 1000,
+    "E_ambient": 0,
+    "EOTF": "sRGB",
+    "source": "stimuli/display_targets.json DESKTOP_TARGET display_px, display_width_m, viewing_distance_m, peak_cd_m2, contrast, E_ambient_lux"
+  }
+}

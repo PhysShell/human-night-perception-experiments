@@ -1,0 +1,12 @@
+== fvvdp README aliasing example (standard_fhd)
+[INFO] Running on device: cpu
+[INFO] When reporting metric results, please include the following information:
+[INFO] "FovVideoVDP v1.2.2, 37.84 [pix/deg], Lpeak=200, Lblack=0.5979 [cd/m^2], non-foveated"
+[INFO] Predicting the quality of 'example_media/aliasing/ferris-bicubic-bicubic.mp4' compared to 'example_media/aliasing/ferris-ref.mp4'
+FovVideoVDP=6.4691 [JOD]
+[INFO] Predicting the quality of 'example_media/aliasing/ferris-bicubic-nearest.mp4' compared to 'example_media/aliasing/ferris-ref.mp4'
+FovVideoVDP=6.3283 [JOD]
+[INFO] Predicting the quality of 'example_media/aliasing/ferris-nearest-bicubic.mp4' compared to 'example_media/aliasing/ferris-ref.mp4'
+FovVideoVDP=5.9226 [JOD]
+[INFO] Predicting the quality of 'example_media/aliasing/ferris-nearest-nearest.mp4' compared to 'example_media/aliasing/ferris-ref.mp4'
+FovVideoVDP=5.8213 [JOD]

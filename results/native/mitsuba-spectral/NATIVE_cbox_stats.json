@@ -1,0 +1,52 @@
+{
+ "mitsuba": "3.9.1",
+ "scene": "research-cache/mitsuba-spectral/mitsuba-tutorials/scenes/cbox.xml",
+ "spp": 256,
+ "runs": {
+  "llvm_ad_rgb": {
+   "seconds": 1.0,
+   "shape": [
+    256,
+    256,
+    3
+   ],
+   "mean_rgb": [
+    0.33081477880477905,
+    0.19966351985931396,
+    0.08601196855306625
+   ],
+   "finite": true
+  },
+  "scalar_spectral": {
+   "seconds": 40.4,
+   "shape": [
+    256,
+    256,
+    3
+   ],
+   "mean_rgb": [
+    0.32424041628837585,
+    0.19885331392288208,
+    0.08396126329898834
+   ],
+   "finite": true,
+   "rel_mean_diff_vs_rgb": 0.031992483884096146
+  },
+  "llvm_ad_spectral": {
+   "seconds": 0.4,
+   "shape": [
+    256,
+    256,
+    3
+   ],
+   "mean_rgb": [
+    0.32408785820007324,
+    0.19888494908809662,
+    0.08379341661930084
+   ],
+   "finite": true,
+   "rel_mean_diff_vs_rgb": 0.03273487091064453
+  }
+ },
+ "rel_mean_diff_scalar_vs_llvm_spectral": 0.0008167837513610721
+}

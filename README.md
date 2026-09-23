@@ -11,6 +11,7 @@ perception**, not a camera render, assembled from **existing** software.
 - T2 (test strategy, `nix flake check` gates, golden baseline): [`docs/research/test-strategy.md`](docs/research/test-strategy.md)
 - M2.5 (slow camera move over the frozen scene, video; two-pass clip render, clip invariants, ColorVideoVDP): [`m25/`](m25/README.md)
 - M2.6 (sampling density 16/32/64 px/deg; form the image at the display before pcond): [`m26/`](m26/README.md)
+- Round 8 donor bake-off (independent human-vision / glare / adaptation / atmosphere donors, common stimuli): [`docs/research/experiment-summary.md`](docs/research/experiment-summary.md)
 
 Environment (Nix flakes; x86_64-linux):
 
