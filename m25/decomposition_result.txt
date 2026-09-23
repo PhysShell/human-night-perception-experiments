@@ -1,8 +1,9 @@
 finite: True
 1. background (95 % of pixels): median haze/full 0.9992  ok
-3. lamp energy, total: enlarged 0.7 px / true radius = 1.0022  ok
+3. lamp energy, total: enlarged 0.7 px / true radius = 1.0012  ok
    per 20-column bin, ratio and tolerance max(10 %, 2 x reference seed spread):
-   1.034±0.10 1.051±0.10 0.979±0.10 0.997±0.12 0.970±0.10 0.961±0.10 1.000±0.10 0.999±0.10 0.976±0.16 0.993±0.16 0.981±0.10 1.025±0.10 1.052±0.10 1.104±0.29 1.034±0.35
+   1.030±0.10 1.053±0.10 0.978±0.10 0.992±0.12 0.969±0.10 0.955±0.10 0.996±0.10 0.998±0.10 0.972±0.16 0.994±0.16 0.981±0.10 1.031±0.10 1.058±0.10 1.112±0.29 1.035±0.35
    bins outside tolerance: 0  ok
-   info: lamps pass / (full - haze), whole image = 0.938 (the one-pass lamp estimate has a few hits per lamp)
+   spot shape, energy share of the peak row: 0.756 vs 0.798  ok
+   info: lamps pass / (full - haze), whole image = 0.937 (the one-pass lamp estimate has a few hits per lamp)
 PASS

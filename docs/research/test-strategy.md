@@ -1,6 +1,6 @@
 # Test strategy (T2 freeze)
 
-One command, `nix flake check` (~4 min on 4 CPU cores), must say that:
+One command, `nix flake check` (~8 min on 4 CPU cores), must say that:
 - the physical properties still hold;
 - the frozen visual baseline is unchanged.
 
@@ -34,6 +34,22 @@ Deferred).
 | `t2-extinction` | physical + metamorphic | a small lamp at 1–15 km through the scene's own clear/mild layer: **T/T_Beer–Lambert ∈ [0.99, 1.02] per channel** where T ≥ 0.02 (measured within 0.4 %); T(vacuum) ≥ T(clear) ≥ T(mild) at every distance | pass |
 | `t2-haze` | metamorphic | real scene, 8° window on the ribbon, vacuum → clear → mild through the frozen stack: direct lamp energy decreases; lamp contrast does not increase (scene and display); ribbon RMS width does not decrease; finite everywhere | pass |
 | `t2-golden` | baseline | 320×137, 128 spp, fixed seed. Scene in cd/m²: a pixel fails if \|d\| > 10⁻⁴ **and** > 5 %, ≤ 1 % may fail. Display PNG: `--fail 0.016 --failpercent 1`, our starting threshold, taken from the base default of Blender 5.2.2's `render_report.py` (Cycles' own suites raise it per directory, e.g. volume 0.048 / 3 %) | pass (bit-identical rerun) |
+| `m25-decomposition` | physical + implementation | the M2.5 clip render = haze pass + lamps pass equals the one-pass M2 render: background within 2 %; lamp energy (enlarged 0.7 px, supersampled, Blackman–Harris resample) vs true-radius lamps: total within 2 %, every bin within max(10 %, 2 × reference seed spread); spot shape (peak-row share) within 0.08 of Cycles' own filter | pass (1.001; 0.756 vs 0.798) |
+| `m25-golden-clip` | baseline + invariants | 4-frame walking clip at the golden view: the clip invariants below, then per-frame scene and display compare as `t2-golden` | pass; negative controls: ×1.10 fails, sub-pixel camera shifts only warn (documented) |
+
+**Clip invariants** (`m25/check_clip.py`, run on every clip):
+- finite;
+- pcond stays in linear mode with the same exposure on every frame (< 1 %): a global flicker
+  no eye makes;
+- lamp energy ≤ 1 % change per frame;
+- no single-frame **blink** (a frame away from both neighbours in the same direction) > 20 %
+  in luminance or > 0.004 u′v′ in 5×5 windows around lamps, on the pcond stage and the
+  display, except at poplar edges (a lamp seen through a moving gap between trees really does
+  blink; counted and reported);
+- displayed ribbon band ≤ 2 % change per frame.
+
+A step (occlusion, a lamp entering a pixel) is not a blink. The first version compared
+frame t with its neighbours' mean and counted every step as a 50–100 % "spike".
 
 Tests also run outside Nix: `t2/run_extinction.sh`, `t2/run_haze_metamorphic.sh`,
 `t2/golden.sh check`, `python3 m1/test_*.py`, `m1/test_fog_glow.sh`.
@@ -104,9 +120,10 @@ Two "for scale" rows show deliberate changes.
 
 | when | test | tool (existing) | notes |
 |---|---|---|---|
-| M2.5 video | temporal visibility of changes, e.g. does shimmer read as blinking? | **ColorVideoVDP** (`cvvdp`, MIT, PyTorch, CPU works) | compare *display-referred* clips with a custom display model (peak 100 cd/m², black level, `E_ambient` 0); its 0.005 cd/m² luminance floor does not matter for display output |
-| M2.5 video | the same with gaze on the ribbon | **FovVideoVDP** (`pyfvvdp`, CC BY-NC) | fixation point + ppd from the viewing geometry; achromatic |
-| M2.5 video | a temporal golden clip | idiff per frame + cvvdp summary | like `t2-golden`, ~2 s clip |
+| **done (M2.5)** | temporal visibility of render noise | **ColorVideoVDP** 0.5.7 (`nix develop .#video`, `m25/cvvdp.sh`), display model `m25/display_models_m25.json`: pcond's 100 cd/m², 100:1, dark room, 16 ppd | a diagnostic, not a gate; seed 0 vs 1: 9.72 JOD moving = 9.72 static → spatial noise, not temporal |
+| **done (M2.5)** | a temporal golden clip | `m25-golden-clip` | 4 frames |
+| M3 decision | does scintillation add a *visible* temporal difference over clip B? | ColorVideoVDP B vs B + scintillation, same seed | the JOD a change must exceed is the seed-noise level above (≈ 0.28) |
+| M3 | the same with gaze on the ribbon | **FovVideoVDP** (`pyfvvdp`, CC BY-NC) | fixation point + ppd from the viewing geometry; achromatic |
 | M3 decision | 2AFC "which is closer to the reference / to night perception?" | pairwise comparison with **pwcmp** (Mantiuk group, JOD scaling) or **ASAP** active sampling (gfxdisp) | needs reference photographs; split criteria (lights / darkness / colour); blind order |
 | anytime | stills visibility at scene luminance, rods included | **HDR-VDP-3** (MATLAB/Octave, rod pathway) | stills only; not an appearance model |
 | G3′ | glare veil magnitude | CIE 146:2002 equations vs Spencer PSF, same geometry and observer | a veil reference, not a model of the dark-adapted eye |

@@ -762,3 +762,27 @@ Details are in [`../../m2/README.md`](../../m2/README.md). The M1.1 stack was no
   - Recommendation for the art scene now: **clear to mild haze, single scattering**.
 - **Next:** watch a slow camera move over that scene before deciding whether scintillation (M3)
   is needed.
+
+## T2 + M2.5: tests frozen, first video (round 6)
+
+Details: [`test-strategy.md`](test-strategy.md), [`../../m25/README.md`](../../m25/README.md).
+
+- **T2 wording, corrected.**
+  - LDR-FLIP (displayed PNG) says what changed in the viewer's image after the stack.
+  - HDR-FLIP (scene EXR) says what changed anywhere in FLIP's own exposure bracket of the HDR
+    render.
+  - FLIP is pinned to 1.2, with the viewing condition declared: the image fills its 60° HFOV.
+  - The display threshold 0.016 / 1 % is our starting value, taken from the base default of
+    Blender's `render_report.py`, not a universal Blender value.
+- **Video exposes a problem stills hide.** Sub-pixel lamps get a few Monte Carlo hits each.
+  After pcond's exposure, one hit in a neighbour pixel is ~27 cd/m² on the display, so in
+  motion the renderer itself would twinkle.
+  - Fixed with stock tools: a two-pass render (haze + lamps). The lamps pass has enlarged
+    see-through spheres of the same intensity, 4× supersampling and Cycles' own
+    Blackman–Harris window applied by OIIO.
+  - Proven equal to the one-pass render (`m25-decomposition`).
+- **pcond in motion.** Its per-frame adaptation stayed at the same exposure on every frame
+  (linear mode), so there is no global flicker.
+- **ColorVideoVDP** (packaged from PyPI): with a fixed seed the remaining render noise is a
+  frozen spatial pattern (9.72 JOD moving = 9.72 static), not temporal. It sets the bar a
+  scintillation effect must clear in M3.
