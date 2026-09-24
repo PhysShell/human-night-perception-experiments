@@ -22,19 +22,19 @@ for l in open(f"{H}/metrics.jsonl"):
 def lab(cfg, scene, lum, text):
     r = MET.get((cfg, scene, lum), {})
     f = lambda k, fmt: (fmt % r[k]) if r.get(k) is not None else "–"
-    return (f"{text}  |  sky {f('sky_median', '%.3g')} cd/m², dark median {f('dark_median', '%.3g')}, silhouette "
+    return (f"{text}\nsky {f('sky_median', '%.3g')} cd/m², dark median {f('dark_median', '%.3g')}, silhouette "
             f"{f('silhouette_weber', '%.2f')}, lamp sat. kept {f('lamp_saturation_retention', '%.2f')}, plateaus "
             f"{r.get('plateau_n', '–')} / max {f('plateau_diam_max_arcmin', '%.1f')}′")
 
 
 def sheet(cells, dest, title):
     cells = [(t, p) for t, p in cells if os.path.exists(p)]
-    fig, axs = plt.subplots(len(cells), 1, figsize=(10, 2.35 * len(cells)))
+    fig, axs = plt.subplots(len(cells), 1, figsize=(10, 2.6 * len(cells)))
     for ax, (t, p) in zip(np.atleast_1d(axs), cells):
         v = read_code(p); f = max(1, v.shape[1] // 960)
         ax.imshow(lin_to_srgb(area_down(srgb_to_lin(v), f)), interpolation="antialiased")
         ax.set_title(t, fontsize=7.5, loc="left"); ax.axis("off")
-    fig.suptitle(title, fontsize=8.5)
+    fig.suptitle(title.replace("  |  PHONE", "\nPHONE"), fontsize=8)
     plt.tight_layout(rect=[0, 0, 1, 0.97]); plt.savefig(dest, dpi=110); plt.close(fig)
 
 
