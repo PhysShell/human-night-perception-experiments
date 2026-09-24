@@ -1,0 +1,18 @@
+binary: /nix/store/970sg6md2mnzk62dvsskykm1if6llbch-pfstools-2.2.0/bin/pfstmo_mantiuk08
+-s ppd=5                   f3ed3b10f2fd7288
+-s ppd=30                  f3ed3b10f2fd7288
+-s ppd=73                  f3ed3b10f2fd7288
+-s ppd=150                 f3ed3b10f2fd7288
+-s vres=480:vd=3:d=0.5     f3ed3b10f2fd7288
+-s vres=2160:vd=0.8:d=0.5  f3ed3b10f2fd7288
+-s ppd=30 -e 2 (control)   57e4dca28ac2ccca
+
+binary: /nix/store/p6wgc8g8ak3ynqjhp13xrbsqhcw0a9vr-pfstools-2.2.1-master-c860691/bin/pfstmo_mantiuk08
+-s ppd=5                   f3ed3b10f2fd7288
+-s ppd=30                  f3ed3b10f2fd7288
+-s ppd=73                  f3ed3b10f2fd7288
+-s ppd=150                 f3ed3b10f2fd7288
+-s vres=480:vd=3:d=0.5     f3ed3b10f2fd7288
+-s vres=2160:vd=0.8:d=0.5  f3ed3b10f2fd7288
+-s ppd=30 -e 2 (control)   57e4dca28ac2ccca
+

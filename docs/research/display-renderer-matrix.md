@@ -15,7 +15,7 @@ The roles are kept apart:
 | display model | `d0/display-scenarios.json` + `d0/display_model.py`: one parametric decoder for every donor |
 | evaluation metric | `d0/metrics.py`: descriptive only. HDR-VDP P_det is a diagnostic under its own observer model |
 
-| | A pcond (V0) | B Mantiuk08 | C ACES 2 | CTRL-PHOT / CTRL-KEY exposure + clamp | D2 Reinhard02 | E iCAM06 | F BT.2446 | G Tariq 2023 |
+| | A pcond (V0) | B Mantiuk08 | C ACES 2 | CTRL-PHOT / CTRL-KEY exposure + clamp | D2 Reinhard02 | E iCAM06_RENDERED (authors' full recipe incl. display step) | F BT.2446 | G Tariq 2023 |
 |---|---|---|---|---|---|---|---|---|
 | **primary purpose** | visibility-matched tone reproduction: human sensitivity, colour loss | minimise visible contrast distortion on a given display | scene-referred → display rendering for cinema/TV mastering | control: literal photometry / naive auto-exposure | control: photographic global curve | image appearance across media and luminance levels | broadcast HDR→SDR conversion | perceptual contrast preservation under display limits (real time) |
 | **input class (D0.1, `d0/input-semantics.md`)** | physical | relative + WHITE_Y anchor | scene-referred + exposure (read only as an exposure family) | physical clipping / relative key | relative key | absolute appearance, relative display stage | display-referred | — |
@@ -41,3 +41,23 @@ The roles are kept apart:
 - ITU-R Report BT.2446-1 (2021).
 - Tariq et al., SIGGRAPH Asia 2023.
 - Ward Larson, Rushmeier & Piatko 1997 (pcond).
+
+## iCAM06 is two results (D0.1)
+
+iCAM06 is stored as two separate results, because its architecture has two stages that answer different
+questions (Kuang, Johnson & Fairchild 2007; `d0/input-contracts/icam06.md` §D0.1).
+
+| | iCAM06_APPEARANCE | iCAM06_RENDERED |
+|---|---|---|
+| what | the image-appearance representation `XYZ_tm`, before `iCAM06_disp` | the authors' LDR display recipe: `XYZ_tm` / max Y → RGB → 1st/99th-percentile stretch → sRGB |
+| absolute level | kept. At the physical night level the model's sky is 1 % of its max; at daylight level, 0.0008 % | removed. Displayed sky 11–28 cd/m² over six decades of scene level |
+| rods / cones, chroma | cone + rod responses (FL, As/FLS), Hunt/Stevens via IPT; hue changes with level | inherits them, re-normalised |
+| role | **D1-A / D1-B donor** (`d1/README.md`) | D0 display renderer (this matrix) |
+
+The D0 finding "the physical night renders lighter than daylight" is a property of iCAM06_RENDERED. It is not a
+verdict on iCAM06's model of night vision.
+
+## D1
+
+The low-light *appearance* question (rods/cones, Purkinje, acuity, time course) moved to `d1/README.md`. The
+renderers in this matrix remain the display/production controls there.

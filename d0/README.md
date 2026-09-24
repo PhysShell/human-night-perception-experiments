@@ -228,6 +228,6 @@ These are anchors that relative or scene-referred renderers need *by design*. Th
 - **P_det** is HDR-VDP-3's detection model applied to emitted light: one observer model, not a human
   measurement. Nothing is ranked by it.
 
-**D0 + D0.1 stop here.** Not started: D1 (no custom objective, no Spencer/Temporal Glare, no Blender changes).
+**D0 + D0.1 are frozen.** Implementation/documentation mismatch filed for the upstream backlog (draft, not sent): `docs/upstream/pfstools-mantiuk08-display-size/`. The low-light appearance question continues in `d1/README.md`. Not started: D1 (no custom objective, no Spencer/Temporal Glare, no Blender changes).
 Open questions: `docs/research/display-rendering-open-questions.md`. Donor matrix:
 `docs/research/display-renderer-matrix.md`.

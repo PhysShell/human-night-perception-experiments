@@ -1,6 +1,6 @@
 # Display rendering: open questions after D0 and D0.1
 
-Only questions that D0's measurements actually raised. No answer is proposed here, and D1 is not started.
+Only questions that D0's measurements actually raised. No answer is proposed here. D0/D0.1 are frozen; questions 1a and 5 continue as D1 (`d1/README.md`: D1-A absolute night appearance, D1-B low-light colour/detail cues).
 Numbers: `d0/README.md`, `d0/results/tables/summary.md`.
 
 1. **Where should night brightness come from?** After the D0.1 audit (`d0/input-semantics.md`) this is two
@@ -55,8 +55,8 @@ Numbers: `d0/README.md`, `d0/results/tables/summary.md`.
    - A manually downloaded calibrated daytime HDR would complete S5.
 8. **Donor gaps.**
    - Mantiuk08: the CLI accepts `--display-size` but the operator never uses it, in 2.2.0 and in master c860691
-     (source-verified). Testing the geometry axis the paper describes would need a code change: out of scope for a
-     native run. 24 fps is unsupported in both builds.
+     (source-verified; upstream draft with a minimal repro: `docs/upstream/pfstools-mantiuk08-display-size/`).
+     Testing the geometry axis the paper describes would need a code change: out of scope for a native run. 24 fps is unsupported in both builds.
    - BT.2446 needs a display-referred HDR master first (e.g. ACES HDR1000 → BT.2446 → SDR would be a
      *combination*, excluded in D0).
    - Tariq 2023 has no public code.
