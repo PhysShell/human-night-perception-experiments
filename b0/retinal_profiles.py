@@ -35,7 +35,7 @@ def cie_gsf(theta_deg, age=24.0, p=0.5):
 tot = ld("b0/out/stim_ach/C_src1.exr").sum()
 RADII = (3, 10, 18, 30, 60)
 res = {"units": {"PSF_sr^-1": "fraction of the source's luminance per steradian (annulus mean, +-0.5')",
-                 "energy_within_arcmin": "fraction of the source's luminance", "pixel_sr": OMEGA, "px_per_deg": PPD},
+                 "energy_within_arcmin": "fraction of the source's luminance in the 73 px/deg pixels whose centres lie within r; a GRID quantity that includes the 3-px source footprint (no optics: 0.75 within 1'), not the continuous EE of the PSF", "pixel_sr": OMEGA, "px_per_deg": PPD},
        "models": {}}
 for v, lab in (("V0_none", "none"), ("V1_iset", "ISET wavefront, 550 nm, ZERO_DEFOCUS"),
                ("V3_cie99", "CIE99 straylight"), ("V2_hdrvdpmtf", "HDR-VDP MTF straylight")):

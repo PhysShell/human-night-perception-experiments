@@ -1,7 +1,7 @@
 {
  "units": {
   "PSF_sr^-1": "fraction of the source's luminance per steradian (annulus mean, +-0.5')",
-  "energy_within_arcmin": "fraction of the source's luminance",
+  "energy_within_arcmin": "fraction of the source's luminance in the 73 px/deg pixels whose centres lie within r; a GRID quantity that includes the 3-px source footprint (no optics: 0.75 within 1'), not the continuous EE of the PSF",
   "pixel_sr": 5.716221050604402e-08,
   "px_per_deg": 73.0
  },
