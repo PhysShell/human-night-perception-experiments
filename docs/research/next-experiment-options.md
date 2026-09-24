@@ -114,7 +114,7 @@ state. The features:
 - temporal character.
 
 This will define the objective function of a future inverse renderer. Roles:
-- **Targets:** RETINAL_WAVEFRONT (ISET, Thibos) and RETINAL_STRAYLIGHT (CIE99, the HDR-VDP MTF).
+- **Targets:** RETINAL_WAVEFRONT (ISET, Thibos) and RETINAL_STRAYLIGHT (CIE 135/1 in 2-D, the HDR-VDP fitted MTF).
 - **Candidate encodings D:** pcond, Spencer, Temporal Glare.
 - **Judge:** HDR-VDP's perceptual stages.
 
@@ -122,16 +122,20 @@ v3 findings, B0-optics layer. The only feature measured is the visibility of a t
 lamp, and P_det is a diagnostic under the HDR-VDP-3 observer model:
 - **Frozen V0.** Under the selected B0 observer diagnostic, V0 substantially over-preserves the
   visibility of the nearby silhouette relative to every scene-observer reference (0.997 vs 0–0.29).
-- **Spencer as D** is within 0.09 of the ISET and CIE99 targets from 8.9·10⁻⁵ lx upward, and too
-  revealing below.
+- **Spencer as D** is too revealing at low source levels against the straylight targets (gap 0.72 at
+  8.9·10⁻⁶ lx, 0.17 at 8.9·10⁻⁵ lx) and matches from ~10⁻³ lx.
 - **Temporal Glare** is window-limited from ×1. In its native clip, the inner glare pulsates by ~3–4 %,
   with a dominant component around 0.2–0.3 Hz, and does not wander.
-- **Straylight models disagree 10–20×.** This is model uncertainty and a lower bound on claims of
-  physiological truth without our own psychophysics.
-- **Wavefront vs straylight.** ISET matches CIE99 only at the trunk's distance; the retinal images
-  differ 2–10× elsewhere.
+- **Erratum: HDR-VDP 3.0.7 `hdrvdp_otf_cie99` is not CIE 135/1 in 2-D.** It uses a 1-D Fourier
+  transform as a 2-D OTF, so its veil is 14× too low at 0.3°.
+  - With the published GSF applied in 2-D, CIE 135/1 and the HDR-VDP fitted MTF agree on the trunk
+    P_det.
+  - The "10–20× straylight model disagreement" of the first v3 draft was this defect.
+- **Wavefront vs straylight** are two parts of one PSF. Within 1.5× at 3′; from 10′ outwards scatter
+  is ~20× the aberration PSF. The joint target is B1 (`docs/research/b1-full-ocular-psf-donors.md`).
 - **ISET focus conventions:** THIBOS_NATIVE (+0.26 D, as published), ZERO_DEFOCUS_550 and
-  BEST_FOCUS_550 (+0.04 D). The focus convention moves the core as much as the spectrum does.
+  BEST_FOCUS_550 (grid optimum around +0.04 D; near-optimal +0.015 … +0.054 D). The focus convention
+  moves the core as much as the spectrum does.
 - **Blind set.** The viewer's choice is pending; it reads as preference/resemblance, not physiology.
 
 ## Cheapest discriminating experiment

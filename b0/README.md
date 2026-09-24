@@ -47,7 +47,7 @@ same display step, the frozen pcond stack (`b0/display.sh`, PHONE 73 px/deg, Ldm
     REPO=$PWD B0_OUT=$PWD/b0/out/kernels SPD_CSV=$PWD/tracks/mitsuba-spectral/spectra/test_spectra_unitlum.csv \
       B0_ISET_TAG=_550z B0_SPD_COL=5 B0_NARROW550=1 B0_ZERO_DEFOCUS=1 B0_SPD_NAME=550 \
       bash tracks/iset/scripts/run_octave.sh b0/iset_kernel.m    # also _HPSz(3) _LEDz(4) _Ez(5) _BLUEz(6); no B0_ZERO_DEFOCUS = THIBOS_NATIVE
-    #   through focus: B0_C4=<um> instead of B0_ZERO_DEFOCUS, -0.20..0.60 step 0.05 into b0/out/focus
+    #   through focus: B0_C4=<um> instead of B0_ZERO_DEFOCUS, -0.20..0.60 step 0.05 (0.01 over 0..0.10) into b0/out/focus
     B0_LAYER=ach nix develop -c b0/run_components.sh    # optics on the linear components
     B0_LAYER=ach nix develop -c python3 b0/sweep.py     # 31-step sweep: display, 3 evaluators, adaptation
     B0_LAYER=ach nix develop -c b0/sweep_world.sh       # retinal targets via the evaluator's optics, 146 px/deg
@@ -56,9 +56,43 @@ same display step, the frozen pcond stack (`b0/display.sh`, PHONE 73 px/deg, Ldm
     nix develop -c python3 b0/through_focus.py          # BEST_FOCUS_550 sensitivity
     nix develop -c python3 b0/retinal_profiles.py       # wavefront vs straylight retinal images
     tracks/temporal-glare-2009/py.sh b0/temporal_inner.py
-    nix develop -c python3 b0/cie_ss_check.py           # CIE99 4x vs 8x
+    nix develop -c python3 b0/cie_ss_check.py           # otf_cie99 4x vs 8x (grid convergence only)
+    nix develop -c python3 b0/cie_otf_check.py          # erratum: HDR-VDP otf_cie99 vs the 2-D OTF of CIE 135/1
+    nix develop -c python3 b0/cie135_target.py          # the CIE 135/1 straylight target in 2-D
     (v2 warm layer: the same without B0_LAYER; v1 nominal and blind set: b0/run_optics.sh, b0/run_display.sh,
      b0/blind.py; do not rerun blind.py, it would reshuffle the key)
+
+## ERRATUM: HDR-VDP 3.0.7 `hdrvdp_otf_cie99` is not CIE 135/1 in 2-D
+
+Found while checking that all retinal profiles were compared in one normalisation (PSF in sr⁻¹,
+∫PSF dΩ = 1; `results/retinal_profiles.json`, `results/cie_otf_check.json`):
+
+- The donor's closed form (comment: "found by applying a Fourier transform using Matlab's symbolic
+  toolbox") has terms 2c²|ω|K1(c|ω|). That is the **1-D** Fourier transform of (1 + (θ/c)²)^−1.5. It
+  is used as a **2-D** radial OTF, where the Hankel transform, 2πc²·exp(−2πcρ), is required. The
+  1-D form under-weights the wide terms.
+- Checked against the donor's own Octave output, identical to 6 digits:
+
+| ρ (cpd) | 0.1 | 0.3 | 1 | 3 | 10 | 30 |
+|---|---|---|---|---|---|---|
+| 2-D OTF of the CIE 135/1 GSF (numerical Hankel transform; GSF integral 1.003) | 0.950 | 0.908 | 0.795 | 0.581 | 0.307 | 0.153 |
+| HDR-VDP `hdrvdp_otf_cie99` | 1.000 | 0.998 | 0.987 | 0.942 | 0.812 | 0.567 |
+
+- **Effect on the retinal image:** the veil is 8× too low at 10′, 14× at 18′ (the trunk) and 50× at 60′.
+- **The CIE 135/1 target in 2-D** (`b0/cie135_target.py`): the published GSF integrated per pixel,
+  spatial convolution. It reproduces the analytic GSF in sr⁻¹ within 3 % at 3′ and within 0.2 %
+  from 10′ to 60′. Its trunk P_det is **0.028 / 0.005 / 0.0002 / 0** at ×0.1 / ×1 / ×10 / ×100. That is
+  the same as the HDR-VDP fitted MTF (0.027 / 0.005 / 0.000 / 0.000).
+- **Consequences:**
+  - The "10–20× disagreement between straylight models" reported in v3 was a **donor
+    implementation defect, not model uncertainty**. CIE 135/1 and the HDR-VDP fitted MTF agree on
+    this feature.
+  - Every "CIE99" row in v2 and v3 is this defective OTF. That includes the v2 world reference
+    "CIE99 observer" and "V4 follows the CIE99 observer curve". Such rows are kept, labelled, for the
+    record.
+  - The HDR-VDP fitted MTF itself is fine: its wing is within 16 % of the analytic GSF from 3′ to 60′.
+  - `cie_ss_check.py` tested grid convergence of the defective OTF only.
+  - Not reported upstream yet.
 
 ## Roles
 
@@ -67,31 +101,36 @@ A branch is classified by **where its output lives, and what part of the optics 
 | role | what it models | branches here | how it is evaluated |
 |---|---|---|---|
 | **RETINAL_WAVEFRONT** | human wavefront optics: aberrations, diffraction, wavelength-dependent (LCA) retinal image; the **central PSF** | ISETBio/ISETCam `wvf human` (Thibos statistical virtual eye) | on the retinal image, evaluator optics OFF |
-| **RETINAL_STRAYLIGHT** | intraocular **scatter / disability-glare veil**: the low-frequency part only; no high-frequency diffraction, no chromatic aberration (as the HDR-VDP-2 authors state for their MTF) | CIE 135/1 GSF (`hdrvdp_otf_cie99`); HDR-VDP fitted MTF | on the retinal image, evaluator optics OFF |
+| **RETINAL_STRAYLIGHT** | intraocular **scatter / disability-glare veil**: the low-frequency part only; no high-frequency diffraction, no chromatic aberration (as the HDR-VDP-2 authors state for their MTF) | CIE 135/1 GSF in 2-D (`cie135_target.py`); HDR-VDP fitted MTF (`hdrvdp_otf_cie99` is defective, see the erratum) | on the retinal image, evaluator optics OFF |
 | **DISPLAY_ENCODING** | an image D for the phone | baseline pcond (V0); Spencer via Fog Glow (V4); Temporal Glare kernel (V5) | through the display, with **the viewer's eye at the phone** (EVAL_VIEWER); optics OFF as a diagnostic |
 | **OBSERVER** | a judge, never an image | HDR-VDP-3 perceptual stages and detection (local adaptation = Vangorp descendant, CSF) | — |
 
-- **Wavefront and straylight targets are not the same retinal image, even where their P_det agrees.**
-  See the table and `results/retinal_profiles.json`. Lamp component, luminance relative to the peak:
+- **Wavefront and straylight are different parts of the eye's PSF.** One normalisation for all models:
+  PSF in sr⁻¹, i.e. the fraction of the source's luminance per steradian (`results/retinal_profiles.json`).
+  The lamp component on the 73 px/deg grid; ∫PSF dΩ over the field is 1.000 for ISET and otf_cie99,
+  and 0.990 for the HDR-VDP MTF. v3's first draft divided each profile by its own peak. That mixed the
+  core into the wing comparison and is withdrawn.
 
-| radius | ISET wavefront (550 nm, ZERO_DEFOCUS) | CIE99 straylight | HDR-VDP MTF straylight |
-|---|---|---|---|
-| energy within 1′ | 0.445 | 0.539 | 0.227 |
-| L/peak at 3′ | 1.7·10⁻² | 7.0·10⁻³ | 4.2·10⁻² |
-| L/peak at 18′ (the trunk) | 1.2·10⁻⁵ | 1.4·10⁻⁵ | 5.8·10⁻⁴ |
-| L/peak at 60′ | 1.4·10⁻⁶ (ISET field ends at 74′) | 1.4·10⁻⁷ | 1.6·10⁻⁵ |
+| PSF, sr⁻¹ | 3′ | 10′ | 18′ (the trunk) | 30′ | 60′ |
+|---|---|---|---|---|---|
+| ISET wavefront core (550 nm, ZERO_DEFOCUS; kernel field ends at 74′) | 3.7·10⁴ | 1.8·10² | 25 | 7.3 | 3.1 |
+| CIE 135/1 GSF, analytic (age 24, p 0.5) | 5.2·10⁴ | 3.0·10³ | 572 | 133 | 18.9 |
+| CIE 135/1 in 2-D on the grid (`cie135_target.py`) | 5.3·10⁴ | 3.0·10³ | 572 | 133 | 18.9 |
+| HDR-VDP fitted MTF | 4.7·10⁴ | 3.5·10³ | 653 | 146 | 18.6 |
+| HDR-VDP `otf_cie99` (defective) | 2.0·10⁴ | 384 | 40 | 5.6 | 0.39 |
 
-  - ISET and CIE99 happen to put the same veil at the trunk's distance, so they give a similar P_det.
-  - They differ 2.4× at 3′ and 10× at 60′.
-  - The similar P_det is a property of this stimulus, not agreement between the models.
-  - A complete target would need both: a wavefront core and a straylight veil. B0 does not combine
-    them.
+  - At 3′ the wavefront core and the straylight models are within 1.5× of each other.
+  - From 10′ outwards straylight dominates: ~20× the aberration PSF at the trunk.
+  - The literature says the same: the core is aberrations, the outer field is scatter.
+  - v3 said "ISET and CIE99 converge" on the trunk P_det. That was the ISET core happening to match
+    the *defective* CIE OTF, and is withdrawn.
+  - A complete target needs a wavefront core and a straylight veil together. That is B1.
 - **PSF × PSF.** A retinal PSF baked into a display image is blurred again by the viewer's eye.
   Retinal branches shown on the display are informational rows only (`display_PSF_x_PSF`).
 
 ## Observer settings (what every branch was set to, and what it cannot be set to)
 
-| parameter | ISET `wvf human` | CIE99 (HDR-VDP `otf_cie99`) | HDR-VDP MTF | Spencer / Fog Glow | Temporal Glare demo | HDR-VDP evaluator |
+| parameter | ISET `wvf human` | CIE 135/1 GSF (as used by `otf_cie99` and `cie135_target.py`) | HDR-VDP MTF | Spencer / Fog Glow | Temporal Glare demo | HDR-VDP evaluator |
 |---|---|---|---|---|---|---|
 | pupil | **6 mm (set)** | model-fixed (no pupil in the GSF) | model-fixed (4-exponential fit) | model-fixed (Blender's Spencer kernel) | model-internal: hippus around 6.66 mm (Eq. 2 from the overlay mean), SD 0.11 mm | model-fixed |
 | age | not modelled (Thibos virtual eyes, adult sample) | **24 (set; donor default)**, pigmentation 0.5 | model-fixed | not modelled | not modelled | 24 (default) |
@@ -112,17 +151,19 @@ carries c4 = +0.335 µm (≈ 0.26 D). It is not an ISET error, and `c4 = 0` is n
 |---|---|---|---|---|
 | **THIBOS_NATIVE**: the mean virtual eye as published | +0.335 | +0.26 | 0.32 | 1.86 / 3.66 / 5.96 |
 | **ZERO_DEFOCUS_550**: the same eye, c4 forced to 0 (the B0-optics tables use this) | 0 | 0 | 0.52 | 0.92 / 1.66 / 3.70 |
-| **BEST_FOCUS_550**: through-focus, all other terms as published | +0.05 | +0.04 | 0.53 | 0.92 / 1.86 / 4.05 |
+| **BEST_FOCUS_550**: through-focus, all other terms as published | grid optimum around +0.05; near-optimal (EE(1′) within 1 % of max) +0.02 … +0.07 | +0.015 … +0.054 | 0.53 | 0.92 / 1.86 / 4.05 (at +0.05) |
 
-- **Through focus** (`results/through_focus.json`): c4 from −0.20 to +0.60 µm in 0.05 µm steps, at
-  550 nm.
+- **Through focus** (`results/through_focus.json`): c4 from −0.20 to +0.60 µm in 0.05 µm steps,
+  refined to 0.01 µm over 0 … +0.10 µm, at 550 nm.
 - **Criterion, declared before looking:** the energy within 1′ (the compact core that pcond clips);
   PSF peak as a Strehl proxy.
-- **Result:** both criteria pick +0.05 µm (±0.025 at this step).
+- **Result:** both criteria have a grid optimum around +0.05 µm.
+  - Near-optimal interval, EE(1′) within 1 % of its maximum: **+0.02 … +0.07 µm**; within 5 %: 0 … +0.10 µm.
+  - The grid step is not physiological precision.
   - The tail criterion (EE95) would pick the other side, −0.20 µm or beyond. With spherical
     aberration, best focus depends on the criterion.
-  - At 550 nm, ZERO_DEFOCUS_550 is one step from BEST_FOCUS_550. The B0-optics numbers therefore hold
-    for either.
+  - ZERO_DEFOCUS_550 is within 2 % of the optimum (EE(1′) 0.523 vs 0.534). The B0-optics numbers
+    therefore hold for either.
 - **THIBOS_NATIVE is 0.22 D from both at 550 nm.** It may still be the natural focus for polychromatic
   light over the central pupil. This is what made the native eye sharper for HPS (EE50 1.03′) than
   for 550 nm (1.86′): LCA at the sodium lines partly cancels the native defocus. That is a property
@@ -154,27 +195,31 @@ carries c4 = +0.335 µm (≈ 0.26 D). It is not an ISET error, and `c4 = 0` is n
 
 | kind | what | size here |
 |---|---|---|
-| **numerical** | sampling, convergence | ≤ 6 %: CIE99 4× vs 8×; ISET 4× vs 8×; world grid 73/146/292 |
-| **model** | wavefront (ISET) vs straylight (CIE99) vs the fitted MTF (HDR-VDP); focus convention | CIE99 vs HDR-VDP MTF target: 10–20× in trunk P_det; ISET focus: 2× in EE50 |
+| **numerical** | sampling, convergence | ≤ 6 %: ISET 4× vs 8×; world grid 73/146/292; CIE 135/1 in 2-D vs analytic ≤ 3 % |
+| **model** | wavefront core vs straylight veil (different parts of one PSF, not rivals); straylight model choice; focus convention | CIE 135/1 vs HDR-VDP fitted MTF: agree on the trunk P_det (0.028 vs 0.027 at ×0.1); ISET focus: 2× in EE50 |
+| **implementation** | a donor's code not doing what its label says | HDR-VDP `otf_cie99`: 14× at the trunk (erratum) |
 | **display / perceptual** | how to encode brightness the display cannot emit | the DISPLAY ENCODINGS table |
 
-The CIE99 and HDR-VDP-MTF references disagreeing is not something to fix now. It is the lower bound
-on how far physiological truth can be claimed without our own psychophysics.
+The apparent 10–20× disagreement between straylight references in v3 was the implementation row,
+not the model row. What remains honest is narrower. The two published straylight descriptions agree
+on this feature. The wavefront core and the scatter veil still have to be joined physically (B1).
+Night-level P_det remains an extrapolated diagnostic without our own psychophysics.
 
 ## Numerics
 
 - **Illuminance at the eye** (`meta.json`): ×1 = 800 cd / (3000 m)² = **8.89·10⁻⁵ lx**,
   ×10 = 8.89·10⁻⁴, ×100 = 8.89·10⁻³. The README and manifests were right. The "8.9e-5 / 1e-4 / 1e-3"
   was a typo in a chat message only.
-- **CIE99 OTF grid:** production 4×. Spot check 8× on a 3° × 3° crop around the source
-  (`results/cie_ss_check.json`):
+- **otf_cie99 OTF grid** (the defective donor OTF, grid convergence only): production 4×. Spot check 8× on
+  a 3° × 3° crop around the source (`results/cie_ss_check.json`):
   - energy-weighted difference 1.8 %;
   - peak 1.4 %;
   - largest local difference 4.0 % where L > 1 % of the peak;
   - luminance at 5′ / 15′ / 30′ equal to 0.05 %.
 - **ISET:** 4× vs 8× EE radii within 6 % (v2 record, below).
-- **Two routes to the same straylight target agree.**
-  - CIE99 donor at 73 px/deg with evaluator optics OFF, vs CIE99 as the evaluator's optics at
+- **Two routes to the same straylight OTF agree** (a consistency check of the plumbing, valid for the
+  defective OTF too).
+  - otf_cie99 donor at 73 px/deg with evaluator optics OFF, vs CIE99 as the evaluator's optics at
     146 px/deg: trunk P_det 0.268 / 0.285 (×0.1) … 0.004 / 0.005 (×100).
   - HDR-VDP MTF: 0.027 / 0.051 (×0.1), 0.005 / 0.009 (×1), i.e. a factor ~2 within the last few hundredths.
 
@@ -191,16 +236,17 @@ on how far physiological truth can be claimed without our own psychophysics.
 
 #### RETINAL TARGETS (achromatic B0-optics; trunk P_det, HDR-VDP-3 observer model)
 
-WAVEFRONT = aberration optics (central PSF); STRAYLIGHT = low-frequency scatter / disability-glare veil only (no diffraction, no chromatic aberration). A similar P_det from the two is a coincidence on this stimulus, not the same retinal image.
+WAVEFRONT = aberration optics (central PSF); STRAYLIGHT = low-frequency scatter / disability-glare veil only (no diffraction, no chromatic aberration). The otf_cie99 rows are a donor defect kept for the record (b0/cie_otf_check.py); the 2-D CIE 135/1 row is the CIE straylight target. ISET's wavefront core alone puts ~20x less light at the trunk than straylight does; a complete target needs both (B1).
 
 | target (observer model X) | kind | route | x0.1 (8.9e-06 lx) | x1 (8.9e-05 lx) | x10 (8.9e-04 lx) | x100 (8.9e-03 lx) |
 |---|---|---|---|---|---|---|
 | ISETBio wvf human, 550 nm, 6 mm, ZERO_DEFOCUS_550 | WAVEFRONT | donor optics, evaluator OFF, 73 px/deg | 0.275 | 0.088 | 0.025 | 0.007 |
 | HDR-VDP-3 eye MTF | STRAYLIGHT | donor optics, evaluator OFF, 73 px/deg | 0.027 | 0.005 | 0.000 | 0.000 |
-| CIE 135/1 (Vos-van den Berg 1999), age 24, 4x grid | STRAYLIGHT | donor optics, evaluator OFF, 73 px/deg | 0.268 | 0.123 | 0.038 | 0.004 |
+| HDR-VDP 3.0.7 otf_cie99 (1-D transform used as 2-D OTF: NOT CIE 135/1), age 24 | STRAYLIGHT | donor optics, evaluator OFF, 73 px/deg | 0.268 | 0.123 | 0.038 | 0.004 |
 | no optics (physical stimulus) | none | donor optics, evaluator OFF, 73 px/deg | 0.552 | 0.514 | 0.475 | 0.438 |
+| CIE 135/1 GSF in 2-D (b0/cie135_target.py, erratum check) | STRAYLIGHT | donor optics, evaluator OFF, 73 px/deg | 0.028 | 0.005 | 0.000 | 0.000 |
 | HDR-VDP-3 eye MTF | STRAYLIGHT | evaluator optics on the physical stimulus, 146 px/deg | 0.051 | 0.009 | 0.000 | 0.000 |
-| CIE 135/1 (Vos-van den Berg 1999), age 24, 4x grid | STRAYLIGHT | evaluator optics on the physical stimulus, 146 px/deg | 0.285 | 0.132 | 0.041 | 0.005 |
+| HDR-VDP 3.0.7 otf_cie99 (1-D transform used as 2-D OTF: NOT CIE 135/1), age 24 | STRAYLIGHT | evaluator optics on the physical stimulus, 146 px/deg | 0.285 | 0.132 | 0.041 | 0.005 |
 
 Vangorp L_la at the trunk under each target's retinal image [cd/m², HDR-VDP local adaptation, extrapolated below its fitted 1 cd/m²] (diagnostic under observer model X):
 
@@ -208,7 +254,7 @@ Vangorp L_la at the trunk under each target's retinal image [cd/m², HDR-VDP loc
 |---|---|---|---|---|
 | ISETBio wvf human, 550 nm, 6 mm, ZERO_DEFOCUS_550 | 0.000374 | 0.00173 | 0.0142 | 0.139 |
 | HDR-VDP-3 eye MTF | 0.00332 | 0.0289 | 0.284 | 2.83 |
-| CIE 135/1 (Vos-van den Berg 1999), age 24, 4x grid | 0.000433 | 0.00196 | 0.0149 | 0.142 |
+| HDR-VDP 3.0.7 otf_cie99 (1-D transform used as 2-D OTF: NOT CIE 135/1), age 24 | 0.000433 | 0.00196 | 0.0149 | 0.142 |
 | no optics (physical stimulus) | 4.9e-05 | 4.91e-05 | 4.92e-05 | 4.94e-05 |
 
 #### DISPLAY ENCODINGS (image D on the phone through the frozen pcond stack, Ldmax 100)
@@ -225,8 +271,8 @@ Vangorp L_la at the trunk under each target's retinal image [cd/m², HDR-VDP loc
 | ISETBio wvf human, 550 nm, 6 mm, ZERO_DEFOCUS_550 (PSF x PSF, informational) | optics OFF (diagnostic) | 0.983 | 0.829 | 0.317 | 0.067 |
 | HDR-VDP-3 eye MTF (PSF x PSF, informational) | viewer's eye at the phone | 0.586 | 0.103 | 0.008 | 0.000 |
 | HDR-VDP-3 eye MTF (PSF x PSF, informational) | optics OFF (diagnostic) | 0.761 | 0.249 | 0.017 | 0.001 |
-| CIE 135/1 (Vos-van den Berg 1999), age 24, 4x grid (PSF x PSF, informational) | viewer's eye at the phone | 0.967 | 0.877 | 0.517 | 0.098 |
-| CIE 135/1 (Vos-van den Berg 1999), age 24, 4x grid (PSF x PSF, informational) | optics OFF (diagnostic) | 0.989 | 0.959 | 0.793 | 0.236 |
+| HDR-VDP 3.0.7 otf_cie99 (1-D transform used as 2-D OTF: NOT CIE 135/1), age 24 (PSF x PSF, informational) | viewer's eye at the phone | 0.967 | 0.877 | 0.517 | 0.098 |
+| HDR-VDP 3.0.7 otf_cie99 (1-D transform used as 2-D OTF: NOT CIE 135/1), age 24 (PSF x PSF, informational) | optics OFF (diagnostic) | 0.989 | 0.959 | 0.793 | 0.236 |
 
 Plateau: equivalent-area diameter of the pixels with displayed luminance above black >= 0.99 Ldmax [arcmin]; `wl` = window-limited (>= 0.8 of the 57.7' temporal window): neither the plateau nor the P_det is a result there:
 
@@ -237,20 +283,23 @@ Plateau: equivalent-area diameter of the pixels with displayed luminance above b
 | Temporal Glare 2009 (Frisvad demo), frame 1 | 7.1 | 52.7 wl | 57.9 wl | 59.7 wl |
 | ISETBio wvf human, 550 nm, 6 mm, ZERO_DEFOCUS_550 | 6.9 | 10.9 | 19.8 | 41.5 |
 | HDR-VDP-3 eye MTF | 11.0 | 26.0 | 53.3 | 87.4 |
-| CIE 135/1 (Vos-van den Berg 1999), age 24, 4x grid | 6.7 | 13.4 | 25.1 | 44.9 |
+| HDR-VDP 3.0.7 otf_cie99 (1-D transform used as 2-D OTF: NOT CIE 135/1), age 24 | 6.7 | 13.4 | 25.1 | 44.9 |
 
 #### GAP: |P_det(viewer_eye(D)) - P_det(target_retina)| (display encodings, EVAL_VIEWER)
 
 | encoding D | target | x0.1 (8.9e-06 lx) | x1 (8.9e-05 lx) | x10 (8.9e-04 lx) | x100 (8.9e-03 lx) |
 |---|---|---|---|---|---|
-| no optics (physical stimulus) | ISET 550 nm ZERO_DEFOCUS (wavefront) | 0.722 | 0.909 | 0.970 | 0.988 |
-| no optics (physical stimulus) | CIE99 (straylight, world 146 px/deg) | 0.712 | 0.865 | 0.954 | 0.990 |
+| no optics (physical stimulus) | ISET 550 nm ZERO_DEFOCUS (wavefront core only) | 0.722 | 0.909 | 0.970 | 0.988 |
+| no optics (physical stimulus) | CIE 135/1 in 2-D (straylight) | 0.969 | 0.992 | 0.995 | 0.995 |
+| no optics (physical stimulus) | HDR-VDP otf_cie99, defective (world 146 px/deg) | 0.712 | 0.865 | 0.954 | 0.990 |
 | no optics (physical stimulus) | HDR-VDP MTF (straylight, world 146 px/deg) | 0.946 | 0.988 | 0.995 | 0.995 |
-| Spencer 1995 via Blender Fog Glow | ISET 550 nm ZERO_DEFOCUS (wavefront) | 0.469 | 0.085 | 0.013 | 0.007 |
-| Spencer 1995 via Blender Fog Glow | CIE99 (straylight, world 146 px/deg) | 0.459 | 0.041 | 0.029 | 0.004 |
+| Spencer 1995 via Blender Fog Glow | ISET 550 nm ZERO_DEFOCUS (wavefront core only) | 0.469 | 0.085 | 0.013 | 0.007 |
+| Spencer 1995 via Blender Fog Glow | CIE 135/1 in 2-D (straylight) | 0.715 | 0.168 | 0.012 | 0.000 |
+| Spencer 1995 via Blender Fog Glow | HDR-VDP otf_cie99, defective (world 146 px/deg) | 0.459 | 0.041 | 0.029 | 0.004 |
 | Spencer 1995 via Blender Fog Glow | HDR-VDP MTF (straylight, world 146 px/deg) | 0.693 | 0.164 | 0.012 | 0.000 |
-| Temporal Glare 2009 (Frisvad demo), frame 1 | ISET 550 nm ZERO_DEFOCUS (wavefront) | 0.097 | 0.047 wl | 0.008 wl | 0.023 wl |
-| Temporal Glare 2009 (Frisvad demo), frame 1 | CIE99 (straylight, world 146 px/deg) | 0.107 | 0.091 wl | 0.008 wl | 0.025 wl |
+| Temporal Glare 2009 (Frisvad demo), frame 1 | ISET 550 nm ZERO_DEFOCUS (wavefront core only) | 0.097 | 0.047 wl | 0.008 wl | 0.023 wl |
+| Temporal Glare 2009 (Frisvad demo), frame 1 | CIE 135/1 in 2-D (straylight) | 0.149 | 0.036 wl | 0.033 wl | 0.030 wl |
+| Temporal Glare 2009 (Frisvad demo), frame 1 | HDR-VDP otf_cie99, defective (world 146 px/deg) | 0.107 | 0.091 wl | 0.008 wl | 0.025 wl |
 | Temporal Glare 2009 (Frisvad demo), frame 1 | HDR-VDP MTF (straylight, world 146 px/deg) | 0.127 | 0.032 wl | 0.033 wl | 0.030 wl |
 
 **Reading.**
@@ -261,16 +310,19 @@ Plateau: equivalent-area diameter of the pixels with displayed luminance above b
     of the gap is the change of luminance level, not the missing glare.
   - This is a statement about this feature under this diagnostic. pcond solves a tone-reproduction
     problem, not retinal equality, and it is not judged here as "wrong about night".
-- **Spencer (V4)** is within 0.09 of the ISET and CIE99 targets from ×1 upward (0.004–0.085). At ×0.1
-  it shows the trunk far more than they do (0.74 vs 0.27–0.28). This is one observer model, not a
-  validation.
+- **Spencer (V4)**, against the straylight targets (CIE 135/1 in 2-D, HDR-VDP MTF):
+  - gap 0.72 / 0.17 / 0.012 / 0 at ×0.1 / ×1 / ×10 / ×100;
+  - too revealing at low source levels, matching from ~10⁻³ lx;
+  - against the wavefront core alone the gap is 0.47 / 0.085 / 0.013 / 0.007;
+  - one observer model, not a validation.
 - **Temporal Glare (V5)** is within 0.13 at ×0.1. From ×1 upward it is window-limited and not
   evaluated.
 - **Targets:**
-  - The two straylight models differ 10–20× in trunk P_det: model uncertainty.
-  - The wavefront target (ISET) lands near CIE99 on this feature only (see Roles).
-- **Vangorp L_la at the trunk** is 4·10⁻⁴–0.14 cd/m² for ISET and CIE99 (up to 2.8 for the HDR-VDP
-  MTF), mostly far below the model's fitted 1–5000 cd/m². It is a diagnostic under the HDR-VDP
+  - The two straylight descriptions agree (0.028 vs 0.027 at ×0.1).
+  - The wavefront core alone is far less veiling at the trunk (0.275 at ×0.1).
+  - Scatter, not aberration, sets the visibility of an object 0.3° from a lamp.
+- **Vangorp L_la at the trunk** is 4·10⁻⁴–0.14 cd/m² for ISET and otf_cie99 (up to 2.8 for the HDR-VDP
+  MTF, which is the straylight-level value), mostly far below the model's fitted 1–5000 cd/m². It is a diagnostic under the HDR-VDP
   local-adaptation model applied to each target's retina.
 
 ## Temporal Glare as an inner dynamic glare sample (`results/temporal_inner.json`, `.png`)
@@ -313,6 +365,9 @@ drawn from the letters.
 ---
 
 # Appendix: v2 record (warm source, one mixed table)
+
+> **Erratum applies:** every CIE99 number below (V3, the "CIE99 observer" reference, "V4 follows the
+> CIE99 observer curve") uses HDR-VDP's defective `otf_cie99`. See the erratum at the top.
 
 Superseded where v3 differs:
 - the roles are separated;
