@@ -15,7 +15,8 @@ Angles: the analytic oracles are integrated on the sphere (dOmega = 2 pi sin(the
 uses the small-angle plane (sample solid angle = (arcmin/sample)^2), used well inside its +-15 deg support.
   tracks/temporal-glare-2009/py.sh b1/oracles.py -> b1/results/oracles.json, b1/results/*.csv, oracles.png
 """
-import json, math, os
+import json, math, os, sys
+sys.path.insert(0, 'b1')
 import numpy as np
 from scipy.ndimage import map_coordinates
 
@@ -55,12 +56,7 @@ def o1_package(eye, n, plane):
 
 
 # ---------------------------------------------------------------- O2: CIE 135/1
-def cie_raw(t_deg, age=AGE, p=P_CIE):
-    t, a4 = np.asarray(t_deg, float), (age / 70.0) ** 4
-    return ((1 - 0.08 * a4) * (9.2e6 / (1 + (t / 0.0046) ** 2) ** 1.5 + 1.5e5 / (1 + (t / 0.045) ** 2) ** 1.5)
-            + (1 + 1.6 * a4) * ((400 / (1 + (t / 0.1) ** 2) + 3e-8 * t ** 2)
-                                + p * (1300 / (1 + (t / 0.1) ** 2) ** 1.5 + 0.8 / (1 + (t / 0.1) ** 2) ** 0.5))
-            + 2.5e-3 * p)
+from oracles_cie import cie_raw  # noqa: E402  (shared with b1/unified_pupil.py)
 
 
 def sphere_ee(f_sr, t_max_deg, n):

@@ -1,0 +1,179 @@
+{
+ "declared": {
+  "fit_range_arcmin": [
+   30.0,
+   480.0
+  ],
+  "theta_hp_arcmin": 3.0,
+  "tol_log10_rms": 0.1,
+  "tol_log10_max": 0.2,
+  "target": "O2 CIE_COMPLETE_VISUAL_SPREAD (CIE 135/1 eq. 8, + age factor), age 24, p 0.5"
+ },
+ "scatter_off_vs_ISET": {
+  "max_abs_diff_over_peak": 1.559306404883751e-07,
+  "peak_ours": 0.017210566889611128,
+  "peak_iset": 0.0172105669584
+ },
+ "THIBOS_ONLY": {
+  "EE_1arcmin": 0.6511762057587198,
+  "EE_10arcmin": 0.9928710008013193,
+  "EE_30arcmin": 0.9978523302895215,
+  "energy_beyond_0.5deg": 0.002147669710478528,
+  "energy_beyond_8deg_on_support": 0.00010804578476186766,
+  "peak_fraction_per_sample": 0.017210566889611128,
+  "FWHM_equiv_arcmin": 0.8701040004343418
+ },
+ "stage1_beta_shape": {
+  "-0.9": {
+   "shape_rms_offset_free": 0.28727177268924586,
+   "B_um": 0.0022632960431106654
+  },
+  "-1.0": {
+   "shape_rms_offset_free": 0.21984316315889707,
+   "B_um": 0.0036643960299708603
+  },
+  "-1.1": {
+   "shape_rms_offset_free": 0.15259544115419285,
+   "B_um": 0.005934598447118808
+  },
+  "-1.214": {
+   "shape_rms_offset_free": 0.07780434943655722,
+   "B_um": 0.010280149188383268
+  },
+  "-1.3": {
+   "shape_rms_offset_free": 0.03466437634696848,
+   "B_um": 0.01554919810700219
+  },
+  "-1.4": {
+   "shape_rms_offset_free": 0.0686936775189147,
+   "B_um": 0.025118188935835437
+  },
+  "-1.5": {
+   "shape_rms_offset_free": 0.1371258280064968,
+   "B_um": 0.040455576497714925
+  }
+ },
+ "beta_star": -1.312410647901385,
+ "B_star_um": 0.016517803795982382,
+ "THIBOS_PLUS_ARIAS": {
+  "EE_1arcmin": 0.44596638617701384,
+  "EE_10arcmin": 0.8333367885487528,
+  "EE_30arcmin": 0.9196047039981008,
+  "energy_beyond_0.5deg": 0.08039529600189921,
+  "energy_beyond_8deg_on_support": 0.004533160316696927,
+  "peak_fraction_per_sample": 0.011656531373203426,
+  "Strehl_ratio_on_over_off": 0.6772892170239725,
+  "FWHM_equiv_arcmin": 0.8873354554139706,
+  "fit_log10_rms": 0.03168401518865339,
+  "fit_log10_max": 0.06757889862426178,
+  "PASS_calibration": true,
+  "seed_convergence_log10_rms_vs_16": {
+   "4": 0.004357077029187503,
+   "8": 0.002856174243696048,
+   "16": 8.768886877823468e-16
+  },
+  "single_seed_log10_sd_at_arcmin": {
+   "1": 0.005842974780425975,
+   "10": 0.030161963052579358,
+   "30": 0.019709172469086204,
+   "120": 0.011933247741474742,
+   "480": 0.0043440998695199054
+  }
+ },
+ "energy_moved": {
+  "EE_1arcmin": -0.20520981958170598,
+  "EE_10arcmin": -0.15953421225256648,
+  "EE_30arcmin": -0.07824762629142068,
+  "energy_beyond_0.5deg": 0.07824762629142068
+ },
+ "NAIVE_CONVOLUTION_CONTROL": {
+  "EE_1arcmin": 0.20129706359633234,
+  "EE_10arcmin": 0.7927569759822992,
+  "EE_30arcmin": 0.9156942335537752,
+  "energy_beyond_0.5deg": 0.08430576644622478,
+  "energy_beyond_8deg_on_support": 0.006003417177796511,
+  "peak_fraction_per_sample": 0.0022641431990118774,
+  "Strehl_ratio_on_over_off": 0.13155541090157755,
+  "FWHM_equiv_arcmin": 1.7050486593748242,
+  "fit_log10_rms_(not_fitted)": 0.009846454498662241,
+  "label": "NOT PHYSICALLY UNIFIED: counts CIE's small-angle visual PSF on top of the Thibos core"
+ },
+ "unified_vs_naive_band_energy": {
+  "CORE": {
+   "unified": 0.44596638617701384,
+   "naive": 0.20129706359633234,
+   "thibos_only": 0.6511762057587198
+  },
+  "NEAR_WINGS": {
+   "unified": 0.387370402371739,
+   "naive": 0.5914599123859668,
+   "thibos_only": 0.3416947950425995
+  },
+  "MID": {
+   "unified": 0.08626791544934798,
+   "naive": 0.122937257571476,
+   "thibos_only": 0.00498132948820218
+  },
+  "STRAYLIGHT": {
+   "unified": 0.061811197960574216,
+   "naive": 0.0639020752502163,
+   "thibos_only": 0.0017962076193007714
+  },
+  "FAR": {
+   "unified": 0.014050937724628065,
+   "naive": 0.014400274018211978,
+   "thibos_only": 0.00024341630641588896
+  }
+ },
+ "checks_not_used_in_fit": {
+  "native_eye_same_screen": {
+   "wing_log10_diff_vs_zero_at_arcmin": {
+    "30": 0.0035982946300422273,
+    "120": 0.0006399716503357669,
+    "480": -0.0006088279810317022
+   },
+   "native_EE_1arcmin": 0.23554384399393197,
+   "native_EE_10arcmin": 0.8272122270030415,
+   "native_EE_30arcmin": 0.9193516872352546,
+   "native_energy_beyond_0.5deg": 0.08064831276474538,
+   "native_energy_beyond_8deg_on_support": 0.004533343196340467,
+   "native_peak_fraction_per_sample": 0.008982891460069406,
+   "native_Strehl_ratio_on_over_off": 0.6952655183307487
+  },
+  "pupil_3mm_vs_6mm_wing_log10_at_arcmin": {
+   "30": 0.002880591545303071,
+   "60": 0.004834611030588804,
+   "120": 0.00975572874723462,
+   "240": 0.006712693998291209,
+   "480": 0.010245326986708601
+  },
+  "wavelength_log10_s_650_minus_500_at_0.5deg_and_6deg": {
+   "30": -0.1429521589355661,
+   "360": -0.15530425159285624
+  },
+  "wavelength_note": "pure OPD screen, first order: PSF ~ lambda^(-4-2 beta) theta^(2 beta), the same at every angle. Ginis et al. 2013 (IOVS 54:3702, abstract): at 0.5 deg straylight follows the haemoglobin transmittance (fundus, rising beyond 600 nm), at 6 deg it depends less on wavelength. A pupil phase screen cannot produce the fundus term."
+ },
+ "theta_hp_sensitivity": {
+  "1.5": {
+   "EE_1arcmin": 0.37081100488079105,
+   "EE_10arcmin": 0.8325108541920921,
+   "EE_30arcmin": 0.9196747821753539,
+   "energy_beyond_0.5deg": 0.08032521782464608,
+   "energy_beyond_8deg_on_support": 0.004532292718912201,
+   "peak_fraction_per_sample": 0.009867463173120539,
+   "Strehl_ratio_on_over_off": 0.5733374871618475,
+   "wing_log10_rms_vs_CIE": 0.033504506014695734
+  },
+  "6.0": {
+   "EE_1arcmin": 0.5127524643090152,
+   "EE_10arcmin": 0.8352956556161718,
+   "EE_30arcmin": 0.919806573388835,
+   "energy_beyond_0.5deg": 0.08019342661116502,
+   "energy_beyond_8deg_on_support": 0.004532191495493776,
+   "peak_fraction_per_sample": 0.013554871737239283,
+   "Strehl_ratio_on_over_off": 0.7875900790590143,
+   "wing_log10_rms_vs_CIE": 0.03368939534598674
+  }
+ },
+ "runtime_s": 1113.9867067337036
+}

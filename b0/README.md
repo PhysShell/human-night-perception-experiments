@@ -105,8 +105,9 @@ Found while checking that all retinal profiles were compared in one normalisatio
 > **Note from B1.0 (`b1/README.md`).** ISET's default wavefront grid (201 samples, 16.212 mm pupil
 > plane) supports the PSF only to ±11.7′. B0's ISET kernels (via `oiCompute`) agree with the wavefront
 > PSF on its own large grid within 7–18 % out to 18′. They are 1.6× too high at 30′ and 5.7× at 60′.
-> B0's conclusions that depend on the ISET wing beyond ~20′ are weaker than stated; the wavefront core
-> is 26× below CIE straylight at 18′ (not ~20×).
+> B0's conclusions that depend on the ISET wing beyond ~20′ are weaker than stated. At 18′ the wavefront-only
+> PSF is 26× below CIE's complete visual spread function (not ~20×). CIE's small-angle part is IJspeert's
+> *visual* PSF, so this is a model divergence, not a measured aberration→scatter boundary (B1.0 erratum).
 
 ## Roles
 
