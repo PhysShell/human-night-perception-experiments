@@ -1,6 +1,6 @@
 {
  "550z": {
-  "spd": "monochromatic 550 nm (B0-optics), defocus 0 (MATCHED_OBSERVER)",
+  "spd": "monochromatic 550 nm (B0-optics), ZERO_DEFOCUS (c4 forced to 0)",
   "EE_radius_arcmin": {
    "50": 0.9189320455478589,
    "80": 1.6566283044449075,
@@ -10,7 +10,7 @@
   "energy_within_1arcmin": 0.5233111434071352
  },
  "HPSz": {
-  "spd": "HPS (CIE HP1), defocus 0 (MATCHED_OBSERVER)",
+  "spd": "HPS (CIE HP1), ZERO_DEFOCUS (c4 forced to 0)",
   "EE_radius_arcmin": {
    "50": 1.5648848847665566,
    "80": 2.2130814275895223,
@@ -20,7 +20,7 @@
   "energy_within_1arcmin": 0.23674694978802716
  },
  "LEDz": {
-  "spd": "LED warm, defocus 0 (MATCHED_OBSERVER)",
+  "spd": "LED warm, ZERO_DEFOCUS (c4 forced to 0)",
   "EE_radius_arcmin": {
    "50": 1.3783980683217882,
    "80": 2.297330113869647,
@@ -30,7 +30,7 @@
   "energy_within_1arcmin": 0.3196249814761803
  },
  "Ez": {
-  "spd": "equal-energy E, defocus 0 (MATCHED_OBSERVER)",
+  "spd": "equal-energy E, ZERO_DEFOCUS (c4 forced to 0)",
   "EE_radius_arcmin": {
    "50": 1.2995661617130327,
    "80": 2.474300255916225,
@@ -40,7 +40,7 @@
   "energy_within_1arcmin": 0.34539908673863806
  },
  "BLUEz": {
-  "spd": "blue test spectrum, defocus 0 (MATCHED_OBSERVER)",
+  "spd": "blue test spectrum, ZERO_DEFOCUS (c4 forced to 0)",
   "EE_radius_arcmin": {
    "50": 4.730492232830687,
    "80": 7.535803077079006,
@@ -50,7 +50,7 @@
   "energy_within_1arcmin": 0.05854113909401868
  },
  "550": {
-  "spd": "monochromatic 550 nm (B0-optics), Thibos mean as shipped (c4 +0.335 um)",
+  "spd": "monochromatic 550 nm (B0-optics), THIBOS_NATIVE (c4 +0.335 um, as published)",
   "EE_radius_arcmin": {
    "50": 1.8606955763296062,
    "80": 3.658457633170861,
@@ -60,7 +60,7 @@
   "energy_within_1arcmin": 0.3196411186537189
  },
  "HPS": {
-  "spd": "HPS (CIE HP1), Thibos mean as shipped (c4 +0.335 um)",
+  "spd": "HPS (CIE HP1), THIBOS_NATIVE (c4 +0.335 um, as published)",
   "EE_radius_arcmin": {
    "50": 1.0273972602739725,
    "80": 2.3428262159571327,
@@ -70,7 +70,7 @@
   "energy_within_1arcmin": 0.4938294609361137
  },
  "LED": {
-  "spd": "LED warm, Thibos mean as shipped (c4 +0.335 um)",
+  "spd": "LED warm, THIBOS_NATIVE (c4 +0.335 um, as published)",
   "EE_radius_arcmin": {
    "50": 1.1981408003106782,
    "80": 2.9420180267006204,
@@ -80,7 +80,7 @@
   "energy_within_1arcmin": 0.42168211860579485
  },
  "E": {
-  "spd": "equal-energy E, Thibos mean as shipped (c4 +0.335 um)",
+  "spd": "equal-energy E, THIBOS_NATIVE (c4 +0.335 um, as published)",
   "EE_radius_arcmin": {
    "50": 1.4529591394244128,
    "80": 3.641105167123839,
@@ -90,7 +90,7 @@
   "energy_within_1arcmin": 0.3638294434930121
  },
  "BLUE": {
-  "spd": "blue test spectrum, Thibos mean as shipped (c4 +0.335 um)",
+  "spd": "blue test spectrum, THIBOS_NATIVE (c4 +0.335 um, as published)",
   "EE_radius_arcmin": {
    "50": 6.708833308485415,
    "80": 9.884394633538927,

@@ -10,7 +10,7 @@ import json
 import numpy as np
 
 res = {}
-for tag, name in [(t + z, n + d) for z, d in (("z", ", defocus 0 (MATCHED_OBSERVER)"), ("", ", Thibos mean as shipped (c4 +0.335 um)"))
+for tag, name in [(t + z, n + d) for z, d in (("z", ", ZERO_DEFOCUS (c4 forced to 0)"), ("", ", THIBOS_NATIVE (c4 +0.335 um, as published)"))
                   for t, n in (("550", "monochromatic 550 nm (B0-optics)"), ("HPS", "HPS (CIE HP1)"), ("LED", "LED warm"),
                                ("E", "equal-energy E"), ("BLUE", "blue test spectrum"))]:
     p = f"b0/out/kernels/iset_kernel_{tag}"

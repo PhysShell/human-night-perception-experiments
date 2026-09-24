@@ -69,5 +69,11 @@
   "core_EE50": 0.23824893699265548,
   "energy_2_10arcmin": 0.23824893699265548
  },
+ "spectrum_caveat": {
+  "record_length_s": 8.58,
+  "frequency_resolution_Hz": 0.11655011655011654,
+  "cycles_at_peak": 2.044175879396984,
+  "reading": "a dominant low-frequency component around 0.2-0.3 Hz in this short donor sequence, not a precise frequency; the demo's hippus is a synthetic noise model (Frisvad, after Fry)"
+ },
  "not_measured": "plateau diameter on a display (window-limited) and anything beyond 0.35 deg"
 }

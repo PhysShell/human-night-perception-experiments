@@ -99,34 +99,40 @@ The baseline stays frozen until one of them is chosen.
 
 ## B0 status
 
-**Run: `b0/` (v3).**
+**Run: `b0/` (v3, technically frozen).**
 
-**The central task is an inverse perceptual rendering problem.** Find the display image D such that
-`viewer_eye(D) ≈ target_retina(real_scene)`:
-- the eye in the scene belongs to the target;
-- the viewer's eye at the phone belongs to the evaluation;
-- D is the only thing chosen.
+**The central task is an inverse perceptual rendering problem.** Literal retinal equality is
+unreachable: a real lamp can deliver retinal irradiance no display can. The problem is to find D
+within the display's capabilities whose **perceptual features**, seen by the viewer's eye in its
+adaptation state and viewing condition, match those of the target retina in the real adaptation
+state. The features:
+- visibility of nearby objects;
+- apparent source brightness and extent;
+- local contrast loss;
+- colour appearance;
+- adaptation;
+- temporal character.
 
-The options A–F above are therefore of two kinds.
-- **Targets:** A's optics, F's spectra.
-- **Candidate encodings D:** Spencer, temporal glare, tone mapping.
+This will define the objective function of a future inverse renderer. Roles:
+- **Targets:** RETINAL_WAVEFRONT (ISET, Thibos) and RETINAL_STRAYLIGHT (CIE99, the HDR-VDP MTF).
+- **Candidate encodings D:** pcond, Spencer, Temporal Glare.
+- **Judge:** HDR-VDP's perceptual stages.
 
-A retinal PSF baked into D is PSF × PSF when viewed.
-
-v3 findings (achromatic B0-optics layer, trunk P_det under the HDR-VDP-3 observer model, a
-diagnostic):
-- **Retinal targets.** ISET 550 nm (6 mm, defocus 0) and CIE99 agree within ~1.5× across 10⁻⁵–10⁻² lx
-  at the eye. HDR-VDP's own MTF gives a 10–20× lower trunk P_det. That spread is target uncertainty.
-- **The frozen encoding (V0) is the largest gap: 0.997 vs 0.01–0.29.** Even with no optics, the
-  night stimulus gives P ≈ 0.5, so the pcond mapping to photopic display levels alone over-shows the
-  dark trunk.
-- **Spencer as D** is within 0.09 of the ISET/CIE targets from 8.9·10⁻⁵ lx upward, and too
+v3 findings, B0-optics layer. The only feature measured is the visibility of a trunk 0.3° from the
+lamp, and P_det is a diagnostic under the HDR-VDP-3 observer model:
+- **Frozen V0.** Under the selected B0 observer diagnostic, V0 substantially over-preserves the
+  visibility of the nearby silhouette relative to every scene-observer reference (0.997 vs 0–0.29).
+- **Spencer as D** is within 0.09 of the ISET and CIE99 targets from 8.9·10⁻⁵ lx upward, and too
   revealing below.
-- **Temporal Glare** is window-limited from ×1. Its native inner dynamics are a ~3–4 % pulsation at
-  ~0.24 Hz with no wander.
-- ISET's shipped Thibos mean eye carries 0.26 D of defocus. Matching the observer moved the core more
-  than the spectrum did.
-- The viewer's blind choice is pending. It reads as preference/resemblance, not physiology.
+- **Temporal Glare** is window-limited from ×1. In its native clip, the inner glare pulsates by ~3–4 %,
+  with a dominant component around 0.2–0.3 Hz, and does not wander.
+- **Straylight models disagree 10–20×.** This is model uncertainty and a lower bound on claims of
+  physiological truth without our own psychophysics.
+- **Wavefront vs straylight.** ISET matches CIE99 only at the trunk's distance; the retinal images
+  differ 2–10× elsewhere.
+- **ISET focus conventions:** THIBOS_NATIVE (+0.26 D, as published), ZERO_DEFOCUS_550 and
+  BEST_FOCUS_550 (+0.04 D). The focus convention moves the core as much as the spectrum does.
+- **Blind set.** The viewer's choice is pending; it reads as preference/resemblance, not physiology.
 
 ## Cheapest discriminating experiment
 

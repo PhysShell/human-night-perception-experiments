@@ -14,7 +14,7 @@ set -euo pipefail
 R=$PWD; S=b0/out/stim; O=b0/out/comp; HSS=2
 if [ "${B0_LAYER:-}" = ach ]; then
   S=b0/out/stim_ach; O=b0/out/comp_ach; HSS=4
-  export ISET_KERNEL=$R/b0/out/kernels/iset_kernel_550z.raw TEMPORAL_ACHROMATIC=1   # 550 nm, defocus 0 (MATCHED_OBSERVER)
+  export ISET_KERNEL=$R/b0/out/kernels/iset_kernel_550z.raw TEMPORAL_ACHROMATIC=1   # ZERO_DEFOCUS_550 (c4 forced to 0; a control, not best focus)
 fi
 mkdir -p $O
 oct() { REPO=$R B0_IN=$1 B0_OUT_PREFIX=$2 B0_MTF=$3 B0_PPD=73 B0_SS=${4:-1} tracks/hdrvdp3/octave.sh b0/hdrvdp_optics.m; }

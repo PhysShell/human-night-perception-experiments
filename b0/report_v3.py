@@ -29,20 +29,24 @@ for f in glob.glob("b0/out/sweep_world_ach/w*_*/run.json"):
     m = re.search(r"w(\d+)_(cie|hdrvdp)", f); t = open(f).read()
     try: world[(m.group(2), int(m.group(1)))] = float(t.split('"side-by-side":{"P_det":')[1].split(",")[0])
     except Exception: pass
-NAME = {"V0_none": "no optics (physical stimulus)", "V1_iset": "ISETBio wvf human, 550 nm, 6 mm, defocus 0",
+NAME = {"V0_none": "no optics (physical stimulus)", "V1_iset": "ISETBio wvf human, 550 nm, 6 mm, ZERO_DEFOCUS_550",
         "V2_hdrvdpmtf": "HDR-VDP-3 eye MTF", "V3_cie99": "CIE 135/1 (Vos-van den Berg 1999), age 24, 4x grid",
         "V4_spencer": "Spencer 1995 via Blender Fog Glow", "V5_temporal": "Temporal Glare 2009 (Frisvad demo), frame 1"}
 wl = lambda v, i: " wl" if ser[v][i]["plateau_window_limited"] else ""   # glare cut at the demo window: P_det too
 f3 = lambda x: "n/a" if x is None else f"{max(x, 0.0):.3f}"            # HDR-VDP returns ~-1e-5 for "none"
 hdr = "| " + " | ".join(f"x{K[i]:.3g} ({K[i] * E1:.1e} lx)" for i in COLS) + " |"
 sep = "|---" * (len(COLS) + 2) + "|"
+RL = {"V1_iset": "WAVEFRONT", "V2_hdrvdpmtf": "STRAYLIGHT", "V3_cie99": "STRAYLIGHT", "V0_none": "none"}
 out = ["## RETINAL TARGETS (achromatic B0-optics; trunk P_det, HDR-VDP-3 observer model)", "",
-       "| target (observer model X) | route " + hdr, sep]
+       "WAVEFRONT = aberration optics (central PSF); STRAYLIGHT = low-frequency scatter / disability-glare veil only "
+       "(no diffraction, no chromatic aberration). A similar P_det from the two is a coincidence on this stimulus, "
+       "not the same retinal image.", "",
+       "| target (observer model X) | kind | route " + hdr, "|---" * (len(COLS) + 3) + "|"]
 for v in ("V1_iset", "V2_hdrvdpmtf", "V3_cie99", "V0_none"):
-    out.append(f"| {NAME[v]} | donor optics, evaluator OFF, 73 px/deg | " +
+    out.append(f"| {NAME[v]} | {RL[v]} | donor optics, evaluator OFF, 73 px/deg | " +
                " | ".join(f3(ser[v][i]["P_det_trunk_RETINAL_TARGET"]) for i in COLS) + " |")
 for m, v in (("hdrvdp", "V2_hdrvdpmtf"), ("cie", "V3_cie99")):
-    out.append(f"| {NAME[v]} | evaluator optics on the physical stimulus, 146 px/deg | " +
+    out.append(f"| {NAME[v]} | {RL[v]} | evaluator optics on the physical stimulus, 146 px/deg | " +
                " | ".join(f3(world.get((m, i))) for i in COLS) + " |")
 out += ["", "Vangorp L_la at the trunk under each target's retinal image [cd/m², HDR-VDP local adaptation, "
         "extrapolated below its fitted 1 cd/m²] (diagnostic under observer model X):", "",
@@ -62,9 +66,9 @@ for v in ("V0_none", "V4_spencer", "V5_temporal", "V1_iset", "V2_hdrvdpmtf", "V3
                                                (" wl" if ser[v][i]["plateau_window_limited"] else "") for i in COLS) + " |")
 out += ["", "## GAP: |P_det(viewer_eye(D)) - P_det(target_retina)| (display encodings, EVAL_VIEWER)", "",
         "| encoding D | target " + hdr, sep]
-targets = {"ISET 550 nm (retinal)": lambda i: ser["V1_iset"][i]["P_det_trunk_RETINAL_TARGET"],
-           "CIE99 (world, 146 px/deg)": lambda i: world.get(("cie", i)),
-           "HDR-VDP MTF (world, 146 px/deg)": lambda i: world.get(("hdrvdp", i))}
+targets = {"ISET 550 nm ZERO_DEFOCUS (wavefront)": lambda i: ser["V1_iset"][i]["P_det_trunk_RETINAL_TARGET"],
+           "CIE99 (straylight, world 146 px/deg)": lambda i: world.get(("cie", i)),
+           "HDR-VDP MTF (straylight, world 146 px/deg)": lambda i: world.get(("hdrvdp", i))}
 for v in ("V0_none", "V4_spencer", "V5_temporal"):
     for tn, tf in targets.items():
         cells = []

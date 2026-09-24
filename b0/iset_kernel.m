@@ -15,10 +15,12 @@ ph = zeros(N, N, numel(wave));
 ph(N/2, N/2, :) = reshape(q, 1, 1, []);   % a point 1/4 of an output pixel wide
 ph = ph + 1e-9 * max(ph(:));                                   % ISET dislikes exact zeros
 scene = sceneSet(scene, 'photons', ph);
-zc = [];   % default: the Thibos mean eye as ISET ships it (incl. its mean defocus c4 = +0.335 um at 6 mm, ~0.26 D)
-if strcmp(getenv('B0_ZERO_DEFOCUS'), '1')   % MATCHED_OBSERVER: defocus 0 (OSA j=4 set to 0, other Thibos terms kept)
+zc = [];   % default THIBOS_NATIVE: the Thibos mean virtual eye as published (incl. its mean defocus c4 = +0.335 um at 6 mm, ~0.26 D)
+if strcmp(getenv('B0_ZERO_DEFOCUS'), '1')   % ZERO_DEFOCUS_550: c4 forced to 0, other Thibos terms kept (a control, not "best focus")
   zc = wvfLoadThibosVirtualEyes(pupil); zc(5) = 0;
 end
+c4 = str2double(getenv('B0_C4'));            % through-focus sweep: c4 set to this value (um), other Thibos terms kept
+if ~isnan(c4), zc = wvfLoadThibosVirtualEyes(pupil); zc(5) = c4; end
 oi = oiCreate('wvf human', pupil, zc, wave);
 oi = oiCompute(oi, scene, 'pad value', 'zero');
 E = oiGet(oi, 'illuminance'); sz = oiGet(oi, 'size'); fov = oiGet(oi, 'fov');

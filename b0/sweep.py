@@ -12,8 +12,8 @@ Per variant and k:
                     present, and NOT the same eye as the donor's (which models the eye in the scene)
     both with HDR-VDP's own local adaptation + CSF (evaluator stages, never in a donor);
   * Vangorp adaptation luminance at the trunk, on the DONOR retinal image (HDR-VDP local adapt).
-v3 roles (b0/README.md): RETINAL_FORWARD variants (V1 ISET, V2 HDR-VDP MTF, V3 CIE99) are also evaluated as
-RETINAL TARGETS: donor retinal image, no display, evaluator optics OFF (their optics are already applied;
+v3 roles (b0/README.md): RETINAL_WAVEFRONT (V1 ISET) and RETINAL_STRAYLIGHT (V2 HDR-VDP MTF, V3 CIE99) are also
+evaluated as RETINAL TARGETS: donor retinal image, no display, evaluator optics OFF (their optics are already applied;
 adding the evaluator's would be PSF x PSF). Shown on a display they are flagged PSF_x_PSF (informational).
 B0_LAYER=ach: the achromatic B0-optics layer (b0/out/comp_ach -> b0/results/sweep_ach.json).
 REAL_SCENE_REFERENCE (reference observer models, NOT ground truth): the physical stimulus at 146 px/deg
@@ -34,7 +34,8 @@ VAR = sys.argv[1:] or (["V0_none", "V1_iset", "V2_hdrvdpmtf", "V3_cie99", "V4_sp
                        ["V0_none", "V1_iset", "V2_hdrvdpmtf", "V3_cie99", "V4_spencer", "V5_temporal", "V5t_square", "V5t_norenorm"])
 ROLE = {"V0_none": "DISPLAY_ENCODING", "V4_spencer": "DISPLAY_ENCODING", "V5_temporal": "DISPLAY_ENCODING",
         "V5t_square": "DISPLAY_ENCODING", "V5t_norenorm": "DISPLAY_ENCODING",
-        "V1_iset": "RETINAL_FORWARD", "V2_hdrvdpmtf": "RETINAL_FORWARD", "V3_cie99": "RETINAL_FORWARD"}
+        "V1_iset": "RETINAL_WAVEFRONT",                                   # aberration optics (Thibos wavefront)
+        "V2_hdrvdpmtf": "RETINAL_STRAYLIGHT", "V3_cie99": "RETINAL_STRAYLIGHT"}   # low-frequency scatter / veil only
 LDMAX, WINDOW_ARCMIN = 100.0, 57.7          # demo PSF window: 512 px at 532 px/deg = +-0.481 deg
 meta = json.load(open(f"{STIM}/meta.json"))
 PPD = meta["px_per_deg"]; ARC = 60 / PPD
@@ -75,7 +76,7 @@ for v in VAR:
                 save(f"{tag}_{b}_retinal.exr", Rb + k * Rs)
                 jobs_disp.append(f"b0/display.sh {tag}_{b}_retinal.exr {tag}_{b} 100")
             raw(f"{tag}_bar_retinal.raw", Rsb + k * Rs)
-            if ROLE[v] == "RETINAL_FORWARD" or v == "V0_none":     # retinal target (V0: no optics at all)
+            if ROLE[v].startswith("RETINAL") or v == "V0_none":     # retinal target (V0: no optics at all)
                 jobs_vis.append((f"tracks/hdrvdp3/run_hdrvdp.sh {tag}_bar_retinal.exr {tag}_nobar_retinal.exr PHONE "
                                  f"{tag}_RETINAL --display none --mtf none --tasks side-by-side", f"{tag}_RETINAL/run.json"))
             lla_list.append(f"{tag}_bar_retinal.raw {tag}_lla.txt {BAR_XY[0]} {BAR_XY[1]}")
@@ -106,7 +107,7 @@ for v in VAR:
                      "plateau_Y99_equiv_diam_arcmin": d99,
                      "plateau_window_limited": bool(v.startswith("V5") and d99 >= 0.8 * WINDOW_ARCMIN),
                      "white_plateau_equiv_diam_arcmin": float(2 * math.sqrt(white.sum() / math.pi) * ARC),
-                     "display_PSF_x_PSF": ROLE[v] == "RETINAL_FORWARD",
+                     "display_PSF_x_PSF": ROLE[v].startswith("RETINAL"),
                      "P_det_trunk_RETINAL_TARGET": pdet(f"{tag}_RETINAL/run.json"),
                      "P_det_trunk_EVAL_OFF": pdet(f"{tag}_EVAL_OFF/run.json"),
                      "P_det_trunk_EVAL_VIEWER": pdet(f"{tag}_EVAL_VIEWER/run.json"),

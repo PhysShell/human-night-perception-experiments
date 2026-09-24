@@ -9,7 +9,8 @@ half-window), each frame normalised to unit energy inside that radius:
   * centre of energy (r < 0.35 deg) and of the core (r < 5') per frame -> wander in arcmin;
   * central deformation: core second-moment ellipticity (1 - minor/major) and orientation, EE50 radius;
   * temporal spectrum (uneven sampling -> Lomb-Scargle via numpy) of the core EE50 radius and of the
-    energy in 2'-10'; the demo's frame spacing limits it to <~ 1.8 Hz.
+    energy in 2'-10'; the frame spacing limits it to < 1.9 Hz, and the 8.6 s record to ~0.12 Hz resolution
+    (about two cycles at the peak), so only a band is reported, not a frequency.
   tracks/temporal-glare-2009/py.sh b0/temporal_inner.py   -> b0/results/temporal_inner.json (+ png)
 """
 import importlib.util, json
@@ -69,6 +70,10 @@ res = {
                                 "modulation_max_over_min_minus_1": float(ee50.max() / ee50.min() - 1)},
     "energy_2_10arcmin": {"mean": float(e210.mean()), "modulation_max_over_min_minus_1": float(e210.max() / e210.min() - 1)},
     "temporal_spectrum_peak_Hz": {"core_EE50": float(f[spec_ee.argmax()]), "energy_2_10arcmin": float(f[spec_e.argmax()])},
+    "spectrum_caveat": {"record_length_s": float(t[-1] - t[0]), "frequency_resolution_Hz": float(1 / (t[-1] - t[0])),
+                        "cycles_at_peak": float(f[spec_ee.argmax()] * (t[-1] - t[0])),
+                        "reading": "a dominant low-frequency component around 0.2-0.3 Hz in this short donor sequence, "
+                                   "not a precise frequency; the demo's hippus is a synthetic noise model (Frisvad, after Fry)"},
     "not_measured": "plateau diameter on a display (window-limited) and anything beyond 0.35 deg",
 }
 json.dump(res, open("b0/results/temporal_inner.json", "w"), indent=1)
