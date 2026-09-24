@@ -74,17 +74,26 @@ From the full text (Europe PMC XML of PMC6154192):
 - **Wavelength:** a single wavelength (540 nm). There is no λ model, and pupil dependence is not
   studied.
 - **Age-factor sign: an unresolved paper-vs-standard inconsistency, not an established typo.**
-  - The Arias 2018 Eq. 1 prints `[1 − 1.6·(A/70)⁴]` for the long-angle factor, and a later paper of
-    the same line prints a similar minus form.
+  - The Arias 2018 Eq. 1 prints `[1 − 1.6·(A/70)⁴]` for the long-angle factor. The same group
+    printed it again in later work on near-peripheral vision (PMC11019697), so this is more than a
+    one-off typo.
+  - Independent modern reproductions of the CIE Standard Glare Observer give `1 + 1.6·(Age/70)⁴`
+    (e.g. PMC8321324).
   - The standard CIE total glare observer, as given in the van den Berg et al. review of straylight
     measurement and in independent implementations (incl. HDR-VDP's `hdrvdp_otf_cie99.m`), has
     `(1 + 1.6·(A/70)⁴)`: straylight grows with age.
   - At A = 30 the factor is 0.946 (as printed) vs 1.054 (standard).
   - We do not decide what the authors meant. Instead we fix two separate things:
     - **`CIE_ORACLE`** uses **+**, the standard observer form, as a complete glare PSF in sr⁻¹.
-    - **`ARIAS_REPRO`** reproduces the paper **as printed (−)**, with a sensitivity variant (+).
-      **B is refitted independently for each** (β fitted too, and reported). The published
-      B = 9.207 µm, β = −1.214 are never kept while the target formula is swapped underneath them.
+    - **`ARIAS_AS_PRINTED`** targets the paper's Eq. 1 with **−**.
+    - **`ARIAS_CIE_TARGET`** runs the same screen model against the **+** form.
+    - **For both Arias branches, B is refitted independently.** The published B = 9.207 µm,
+      β = −1.214 are never kept while the target formula is swapped underneath them.
+  - **EE is not a CIE constant.** CIE 135/1 specifies the GSF's shape. Open implementations build a
+    2-D kernel for their digital field and normalise it there, e.g. McCann/Vonikakis (PMC5776149).
+    Our EE(1′) values (0.31 continuous, 0.33 / 0.221 on the B0 grids) are **regression quantities of
+    the fixed `CIE_ORACLE` convention**: support, sphere→plane mapping, grid and normalisation
+    domain. They are not physiological constants.
 - **Coupling insight** *(our inference, not in the paper)*: a phase screen with amplitude spectrum
   ∝ f^β gives, far from the core, a halo ∝ PSD(θ/λ) ∝ θ^{2β} = θ^−2.43. That is close to the
   Stiles–Holladay θ⁻²… θ⁻³ wings. The core keeps a fraction ≈ exp(−σ²_φ) of the energy, where
@@ -182,8 +191,8 @@ tuned to OSI (double-pass), not to CIE.
 
 | stage | what | label | pass criterion (declare before running) |
 |---|---|---|---|
-| B1.0 | Three **independent** oracles: (a) `CIE_ORACLE`: the CIE 135/1 complete glare PSF, standard + sign, evaluated **directly in space** (as `b0/cie135_target.py`), **never via `hdrvdp_otf_cie99`** (1-D transform, B0 erratum); (b) **run ISETCam `ijspeert.m` in Octave** (NATIVE) at 24 y, 2/4/6/8 mm; (c) the B0 ISET kernel | NATIVE | hemisphere ∫ = 1.00 (IJspeert), 1.03 (CIE, recorded, not forced). Reproduce the §3 table ±1 %. B0 "EE(1′) 0.539" reconciled (§3) |
-| B1.1 | `ARIAS_REPRO`: **reproduce Arias Fig. 3b / Fig. 4**: IDCT screen, N = 1000, ϕ = 1.33 mm, 540 nm, A = 30, p = 1; `fminunc`-equivalent log-RMS fit; average ≥ 16 realisations, radial profile. **Two targets, each with its own B (and β) fit:** the paper's Eq. 1 as printed (−) and the standard form (+) | REIMPLEMENTATION (paper only; ask the authors for the MATLAB before starting) | β within ±0.05 of −1.214 for the as-printed target. log PSF within ±0.1 of the respective target over 0.1–11°. log RMS vs log S linear. B reported per variant, not required to be 9.207 µm (normalisation undefined) |
+| B1.0 | Three **independent** oracles: ISET/Thibos wavefront core, CIE 135/1 wide-angle straylight, IJspeert independent full-range analytic model. (a) `CIE_ORACLE`: the CIE 135/1 complete glare PSF, standard + sign, evaluated **directly in space** (as `b0/cie135_target.py`), **never via `hdrvdp_otf_cie99`** (1-D transform, B0 erratum); (b) **run ISETCam `ijspeert.m` in Octave** (NATIVE) at 24 y, 2/4/6/8 mm; (c) the B0 ISET kernel | NATIVE | hemisphere ∫ = 1.00 (IJspeert), 1.03 (CIE, recorded, not forced). Reproduce the §3 table ±1 %. B0 "EE(1′) 0.539" reconciled (§3) |
+| B1.1 | `ARIAS_REIMPLEMENTATION`: **reproduce Arias Fig. 3b / Fig. 4**: IDCT screen, N = 1000, ϕ = 1.33 mm, 540 nm, A = 30, p = 1; average ≥ 16 realisations, radial profile. **Two targets:** `ARIAS_AS_PRINTED` (−) and `ARIAS_CIE_TARGET` (+). **Staged fit, per target:** (1) **β, shape**: log-slope of the normalised radial wing profile; (2) **B, amount**: s = θ²·PSF(θ) and log-RMS over the wings; (3) only then, **total / encircled energy** as a check, never as a fit term, so B cannot absorb finite-field normalisation differences that have nothing to do with the screen | REIMPLEMENTATION, called `ARIAS_REIMPLEMENTATION`, never "their code". The authors are asked for their MATLAB (first author's address is public in the paper), but B1 does not wait on the answer: the paper specifies the algorithm (IDCT of a random array, power-law weighting, B/β optimisation) | β within ±0.05 of −1.214 for the as-printed target. log PSF within ±0.1 of the respective target over 0.1–11°. log RMS vs log S linear. B reported per variant, not required to be 9.207 µm (normalisation undefined) |
 | B1.2 | An **equivalent random phase field with the same spectral slope**, as far as the HCIPy API allows (`SpectralNoiseFactoryFFT`, PSD exponent 2β = −2.43; an FFT field, not the IDCT). Transform convention, boundary conditions and PSD normalisation must be **proven equal, not assumed**: compare the empirical radial PSD of both screens (and their phase variance) before comparing PSFs | ADAPTED (MIT) | screen PSD slope and level match B1.1 within declared tolerance, **then** the mean PSF profile within ±0.05 log. Two noisy images that look alike are not a pass |
 | B1.3 | **Coherent 6 mm PSF**: ISET pupil function (via the `aperture`/phase insertion point in `wvfComputePupilFunction.m`, a local patch, or export the ISET wavefront map) × exp(i2πW_s,hp/λ). Pupil sampling dx ≤ λ/(2θ_max): 1.33 µm for 11.6° ⇒ ~4500² pupil samples. Use the **HCIPy MFT** onto two focal grids (fine core, ≤ 0.25′, ±1°; coarse wing, ±12°) instead of one 16k² FFT | HYBRID (ISET NATIVE + screen ADAPTED) | see checks below |
 | B1.4 | Controls on the same grid: (i) naive ISET ⊛ CIE, **labelled NOT PHYSICALLY UNIFIED** (it counts the core twice and is a control only, never a target); (ii) Ginis-type splice (1−a)·PSF_ISET + a·CIE-wing; (iii) IJspeert 6 mm | control | report the differences at the B0 radii 1′, 3′, 18′, 60′ and at 3.5°/7°/10° |
@@ -256,3 +265,6 @@ tuned to OSI (double-pass), not to CIE.
 - Attempted, failed: https://jov.arvojournals.org/Article.aspx?doi=10.1167/12.3.20 (403); https://humansystems.arc.nasa.gov/publications/Watson_2015_comp_human_optical_point_spread.pdf (reset); https://arvojournals.org/arvo/content_public/journal/jov/933690/i1534-7362-15-2-26.pdf (403)
 - Local code read: `research-cache/hdrvdp3/src/hdrvdp-3.0.7/utils/hdrvdp_otf_cie99.m`; `research-cache/iset/isetcam/human/ijspeert.m`; `research-cache/iset/isetcam/opticalimage/wavefront/{wvfAperture,wvfComputePupilFunction}.m`; `research-cache/iset/isetbio/external/psychtoolbox/PsychOptics/West*.m`; `research-cache/hcipy/src/hcipy/optics/aberration.py`, `hcipy/util/spectral_noise.py`; `research-cache/iset/iset3d/human/`
 - https://nin.nl/wp-content/uploads/sites/2/2025/08/History-of-ocular-straylight-measurement-A-review-1.pdf (van den Berg et al., review of ocular straylight measurement: standard CIE glare observer with the + age factor; cited by the reviewer, not opened in this study)
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC11019697/ (later Artal/Ginis-line work printing the − age factor; cited by the reviewer, not opened in this study)
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC8321324/ (independent reproduction of the CIE Standard Glare Observer with +; cited by the reviewer, not opened)
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC5776149/ (McCann/Vonikakis: 2-D GSF kernel normalised on the finite field; cited by the reviewer, not opened)

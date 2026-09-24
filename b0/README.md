@@ -80,7 +80,9 @@ Found while checking that all retinal profiles were compared in one normalisatio
 
 - **Effect on the retinal image:** the veil is 8× too low at 10′, 14× at 18′ (the trunk) and 50× at 60′.
   - Given a pure delta (minimal repro, `docs/upstream/hdrvdp-otf-cie99/`), the donor's point image
-    goes **negative** beyond ~15′ (min −3.4·10⁻³), which no PSF can do.
+    has **negative lobes** (min −3.4·10⁻³ of unit energy; 2.9 % of the energy in negative pixels), which
+    no PSF can do.
+  - Its log-bin mean wing is 40–100× below the GSF, and it oscillates between pixels.
   - The positive 40 sr⁻¹ at 18′ in B0 therefore depended on the grid and the source footprint. It
     was not a veil.
   - The 2-D OTF of the same GSF, applied with the same FFT pipeline, matches the GSF within 4 % and
@@ -216,6 +218,9 @@ Night-level P_det remains an extrapolated diagnostic without our own psychophysi
 - **Illuminance at the eye** (`meta.json`): ×1 = 800 cd / (3000 m)² = **8.89·10⁻⁵ lx**,
   ×10 = 8.89·10⁻⁴, ×100 = 8.89·10⁻³. The README and manifests were right. The "8.9e-5 / 1e-4 / 1e-3"
   was a typo in a chat message only.
+- **Encircled energies** (EE(1′) = 0.539 / 0.33 / 0.31 / 0.221 …) are regression quantities of a
+  fixed convention: grid, source footprint, GSF support and normalisation domain. They are not
+  physiological constants of CIE 135/1, which specifies the GSF's shape.
 - **otf_cie99 OTF grid** (the defective donor OTF, grid convergence only): production 4×. Spot check 8× on
   a 3° × 3° crop around the source (`results/cie_ss_check.json`):
   - energy-weighted difference 1.8 %;
