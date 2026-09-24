@@ -1,0 +1,33 @@
+energy in the 34.1333 x 34.1333 deg canvas: actual 1.0000, expected 0.9853
+
+radial PSF [sr^-1] (annulus mean, +-0.5 px)
+  radius   actual      expected    control(2-D OTF)  expected/actual
+     3'    2.85e+04    5.12e+04    5.51e+04          1.80
+    10'        73.3     2.9e+03    2.77e+03         39.56
+    18'       -4.12         564         545       -136.93
+    30'       -3.26         133         129        -40.77
+    60'      -0.776        18.8        18.5        -24.25
+   120'      -0.115        2.88         3.2        -25.12
+   300'    -0.00913       0.288       0.381        -31.59
+min of the point image: actual -0.00343, control -1.71e-06 (a positive PSF has none below 0)
+
+encircled energy (pixel centres within r)
+  r        actual   expected  control
+     1'   0.8552   0.3312   0.3414
+     3'   0.9327   0.5217   0.5230
+    10'   0.9887   0.7857   0.7841
+    30'   0.9985   0.9003   0.8984
+    60'   0.9995   0.9339   0.9320
+   180'   0.9999   0.9614   0.9597
+   480'   1.0000   0.9753   0.9758
+
+OTF   rho[cpd]   2-D Hankel of GSF   hdrvdp_otf_cie99
+         0.1       0.9501              0.9997
+         0.3       0.9079              0.9980
+         1.0       0.7950              0.9871
+         3.0       0.5806              0.9425
+        10.0       0.3066              0.8116
+        30.0       0.1532              0.5673
+
+Note: the terms 2 c^2 |w| K1(c |w|) in hdrvdp_otf_cie99 are the 1-D Fourier transform of (1+(x/c)^2)^-1.5;
+its 2-D (radial, Hankel) transform is 2 pi c^2 exp(-2 pi c rho).

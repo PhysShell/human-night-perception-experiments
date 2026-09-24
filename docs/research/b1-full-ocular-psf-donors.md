@@ -73,17 +73,27 @@ From the full text (Europe PMC XML of PMC6154192):
 - **Speckle:** re-randomising R keeps the mean profile. Fig. 3b shows the **angular average**.
 - **Wavelength:** a single wavelength (540 nm). There is no λ model, and pupil dependence is not
   studied.
-- **Discrepancy to note:** the Europe PMC text of Eq. 1 reads `[1 − 1.6·(A/70)⁴]` for the
-  long-angle factor. HDR-VDP's `hdrvdp_otf_cie99.m` uses `(1 + 1.6·(A/70)⁴)` (scatter increases
-  with age), and the 0.08 factor has a minus sign in both. B1 must pick the CIE original sign; the
-  HDR-VDP sign is physically plausible. At A = 30 the factor is 0.946 (Arias) vs 1.054 (HDR-VDP).
+- **Age-factor sign: an unresolved paper-vs-standard inconsistency, not an established typo.**
+  - The Arias 2018 Eq. 1 prints `[1 − 1.6·(A/70)⁴]` for the long-angle factor, and a later paper of
+    the same line prints a similar minus form.
+  - The standard CIE total glare observer, as given in the van den Berg et al. review of straylight
+    measurement and in independent implementations (incl. HDR-VDP's `hdrvdp_otf_cie99.m`), has
+    `(1 + 1.6·(A/70)⁴)`: straylight grows with age.
+  - At A = 30 the factor is 0.946 (as printed) vs 1.054 (standard).
+  - We do not decide what the authors meant. Instead we fix two separate things:
+    - **`CIE_ORACLE`** uses **+**, the standard observer form, as a complete glare PSF in sr⁻¹.
+    - **`ARIAS_REPRO`** reproduces the paper **as printed (−)**, with a sensitivity variant (+).
+      **B is refitted independently for each** (β fitted too, and reported). The published
+      B = 9.207 µm, β = −1.214 are never kept while the target formula is swapped underneath them.
 - **Coupling insight** *(our inference, not in the paper)*: a phase screen with amplitude spectrum
   ∝ f^β gives, far from the core, a halo ∝ PSD(θ/λ) ∝ θ^{2β} = θ^−2.43. That is close to the
   Stiles–Holladay θ⁻²… θ⁻³ wings. The core keeps a fraction ≈ exp(−σ²_φ) of the energy, where
   σ²_φ is the screen's phase variance. Energy is conserved by construction, which is what
   "physically coherent" means here.
 
-**Ntatsis 2025 (same group):** W = W_a (Zernike, orders 2–4, defocus ×0.8) + W_s (Arias, β = −1.214).
+**Ntatsis 2025 (same group):** W = W_a (Zernike, orders 2–4, defocus ×0.8) + W_s (Arias, β = −1.214, **B
+varied to set the straylight level**). This is independent support for the B1 architecture, *wavefront
+aberrations + straylight phase perturbation → one diffraction PSF*.
 Pupil grid 1024² over 15 mm, 555 nm. This is exactly the B1 coupling, but only to ≈ 1°, and it is
 tuned to OSI (double-pass), not to CIE.
 
@@ -159,18 +169,24 @@ tuned to OSI (double-pass), not to CIE.
   (≈ 1/(2·1.33 mm) ≈ 0.38 cyc/mm, or above the Zernike order ISET carries), so it does not
   double-count the low-order aberrations. This is a reimplementation from the paper, because no
   author code exists.
-- B is refitted so that the **wings only** (θ ≥ 0.5–1°, declared before fitting) match CIE 135/1 at
-  A = 24, p = 0.5 (the B0 donor defaults).
+- **Invariant carried over:** β ≈ −1.214, not B. B only scales the screen amplitude. Its value
+  depends on the DCT/FFT normalisation, grid spacing, pupil sampling and wavefront units.
+- **How B is refit:**
+  - The fit uses the paper's principle: RMS error of log PSF over the angular profile, not one
+    point.
+  - Fit range declared before fitting: θ ≥ 0.5° (below that the core is Thibos's) up to 11.6°.
+  - The target is `CIE_ORACLE`, A = 24, p = 0.5 (the B0 donor defaults).
+  - s = θ²·PSF(6°) is kept as a separate diagnostic, the quantity the paper links to B.
 
 **Stages**
 
 | stage | what | label | pass criterion (declare before running) |
 |---|---|---|---|
-| B1.0 | Oracles: (a) CIE 135/1 from `hdrvdp_otf_cie99` constants; (b) **run ISETCam `ijspeert.m` in Octave** (NATIVE) at 24 y, 2/4/6/8 mm; (c) the B0 ISET kernel | NATIVE | hemisphere ∫ = 1.00 (IJspeert), 1.03 (CIE, recorded, not forced). Reproduce the §3 table ±1 %. B0 "EE(1′) 0.539" reconciled (§3) |
-| B1.1 | **Reproduce Arias Fig. 3b / Fig. 4**: IDCT screen, N = 1000, ϕ = 1.33 mm, 540 nm, A = 30, p = 1; `fminunc`-equivalent log-RMS fit; average ≥ 16 realisations, radial profile | REIMPLEMENTATION (paper only; ask augusto.arias@um.es for the MATLAB before starting) | β within ±0.05 of −1.214. log PSF within ±0.1 of CIE over 0.1–11°. log RMS vs log S linear. B reported, not required to be 9.207 µm (normalisation undefined) |
-| B1.2 | Same screen via **HCIPy** `SpectralNoiseFactoryFFT` with PSD exponent 2β = −2.43 (FFT screen instead of IDCT) | ADAPTED (MIT) | same mean profile as B1.1 within ±0.05 log. If it passes, use HCIPy for B1.3 |
+| B1.0 | Three **independent** oracles: (a) `CIE_ORACLE`: the CIE 135/1 complete glare PSF, standard + sign, evaluated **directly in space** (as `b0/cie135_target.py`), **never via `hdrvdp_otf_cie99`** (1-D transform, B0 erratum); (b) **run ISETCam `ijspeert.m` in Octave** (NATIVE) at 24 y, 2/4/6/8 mm; (c) the B0 ISET kernel | NATIVE | hemisphere ∫ = 1.00 (IJspeert), 1.03 (CIE, recorded, not forced). Reproduce the §3 table ±1 %. B0 "EE(1′) 0.539" reconciled (§3) |
+| B1.1 | `ARIAS_REPRO`: **reproduce Arias Fig. 3b / Fig. 4**: IDCT screen, N = 1000, ϕ = 1.33 mm, 540 nm, A = 30, p = 1; `fminunc`-equivalent log-RMS fit; average ≥ 16 realisations, radial profile. **Two targets, each with its own B (and β) fit:** the paper's Eq. 1 as printed (−) and the standard form (+) | REIMPLEMENTATION (paper only; ask the authors for the MATLAB before starting) | β within ±0.05 of −1.214 for the as-printed target. log PSF within ±0.1 of the respective target over 0.1–11°. log RMS vs log S linear. B reported per variant, not required to be 9.207 µm (normalisation undefined) |
+| B1.2 | An **equivalent random phase field with the same spectral slope**, as far as the HCIPy API allows (`SpectralNoiseFactoryFFT`, PSD exponent 2β = −2.43; an FFT field, not the IDCT). Transform convention, boundary conditions and PSD normalisation must be **proven equal, not assumed**: compare the empirical radial PSD of both screens (and their phase variance) before comparing PSFs | ADAPTED (MIT) | screen PSD slope and level match B1.1 within declared tolerance, **then** the mean PSF profile within ±0.05 log. Two noisy images that look alike are not a pass |
 | B1.3 | **Coherent 6 mm PSF**: ISET pupil function (via the `aperture`/phase insertion point in `wvfComputePupilFunction.m`, a local patch, or export the ISET wavefront map) × exp(i2πW_s,hp/λ). Pupil sampling dx ≤ λ/(2θ_max): 1.33 µm for 11.6° ⇒ ~4500² pupil samples. Use the **HCIPy MFT** onto two focal grids (fine core, ≤ 0.25′, ±1°; coarse wing, ±12°) instead of one 16k² FFT | HYBRID (ISET NATIVE + screen ADAPTED) | see checks below |
-| B1.4 | Controls on the same grid: (i) naive ISET ⊛ CIE; (ii) Ginis-type splice (1−a)·PSF_ISET + a·CIE-wing; (iii) IJspeert 6 mm | control | report the differences at the B0 radii 1′, 3′, 18′, 60′ and at 3.5°/7°/10° |
+| B1.4 | Controls on the same grid: (i) naive ISET ⊛ CIE, **labelled NOT PHYSICALLY UNIFIED** (it counts the core twice and is a control only, never a target); (ii) Ginis-type splice (1−a)·PSF_ISET + a·CIE-wing; (iii) IJspeert 6 mm | control | report the differences at the B0 radii 1′, 3′, 18′, 60′ and at 3.5°/7°/10° |
 
 **Checks for B1.3**
 
@@ -187,9 +203,16 @@ tuned to OSI (double-pass), not to CIE.
    - digitised Ginis 2012 Fig. 7 (1–8°) shown as an in-vivo optical band.
 4. **Pupil.** Repeat at 4 and 7 mm with the same screen statistics. The wings must move by
    ≤ 0.2 log (Franssen 2007). The core must change as ISET predicts.
-5. **Speckle.** Report the variance of the radial profile over realisations. Targets use the
-   realisation mean. A single realisation is a separate, labelled "instantaneous eye" variant.
-6. **Not modelled** (written in the result): eye-wall translucency, the λ law, and angles beyond
+5. **Ensemble convergence (seeds).** Run N = 4, 8, 16, 32 random seeds.
+   - The **mean** radial PSF must converge to the target: log RMS vs the target falls and
+     stabilises.
+   - The between-realisation variance is reported as numerical speckle. It must not become part of
+     the "physiology": targets use the ensemble mean.
+   - A single realisation is a separate, labelled "instantaneous eye" variant.
+6. **Encircled energy in log-spaced angular bands** (e.g. 0–1′, 1–3′, 3–10′, 10–30′, 30′–1°,
+   1–3°, 3–10°), compared with each oracle. Two profiles can agree at 3.5°/7°/10° and still carry a
+   different integrated veil.
+7. **Not modelled** (written in the result): eye-wall translucency, the λ law, and angles beyond
    ~12°.
 
 **Reimplementation vs adaptation, summarised**
@@ -232,3 +255,4 @@ tuned to OSI (double-pass), not to CIE.
 - https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5776149/fullTextXML (McCann & Vonikakis 2018, doi:10.3389/fpsyg.2017.02079)
 - Attempted, failed: https://jov.arvojournals.org/Article.aspx?doi=10.1167/12.3.20 (403); https://humansystems.arc.nasa.gov/publications/Watson_2015_comp_human_optical_point_spread.pdf (reset); https://arvojournals.org/arvo/content_public/journal/jov/933690/i1534-7362-15-2-26.pdf (403)
 - Local code read: `research-cache/hdrvdp3/src/hdrvdp-3.0.7/utils/hdrvdp_otf_cie99.m`; `research-cache/iset/isetcam/human/ijspeert.m`; `research-cache/iset/isetcam/opticalimage/wavefront/{wvfAperture,wvfComputePupilFunction}.m`; `research-cache/iset/isetbio/external/psychtoolbox/PsychOptics/West*.m`; `research-cache/hcipy/src/hcipy/optics/aberration.py`, `hcipy/util/spectral_noise.py`; `research-cache/iset/iset3d/human/`
+- https://nin.nl/wp-content/uploads/sites/2/2025/08/History-of-ocular-straylight-measurement-A-review-1.pdf (van den Berg et al., review of ocular straylight measurement: standard CIE glare observer with the + age factor; cited by the reviewer, not opened in this study)

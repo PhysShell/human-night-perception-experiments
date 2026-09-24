@@ -79,6 +79,12 @@ Found while checking that all retinal profiles were compared in one normalisatio
 | HDR-VDP `hdrvdp_otf_cie99` | 1.000 | 0.998 | 0.987 | 0.942 | 0.812 | 0.567 |
 
 - **Effect on the retinal image:** the veil is 8× too low at 10′, 14× at 18′ (the trunk) and 50× at 60′.
+  - Given a pure delta (minimal repro, `docs/upstream/hdrvdp-otf-cie99/`), the donor's point image
+    goes **negative** beyond ~15′ (min −3.4·10⁻³), which no PSF can do.
+  - The positive 40 sr⁻¹ at 18′ in B0 therefore depended on the grid and the source footprint. It
+    was not a veil.
+  - The 2-D OTF of the same GSF, applied with the same FFT pipeline, matches the GSF within 4 % and
+    stays non-negative.
 - **The CIE 135/1 target in 2-D** (`b0/cie135_target.py`): the published GSF integrated per pixel,
   spatial convolution. It reproduces the analytic GSF in sr⁻¹ within 3 % at 3′ and within 0.2 %
   from 10′ to 60′. Its trunk P_det is **0.028 / 0.005 / 0.0002 / 0** at ×0.1 / ×1 / ×10 / ×100. That is
