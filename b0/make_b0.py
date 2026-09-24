@@ -16,14 +16,16 @@ Grids:
   so it is computed finer until the evaluator converges (b0/README.md)
 Point footprint: Blackman-Harris 3-px window of the respective grid, unit energy (a point is
 narrower on finer grids).
-  python3 b0/make_b0.py [ppd=73]     -> b0/out/stim{PPD}/  (components + k=1/10/100 bar/nobar)
+  python3 b0/make_b0.py [ppd=73] [neutral]   -> b0/out/stim{PPD}[_ach]/  (components + k=1/10/100 bar/nobar)
+  neutral: the achromatic B0-optics layer (neutral source of the same photopic luminance)
 """
 import json, math, os, sys
 import numpy as np
 import OpenImageIO as oiio
 
 PPD = float(sys.argv[1]) if len(sys.argv) > 1 else 73.0
-OUT = "b0/out/stim" if PPD == 73 else f"b0/out/stim{int(PPD)}"
+NEUTRAL = len(sys.argv) > 2 and sys.argv[2] == "neutral"     # B0-optics (achromatic) layer
+OUT = ("b0/out/stim" if PPD == 73 else f"b0/out/stim{int(PPD)}") + ("_ach" if NEUTRAL else "")
 FOV = (12.0, 6.0)
 W, H = int(round(FOV[0] * PPD)), int(round(FOV[1] * PPD))
 OMEGA = math.radians(1 / PPD) ** 2
@@ -51,7 +53,7 @@ src = np.zeros_like(sky)
 x, y = SRC
 xs, ys = np.arange(int(x) - 3, int(x) + 4), np.arange(int(y) - 3, int(y) + 4)
 w = np.outer(bh((ys + 0.5 - y) / 3), bh((xs + 0.5 - x) / 3)); w /= w.sum()
-src[ys[0]:ys[-1] + 1, xs[0]:xs[-1] + 1] = (w * E1 / OMEGA)[..., None] * unit([1, 0.45, 0.08])
+src[ys[0]:ys[-1] + 1, xs[0]:xs[-1] + 1] = (w * E1 / OMEGA)[..., None] * unit([1, 1, 1] if NEUTRAL else [1, 0.45, 0.08])
 os.makedirs(OUT, exist_ok=True)
 save(f"{OUT}/C_sky_nobar.exr", sky); save(f"{OUT}/C_sky_bar.exr", skybar); save(f"{OUT}/C_src1.exr", src)
 for k in (1, 10, 100):
@@ -60,7 +62,7 @@ for k in (1, 10, 100):
 json.dump({"px_per_deg": PPD, "size_px": [W, H], "fov_deg": list(FOV), "source_px": SRC, "bar_px_x0x1y0y1": BAR,
            "sky_cd_m2": 4e-4, "units": "Y cd/m^2, linear Rec.709",
            "source": {"I_cd": 800, "d_m": 3000, "atmospheric_T": 1.0, "E_eye_lx": {"1": E1, "10": 10 * E1, "100": 100 * E1},
-                      "angular_subtense_arcmin": math.degrees(0.5 / 3000) * 60, "rgb": "Rec.709 1:0.45:0.08",
+                      "angular_subtense_arcmin": math.degrees(0.5 / 3000) * 60, "rgb": "neutral 1:1:1 (achromatic B0-optics)" if NEUTRAL else "Rec.709 1:0.45:0.08",
                       "spd_for_spectral_models": "CIE HP1 (HPS), tracks/mitsuba-spectral/spectra/test_spectra_unitlum.csv"},
            "components": "stimulus(k,bar) = C_sky_{bar|nobar} + k * C_src1 (exact)"},
           open(f"{OUT}/meta.json", "w"), indent=1)

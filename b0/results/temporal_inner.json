@@ -1,0 +1,73 @@
+{
+ "what": "Temporal Glare demo PSF, native float frames, luminance-weighted, inside the safe radius only",
+ "window_half_deg": 0.4812243948605339,
+ "safe_radius_deg": 0.35,
+ "frames": 33,
+ "t_s": [
+  0.8,
+  9.38
+ ],
+ "median_frame_step_s": 0.2600000000000001,
+ "spectrum_limit_Hz": 1.9230769230769222,
+ "inner_profile_modulation": {
+  "0-1'": {
+   "max_over_min_minus_1": 0.005750872377076721,
+   "cv": 0.0010910193572636134
+  },
+  "1-2'": {
+   "max_over_min_minus_1": 0.017704347432885736,
+   "cv": 0.003914740124656026
+  },
+  "2-4'": {
+   "max_over_min_minus_1": 0.036934689273573795,
+   "cv": 0.007713687234540635
+  },
+  "4-6'": {
+   "max_over_min_minus_1": 0.03490622599512716,
+   "cv": 0.009197349414444722
+  },
+  "6-10'": {
+   "max_over_min_minus_1": 0.03319028175835803,
+   "cv": 0.008036689877864307
+  },
+  "10-15'": {
+   "max_over_min_minus_1": 0.025944971364200597,
+   "cv": 0.004664187967992537
+  },
+  "15-21'": {
+   "max_over_min_minus_1": 0.06042266271276997,
+   "cv": 0.012760270339977973
+  }
+ },
+ "centre_of_energy_wander_arcmin": {
+  "inner_0.35deg_rms": 0.0024175134568953077,
+  "inner_0.35deg_max": 0.005617583468965635,
+  "core_5arcmin_rms": 0.003035066111556585
+ },
+ "core_deformation": {
+  "ellipticity_mean": 0.006340692098684214,
+  "ellipticity_range": [
+   0.004477716906112095,
+   0.011516000880037347
+  ],
+  "orientation_deg_range": [
+   4.816838193476706,
+   29.894488970344685
+  ]
+ },
+ "core_EE50_radius_arcmin": {
+  "mean": 8.66441106170012,
+  "min": 8.536863380395618,
+  "max": 8.865084347998874,
+  "modulation_max_over_min_minus_1": 0.038447489783776545
+ },
+ "energy_2_10arcmin": {
+  "mean": 0.2938996525256208,
+  "modulation_max_over_min_minus_1": 0.0345725636292451
+ },
+ "temporal_spectrum_peak_Hz": {
+  "core_EE50": 0.23824893699265548,
+  "energy_2_10arcmin": 0.23824893699265548
+ },
+ "not_measured": "plateau diameter on a display (window-limited) and anything beyond 0.35 deg"
+}

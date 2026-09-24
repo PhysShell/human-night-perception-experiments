@@ -13,7 +13,7 @@ unit sum, per channel for the temporal-glare frames).
   python3 b0/apply_kernels.py iset IN.exr OUT.exr
   python3 b0/apply_kernels.py temporal IN.exr OUTPREFIX NFRAMES
 """
-import importlib.util, json, sys
+import importlib.util, json, os, sys
 import numpy as np
 import OpenImageIO as oiio
 
@@ -45,10 +45,11 @@ def conv(img, k):
 mode = sys.argv[1]
 img = load(sys.argv[2])
 if mode == "iset":
-    with open(f"{REPO}/b0/out/optics/iset_kernel.raw", "rb") as f:
+    kpath = os.environ.get("ISET_KERNEL", f"{REPO}/b0/out/optics/iset_kernel.raw")
+    with open(kpath, "rb") as f:
         h, w, c, t = np.fromfile(f, "<i4", 4)
         E = np.fromfile(f, "<f4").reshape(h, w, c)[..., 0].astype(np.float64)
-    ss = json.load(open(f"{REPO}/b0/out/optics/iset_kernel.json")).get("supersample", 1)
+    ss = json.load(open(kpath.replace(".raw", ".json"))).get("supersample", 1)
     E = E - np.median(E[:5, :5]); E = np.maximum(E, 0)          # the scene's 1e-9 floor
     cy, cx = np.unravel_index(E.argmax(), E.shape)
     # area-bin ss x ss around the peak onto the 73 px/deg grid (the point sits at a fine-pixel centre)
@@ -76,6 +77,8 @@ elif mode == "temporal":
     for a in stack:
         k = cc.rebin_kernel(a, cc.PX_PER_DEG_PSF / 73.0, half=36)
         k = k / k.sum(axis=(0, 1), keepdims=True)
+        if os.environ.get("TEMPORAL_ACHROMATIC") == "1":     # B0-optics: luminance-weighted kernel on all channels
+            ky = k @ np.array([0.2126, 0.7152, 0.0722]); k = np.repeat((ky / ky.sum())[..., None], 3, -1)
         k = k * taper[..., None]
         if mode_t != "norenorm":
             k = k / k.sum(axis=(0, 1), keepdims=True)

@@ -99,13 +99,34 @@ The baseline stays frozen until one of them is chosen.
 
 ## B0 status
 
-**Run: `b0/`.**
-- Six optics schools on one calibrated lamp, one display step, a blind set for the viewer.
-- The current no-optics state shows a trunk next to a lamp at detection probability 0.997,
-  against a world prediction of 0.01–0.15.
-- Wide-glare variants (Spencer, HDR-VDP MTF, temporal) fall within that range; narrow-core
-  variants (ISET, CIE99) do not.
-- The viewer's blind choice is pending.
+**Run: `b0/` (v3).**
+
+**The central task is an inverse perceptual rendering problem.** Find the display image D such that
+`viewer_eye(D) ≈ target_retina(real_scene)`:
+- the eye in the scene belongs to the target;
+- the viewer's eye at the phone belongs to the evaluation;
+- D is the only thing chosen.
+
+The options A–F above are therefore of two kinds.
+- **Targets:** A's optics, F's spectra.
+- **Candidate encodings D:** Spencer, temporal glare, tone mapping.
+
+A retinal PSF baked into D is PSF × PSF when viewed.
+
+v3 findings (achromatic B0-optics layer, trunk P_det under the HDR-VDP-3 observer model, a
+diagnostic):
+- **Retinal targets.** ISET 550 nm (6 mm, defocus 0) and CIE99 agree within ~1.5× across 10⁻⁵–10⁻² lx
+  at the eye. HDR-VDP's own MTF gives a 10–20× lower trunk P_det. That spread is target uncertainty.
+- **The frozen encoding (V0) is the largest gap: 0.997 vs 0.01–0.29.** Even with no optics, the
+  night stimulus gives P ≈ 0.5, so the pcond mapping to photopic display levels alone over-shows the
+  dark trunk.
+- **Spencer as D** is within 0.09 of the ISET/CIE targets from 8.9·10⁻⁵ lx upward, and too
+  revealing below.
+- **Temporal Glare** is window-limited from ×1. Its native inner dynamics are a ~3–4 % pulsation at
+  ~0.24 Hz with no wander.
+- ISET's shipped Thibos mean eye carries 0.26 D of defocus. Matching the observer moved the core more
+  than the spectrum did.
+- The viewer's blind choice is pending. It reads as preference/resemblance, not physiology.
 
 ## Cheapest discriminating experiment
 
