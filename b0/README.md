@@ -102,6 +102,12 @@ Found while checking that all retinal profiles were compared in one normalisatio
   - `cie_ss_check.py` tested grid convergence of the defective OTF only.
   - Not reported upstream yet.
 
+> **Note from B1.0 (`b1/README.md`).** ISET's default wavefront grid (201 samples, 16.212 mm pupil
+> plane) supports the PSF only to ±11.7′. B0's ISET kernels (via `oiCompute`) agree with the wavefront
+> PSF on its own large grid within 7–18 % out to 18′. They are 1.6× too high at 30′ and 5.7× at 60′.
+> B0's conclusions that depend on the ISET wing beyond ~20′ are weaker than stated; the wavefront core
+> is 26× below CIE straylight at 18′ (not ~20×).
+
 ## Roles
 
 A branch is classified by **where its output lives, and what part of the optics it models**.

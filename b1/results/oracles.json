@@ -1,0 +1,619 @@
+{
+ "conventions": {
+  "theta": "arcmin unless stated",
+  "PSF": "sr^-1",
+  "s": "theta^2 * PSF with theta in deg: deg^2 sr^-1",
+  "EE": "fraction of the oracle's own total (its normalisation, see each package)",
+  "zones_arcmin": {
+   "CORE": [
+    0,
+    1
+   ],
+   "NEAR_WINGS": [
+    1,
+    10
+   ],
+   "MID": [
+    10,
+    30
+   ],
+   "STRAYLIGHT": [
+    30,
+    180
+   ],
+   "FAR": [
+    180,
+    600
+   ]
+  }
+ },
+ "packages": {
+  "O1 ISET THIBOS_NATIVE": {
+   "captured_energy_on_support": 0.9999999962523765,
+   "support_half_arcmin": 909.692,
+   "arcmin_per_sample": 0.23325447,
+   "grid": "7801 x 7801, pupil plane 8.106 mm",
+   "c4_um": 0.334975,
+   "normalisation": "ISET: unit sum over its own square support (energy beyond the support is not represented)",
+   "wavelength_nm": 550,
+   "pupil_mm": 6,
+   "age": "not modelled (Thibos virtual eyes)",
+   "pigmentation": "not modelled",
+   "grids": {
+    "fine": "2001 x 2001, pupil plane 16.212 mm, 0.1166'/sample, +-117'",
+    "coarse": "7801 x 7801, pupil plane 8.106 mm, 0.2333'/sample, +-910'"
+   },
+   "profile_assembly": "same model on two sampling grids: fine for theta <= 30', +-15 deg grid beyond",
+   "overlap_10_30arcmin_max_rel_diff_fine_vs_coarse": 0.13216511074200454
+  },
+  "O1 ISET ZERO_DEFOCUS_550": {
+   "captured_energy_on_support": 1.0000000007610026,
+   "support_half_arcmin": 909.692,
+   "arcmin_per_sample": 0.23325447,
+   "grid": "7801 x 7801, pupil plane 8.106 mm",
+   "c4_um": 0,
+   "normalisation": "ISET: unit sum over its own square support (energy beyond the support is not represented)",
+   "wavelength_nm": 550,
+   "pupil_mm": 6,
+   "age": "not modelled (Thibos virtual eyes)",
+   "pigmentation": "not modelled",
+   "grids": {
+    "fine": "4001 x 4001, pupil plane 32.424 mm, 0.0583'/sample, +-117'",
+    "coarse": "7801 x 7801, pupil plane 8.106 mm, 0.2333'/sample, +-910'"
+   },
+   "profile_assembly": "same model on two sampling grids: fine for theta <= 30', +-15 deg grid beyond",
+   "overlap_10_30arcmin_max_rel_diff_fine_vs_coarse": 0.2373678492673812
+  },
+  "O1 ISET BEST_FOCUS_550": {
+   "captured_energy_on_support": 0.9999999995218389,
+   "support_half_arcmin": 909.692,
+   "arcmin_per_sample": 0.23325447,
+   "grid": "7801 x 7801, pupil plane 8.106 mm",
+   "c4_um": 0.05,
+   "normalisation": "ISET: unit sum over its own square support (energy beyond the support is not represented)",
+   "wavelength_nm": 550,
+   "pupil_mm": 6,
+   "age": "not modelled (Thibos virtual eyes)",
+   "pigmentation": "not modelled",
+   "grids": {
+    "fine": "2001 x 2001, pupil plane 16.212 mm, 0.1166'/sample, +-117'",
+    "coarse": "7801 x 7801, pupil plane 8.106 mm, 0.2333'/sample, +-910'"
+   },
+   "profile_assembly": "same model on two sampling grids: fine for theta <= 30', +-15 deg grid beyond",
+   "overlap_10_30arcmin_max_rel_diff_fine_vs_coarse": 0.16165722578086883
+  },
+  "O2 CIE_FORMULA_RAW": {
+   "age": 24.0,
+   "pigmentation_p": 0.5,
+   "pupil_mm": "none in the model",
+   "wavelength_nm": "none (broadband)",
+   "normalisation": "none: the published formula as is (sr^-1)",
+   "age_factor_sign": "+ (standard observer)",
+   "integral_to_90deg": 1.0316038907777882,
+   "integral_to_10deg": 0.9996081641199208,
+   "quadrature_check_rel_diff_EE(1')_(1e5_vs_4e5_pts)": 1.71691416639419e-09,
+   "support": "analytic, 0 .. 90 deg (sphere)"
+  },
+  "O2 CIE_KERNEL_FINITE_NORMALIZED (10 deg disc)": {
+   "age": 24.0,
+   "pigmentation_p": 0.5,
+   "normalisation": "renormalised to unit energy on the 10 deg disc (factor 1.00039); zero beyond",
+   "support": "analytic, 0 .. 90 deg (sphere)",
+   "integral_to_90deg": 0.9999999999999846,
+   "integral_to_10deg": 0.9999999999999846,
+   "quadrature_check_rel_diff_EE(1')_(1e5_vs_4e5_pts)": 9.980594128933262e-10
+  },
+  "O3 IJSPEERT (m 0.106, 6 mm)": {
+   "age": 24.0,
+   "pupil_mm": 6,
+   "pigmentation_m": 0.106,
+   "wavelength_nm": "none (not wavelength-dependent)",
+   "normalisation": "as returned by ijspeert.m (the model's own)",
+   "implementation": "ISETCam human/ijspeert.m (MIT), NATIVE",
+   "integral_to_90deg": 1.0000000780379699,
+   "integral_to_10deg": 0.8997704171168525,
+   "quadrature_check_rel_diff_EE(1')_(1e5_vs_4e5_pts)": 3.105116164192623e-10,
+   "support": "analytic, 0 .. 90 deg (sphere)"
+  },
+  "O3 IJSPEERT (m 0.142, 6 mm) [sensitivity]": {
+   "age": 24.0,
+   "pupil_mm": 6,
+   "pigmentation_m": 0.142,
+   "normalisation": "as returned",
+   "integral_to_90deg": 1.0000000750054636,
+   "integral_to_10deg": 0.8655904162242392,
+   "quadrature_check_rel_diff_EE(1')_(1e5_vs_4e5_pts)": 3.1050140236743573e-10,
+   "support": "analytic, 0 .. 90 deg (sphere)"
+  },
+  "O3 IJSPEERT (m 0.106, 3 mm) [sensitivity]": {
+   "age": 24.0,
+   "pupil_mm": 3,
+   "pigmentation_m": 0.106,
+   "normalisation": "as returned",
+   "integral_to_90deg": 1.0000000780406428,
+   "integral_to_10deg": 0.8997704387208775,
+   "quadrature_check_rel_diff_EE(1')_(1e5_vs_4e5_pts)": 2.0738097905592667e-09,
+   "support": "analytic, 0 .. 90 deg (sphere)"
+  }
+ },
+ "zones": {
+  "O1 ISET THIBOS_NATIVE": {
+   "CORE": {
+    "band_energy": 0.3267960329460057,
+    "cumulative_to_outer": 0.3267960329460057,
+    "psf_at_mid_sr-1": 1370442.5731574516,
+    "s_at_mid": 95.16962313593413,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.6632386631359259,
+    "cumulative_to_outer": 0.9900346960819316,
+    "psf_at_mid_sr-1": 89570.06512340734,
+    "s_at_mid": 248.80573645390933,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.007775974368714467,
+    "cumulative_to_outer": 0.9978106704506461,
+    "psf_at_mid_sr-1": 31.858300580537794,
+    "s_at_mid": 2.6548583817114837,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.001857004263669304,
+    "cumulative_to_outer": 0.9996676747143154,
+    "psf_at_mid_sr-1": 0.2986425127328497,
+    "s_at_mid": 0.4479637690992746,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.00026572872713837015,
+    "cumulative_to_outer": 0.9999334034414538,
+    "psf_at_mid_sr-1": 0.00357024697762579,
+    "s_at_mid": 0.10710740932877369,
+    "mid_arcmin": 328.63353450309967
+   }
+  },
+  "O1 ISET ZERO_DEFOCUS_550": {
+   "CORE": {
+    "band_energy": 0.6117227078601598,
+    "cumulative_to_outer": 0.6117227078601598,
+    "psf_at_mid_sr-1": 2696486.539229732,
+    "s_at_mid": 187.2560096687314,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.3810890074568799,
+    "cumulative_to_outer": 0.9928117153170397,
+    "psf_at_mid_sr-1": 25410.361297197367,
+    "s_at_mid": 70.58433693665937,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.00505400325680172,
+    "cumulative_to_outer": 0.9978657185738414,
+    "psf_at_mid_sr-1": 24.48951946731263,
+    "s_at_mid": 2.04079328894272,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.0018013684483061398,
+    "cumulative_to_outer": 0.9996670870221476,
+    "psf_at_mid_sr-1": 0.2948962351350316,
+    "s_at_mid": 0.44234435270254746,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.00026549125564612197,
+    "cumulative_to_outer": 0.9999325782777937,
+    "psf_at_mid_sr-1": 0.00356819641889586,
+    "s_at_mid": 0.1070458925668758,
+    "mid_arcmin": 328.63353450309967
+   }
+  },
+  "O1 ISET BEST_FOCUS_550": {
+   "CORE": {
+    "band_energy": 0.5994116302675034,
+    "cumulative_to_outer": 0.5994116302675034,
+    "psf_at_mid_sr-1": 3235667.24377669,
+    "s_at_mid": 224.69911415115905,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.39317562513222526,
+    "cumulative_to_outer": 0.9925872553997287,
+    "psf_at_mid_sr-1": 31821.204871184356,
+    "s_at_mid": 88.3922357532899,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.005273258446626183,
+    "cumulative_to_outer": 0.9978605138463549,
+    "psf_at_mid_sr-1": 25.60500146259401,
+    "s_at_mid": 2.133750121882835,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.0018073524921372597,
+    "cumulative_to_outer": 0.9996678663384921,
+    "psf_at_mid_sr-1": 0.29530090435695194,
+    "s_at_mid": 0.442951356535428,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.00026551708639688254,
+    "cumulative_to_outer": 0.999933383424889,
+    "psf_at_mid_sr-1": 0.0035684178034856187,
+    "s_at_mid": 0.10705253410456857,
+    "mid_arcmin": 328.63353450309967
+   }
+  },
+  "O2 CIE_FORMULA_RAW": {
+   "CORE": {
+    "band_energy": 0.3095877547617749,
+    "cumulative_to_outer": 0.3095877547617749,
+    "psf_at_mid_sr-1": 1180936.6710999368,
+    "s_at_mid": 82.00949104860672,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.493047683033932,
+    "cumulative_to_outer": 0.8026354377957069,
+    "psf_at_mid_sr-1": 47854.20339996495,
+    "s_at_mid": 132.92834277768046,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.11778923394249885,
+    "cumulative_to_outer": 0.9204246717382057,
+    "psf_at_mid_sr-1": 652.3087174202325,
+    "s_at_mid": 54.35905978501939,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.06234578515844791,
+    "cumulative_to_outer": 0.9827704568966537,
+    "psf_at_mid_sr-1": 11.010000982327325,
+    "s_at_mid": 16.51500147349099,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.016837707223267162,
+    "cumulative_to_outer": 0.9996081641199208,
+    "psf_at_mid_sr-1": 0.237629198964886,
+    "s_at_mid": 7.12887596894658,
+    "mid_arcmin": 328.63353450309967
+   }
+  },
+  "O2 CIE_KERNEL_FINITE_NORMALIZED (10 deg disc)": {
+   "CORE": {
+    "band_energy": 0.3097091099336659,
+    "cumulative_to_outer": 0.3097091099336659,
+    "psf_at_mid_sr-1": 1181399.5859447112,
+    "s_at_mid": 82.04163791282717,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.4932409524991142,
+    "cumulative_to_outer": 0.8029500624327801,
+    "psf_at_mid_sr-1": 47872.961748046444,
+    "s_at_mid": 132.98044930012904,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.11783540610060239,
+    "cumulative_to_outer": 0.9207854685333825,
+    "psf_at_mid_sr-1": 652.5644156266302,
+    "s_at_mid": 54.380367968885864,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.062370224040711575,
+    "cumulative_to_outer": 0.9831556925740941,
+    "psf_at_mid_sr-1": 11.0143167877557,
+    "s_at_mid": 16.52147518163355,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.016844307425890492,
+    "cumulative_to_outer": 0.9999999999999846,
+    "psf_at_mid_sr-1": 0.2377223471297662,
+    "s_at_mid": 7.131670413892986,
+    "mid_arcmin": 328.63353450309967
+   }
+  },
+  "O3 IJSPEERT (m 0.106, 6 mm)": {
+   "CORE": {
+    "band_energy": 0.2030440394307544,
+    "cumulative_to_outer": 0.2030440394307544,
+    "psf_at_mid_sr-1": 834617.0726405127,
+    "s_at_mid": 57.95951893336894,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.5384062858986396,
+    "cumulative_to_outer": 0.741450325329394,
+    "psf_at_mid_sr-1": 53975.1377116789,
+    "s_at_mid": 149.93093808799696,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.09993891807694244,
+    "cumulative_to_outer": 0.8413892434063365,
+    "psf_at_mid_sr-1": 547.9796165639651,
+    "s_at_mid": 45.6649680469971,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.04495768698056812,
+    "cumulative_to_outer": 0.8863469303869046,
+    "psf_at_mid_sr-1": 7.6174725556578,
+    "s_at_mid": 11.426208833486701,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.013423486729947864,
+    "cumulative_to_outer": 0.8997704171168525,
+    "psf_at_mid_sr-1": 0.1925682773459339,
+    "s_at_mid": 5.777048320378017,
+    "mid_arcmin": 328.63353450309967
+   }
+  },
+  "O3 IJSPEERT (m 0.142, 6 mm) [sensitivity]": {
+   "CORE": {
+    "band_energy": 0.19477106833518437,
+    "cumulative_to_outer": 0.19477106833518437,
+    "psf_at_mid_sr-1": 800610.823089244,
+    "s_at_mid": 55.597973825641944,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.5164736344639713,
+    "cumulative_to_outer": 0.7112447027991556,
+    "psf_at_mid_sr-1": 51776.1018243903,
+    "s_at_mid": 143.82250506775085,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.09590419407251538,
+    "cumulative_to_outer": 0.807148896871671,
+    "psf_at_mid_sr-1": 525.8286843594028,
+    "s_at_mid": 43.819057029950244,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.04406782550579136,
+    "cumulative_to_outer": 0.8512167223774624,
+    "psf_at_mid_sr-1": 7.456583353714344,
+    "s_at_mid": 11.184875030571519,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.01437369384677678,
+    "cumulative_to_outer": 0.8655904162242392,
+    "psf_at_mid_sr-1": 0.20620295665262506,
+    "s_at_mid": 6.186088699578752,
+    "mid_arcmin": 328.63353450309967
+   }
+  },
+  "O3 IJSPEERT (m 0.106, 3 mm) [sensitivity]": {
+   "CORE": {
+    "band_energy": 0.3694576928135954,
+    "cumulative_to_outer": 0.3694576928135954,
+    "psf_at_mid_sr-1": 1376801.0107919548,
+    "s_at_mid": 95.61118130499686,
+    "mid_arcmin": 0.5
+   },
+   "NEAR_WINGS": {
+    "band_energy": 0.3762709158502785,
+    "cumulative_to_outer": 0.7457286086638739,
+    "psf_at_mid_sr-1": 34174.69180868005,
+    "s_at_mid": 94.92969946855571,
+    "mid_arcmin": 3.1622776601683795
+   },
+   "MID": {
+    "band_energy": 0.09583653370111989,
+    "cumulative_to_outer": 0.8415651423649938,
+    "psf_at_mid_sr-1": 531.6709825197612,
+    "s_at_mid": 44.305915209980114,
+    "mid_arcmin": 17.320508075688775
+   },
+   "STRAYLIGHT": {
+    "band_energy": 0.04478261087539137,
+    "cumulative_to_outer": 0.8863477532403852,
+    "psf_at_mid_sr-1": 7.604831855340905,
+    "s_at_mid": 11.407247783011359,
+    "mid_arcmin": 73.48469228349535
+   },
+   "FAR": {
+    "band_energy": 0.013422685480492302,
+    "cumulative_to_outer": 0.8997704387208775,
+    "psf_at_mid_sr-1": 0.1925611947963813,
+    "s_at_mid": 5.77683584389144,
+    "mid_arcmin": 328.63353450309967
+   }
+  }
+ },
+ "crossover": {
+  "O1 ISET THIBOS_NATIVE / CIE_RAW": {
+   "ratio_at_arcmin": {
+    "0.3": 1.1103732657256686,
+    "1": 1.35988065551018,
+    "3": 1.9571196072148633,
+    "10": 0.13048004353549045,
+    "30": 0.03671207841331608,
+    "100": 0.02532640491959131,
+    "300": 0.015778232372607844
+   },
+   "ratio_equals_1_at_arcmin": [
+    0.24447310073730671,
+    5.4055051788686415
+   ],
+   "ratio_below_0.1_from_arcmin": 11.344464838051014
+  },
+  "O1 ISET THIBOS_NATIVE / IJSPEERT": {
+   "ratio_at_arcmin": {
+    "0.3": 1.9755601544600838,
+    "1": 1.278900140226614,
+    "3": 1.7126009852325021,
+    "10": 0.14576106723817597,
+    "30": 0.04654832920896831,
+    "100": 0.03798411444995685,
+    "300": 0.019966031760213037
+   },
+   "ratio_equals_1_at_arcmin": [
+    5.4055051788686415
+   ],
+   "ratio_below_0.1_from_arcmin": 11.594527744189644
+  },
+  "O1 ISET ZERO_DEFOCUS_550 / CIE_RAW": {
+   "ratio_at_arcmin": {
+    "0.3": 0.9913188600802488,
+    "1": 3.44981044406213,
+    "3": 0.521781105526881,
+    "10": 0.053325716856627924,
+    "30": 0.03384430167764863,
+    "100": 0.02515842198515279,
+    "300": 0.015768057253129464
+   },
+   "ratio_equals_1_at_arcmin": [
+    0.30403360452911876,
+    1.8981120734484545
+   ],
+   "ratio_below_0.1_from_arcmin": 6.870618683592947
+  },
+  "O1 ISET ZERO_DEFOCUS_550 / IJSPEERT": {
+   "ratio_at_arcmin": {
+    "0.3": 1.763647611296457,
+    "1": 3.2449797997207184,
+    "3": 0.4565903851064111,
+    "10": 0.05957692143707233,
+    "30": 0.042912702154742965,
+    "100": 0.03773218040083799,
+    "300": 0.01995315642729401
+   },
+   "ratio_equals_1_at_arcmin": [
+    0.1841337598148656,
+    1.817120592832139
+   ],
+   "ratio_below_0.1_from_arcmin": 6.870618683592947
+  },
+  "O1 ISET BEST_FOCUS_550 / CIE_RAW": {
+   "ratio_at_arcmin": {
+    "0.3": 1.2705350323649778,
+    "1": 3.206258276381168,
+    "3": 0.6843939955142366,
+    "10": 0.05967040434463427,
+    "30": 0.03431541962041603,
+    "100": 0.02517660722791299,
+    "300": 0.015769122258239614
+   },
+   "ratio_equals_1_at_arcmin": [
+    0.2609986332589212,
+    2.2110838217236055
+   ],
+   "ratio_below_0.1_from_arcmin": 7.4967330960150145
+  },
+  "O1 ISET BEST_FOCUS_550 / IJSPEERT": {
+   "ratio_at_arcmin": {
+    "0.3": 2.2603872523466912,
+    "1": 3.0158406759998826,
+    "3": 0.5988866711203651,
+    "10": 0.06666206008893527,
+    "30": 0.043509636165104844,
+    "100": 0.037759453917102545,
+    "300": 0.019954504011977257
+   },
+   "ratio_equals_1_at_arcmin": [
+    0.13569589522710906,
+    1.8981120734484545
+   ],
+   "ratio_below_0.1_from_arcmin": 7.4967330960150145
+  },
+  "O3 IJSPEERT / CIE_RAW": {
+   "ratio_at_arcmin": {
+    "0.3": 0.562053807173111,
+    "1": 1.0633283795911237,
+    "3": 1.1427771142435759,
+    "10": 0.8951941489371548,
+    "30": 0.7886958105174277,
+    "100": 0.6667674523716126,
+    "300": 0.7902693941657103,
+    "600": 0.9225728193668001
+   }
+  }
+ },
+ "iset_grid_convergence": {
+  "N201_P16.212 (0.1166'/sample, +-12')": {
+   "0.3": -0.009083255857943562,
+   "1": 0.03209408875445985,
+   "3": 0.02736320676245252,
+   "10": 0.6668610978968108
+  },
+  "N2001_P16.212 (0.1166'/sample, +-117')": {
+   "0.3": -0.010327639757416351,
+   "1": 0.03536234567950647,
+   "3": 0.016348680278227112,
+   "10": 0.023727496100852008,
+   "30": -0.001046116999915414
+  },
+  "N4001_P16.212 (0.1166'/sample, +-233')": {
+   "0.3": -0.010358404439038016,
+   "1": 0.03531997980197499,
+   "3": 0.016586753216135453,
+   "10": 0.023934092014417097,
+   "30": -0.017610844342133114
+  },
+  "N5201_P8.106 (0.2333'/sample, +-606')": {
+   "0.3": -0.04730172945736466,
+   "1": 0.05433340083297278,
+   "3": 0.056631897193781144,
+   "10": 0.07090972083195579,
+   "30": -0.009150641587892028
+  },
+  "N7801_P8.106 (0.2333'/sample, +-910')": {
+   "0.3": -0.04729289404333281,
+   "1": 0.05432324640598685,
+   "3": 0.05661694532506978,
+   "10": 0.07089425663146698,
+   "30": -0.00947502436480785
+  },
+  "reference_core": "N4001_P32.424 (0.0583'/sample, +-117'); relative PSF differences at radius (arcmin), core <= 30'",
+  "wings_+-10deg_vs_+-15deg_grid (same sampling)": {
+   "30": 0.000327485712016351,
+   "100": 0.001972467615032114,
+   "200": 0.026634734931160642,
+   "300": 0.10408728247925514,
+   "450": 0.3443785745390038,
+   "590": 0.7130261224118721
+  },
+  "wings_note": "periodic FFT PSF: wings of neighbouring periods fold in near the edge of each grid; the +-15 deg grid is used for 30'..600' and its own fold-in at 600' is bounded by the +-10 vs +-15 comparison",
+  "B0_default_grid_note": "ISET oiCreate('wvf human') default: 201 samples on a 16.212 mm pupil plane -> PSF support +-11.7'. B0's ISET kernels (via oiCompute) therefore had no wavefront PSF beyond ~12'."
+ },
+ "b0_kernel_vs_O1": {
+  "1": {
+   "b0_oiCompute_sr-1": 1095940.4741641595,
+   "O1_wvf_sr-1": 1027778.223642581
+  },
+  "3": {
+   "b0_oiCompute_sr-1": 30143.35492741784,
+   "O1_wvf_sr-1": 27511.076168920335
+  },
+  "10": {
+   "b0_oiCompute_sr-1": 184.79471582056217,
+   "O1_wvf_sr-1": 162.0272201267713
+  },
+  "18": {
+   "b0_oiCompute_sr-1": 25.538601301942574,
+   "O1_wvf_sr-1": 21.59719828168457
+  },
+  "30": {
+   "b0_oiCompute_sr-1": 7.2477754085360155,
+   "O1_wvf_sr-1": 4.599747684614532
+  },
+  "60": {
+   "b0_oiCompute_sr-1": 3.1036799678649194,
+   "O1_wvf_sr-1": 0.5470851098446895
+  }
+ }
+}
