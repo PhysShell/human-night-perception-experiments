@@ -68,10 +68,18 @@ elif mode == "temporal":
     ks = []
     import os
     rr = np.hypot(*np.mgrid[-36:37, -36:37]) / 73.0
-    taper = np.clip(np.cos(np.clip((rr - 0.4) / 0.1, 0, 1) * np.pi / 2), 0, 1) ** 2 if os.environ.get("TAPER") == "1" else np.ones_like(rr)
+    # TAPER: "1"/"renorm" = circular cosine taper 0.4-0.5 deg, energy renormalised (blind set);
+    # "none" = the demo's square +-0.5 deg window, normalised over the window (run 1);
+    # "norenorm" = taper applied to the window-normalised kernel, the cut energy is NOT put back
+    mode_t = {"1": "renorm"}.get(os.environ.get("TAPER", "none"), os.environ.get("TAPER", "none"))
+    taper = np.clip(np.cos(np.clip((rr - 0.4) / 0.1, 0, 1) * np.pi / 2), 0, 1) ** 2 if mode_t != "none" else np.ones_like(rr)
     for a in stack:
-        k = cc.rebin_kernel(a, cc.PX_PER_DEG_PSF / 73.0, half=36) * taper[..., None]
-        ks.append(k / k.sum(axis=(0, 1), keepdims=True))
+        k = cc.rebin_kernel(a, cc.PX_PER_DEG_PSF / 73.0, half=36)
+        k = k / k.sum(axis=(0, 1), keepdims=True)
+        k = k * taper[..., None]
+        if mode_t != "norenorm":
+            k = k / k.sum(axis=(0, 1), keepdims=True)
+        ks.append(k)
     ks = np.array(ks)
     n = int(sys.argv[4])
     times = tfr[0] + np.arange(n) / 24.0

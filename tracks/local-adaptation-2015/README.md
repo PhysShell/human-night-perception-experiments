@@ -77,9 +77,12 @@ asking the user to download the MPI package manually.
 ## VERDICT
 **ORIGINAL SOURCE BLOCKED; DESCENDANT IMPLEMENTATION AVAILABLE via HDR-VDP-3.** HDR-VDP 3.0.7
 ships `utils/hdrvdp_local_adapt.m`:
-- model #7 of this paper (a Gaussian of log retinal luminance, σ = 10^−0.781 deg ≈ 0.17°);
-- the best model #1 is present but disabled, because it "cannot handle luminance levels
-  < 1 cd/m²" (source comment).
+- a model **derived from** #7 of this paper (a Gaussian of log retinal luminance), but with
+  σ = 10^−0.781° = 0.165° where the paper gives 0.131°. The difference is unexplained;
+  provenance check open.
+- model #1 is present but disabled by **HDR-VDP's** decision (its comment: "cannot handle
+  < 1 cd/m²"). That is not a finding of the paper, which ranks #1 best and fits photopic
+  1–5000 cd/m² only.
 
 Provenance: model = Vangorp et al. 2015; implementation = HDR-VDP-3 (Mantiuk). Used as the
 adaptation oracle in `b0/`.

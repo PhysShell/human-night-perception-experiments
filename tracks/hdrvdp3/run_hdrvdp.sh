@@ -12,6 +12,7 @@
 #   --display clip (default): physical display limits, per channel: L_disp = min(max(L,0),peak) + peak/contrast
 #               (+ E_ambient*0.005/pi reflected, = 0 for both targets). NOT a tone mapper: no rescaling.
 #   --display none: pass values unchanged (an idealised unlimited display; reported as such).
+#   --ppd N     : override the grid density (px/deg) of TARGET, e.g. for a finer world-reference grid
 #   --mtf/--age : HDR-VDP options 'mtf' (default 'hdrvdp') and 'age' (only passed if given; donor default 24).
 # Outputs in OUTDIR: hdrvdp_<task>.json, hdrvdp_<task>_pmap.png, run.json
 set -euo pipefail
@@ -22,7 +23,7 @@ TEST="$(realpath "$1")"; REF="$(realpath "$2")"; TARGET="$3"; OUT="$4"; shift 4
 MTF=hdrvdp; AGE=""; DISP=clip; SURR=none; TASKS="side-by-side flicker"
 while [ $# -gt 0 ]; do case "$1" in
   --mtf) MTF="$2"; shift 2;; --age) AGE="$2"; shift 2;; --display) DISP="$2"; shift 2;;
-  --surround) SURR="$2"; shift 2;; --tasks) TASKS="$2"; shift 2;; *) echo "unknown option $1"; exit 2;; esac; done
+  --surround) SURR="$2"; shift 2;; --tasks) TASKS="$2"; shift 2;; --ppd) export HV_PPD="$2"; shift 2;; *) echo "unknown option $1"; exit 2;; esac; done
 mkdir -p "$OUT"; OUT="$(realpath "$OUT")"
 [ -d "$REPO/research-cache/hdrvdp3/src/hdrvdp-3.0.7" ] || "$REPO/tracks/hdrvdp3/fetch_donor.sh"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT

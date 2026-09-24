@@ -11,6 +11,7 @@ key = [upper(target) '_TARGET'];
 if ~isfield(dt, key), error('unknown target %s (PHONE|DESKTOP)', target); end
 T = dt.(key);
 ppd = T.px_per_deg_centre; peak = T.peak_cd_m2; contrast = T.contrast; E_amb = T.E_ambient_lux;
+if ~isempty(g('HV_PPD')), ppd = str2double(g('HV_PPD')); end  % explicit grid density (B0 world-reference grids), photometry still from TARGET
 black = peak/contrast + E_amb*0.005/pi;
 test = double(read_raw(g('HV_TEST_RAW'))); ref = double(read_raw(g('HV_REF_RAW')));
 nch = size(ref,3);

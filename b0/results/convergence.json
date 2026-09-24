@@ -1,0 +1,46 @@
+{
+ "iset_ss2": {
+  "EE_radius_arcmin": {
+   "50": 0.821917808219178,
+   "80": 1.643835616438356,
+   "95": 3.313256608889815
+  },
+  "FWHM_equiv_arcmin": 0.9274349318593254,
+  "field_deg": 2.506849315068493
+ },
+ "iset_ss4": {
+  "EE_radius_arcmin": {
+   "50": 1.0273972602739725,
+   "80": 2.3428262159571327,
+   "95": 4.871206681286177
+  },
+  "FWHM_equiv_arcmin": 1.0106487861710824,
+  "field_deg": 2.5
+ },
+ "iset_ss8": {
+  "EE_radius_arcmin": {
+   "50": 0.9692446368551304,
+   "80": 2.398483054094949,
+   "95": 5.05934476119663
+  },
+  "FWHM_equiv_arcmin": 0.8597551923168498,
+  "field_deg": 2.5
+ },
+ "iset_note": "EE radii within the 2.5 deg ISET field (energy beyond it is not in the kernel)",
+ "cie99_2x_vs_4x": {
+  "max_rel_diff_where_L>1e-3": 0.12401811048571557,
+  "energy_weighted_rel_diff": 0.04966926593683036,
+  "peak_rel_diff": 0.04071156148606602
+ },
+ "iset_binned_73ppd_4x_vs_8x": {
+  "centre_px": [
+   0.20589387504967843,
+   0.21136912705907127
+  ],
+  "3x3": [
+   0.6109293244686748,
+   0.6114629920813618
+  ],
+  "sum_abs_diff": 0.10970694729348458
+ }
+}
