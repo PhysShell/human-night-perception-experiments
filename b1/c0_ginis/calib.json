@@ -1,0 +1,27 @@
+{
+  "_note": "Tick pixel centres (full-resolution embedded JPEG, pixel row/col, origin top-left) located by tick-mark detection (probe: dark runs just outside the left/bottom axis lines), then recorded here by hand. digitize.py fits a linear pixel->data map by least squares to these ticks. Axes are linear in both directions as printed: x 'Angle [degrees]', y 'Log(PSF)'.",
+  "fig7": {
+    "source": "Ginis et al. 2012 J Vis 12(3):20, Figure 7 (page 8), embedded image object 86, 2399x1915 px",
+    "image": ".cache/fig-002.jpg",
+    "image_sha256": "5ff92d615a133ffe6dbad111be77f7ae502ce4a8a1f5737c336ae1472beaaaa4",
+    "x_ticks_px": {"0": 218.0, "1": 488.5, "2": 759.0, "3": 1029.5, "4": 1300.0, "5": 1570.5, "6": 1841.0, "7": 2111.0, "8": 2382.0},
+    "y_ticks_px": {"7": 24.5, "6": 212.5, "5": 400.0, "4": 588.0, "3": 775.5, "2": 963.0, "1": 1151.0, "0": 1338.5, "-1": 1526.0, "-2": 1713.5},
+    "exclude_boxes_px": [[1200, 150, 2300, 620]],
+    "curves": {
+      "GP": {"rgb_rule": "b - r > 35 and b > 150 and r < 185", "legend": "Subject GP (blue/purple, thick)"},
+      "CS": {"rgb_rule": "r - b > 50 and r > 180 and g < 175", "legend": "Subject CS (pink, thick)"},
+      "VOS_VDB_1999_BLACK_SOLID": {"rgb_rule": "max(r,g,b) < 90, lowest dark run per column, only >= 3 deg (below the dashed curve there)", "legend": "Vos and van den Berg (1999) (black solid), used only as a units sanity check"}
+    }
+  },
+  "fig6": {
+    "source": "Ginis et al. 2012 J Vis 12(3):20, Figure 6 (page 7), embedded image object 80, 2150x1856 px",
+    "image": ".cache/fig-001.jpg",
+    "image_sha256": "8b8a2efac06f0db0530a4b0311e127dd1aca644051a3dc7adc2dd37fd02ae0de",
+    "x_ticks_px": {"0": 172.0, "1": 417.0, "2": 663.0, "3": 908.0, "4": 1153.0, "5": 1398.0, "6": 1645.0, "7": 1889.0, "8": 2135.0},
+    "y_ticks_px": {"6": 26.0, "5": 260.5, "4": 495.0, "3": 729.5, "2": 964.0, "1": 1198.0, "0": 1434.0, "-1": 1668.0},
+    "exclude_boxes_px": [[1150, 520, 2150, 800]],
+    "curves": {
+      "GP_RECONSTRUCTED": {"rgb_rule": "b - r > 60 and b > 170", "legend": "Reconstructed PSF (blue, thick), subject GP, cross-check of Fig 7 GP"}
+    }
+  }
+}

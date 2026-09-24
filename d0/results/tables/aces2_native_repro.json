@@ -1,0 +1,445 @@
+{
+ "ocio_version": "2.5.2",
+ "config": "studio-config-v4.0.0_aces-v2.0_ocio-v2.5",
+ "config_uri": "ocio://studio-config-v4.0.0_aces-v2.0_ocio-v2.5",
+ "date": "2026-09-24",
+ "ocio_fixed_function_vs_ocio_unit_test_vectors": {
+  "source": "OpenColorIO v2.5.2 tests/cpu/ops/fixedfunction/FixedFunctionOpCPU_tests.cpp::aces_output_transform_20",
+  "n": 35,
+  "units": "linear P3-D65, 1.0 = 100 cd/m^2",
+  "max_abs": 9.910064086848802e-07,
+  "mean_abs": 2.0471908351368576e-08,
+  "test_tolerance": 1e-05
+ },
+ "ctl": {
+  "ctlrender": [
+   ""
+  ],
+  "ctl_repo_commit": "e280b6c4cf49726914260f1cf0cb2949d8db1027 2026-08-19 05:42:49 -0700",
+  "aces_core_commit": "069b0bc3e1f6c62820f19fdae2fecec3f4fc0f80 2026-09-01 12:01:05 -0700",
+  "aces_output_commit": "6d8f9071a67b044bac0fbcb3d51ad0543f065e66 2026-09-01 12:07:37 -0700"
+ },
+ "chart": "ACES2065-1 test chart, 256 x 64: rows 0-15 neutral ramp 2^-26..2^+10 (log2-uniform over 256 columns), rows\n    16-31 the 35 OCIO unit-test inputs (7 px wide patches), rows 32-63 1024*8 pseudo-random AP0 values (seed 20260924):\n    AP1-bounded chroma, luminance log-uniform 1e-7..1e3.",
+ "targets": {
+  "SDR100": {
+   "target": {
+    "display": "sRGB - Display",
+    "view": "ACES 2.0 - SDR 100 nits (Rec.709)",
+    "view_transform": "ACES 2.0 - SDR 100 nits (Rec.709)",
+    "view_transform_builtin": "<BuiltinTransform direction = forward, style = ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - SDR-100nit-REC709_2.0>",
+    "display_colorspace_builtin": "<BuiltinTransform direction = forward, style = DISPLAY - CIE-XYZ-D65_to_sRGB - MIRROR NEGS>",
+    "ctl_reference": "d65/srgb/Output.Academy.Rec709-D65_100nit_in_Rec709-D65_sRGB-Piecewise.ctl",
+    "peak_cd_m2": 100,
+    "limiting_gamut": "Rec.709 / D65",
+    "encoding_primaries": "Rec.709 / D65",
+    "eotf": "sRGB piecewise (IEC 61966-2-1)",
+    "transfer": "srgb"
+   },
+   "ramp": {
+    "max_abs_code": 6.318092346191406e-06,
+    "p99_abs_code": 5.543231964111328e-06,
+    "mean_abs_code": 6.772121992071334e-07,
+    "max_abs_16bit": 0.4140561819076538,
+    "frac_16bit_codes_equal": 0.9518229166666666,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "ocio_unit_test_patches": {
+    "max_abs_code": 5.7220458984375e-06,
+    "p99_abs_code": 4.649162292480469e-06,
+    "mean_abs_code": 1.1418742360547185e-06,
+    "max_abs_16bit": 0.37499427795410156,
+    "frac_16bit_codes_equal": 0.91796875,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "random_ap0": {
+    "max_abs_code": 0.00043833255767822266,
+    "p99_abs_code": 6.318092346191406e-06,
+    "mean_abs_code": 7.205935617093928e-07,
+    "max_abs_16bit": 28.726123809814453,
+    "frac_16bit_codes_equal": 0.9586995442708334,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "all": {
+    "max_abs_code": 0.00043833255767822266,
+    "p99_abs_code": 5.7220458984375e-06,
+    "mean_abs_code": 8.150684038810141e-07,
+    "max_abs_16bit": 28.726123809814453,
+    "frac_16bit_codes_equal": 0.9467976888020834,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "ramp_probes": [
+    {
+     "aces": 9.081360303753172e-07,
+     "ocio": [
+      5.451020711200183e-12,
+      5.451019410157576e-12,
+      5.451020277519314e-12
+     ],
+     "ctl": [
+      5.451042828924502e-12,
+      5.451028083774956e-12,
+      5.451033721626253e-12
+     ]
+    },
+    {
+     "aces": 0.00024019114789552987,
+     "ocio": [
+      2.02718319997075e-06,
+      2.02718319997075e-06,
+      2.0271834273444256e-06
+     ],
+     "ctl": [
+      2.0271900211810134e-06,
+      2.02718319997075e-06,
+      2.027186155828531e-06
+     ]
+    },
+    {
+     "aces": 0.01614307053387165,
+     "ocio": [
+      0.02502417378127575,
+      0.025024225935339928,
+      0.02502419613301754
+     ],
+     "ctl": [
+      0.025024235248565674,
+      0.025024235248565674,
+      0.025024227797985077
+     ]
+    },
+    {
+     "aces": 0.18639959394931793,
+     "ocio": [
+      0.3561978042125702,
+      0.3561977446079254,
+      0.3561978042125702
+     ],
+     "ctl": [
+      0.35619792342185974,
+      0.35619762539863586,
+      0.3561978340148926
+     ]
+    },
+    {
+     "aces": 0.9838229417800903,
+     "ocio": [
+      0.7036111950874329,
+      0.7036110758781433,
+      0.7036109566688538
+     ],
+     "ctl": [
+      0.7036110758781433,
+      0.7036105990409851,
+      0.703610897064209
+     ]
+    },
+    {
+     "aces": 15.235994338989258,
+     "ocio": [
+      0.9733338952064514,
+      0.9733337759971619,
+      0.9733338952064514
+     ],
+     "ctl": [
+      0.9733361601829529,
+      0.9733352065086365,
+      0.9733355641365051
+     ]
+    },
+    {
+     "aces": 260.20941162109375,
+     "ocio": [
+      1.0000066757202148,
+      1.0000066757202148,
+      1.0000066757202148
+     ],
+     "ctl": [
+      0.9999999403953552,
+      0.9999998211860657,
+      0.9999999403953552
+     ]
+    }
+   ]
+  },
+  "HDR1000": {
+   "target": {
+    "display": "Rec.2100-PQ - Display",
+    "view": "ACES 2.0 - HDR 1000 nits (P3 D65)",
+    "view_transform": "ACES 2.0 - HDR 1000 nits (P3 D65)",
+    "view_transform_builtin": "<BuiltinTransform direction = forward, style = ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - HDR-1000nit-P3-D65_2.0>",
+    "display_colorspace_builtin": "<BuiltinTransform direction = forward, style = DISPLAY - CIE-XYZ-D65_to_REC.2100-PQ>",
+    "ctl_reference": "d65/rec2100/Output.Academy.P3-D65_1000nit_in_Rec2100-D65_ST2084.ctl",
+    "peak_cd_m2": 1000,
+    "limiting_gamut": "P3 / D65",
+    "encoding_primaries": "Rec.2020 / D65",
+    "eotf": "SMPTE ST 2084 (PQ), absolute (code 1.0 = 10000 cd/m^2)",
+    "transfer": "pq"
+   },
+   "ramp": {
+    "max_abs_code": 6.722168473061174e-05,
+    "p99_abs_code": 6.599907646887004e-05,
+    "mean_abs_code": 5.816009888803819e-06,
+    "max_abs_16bit": 4.4053730964660645,
+    "frac_16bit_codes_equal": 0.8190104166666666,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "ocio_unit_test_patches": {
+    "max_abs_code": 3.904104232788086e-06,
+    "p99_abs_code": 3.844499588012695e-06,
+    "mean_abs_code": 1.025765072881768e-06,
+    "max_abs_16bit": 0.2558554708957672,
+    "frac_16bit_codes_equal": 0.9635416666666666,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "random_ap0": {
+    "max_abs_code": 0.00036394596099853516,
+    "p99_abs_code": 6.6000284277834e-05,
+    "mean_abs_code": 6.241933078854345e-06,
+    "max_abs_16bit": 23.851198196411133,
+    "frac_16bit_codes_equal": 0.803466796875,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "all": {
+    "max_abs_code": 0.00036394596099853516,
+    "p99_abs_code": 6.474746624007821e-05,
+    "mean_abs_code": 4.831410478800535e-06,
+    "max_abs_16bit": 23.851198196411133,
+    "frac_16bit_codes_equal": 0.8473714192708334,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "ramp_probes": [
+    {
+     "aces": 9.081360303753172e-07,
+     "ocio": [
+      7.339112926274538e-07,
+      7.339112926274538e-07,
+      7.339112926274538e-07
+     ],
+     "ctl": [
+      3.179274244757835e-06,
+      3.179274244757835e-06,
+      3.179274244757835e-06
+     ]
+    },
+    {
+     "aces": 0.00024019114789552987,
+     "ocio": [
+      0.000656978168990463,
+      0.0006569783436134458,
+      0.0006569782854057848
+     ],
+     "ctl": [
+      0.0006585730006918311,
+      0.000658576434943825,
+      0.000658576434943825
+     ]
+    },
+    {
+     "aces": 0.01614307053387165,
+     "ocio": [
+      0.09116239845752716,
+      0.09116241335868835,
+      0.09116240590810776
+     ],
+     "ctl": [
+      0.09116165339946747,
+      0.09116165339946747,
+      0.09116341918706894
+     ]
+    },
+    {
+     "aces": 0.18639959394931793,
+     "ocio": [
+      0.33366721868515015,
+      0.3336672782897949,
+      0.33366724848747253
+     ],
+     "ctl": [
+      0.3336675465106964,
+      0.3336675465106964,
+      0.3336675465106964
+     ]
+    },
+    {
+     "aces": 0.9838229417800903,
+     "ocio": [
+      0.5127983093261719,
+      0.5127983689308167,
+      0.5127983093261719
+     ],
+     "ctl": [
+      0.5127979516983032,
+      0.5127979516983032,
+      0.5127979516983032
+     ]
+    },
+    {
+     "aces": 15.235994338989258,
+     "ocio": [
+      0.7121337056159973,
+      0.7121338248252869,
+      0.7121337652206421
+     ],
+     "ctl": [
+      0.7121334671974182,
+      0.7121334671974182,
+      0.7121334671974182
+     ]
+    },
+    {
+     "aces": 260.20941162109375,
+     "ocio": [
+      0.7504481673240662,
+      0.7504482269287109,
+      0.7504482269287109
+     ],
+     "ctl": [
+      0.7504512071609497,
+      0.7504441738128662,
+      0.7504512071609497
+     ]
+    }
+   ]
+  },
+  "BRIGHT500_PQ": {
+   "target": {
+    "display": "Rec.2100-PQ - Display",
+    "view": "ACES 2.0 - HDR 500 nits (P3 D65)",
+    "view_transform": "ACES 2.0 - HDR 500 nits (P3 D65)",
+    "view_transform_builtin": "<BuiltinTransform direction = forward, style = ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - HDR-500nit-P3-D65_2.0>",
+    "display_colorspace_builtin": "<BuiltinTransform direction = forward, style = DISPLAY - CIE-XYZ-D65_to_REC.2100-PQ>",
+    "ctl_reference": "d65/rec2100/Output.Academy.P3-D65_500nit_in_Rec2100-D65_ST2084.ctl",
+    "peak_cd_m2": 500,
+    "limiting_gamut": "P3 / D65",
+    "encoding_primaries": "Rec.2020 / D65",
+    "eotf": "SMPTE ST 2084 (PQ), absolute (code 1.0 = 10000 cd/m^2)",
+    "transfer": "pq"
+   },
+   "ramp": {
+    "max_abs_code": 6.730302993673831e-05,
+    "p99_abs_code": 6.603587826248258e-05,
+    "mean_abs_code": 5.7932902564061806e-06,
+    "max_abs_16bit": 4.410704135894775,
+    "frac_16bit_codes_equal": 0.83203125,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "ocio_unit_test_patches": {
+    "max_abs_code": 5.5730342864990234e-06,
+    "p99_abs_code": 4.4405460357666016e-06,
+    "mean_abs_code": 1.0122511184817995e-06,
+    "max_abs_16bit": 0.3652288019657135,
+    "frac_16bit_codes_equal": 0.9635416666666666,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "random_ap0": {
+    "max_abs_code": 0.0004481375217437744,
+    "p99_abs_code": 6.617545295739546e-05,
+    "mean_abs_code": 6.308539013843983e-06,
+    "max_abs_16bit": 29.36869239807129,
+    "frac_16bit_codes_equal": 0.8052164713541666,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "all": {
+    "max_abs_code": 0.0004481375217437744,
+    "p99_abs_code": 6.500175368273631e-05,
+    "mean_abs_code": 4.855654879065696e-06,
+    "max_abs_16bit": 29.36869239807129,
+    "frac_16bit_codes_equal": 0.85150146484375,
+    "frac_within_1_10bit_code": 1.0
+   },
+   "ramp_probes": [
+    {
+     "aces": 9.081360303753172e-07,
+     "ocio": [
+      7.336202543228865e-07,
+      7.336202543228865e-07,
+      7.336202543228865e-07
+     ],
+     "ctl": [
+      3.1067731924849795e-06,
+      3.1067561394593213e-06,
+      3.1067561394593213e-06
+     ]
+    },
+    {
+     "aces": 0.00024019114789552987,
+     "ocio": [
+      0.0006168300751596689,
+      0.0006168303079903126,
+      0.0006168302497826517
+     ],
+     "ctl": [
+      0.0006174555164761841,
+      0.0006174523150548339,
+      0.0006174555164761841
+     ]
+    },
+    {
+     "aces": 0.01614307053387165,
+     "ocio": [
+      0.08758850395679474,
+      0.08758857846260071,
+      0.08758853375911713
+     ],
+     "ctl": [
+      0.08758878707885742,
+      0.08758793771266937,
+      0.08758878707885742
+     ]
+    },
+    {
+     "aces": 0.18639959394931793,
+     "ocio": [
+      0.325717568397522,
+      0.32571765780448914,
+      0.32571762800216675
+     ],
+     "ctl": [
+      0.3257169723510742,
+      0.3257169723510742,
+      0.3257169723510742
+     ]
+    },
+    {
+     "aces": 0.9838229417800903,
+     "ocio": [
+      0.49503546953201294,
+      0.4950354993343353,
+      0.4950354993343353
+     ],
+     "ctl": [
+      0.4950365722179413,
+      0.4950365722179413,
+      0.49503186345100403
+     ]
+    },
+    {
+     "aces": 15.235994338989258,
+     "ocio": [
+      0.6525934934616089,
+      0.6525936126708984,
+      0.6525936126708984
+     ],
+     "ctl": [
+      0.6525962352752686,
+      0.6525962352752686,
+      0.6525900363922119
+     ]
+    },
+    {
+     "aces": 260.20941162109375,
+     "ocio": [
+      0.6760315895080566,
+      0.6760316491127014,
+      0.6760315895080566
+     ],
+     "ctl": [
+      0.6760295033454895,
+      0.6760295033454895,
+      0.6760295033454895
+     ]
+    }
+   ]
+  }
+ }
+}

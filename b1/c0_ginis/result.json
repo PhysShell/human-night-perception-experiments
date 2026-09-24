@@ -1,0 +1,311 @@
+{
+ "label": "DIGITIZED_EXTERNAL_VALIDATION",
+ "no_refit": "B, beta and all B1.1 settings unchanged; profiles read from b1/results/b1_1_profiles.csv",
+ "units": "log10 PSF [sr^-1]",
+ "digitization": {
+  "fig7_GP_minus_fig6_GP_log10": {
+   "max_abs_0.5-7.5": 0.03909999999999991,
+   "max_abs_1.25-7.5": 0.0039000000000000146,
+   "at_1.0deg": 0.03909999999999991
+  },
+  "max_1sigma_unc_log10": {
+   "GP": 0.039294019901252066,
+   "CS": 0.0400132478061953,
+   "MEAN_GP_CS": 0.028040506414827755
+  }
+ },
+ "comparisons": {
+  "GP": {
+   "THIBOS_PLUS_ARIAS": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": 0.109,
+     "1.0": -0.1,
+     "2.0": -0.273,
+     "3.0": -0.365,
+     "5.0": -0.478,
+     "7.0": -0.56,
+     "7.5": -0.596
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": -0.41260608050660263,
+     "log_rms": 0.4322938118955309,
+     "offset_free_log_rms": 0.12897349391308136,
+     "max_abs": 0.5960770308464367,
+     "loglog_slope_model": -2.615430118905853,
+     "loglog_slope_ginis": -2.084658859454395
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": -0.38091583283900315,
+     "log_rms": 0.4176251483193231,
+     "offset_free_log_rms": 0.17121300418281704,
+     "max_abs": 0.5960770308464367,
+     "loglog_slope_model": -2.613621751856588,
+     "loglog_slope_ginis": -2.0585326164495887
+    }
+   },
+   "CIE_RAW": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": 0.169,
+     "1.0": -0.107,
+     "2.0": -0.312,
+     "3.0": -0.395,
+     "5.0": -0.471,
+     "7.0": -0.511,
+     "7.5": -0.538
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": -0.41339966339839274,
+     "log_rms": 0.4269193824123375,
+     "offset_free_log_rms": 0.10658741661860076,
+     "max_abs": 0.5383749569768738,
+     "loglog_slope_model": -2.5164519159340855,
+     "loglog_slope_ginis": -2.084658859454395
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": -0.3790975617471189,
+     "log_rms": 0.41312993563979505,
+     "offset_free_log_rms": 0.16419921558622202,
+     "max_abs": 0.5383749569768738,
+     "loglog_slope_model": -2.5778714652581964,
+     "loglog_slope_ginis": -2.0585326164495887
+    }
+   },
+   "THIBOS_ONLY": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": -1.308,
+     "1.0": -1.633,
+     "2.0": -1.915,
+     "3.0": -2.092,
+     "5.0": -2.254,
+     "7.0": -2.343,
+     "7.5": -2.345
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": -2.135998333613902,
+     "log_rms": 2.1456313682312422,
+     "offset_free_log_rms": 0.20308886512191093,
+     "max_abs": 2.349763678854826,
+     "loglog_slope_model": -2.914398526226219,
+     "loglog_slope_ginis": -2.084658859454395
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": -2.0868170556909296,
+     "log_rms": 2.1039876072823778,
+     "offset_free_log_rms": 0.26825068066132746,
+     "max_abs": 2.349763678854826,
+     "loglog_slope_model": -2.9246018193337453,
+     "loglog_slope_ginis": -2.0585326164495887
+    }
+   }
+  },
+  "CS": {
+   "THIBOS_PLUS_ARIAS": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": -0.159,
+     "1.0": -0.084,
+     "2.0": 0.058,
+     "3.0": 0.112,
+     "5.0": 0.203,
+     "7.0": 0.246,
+     "7.5": 0.228
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": 0.1467939194933974,
+     "log_rms": 0.17504404727776268,
+     "offset_free_log_rms": 0.09535178911350099,
+     "max_abs": 0.2460939106427088,
+     "loglog_slope_model": -2.615430118905853,
+     "loglog_slope_ginis": -3.0037007401725466
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": 0.12738071888513486,
+     "log_rms": 0.17268374152927593,
+     "offset_free_log_rms": 0.11659256856616561,
+     "max_abs": 0.2460939106427088,
+     "loglog_slope_model": -2.613621751856588,
+     "loglog_slope_ginis": -2.9893180272997704
+    }
+   },
+   "CIE_RAW": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": -0.099,
+     "1.0": -0.091,
+     "2.0": 0.019,
+     "3.0": 0.082,
+     "5.0": 0.21,
+     "7.0": 0.295,
+     "7.5": 0.286
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": 0.14600033660160722,
+     "log_rms": 0.18844638165002317,
+     "offset_free_log_rms": 0.11914671824772839,
+     "max_abs": 0.29469593543705386,
+     "loglog_slope_model": -2.5164519159340855,
+     "loglog_slope_ginis": -3.0037007401725466
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": 0.12919898997701904,
+     "log_rms": 0.18363105219992276,
+     "offset_free_log_rms": 0.13049131894869057,
+     "max_abs": 0.29469593543705386,
+     "loglog_slope_model": -2.5778714652581964,
+     "loglog_slope_ginis": -2.9893180272997704
+    }
+   },
+   "THIBOS_ONLY": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": -1.577,
+     "1.0": -1.617,
+     "2.0": -1.584,
+     "3.0": -1.615,
+     "5.0": -1.573,
+     "7.0": -1.537,
+     "7.5": -1.52
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": -1.5765983336139018,
+     "log_rms": 1.5768964080902208,
+     "offset_free_log_rms": 0.030659032824065173,
+     "max_abs": 1.6170459165822795,
+     "loglog_slope_model": -2.914398526226219,
+     "loglog_slope_ginis": -3.0037007401725466
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": -1.5785205039667913,
+     "log_rms": 1.5788301117550552,
+     "offset_free_log_rms": 0.03126564153999392,
+     "max_abs": 1.6320634596173307,
+     "loglog_slope_model": -2.9246018193337453,
+     "loglog_slope_ginis": -2.9893180272997704
+    }
+   }
+  },
+  "MEAN_GP_CS": {
+   "THIBOS_PLUS_ARIAS": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": -0.025,
+     "1.0": -0.092,
+     "2.0": -0.108,
+     "3.0": -0.126,
+     "5.0": -0.137,
+     "7.0": -0.157,
+     "7.5": -0.184
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": -0.13290608050660258,
+     "log_rms": 0.13433893315077705,
+     "offset_free_log_rms": 0.01956841139340176,
+     "max_abs": 0.18402703084643668,
+     "loglog_slope_model": -2.615430118905853,
+     "loglog_slope_ginis": -2.5441797998134703
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": -0.12676755697693415,
+     "log_rms": 0.13023136797183557,
+     "offset_free_log_rms": 0.02983614757161855,
+     "max_abs": 0.18402703084643668,
+     "loglog_slope_model": -2.613621751856588,
+     "loglog_slope_ginis": -2.52392532187468
+    }
+   },
+   "CIE_RAW": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": 0.035,
+     "1.0": -0.099,
+     "2.0": -0.147,
+     "3.0": -0.156,
+     "5.0": -0.13,
+     "7.0": -0.108,
+     "7.5": -0.126
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": -0.1336996633983928,
+     "log_rms": 0.13481049192467817,
+     "offset_free_log_rms": 0.017270458596406347,
+     "max_abs": 0.1603534207185428,
+     "loglog_slope_model": -2.5164519159340855,
+     "loglog_slope_ginis": -2.5441797998134703
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": -0.12494928588504989,
+     "log_rms": 0.1305501558102035,
+     "offset_free_log_rms": 0.037828813606620965,
+     "max_abs": 0.1603534207185428,
+     "loglog_slope_model": -2.5778714652581964,
+     "loglog_slope_ginis": -2.52392532187468
+    }
+   },
+   "THIBOS_ONLY": {
+    "log10_ratio_model_over_ginis": {
+     "0.5": -1.443,
+     "1.0": -1.625,
+     "2.0": -1.749,
+     "3.0": -1.854,
+     "5.0": -1.914,
+     "7.0": -1.94,
+     "7.5": -1.933
+    },
+    "primary_1.0-7.5deg": {
+     "n": 27,
+     "mean_offset": -1.8562983336139023,
+     "log_rms": 1.858616661635118,
+     "offset_free_log_rms": 0.09280297155760285,
+     "max_abs": 1.9444659122618289,
+     "loglog_slope_model": -2.914398526226219,
+     "loglog_slope_ginis": -2.5441797998134703
+    },
+    "secondary_0.5-7.5deg": {
+     "n": 29,
+     "mean_offset": -1.8326687798288603,
+     "log_rms": 1.837002769825436,
+     "offset_free_log_rms": 0.12611233003525535,
+     "max_abs": 1.9444659122618289,
+     "loglog_slope_model": -2.9246018193337453,
+     "loglog_slope_ginis": -2.52392532187468
+    }
+   }
+  }
+ },
+ "reference_checks": {
+  "CIE_RAW_minus_fig7_VosVdB_black_solid": {
+   "range_deg": [
+    3.25,
+    7.75
+   ],
+   "mean": -0.055428725310240755,
+   "min": -0.06597495697687372,
+   "max": -0.04358344118218068,
+   "note": "Ginis do not state the age/pigmentation used for this curve; agreement within ~0.1 log confirms Log(PSF) = log10(PSF / sr^-1)"
+  }
+ },
+ "inter_subject": {
+  "GP_minus_CS_log10": {
+   "0.5": -0.2685000000000002,
+   "1.0": 0.015600000000000058,
+   "2.0": 0.3305,
+   "3.0": 0.4768,
+   "5.0": 0.6814,
+   "7.0": 0.806,
+   "7.5": 0.8241
+  },
+  "slope_GP": -2.084658859454395,
+  "slope_CS": -3.0037007401725466
+ }
+}

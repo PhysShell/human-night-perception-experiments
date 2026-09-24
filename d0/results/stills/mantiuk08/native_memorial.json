@@ -1,0 +1,38 @@
+{
+ "image": "memorial.hdr (Paul Debevec, Fiat Lux / HDR research page; https://www.pauldebevec.com/Research/HDR/memorial.hdr, 1343485 bytes, sha256 18376b9219927b363127817900b1c170a0f752f52a63f5949655b4150e35061d); not stored in the repo",
+ "why": "the example image used throughout the pfstmo_mantiuk08 man page",
+ "runs": [
+  {
+   "name": "native_memorial_default",
+   "command": "pfsinrgbe memorial.hdr | pfstmo_mantiuk08  | (pfs stream -> RGB pixel values -> 2x2 box downsample -> 8-bit PNG)",
+   "stderr": [
+    "Display function: gamma-gain-black-ambient",
+    "   gamma = 2.2\t L_max = 200\t L_black = 0.8",
+    "   E_amb = 60\t k     = 0.01",
+    "Display size paramaters:",
+    "   pixels per visual degree = 30",
+    "   viewing distance = 0.5 [meters]",
+    "Frames-per-second: 25",
+    "Contrast masking: 1",
+    "Luminance masking: 1",
+    "CSF: 1"
+   ]
+  },
+  {
+   "name": "native_memorial_pd_crt",
+   "command": "pfsinrgbe memorial.hdr | pfstmo_mantiuk08 -d pd=crt | (pfs stream -> RGB pixel values -> 2x2 box downsample -> 8-bit PNG)",
+   "stderr": [
+    "Display function: gamma-gain-black-ambient",
+    "   gamma = 2.2\t L_max = 80\t L_black = 1",
+    "   E_amb = 60\t k     = 0.02",
+    "Display size paramaters:",
+    "   pixels per visual degree = 30",
+    "   viewing distance = 0.5 [meters]",
+    "Frames-per-second: 25",
+    "Contrast masking: 1",
+    "Luminance masking: 1",
+    "CSF: 1"
+   ]
+  }
+ ]
+}

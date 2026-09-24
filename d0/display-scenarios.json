@@ -1,0 +1,91 @@
+{
+ "_note": "DISPLAY SCENARIOS, not measurements of the viewer's hardware. Geometry and luminance capability are separate axes. Every donor and metric reads its display assumptions from this file.",
+ "geometry": {
+  "PHONE": {
+   "what": "phone in landscape, the 1920 x 820 content full width (~14 cm) at 30 cm (M2.6 target; stimuli/display_targets.json PHONE_TARGET)",
+   "content_px": [
+    1920,
+    820
+   ],
+   "px_per_deg": 73.0,
+   "viewing_distance_m": 0.3,
+   "content_width_m": 0.14,
+   "diagonal_in_for_tools": 6.1
+  },
+  "DESKTOP": {
+   "what": "27-inch 2560 x 1440 monitor at 60 cm, content 1:1 (stimuli/display_targets.json DESKTOP_TARGET)",
+   "content_px": [
+    1920,
+    820
+   ],
+   "px_per_deg": 48.4,
+   "viewing_distance_m": 0.6,
+   "display_px": [
+    2560,
+    1440
+   ],
+   "diagonal_in_for_tools": 27
+  }
+ },
+ "luminance": {
+  "SDR100": {
+   "peak_cd_m2": 100,
+   "black_cd_m2": 0.1,
+   "encoding": "sRGB (IEC 61966-2-1 piecewise EOTF)",
+   "transfer": "srgb",
+   "primaries": "rec709",
+   "bit_depth": 8,
+   "what": "reference SDR display (sRGB/BT.1886-like), 1000:1"
+  },
+  "SDR200": {
+   "peak_cd_m2": 200,
+   "black_cd_m2": 0.2,
+   "encoding": "gamma 2.2",
+   "transfer": "gamma2.2",
+   "primaries": "rec709",
+   "bit_depth": 8,
+   "what": "brighter SDR monitor/phone in normal mode, 1000:1"
+  },
+  "BRIGHT500": {
+   "peak_cd_m2": 500,
+   "black_cd_m2": 0.005,
+   "encoding": "gamma 2.2",
+   "transfer": "gamma2.2",
+   "primaries": "rec709",
+   "bit_depth": 8,
+   "what": "bright OLED-like SDR phone, 100000:1 (black set by the panel, not the room)"
+  },
+  "HDR1000": {
+   "peak_cd_m2": 1000,
+   "black_cd_m2": 0.005,
+   "encoding": "SMPTE ST 2084 (PQ), Rec.2020 container, P3-D65 limiting gamut",
+   "transfer": "pq",
+   "primaries": "rec2020",
+   "bit_depth": 16,
+   "what": "HDR-capable display (Rec.2100 PQ), 1000 cd/m^2 peak"
+  },
+  "BRIGHT500_PQ": {
+   "peak_cd_m2": 500,
+   "black_cd_m2": 0.005,
+   "encoding": "SMPTE ST 2084 (PQ), Rec.2020 container, P3-D65 limiting gamut",
+   "transfer": "pq",
+   "primaries": "rec2020",
+   "bit_depth": 16,
+   "what": "500 cd/m^2 HDR-capable display (Rec.2100 PQ). Added for ACES 2, which has a 500-nit PQ output but no 500-nit SDR (gamma 2.2) output"
+  }
+ },
+ "ambient": {
+  "DARK": {
+   "E_ambient_lux": 0,
+   "reflectivity": 0.01,
+   "what": "dark room: the target night-viewing condition (required)"
+  },
+  "DIM": {
+   "E_ambient_lux": 50,
+   "reflectivity": 0.01,
+   "what": "dim living room; reflected luminance = E * k / pi = 0.16 cd/m^2 (Mantiuk et al. 2008 display model, eq. 17)"
+  }
+ },
+ "primary_matrix": "PHONE x {SDR100, SDR200, BRIGHT500, HDR1000} x DARK; sensitivity: DESKTOP x SDR100 x DARK, PHONE x SDR100 x DIM",
+ "display_model_for_metrics": "L_displayed = black + (peak - black) * EOTF(code) + E_ambient * reflectivity / pi (SDR); PQ decoded absolutely and clipped to [black, peak] (HDR); decoded by d0/display_model.py for EVERY donor, so no donor is judged by its own display model"
+}

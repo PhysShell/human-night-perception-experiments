@@ -1,0 +1,74 @@
+[
+ {
+  "donor": "SCENE",
+  "config": "physical",
+  "scene": "S0",
+  "sky_median": 0.0002875620794895963,
+  "dark_median": 7.048935714690433e-05,
+  "dark_log_range": 1.601012547398835,
+  "silhouette_weber": 0.7222928642138925,
+  "peak": 0.4754281829904005
+ },
+ {
+  "donor": "SCENE",
+  "config": "physical",
+  "scene": "S1",
+  "sky_median": 0.0002875620794895963,
+  "dark_median": 6.675473676511501e-05,
+  "dark_log_range": 1.3044485218659732,
+  "silhouette_weber": 0.7222928642138925,
+  "peak": 301.9116163241478,
+  "source_bg_contrast": 531416.7409971324,
+  "halo_ratio": 6.52029647103015,
+  "lamp_uv_scene": [
+   0.25498876332743686,
+   0.5261437270014054
+  ]
+ },
+ {
+  "donor": "SCENE",
+  "config": "physical",
+  "scene": "S3_bar",
+  "sky_median": 0.00039999728380993765,
+  "dark_median": 0.00039999728380993765,
+  "dark_log_range": 0.0,
+  "peak": 3887.031988882593,
+  "source_bg_contrast": 9717645.959639944,
+  "halo_ratio": 1.0005378803645475,
+  "lamp_uv_scene": [
+   0.25725210969773593,
+   0.5320323469791668
+  ],
+  "bar_weber_scene": 1.0
+ },
+ {
+  "donor": "SCENE",
+  "config": "physical",
+  "scene": "S4",
+  "sky_median": 0.6927894267785133,
+  "dark_median": 0.2921421737257987,
+  "dark_log_range": 1.3193647805007132,
+  "peak": 35.98329021598701,
+  "source_bg_contrast": 51.91440993593625,
+  "halo_ratio": 0.9714887706452344,
+  "lamp_uv_scene": [
+   0.2513315923775451,
+   0.4913726426481924
+  ]
+ },
+ {
+  "donor": "SCENE",
+  "config": "physical",
+  "scene": "S5",
+  "sky_median": null,
+  "dark_median": 0.4977279737950743,
+  "dark_log_range": 2.3737445574257814,
+  "peak": 286.1328276905457,
+  "source_bg_contrast": 574.8779308280409,
+  "halo_ratio": 3.881920934433435,
+  "lamp_uv_scene": [
+   0.2369505830577692,
+   0.5017213800807129
+  ]
+ }
+]
