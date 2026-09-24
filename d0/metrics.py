@@ -131,13 +131,15 @@ def clip_metrics(frames, lum, amb):
 
 
 def main(donors):
+    # incremental: a still/clip already measured (same file path) is skipped; delete the jsonl for a full recompute
+    done = {json.loads(l)["file"] for l in open(f"{TAB}/metrics.jsonl")} if os.path.exists(f"{TAB}/metrics.jsonl") else set()
     out = open(f"{TAB}/metrics.jsonl", "a")
     for donor in donors:
         for cfgdir in sorted(glob.glob(f"{OUT}/{donor}/*/")):
             cfg = os.path.basename(cfgdir.rstrip("/"))
             for p in sorted(glob.glob(f"{cfgdir}*.png")):
                 mm = PAT.search(os.path.basename(p))
-                if not mm:
+                if not mm or p in done:
                     continue
                 d = mm.groupdict(); lum = d["lum"]
                 XYZ, _ = decode(read_code(p), lum, d["amb"])
@@ -152,7 +154,7 @@ def main(donors):
                 mm = PAT.search(os.path.basename(dd.rstrip("/"))); d = mm.groupdict()
                 lum = d["lum"]
                 frames = sorted(glob.glob(f"{dd}frame_*.png"))
-                if len(frames) < 3:
+                if len(frames) < 3 or dd in done:
                     continue
                 out.write(json.dumps({"donor": donor, "config": cfg, **d, "file": dd, **clip_metrics(frames, lum, d["amb"])}) + "\n"); out.flush()
                 print(donor, cfg, "S2", d, flush=True)

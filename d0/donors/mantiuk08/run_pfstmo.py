@@ -49,8 +49,14 @@ def write_s2(donor, config, lum):
     return WRITE_S2 == "all" or f"{donor}:{config}:{lum}" in WRITE_S2.split(",")
 
 
+BUILD = os.environ.get("D0_PFSTOOLS_BUILD", "2.2.0")     # "master": d0/donors/mantiuk08/pfstools-master.nix first on PATH
+
+
 def tool_version():
     exe = shutil.which("pfstmo_mantiuk08")
+    if BUILD == "master":
+        return {"pfstools": "master c8606912656a3adebaeaddce66cf559bec643e11 (2025-09-20, unreleased 2.2.1)", "binary": os.path.realpath(exe),
+                "source": "https://git.code.sf.net/p/pfstools/git", "build": "d0/donors/mantiuk08/pfstools-master.nix"}
     return {"pfstools": "2.2.0", "binary": os.path.realpath(exe),
             "source": "https://downloads.sourceforge.net/project/pfstools/pfstools/2.2.0/pfstools-2.2.0.tgz",
             "source_sha256": "9bf6844985663226c21998eeb43c261acb8e4b3891b9a91b729554406289d7ca",
@@ -242,7 +248,7 @@ def m08(config, label, scene, geom, lum, amb, white_y=None, fps=None, extra=(), 
                                   "anchor" if config.endswith("whiteanchor") else None, "sensitivity value" if white_y is not None else ""),
                               "frames": len(exrs), "frames_written": written, "encoding": transfer, "tone_curve_csv": curve,
                               "output": f"{outdir}/{tag}" + ("/" if scene == "S2" else ".png"),
-                              "tool_stderr": info[:12], "seconds": round(time.time() - t0, 1)})
+                              "tool_build": BUILD, "tool_stderr": info[:12], "seconds": round(time.time() - t0, 1)})
     print(f"[mantiuk08] {config} {tag} {time.time() - t0:.1f}s", flush=True)
 
 
@@ -337,6 +343,18 @@ def run_reinhard02():
         print(f"[reinhard02] {sc} {time.time() - t0:.1f}s nonfinite={nan[0]}", flush=True)
 
 
+def run_master():
+    """D0.1: the same pipeline on pfstools master (c860691). Checks what changed since 2.2.0 (--tone-value, the geometry
+    no-op) on the scenes where it matters; config names carry the build."""
+    assert BUILD == "master"
+    for sc in ["S0", "S1", "S3_bar", "S3_nobar"]:
+        for lum in ["SDR100", "BRIGHT500"]:
+            m08("master_whiteauto", "DOCUMENTED_TARGET_CONFIG", sc, "PHONE", lum, "DARK")
+            m08("master_whiteanchor", "DOCUMENTED_TARGET_CONFIG", sc, "PHONE", lum, "DARK", white_y=anchor_white(lum))
+            m08("master_tonemax_whiteauto", "SENSITIVITY_RUN", sc, "PHONE", lum, "DARK", extra=["--tone-value", "max"])
+    m08("master_desktop", "SENSITIVITY_RUN", "S1", "DESKTOP", "SDR100", "DARK")
+
+
 def save_runs(donor):
     p = f"{OUT}/{donor}/runs.json"
     old = json.load(open(p))["runs"] if os.path.exists(p) else []
@@ -387,5 +405,7 @@ if __name__ == "__main__":
         run_mantiuk08(only); save_runs("mantiuk08")
     if what in ("unfiltered", "all"):
         run_unfiltered_curves()
+    if what == "master":
+        run_master(); save_runs("mantiuk08")
     if what in ("reinhard02", "all"):
         run_reinhard02(); save_runs("reinhard02")

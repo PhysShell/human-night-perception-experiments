@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""D0 control D1: pure exposure + clamp + the scenario's display encoding. No curve, no adaptation, no tuning.
-  d1a_photometric : exposure 1 on ABSOLUTE luminance: the display is asked to emit the scene's own cd/m^2,
+"""D0 exposure controls (CTRL-PHOT, CTRL-KEY; called D1a/D1b before D0.1): pure exposure + clamp + the scenario's display encoding. No curve, no adaptation, no tuning.
+  ctrl_photometric_clamp : exposure 1 on ABSOLUTE luminance: the display is asked to emit the scene's own cd/m^2,
                     clamped per channel to [black, peak]  (the literal 'show the physical scene' control)
-  d1b_key018      : exposure k = 0.18 * peak / Lavg, Lavg = exp(mean(log(Y + 1e-9))) of the frame (the classic
+  ctrl_key018_clamp      : exposure k = 0.18 * peak / Lavg, Lavg = exp(mean(log(Y + 1e-9))) of the frame (the classic
                     log-average key, Reinhard et al. 2002 eq. 1-2 WITHOUT their curve), then the same clamp;
                     per frame for the clip (no temporal smoothing: a naive auto-exposure)
 Encoding (d0/display-scenarios.json): SDR  code = OETF((L - black) / (peak - black)), sRGB or gamma 2.2;
 HDR1000 code = PQ(L) with Rec.709 -> Rec.2020 primaries (absolute).  16-bit PNG, d0 output contract.
-  nix develop -c python3 d0/donors/controls_d1.py
+  nix develop -c python3 d0/donors/controls_exposure.py
 """
 import glob, json, os, sys
 import numpy as np
@@ -51,13 +51,13 @@ def write(path, code):
 
 
 LUMS = ["SDR100", "SDR200", "BRIGHT500", "HDR1000"]
-runs = {"d1a_photometric": {"label": "DOCUMENTED_TARGET_CONFIG", "exposure": 1.0},
-        "d1b_key018": {"label": "DOCUMENTED_TARGET_CONFIG", "exposure": "0.18 * peak / log-average(Y), per frame"}}
+runs = {"ctrl_photometric_clamp": {"label": "DOCUMENTED_TARGET_CONFIG", "exposure": 1.0},
+        "ctrl_key018_clamp": {"label": "DOCUMENTED_TARGET_CONFIG", "exposure": "0.18 * peak / log-average(Y), per frame"}}
 log = {}
 
 
 def render(L, lum, cfg):
-    if cfg == "d1a_photometric":
+    if cfg == "ctrl_photometric_clamp":
         k = 1.0
     else:
         Y = L @ Yw; k = 0.18 * SCEN["luminance"][lum]["peak_cd_m2"] / np.exp(np.mean(np.log(Y + 1e-9)))
@@ -76,5 +76,5 @@ for f in sorted(glob.glob(f"{I}/S2/frame_*.exr")):
         for lum in ("SDR100", "BRIGHT500"):
             code, k = render(L, lum, cfg)
             write(f"{O}/{cfg}/S2__PHONE_{lum}_DARK/{n}", code); log[f"{cfg}/S2/{lum}/{n}"] = k
-json.dump({"donor": "controls D1 (exposure + clamp)", "configs": runs, "exposures": log}, open(f"{O}/runs.json", "w"), indent=1)
-print("D1 done", {k: v for k, v in log.items() if "/S1/" in k})
+json.dump({"donor": "exposure controls CTRL-PHOT, CTRL-KEY (exposure + clamp)", "configs": runs, "exposures": log}, open(f"{O}/runs.json", "w"), indent=1)
+print("exposure controls done", {k: v for k, v in log.items() if "/S1/" in k})

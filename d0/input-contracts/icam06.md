@@ -37,7 +37,9 @@ Reference: J. Kuang, G. M. Johnson, M. D. Fairchild, "iCAM06: A refined image ap
   - The NATIVE_DEFAULT (`max_L = 20000`) avoids the floor by discarding the absolute scale.
   - The rod term (`iCAM06_TC.m`) exists but is a simplified Hunt-model rod response, not a scotopic spectral input.
 
-## Shims (all trivial, all in `d0/work/donors/icam06/shim/`, placed ahead of the pristine source on the Octave path)
+## Shims (all trivial; placed ahead of the pristine source on the Octave path)
+
+Ours (`computer`, `interp1q`, `figure`, `imshow`) are committed in `d0/donors/icam06/shim/`. The three converted author files are recreated by `d0/donors/icam06/setup.sh` in `d0/work/donors/icam06/shim/` (not committed: the zip states no licence). Drivers: `d0/donors/icam06/{run_all.py,run_scene.m,native_example.m,ladder.py,icam06_ladder.m}`; re-running them from the committed drivers reproduces all 18 D0 outputs byte for byte.
 
 | Shim | Why |
 |---|---|
@@ -70,3 +72,57 @@ Scenes: S0, S1, S3_bar, S3_nobar, S4, S5. **S2 was skipped** because iCAM06 is a
    - The output is identical for any display geometry or peak that uses sRGB encoding. It is labelled PHONE_SDR100_DARK because the display model decodes it that way (`d0/display_model.py`), not because iCAM06 used those values.
 
 No iCAM06 parameter or equation was changed. Runtime was 3-15 s per scene on CPU, and peak memory stayed well under 2 GB.
+
+## D0.1: absolute-level ladder (SENSITIVITY_RUN)
+
+**Why.** iCAM06 is the one donor built to take **absolute** XYZ. Its adaptation machinery depends on the absolute
+level:
+- FL and La from the low-passed Y;
+- the rod response As/FLS;
+- luminance-dependent IPT (Hunt and Stevens effects).
+
+The paper claims coverage from low-scotopic to photopic levels. D0.1 therefore tests the property directly instead
+of classing the method as "has no adaptation input".
+
+**How.**
+- `d0/donors/icam06/ladder.py` and `icam06_ladder.m` scale S1 (and the S3 pair) by 10^k, k = 0…6. k = 0 is the
+  physical night, sky 2.9·10⁻⁴ cd/m²; k = 6 is sky 290 cd/m².
+- Parameters: `max_L = 0` (absolute, Readme), p 0.7, γ 1.2 (dark surround).
+- The driver calls the **original sub-functions in the order of `iCAM06_HDR.m`**. It also saves `XYZ_tm`, the
+  model's output *before* the display step `iCAM06_disp`. No algorithm file is edited.
+- Outputs: `d0/work/out/icam06/ladder_x1e<k>/`, `d0/results/tables/icam06_ladder.json`,
+  `d0/results/stills/icam06_ladder_S1.png`.
+
+| scale | scene sky, cd/m² | model sky / model max | model sky→tree Weber | model chroma (non-source) | displayed sky, cd/m² | displayed silhouette Weber | lamp saturation kept | largest white plateau |
+|---|---|---|---|---|---|---|---|---|
+| ×10^0 | 0.00029 | 0.01 | 0.71 | 0.020 | 26.6 | 0.96 | 0.00285 | 85′ |
+| ×10^1 | 0.0029 | 0.0025 | 0.80 | 0.014 | 27.8 | 0.88 | 0.000367 | 93′ |
+| ×10^2 | 0.029 | 0.00069 | 0.83 | 0.028 | 21.3 | 0.90 | 0.00115 | 90′ |
+| ×10^3 | 0.29 | 0.00016 | 0.81 | 0.048 | 10.7 | 0.89 | 0.00353 | 82′ |
+| ×10^4 | 2.9 | 4e-05 | 0.72 | 0.030 | 13.4 | 0.84 | 0.0104 | 82′ |
+| ×10^5 | 29 | 1.4e-05 | 0.77 | 0.016 | 18 | 0.85 | 0.0148 | 51′ |
+| ×10^6 | 2.9e+02 | 7.6e-06 | 0.78 | 0.027 | 17.8 | 0.81 | 0.0736 | 31′ |
+
+"model" = `XYZ_tm`; "displayed" = the native output decoded by `d0/display_model.py` (SDR100).
+
+**What it shows.**
+1. **The absolute level changes the model's output a lot.**
+   - At the physical night level the *model's* sky sits at 1 % of its maximum. At daylight level it sits at
+     0.0008 %.
+   - The rod term adds a response floor, so the model output *lifts* dark regions as the scene gets darker. It
+     does not keep them dark.
+   - The rendered hue also moves with level (see the contact sheet): pinkish-red at the physical night level,
+     bluish in the mesopic range (×10²–10⁴), warm lamps only at daylight.
+2. **The native display step removes what is left of the absolute level.** `iCAM06_disp` divides by max Y and
+   stretches the 1st–99th RGB percentiles to the display. Over six decades of scene luminance the displayed sky
+   stays within 11–28 cd/m², with no monotonic trend, and the physical night renders *lighter* than daylight.
+3. **P3/P5/P6 do not improve at any level.** Lamps merge into white plateaus of 31–93′. Lamp saturation retention
+   is ≤ 0.07. S3 bar P_det = 1 at every level.
+
+So iCAM06 does have a principled absolute-luminance input. Its appearance machinery responds to 4·10⁻⁴ cd/m².
+Two things stop that response from reaching the display as "night": the direction of its rod-response term (it
+lifts) and its relative display stage.
+
+**Hypothesis, not verified.** The pink cast at k = 0 may come from the per-channel 1e-4 floor in
+`fastbilateralfilter.m`. Pixels below it in every channel become equal-energy grey (x = y = 1/3), which reads as
+pinkish under a D65-like adaptation.

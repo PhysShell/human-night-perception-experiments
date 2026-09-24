@@ -8,7 +8,7 @@ T = "d0/results/tables"
 rows = [json.loads(l) for l in open(f"{T}/metrics.jsonl")]
 ref = {r["scene"]: r for r in json.load(open(f"{T}/scene_reference.json"))}
 PRIMARY = [("pcond", "native_default"), ("pcond", "target_SDR200"), ("pcond", "target_BRIGHT500"),
-           ("controls", "d1a_photometric"), ("controls", "d1b_key018"), ("reinhard02", "defaults"),
+           ("controls", "ctrl_photometric_clamp"), ("controls", "ctrl_key018_clamp"), ("reinhard02", "defaults"),
            ("mantiuk08", "native_default"), ("mantiuk08", "target_whiteauto"), ("mantiuk08", "target_whiteanchor"),
            ("mantiuk08", "sens_desktop"), ("mantiuk08", "sens_dim"), ("mantiuk08", "sens_sceneadapt_auto"),
            ("aces2", "DOCUMENTED_TARGET_CONFIG"),
@@ -86,10 +86,33 @@ md.append("")
 # scenario change (P8)
 md.append("## Changing the display (P8): S1 across luminance scenarios"); md.append("")
 md.append("| donor / config | scenario | sky median | dark median | peak | % near black | plateau ⌀ max ′ | source/bg |"); md.append("|---|---|---|---|---|---|---|---|")
-for d, c in [("pcond", "native_default"), ("pcond", "target_SDR200"), ("pcond", "target_BRIGHT500"), ("controls", "d1a_photometric"), ("controls", "d1b_key018"),
+for d, c in [("pcond", "native_default"), ("pcond", "target_SDR200"), ("pcond", "target_BRIGHT500"), ("controls", "ctrl_photometric_clamp"), ("controls", "ctrl_key018_clamp"),
              ("reinhard02", "defaults"), ("mantiuk08", "target_whiteauto"), ("mantiuk08", "target_whiteanchor"), ("aces2", "DOCUMENTED_TARGET_CONFIG")]:
     for r in [r for r in rows if r["donor"] == d and r["config"] == c and r["scene"] == "S1"]:
         md.append(f"| {d} / {c} | {r['lum']} | {g(r, 'sky_median')} | {g(r, 'dark_median')} | {g(r, 'peak')} | {g(r, 'near_black_pct')} | {g(r, 'plateau_diam_max_arcmin')} | {g(r, 'source_bg_contrast')} |")
+md.append("")
+# D0.1 sections
+md.append("## D0.1: ACES 2 exposure family (S1; S3 P_det; S4 sky)"); md.append("")
+md.append("| config | scenario | S1 sky median | S1 % near black | S1 silhouette Weber | S1 plateau n | S1 plateau ⌀ max ′ | S1 lamp sat. kept | S3 P_det viewer | S3 P_det off | S4 sky median |")
+md.append("|---|---|---|---|---|---|---|---|---|---|---|")
+fam = {(r["config"], r["scene"], r["lum"]): r for r in rows if r["donor"] == "aces2" and r["config"].startswith("EXPOSURE_FAMILY")}
+for c in sorted({k[0] for k in fam}):
+    for lum in ("SDR100", "HDR1000"):
+        a, b, s4 = fam.get((c, "S1", lum), {}), fam.get((c, "S3_bar", lum), {}), fam.get((c, "S4", lum), {})
+        md.append(f"| {c} | PHONE_{lum}_DARK | {g(a, 'sky_median')} | {g(a, 'near_black_pct')} | {g(a, 'silhouette_weber')} | {g(a, 'plateau_n')} | {g(a, 'plateau_diam_max_arcmin')} | "
+                  f"{g(a, 'lamp_saturation_retention')} | {g(b, 'P_det_bar_EVAL_VIEWER')} | {g(b, 'P_det_bar_EVAL_OFF')} | {g(s4, 'sky_median')} |")
+md.append("")
+md.append("## D0.1: iCAM06 absolute-level ladder (S1 x 10^k, max_L = 0, p 0.7, gamma 1.2; model internals in icam06_ladder.json)"); md.append("")
+md.append("| config | S1 sky median | S1 dark median | silhouette Weber | plateau n | plateau ⌀ max ′ | lamp sat. kept | S3 P_det viewer |"); md.append("|---|---|---|---|---|---|---|---|")
+lad = {(r["config"], r["scene"]): r for r in rows if r["donor"] == "icam06" and r["config"].startswith("ladder")}
+for c in sorted({k[0] for k in lad}):
+    a, b = lad.get((c, "S1"), {}), lad.get((c, "S3_bar"), {})
+    md.append(f"| {c} | {g(a, 'sky_median')} | {g(a, 'dark_median')} | {g(a, 'silhouette_weber')} | {g(a, 'plateau_n')} | {g(a, 'plateau_diam_max_arcmin')} | {g(a, 'lamp_saturation_retention')} | {g(b, 'P_det_bar_EVAL_VIEWER')} |")
+md.append("")
+md.append("## D0.1: Mantiuk08 on pfstools master c860691 (same options = 2.2.0 byte for byte; --tone-value max)"); md.append("")
+md.append("| config | scene | scenario | sky median | plateau n | plateau ⌀ max ′ | lamp sat. kept | P_det viewer | P_det off |"); md.append("|---|---|---|---|---|---|---|---|---|")
+for r in [r for r in rows if r["donor"] == "mantiuk08" and r["config"].startswith("master") and r["scene"] in ("S1", "S3_bar")]:
+    md.append(f"| {r['config']} | {r['scene']} | {r['geom']}_{r['lum']}_{r['amb']} | {g(r, 'sky_median')} | {g(r, 'plateau_n')} | {g(r, 'plateau_diam_max_arcmin')} | {g(r, 'lamp_saturation_retention')} | {g(r, 'P_det_bar_EVAL_VIEWER')} | {g(r, 'P_det_bar_EVAL_OFF')} |")
 md.append("")
 open(f"{T}/summary.md", "w").write("\n".join(md) + "\n")
 for s in ("S0", "S1", "S3_bar", "S4", "S5", "S2"):

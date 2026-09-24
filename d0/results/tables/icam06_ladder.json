@@ -1,0 +1,150 @@
+{
+ "what": "D0.1 iCAM06 absolute-level ladder (SENSITIVITY_RUN): the SAME S1 (and S3 pair) scaled by 10^k, k = 0 (the physical\nnight) .. 6 (sky ~290 cd/m^2, daylight), max_L = 0 (absolute input, Readme), p = 0.7, gamma 1.2 (dark surround).\nQuestion: does iCAM06's absolute-luminance machinery (FL, rod term As/FLS, luminance-dependent IPT) make the physical\nnight look different from the same image at daylight level, and what survives the native display step?",
+ "params": {
+  "max_L": 0,
+  "p": 0.7,
+  "gamma_value": 1.2
+ },
+ "rows": [
+  {
+   "k": 0,
+   "scene_sky_median_cd_m2": 0.0002876,
+   "XYZ_tm_Y": {
+    "sky_median": 92.14516067504883,
+    "tree_median": 27.136943817138672,
+    "max": 8796.2646484375,
+    "sky_over_max": 0.010475487534520324,
+    "sky_tree_weber": 0.7054978946443267,
+    "nonsource_chroma_uv_median": 0.020480395804160192
+   },
+   "display_rel_Y": {
+    "sky_median": 0.26521833546110435,
+    "tree_median": 0.008998490399818393,
+    "nonsource_chroma_uv_median": 0.03307356904043414
+   },
+   "log": [
+    "XYZ_tm Y min 22.1039 median 68.1242 max 8796.26"
+   ]
+  },
+  {
+   "k": 1,
+   "scene_sky_median_cd_m2": 0.002876,
+   "XYZ_tm_Y": {
+    "sky_median": 21.393230438232422,
+    "tree_median": 4.234348773956299,
+    "max": 8668.7099609375,
+    "sky_over_max": 0.0024678678297732314,
+    "sky_tree_weber": 0.8020706229392556,
+    "nonsource_chroma_uv_median": 0.01432800476637413
+   },
+   "display_rel_Y": {
+    "sky_median": 0.27767938711770673,
+    "tree_median": 0.03160194253350424,
+    "nonsource_chroma_uv_median": 0.019116765782518544
+   },
+   "log": [
+    "XYZ_tm Y min 1.00676 median 9.27777 max 8668.71"
+   ]
+  },
+  {
+   "k": 2,
+   "scene_sky_median_cd_m2": 0.02876,
+   "XYZ_tm_Y": {
+    "sky_median": 4.7082483768463135,
+    "tree_median": 0.8010218143463135,
+    "max": 6802.86083984375,
+    "sky_over_max": 0.0006920982933048582,
+    "sky_tree_weber": 0.8298684032292164,
+    "nonsource_chroma_uv_median": 0.027836541878234138
+   },
+   "display_rel_Y": {
+    "sky_median": 0.2123869963838484,
+    "tree_median": 0.019753579167841918,
+    "nonsource_chroma_uv_median": 0.03846754996178569
+   },
+   "log": [
+    "XYZ_tm Y min 0.191049 median 2.22983 max 6802.86"
+   ]
+  },
+  {
+   "k": 3,
+   "scene_sky_median_cd_m2": 0.2876,
+   "XYZ_tm_Y": {
+    "sky_median": 1.1297595500946045,
+    "tree_median": 0.22009269893169403,
+    "max": 7227.25146484375,
+    "sky_over_max": 0.00015631939134679458,
+    "sky_tree_weber": 0.8051862461235546,
+    "nonsource_chroma_uv_median": 0.048288129044940425
+   },
+   "display_rel_Y": {
+    "sky_median": 0.10567606839765067,
+    "tree_median": 0.010995171776360245,
+    "nonsource_chroma_uv_median": 0.07043518354612281
+   },
+   "log": [
+    "XYZ_tm Y min 0.0536157 median 0.60156 max 7227.25"
+   ]
+  },
+  {
+   "k": 4,
+   "scene_sky_median_cd_m2": 2.876,
+   "XYZ_tm_Y": {
+    "sky_median": 0.4592438042163849,
+    "tree_median": 0.12650802731513977,
+    "max": 11486.19921875,
+    "sky_over_max": 3.998222523136445e-05,
+    "sky_tree_weber": 0.7245297026249435,
+    "nonsource_chroma_uv_median": 0.029576889267253152
+   },
+   "display_rel_Y": {
+    "sky_median": 0.13358467421752074,
+    "tree_median": 0.020332430887955055,
+    "nonsource_chroma_uv_median": 0.05028149864378223
+   },
+   "log": [
+    "XYZ_tm Y min 0.0324142 median 0.208777 max 11486.2"
+   ]
+  },
+  {
+   "k": 5,
+   "scene_sky_median_cd_m2": 28.759999999999998,
+   "XYZ_tm_Y": {
+    "sky_median": 0.33631016314029694,
+    "tree_median": 0.0757255032658577,
+    "max": 24183.6015625,
+    "sky_over_max": 1.3906537546574209e-05,
+    "sky_tree_weber": 0.7748343298377586,
+    "nonsource_chroma_uv_median": 0.016297898214198005
+   },
+   "display_rel_Y": {
+    "sky_median": 0.17884962830858442,
+    "tree_median": 0.025886900728006906,
+    "nonsource_chroma_uv_median": 0.01975629162809899
+   },
+   "log": [
+    "XYZ_tm Y min 0.0184833 median 0.188685 max 24183.6"
+   ]
+  },
+  {
+   "k": 6,
+   "scene_sky_median_cd_m2": 287.6,
+   "XYZ_tm_Y": {
+    "sky_median": 0.4677978605031967,
+    "tree_median": 0.10448359698057175,
+    "max": 61737.00390625,
+    "sky_over_max": 7.577268589411395e-06,
+    "sky_tree_weber": 0.7766479802447541,
+    "nonsource_chroma_uv_median": 0.026751584090599266
+   },
+   "display_rel_Y": {
+    "sky_median": 0.17716843257353423,
+    "tree_median": 0.032109984880805235,
+    "nonsource_chroma_uv_median": 0.033684513391850586
+   },
+   "log": [
+    "XYZ_tm Y min 0.023017 median 0.241108 max 61737"
+   ]
+  }
+ ]
+}

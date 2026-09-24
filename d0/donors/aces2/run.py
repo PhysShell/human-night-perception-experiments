@@ -365,6 +365,31 @@ def render(only=None):
     print("wrote", rpath, len(runs), "runs", f"{time.time() - t0:.0f}s")
 
 
+FAMILY_EV = [0, 8, 12, 14, 16, 18]
+
+
+def family():
+    """D0.1: ACES's honest result on a physically calibrated scene is a FAMILY over scene exposure (the physical cd/m^2
+    -> ACES mapping is not defined by ACES). Same normalization rule as render(), EV in FAMILY_EV, on the stills that
+    carry the night questions, SDR100 and HDR1000. Appended to runs.json (label SENSITIVITY_RUN, config EXPOSURE_FAMILY_EV..)."""
+    ocio, cfg = ocio_config()
+    rpath = os.path.join(OUT, "runs.json"); doc = json.load(open(rpath))
+    doc["runs"] = [r for r in doc["runs"] if not r["config_dir"].startswith("EXPOSURE_FAMILY")]
+    for lum in ("SDR100", "HDR1000"):
+        cpu = processor(cfg, ocio, SRC_CS, TARGETS[lum][0], TARGETS[lum][1])
+        for ev in FAMILY_EV:
+            cfgname = "EXPOSURE_FAMILY_EV%s%02d" % ("p" if ev >= 0 else "m", abs(ev))
+            for s in ("S0", "S1", "S3_bar", "S3_nobar", "S4"):
+                src = os.path.join(INP, s + ".exr"); dst = os.path.join(OUT, cfgname, f"{s}__PHONE_{lum}_DARK.png")
+                scale = 2.0 ** ev / REF_CD_M2
+                st = render_one(cpu, src, scale, dst, TARGETS[lum][3]["transfer"])
+                doc["runs"].append(dict(label="SENSITIVITY_RUN", config_dir=cfgname, scene=s, input=os.path.relpath(src, REPO), luminance=lum,
+                                        exposure=dict(ev_stops=ev, aces_per_cd_m2=scale, rule="ACES2065-1 = M_709->AP0 . (linear Rec.709 cd/m^2) * 2^EV / 100 cd/m^2"),
+                                        output=os.path.relpath(dst, REPO), stats=st, ocio_version=ocio.__version__, config=cfg.getName()))
+                print(cfgname, s, lum, flush=True)
+    doc["n_runs"] = len(doc["runs"]); json.dump(doc, open(rpath, "w"), indent=1)
+
+
 def curve():
     """Neutral (D65 grey) absolute scene luminance -> display luminance, documented normalization, every target."""
     import numpy as np
@@ -396,4 +421,4 @@ if __name__ == "__main__":
     else:
         import numpy as np  # noqa: F401  (module-level use in helpers)
         globals()["np"] = np
-        {"native": native, "render": lambda: render(sys.argv[2] if len(sys.argv) > 2 else None), "curve": curve}[cmd]()
+        {"native": native, "render": lambda: render(sys.argv[2] if len(sys.argv) > 2 else None), "curve": curve, "family": family}[cmd]()

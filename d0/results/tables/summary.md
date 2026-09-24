@@ -10,14 +10,14 @@ All values are light emitted by the parametric display (cd/m²) decoded with `d0
 | pcond / native_default | PHONE_SDR100_DARK | 0.317 | 0.142 | 0.738 | 0 | 0.557 | 0.12 | 6.22 | 1.71 | 16.1 |
 | pcond / target_SDR200 | PHONE_SDR200_DARK | 0.37 | 0.233 | 0.472 | 0.000254 | 0.374 | 0.216 | 4.98 | 1.36 | 40.2 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | 0.0977 | 0.0227 | 1.25 | 0 | 0.774 | 0.0139 | 2.61 | 2.28 | 191 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | 0.005 | 0.005 | 0 | 99.6 | 0 | 0.005 | 0.0131 | 0.417 | 3.83e+04 |
-| controls / d1a_photometric | PHONE_HDR1000_DARK | 0.00529 | 0.00507 | 0.0871 | 62.7 | 0.0393 | 0.00503 | 0.0179 | 0.553 | 5.57e+04 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | 0.1 | 0.1 | 0 | 100 | 0 | 0.1 | 0.1 | 0 | 1e+03 |
-| controls / d1a_photometric | PHONE_SDR200_DARK | 0.2 | 0.2 | 0 | 100 | 0 | 0.2 | 0.2 | 0 | 1e+03 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | 256 | 62.8 | 1.28 | 0 | 0.722 | 24.5 | 500 | 1.31 | 1 |
-| controls / d1b_key018 | PHONE_HDR1000_DARK | 513 | 126 | 1.29 | 0 | 0.722 | 48.9 | 1e+03 | 1.31 | 1 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | 51.3 | 12.6 | 1.28 | 0 | 0.722 | 4.89 | 100 | 1.31 | 1 |
-| controls / d1b_key018 | PHONE_SDR200_DARK | 103 | 25.1 | 1.28 | 0 | 0.722 | 9.78 | 200 | 1.31 | 1 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | 0.005 | 0.005 | 0 | 99.6 | 0 | 0.005 | 0.0131 | 0.417 | 3.83e+04 |
+| controls / ctrl_photometric_clamp | PHONE_HDR1000_DARK | 0.00529 | 0.00507 | 0.0871 | 62.7 | 0.0393 | 0.00503 | 0.0179 | 0.553 | 5.57e+04 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | 0.1 | 0.1 | 0 | 100 | 0 | 0.1 | 0.1 | 0 | 1e+03 |
+| controls / ctrl_photometric_clamp | PHONE_SDR200_DARK | 0.2 | 0.2 | 0 | 100 | 0 | 0.2 | 0.2 | 0 | 1e+03 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | 256 | 62.8 | 1.28 | 0 | 0.722 | 24.5 | 500 | 1.31 | 1 |
+| controls / ctrl_key018_clamp | PHONE_HDR1000_DARK | 513 | 126 | 1.29 | 0 | 0.722 | 48.9 | 1e+03 | 1.31 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | 51.3 | 12.6 | 1.28 | 0 | 0.722 | 4.89 | 100 | 1.31 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR200_DARK | 103 | 25.1 | 1.28 | 0 | 0.722 | 9.78 | 200 | 1.31 | 1 |
 | reinhard02 / defaults | PHONE_BRIGHT500_DARK | 154 | 49.1 | 1.17 | 0 | 0.643 | 20.3 | 420 | 1.32 | 1.19 |
 | reinhard02 / defaults | PHONE_SDR100_DARK | 30.8 | 9.91 | 1.16 | 0 | 0.641 | 4.16 | 84 | 1.31 | 1.19 |
 | reinhard02 / defaults | PHONE_SDR200_DARK | 61.6 | 19.8 | 1.16 | 0 | 0.641 | 8.32 | 168 | 1.31 | 1.19 |
@@ -44,14 +44,14 @@ All values are light emitted by the parametric display (cd/m²) decoded with `d0
 | pcond / native_default | PHONE_SDR100_DARK | 0.317 | 0.14 | 0.52 | 0 | 0.557 |
 | pcond / target_SDR200 | PHONE_SDR200_DARK | 0.37 | 0.231 | 0.304 | 0.000254 | 0.374 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | 0.0977 | 0.0221 | 0.988 | 0 | 0.774 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | 0.005 | 0.005 | 0 | 99.3 | 0 |
-| controls / d1a_photometric | PHONE_HDR1000_DARK | 0.00529 | 0.00507 | 0.0451 | 62.7 | 0.0393 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | 0.1 | 0.1 | 0 | 99.6 | 0 |
-| controls / d1a_photometric | PHONE_SDR200_DARK | 0.2 | 0.2 | 0 | 99.7 | 0 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | 251 | 58.2 | 1.26 | 0 | 0.722 |
-| controls / d1b_key018 | PHONE_HDR1000_DARK | 502 | 116 | 1.27 | 0 | 0.722 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | 50.2 | 11.6 | 1.26 | 0 | 0.722 |
-| controls / d1b_key018 | PHONE_SDR200_DARK | 100 | 23.3 | 1.26 | 0 | 0.722 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | 0.005 | 0.005 | 0 | 99.3 | 0 |
+| controls / ctrl_photometric_clamp | PHONE_HDR1000_DARK | 0.00529 | 0.00507 | 0.0451 | 62.7 | 0.0393 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | 0.1 | 0.1 | 0 | 99.6 | 0 |
+| controls / ctrl_photometric_clamp | PHONE_SDR200_DARK | 0.2 | 0.2 | 0 | 99.7 | 0 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | 251 | 58.2 | 1.26 | 0 | 0.722 |
+| controls / ctrl_key018_clamp | PHONE_HDR1000_DARK | 502 | 116 | 1.27 | 0 | 0.722 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | 50.2 | 11.6 | 1.26 | 0 | 0.722 |
+| controls / ctrl_key018_clamp | PHONE_SDR200_DARK | 100 | 23.3 | 1.26 | 0 | 0.722 |
 | reinhard02 / defaults | PHONE_BRIGHT500_DARK | 151 | 45.8 | 1.05 | 0 | 0.645 |
 | reinhard02 / defaults | PHONE_SDR100_DARK | 30.4 | 9.25 | 1.04 | 0 | 0.642 |
 | reinhard02 / defaults | PHONE_SDR200_DARK | 60.7 | 18.5 | 1.04 | 0 | 0.642 |
@@ -82,14 +82,14 @@ All values are light emitted by the parametric display (cd/m²) decoded with `d0
 | pcond / native_default | PHONE_SDR100_DARK | 99.9 | 0.000635 | 2 | 0.927 | 0.927 | 270 | 3.18 | 0.0531 | 0.348 |
 | pcond / target_SDR200 | PHONE_SDR200_DARK | 195 | 0.000826 | 0 | – | – | 510 | 2.46 | 0.053 | 0.348 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | 467 | 0.000826 | 0 | – | – | 4.53e+03 | 4.03 | 0.0523 | 0.357 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | 287 | 6.35e-05 | 0 | – | – | 3.06e+04 | 1.14 | 2.18e-06 | 1 |
-| controls / d1a_photometric | PHONE_HDR1000_DARK | 302 | 0 | 0 | – | – | 2.89e+04 | 1.3 | 0.000442 | 0.995 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | 100 | 0.00343 | 2 | 0.927 | 0.927 | 944 | 1 | 0.00161 | 0.981 |
-| controls / d1a_photometric | PHONE_SDR200_DARK | 188 | 0.000953 | 0 | – | – | 704 | 1 | 0.00624 | 0.935 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | 500 | 2.53 | 338 | 0.927 | 109 | 1.99 | 1.54 | 0.0813 | 0.000662 |
-| controls / d1b_key018 | PHONE_HDR1000_DARK | 1e+03 | 1.12 | 314 | 0.927 | 116 | 1.99 | 1.56 | 0.0813 | 0.000443 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | 100 | 2.53 | 338 | 0.927 | 109 | 1.99 | 1.54 | 0.0813 | 0.000662 |
-| controls / d1b_key018 | PHONE_SDR200_DARK | 200 | 2.53 | 338 | 0.927 | 109 | 1.99 | 1.54 | 0.0813 | 0.000662 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | 287 | 6.35e-05 | 0 | – | – | 3.06e+04 | 1.14 | 2.18e-06 | 1 |
+| controls / ctrl_photometric_clamp | PHONE_HDR1000_DARK | 302 | 0 | 0 | – | – | 2.89e+04 | 1.3 | 0.000442 | 0.995 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | 100 | 0.00343 | 2 | 0.927 | 0.927 | 944 | 1 | 0.00161 | 0.981 |
+| controls / ctrl_photometric_clamp | PHONE_SDR200_DARK | 188 | 0.000953 | 0 | – | – | 704 | 1 | 0.00624 | 0.935 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | 500 | 2.53 | 338 | 0.927 | 109 | 1.99 | 1.54 | 0.0813 | 0.000662 |
+| controls / ctrl_key018_clamp | PHONE_HDR1000_DARK | 1e+03 | 1.12 | 314 | 0.927 | 116 | 1.99 | 1.56 | 0.0813 | 0.000443 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | 100 | 2.53 | 338 | 0.927 | 109 | 1.99 | 1.54 | 0.0813 | 0.000662 |
+| controls / ctrl_key018_clamp | PHONE_SDR200_DARK | 200 | 2.53 | 338 | 0.927 | 109 | 1.99 | 1.54 | 0.0813 | 0.000662 |
 | reinhard02 / defaults | PHONE_BRIGHT500_DARK | 496 | 1.05 | 1 | 0.927 | 0.927 | 3.18 | 1.61 | 0.0418 | 0.756 |
 | reinhard02 / defaults | PHONE_SDR100_DARK | 99.1 | 1.05 | 1 | 0.927 | 0.927 | 3.17 | 1.6 | 0.0418 | 0.755 |
 | reinhard02 / defaults | PHONE_SDR200_DARK | 198 | 1.05 | 1 | 0.927 | 0.927 | 3.17 | 1.6 | 0.0418 | 0.755 |
@@ -120,14 +120,14 @@ All values are light emitted by the parametric display (cd/m²) decoded with `d0
 | pcond / native_default | PHONE_SDR100_DARK | 0.12 | 78.7 | 2.82 | 1.27 |
 | pcond / target_SDR200 | PHONE_SDR200_DARK | 0.216 | 149 | 2.84 | 1.34 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | 0.0139 | 309 | 4.35 | 1.62 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | 0.005 | 1.92 | 2.58 | 261 |
-| controls / d1a_photometric | PHONE_HDR1000_DARK | 0.00503 | 1.92 | 2.58 | 520 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | 0.1 | 1.92 | 1.28 | 52.1 |
-| controls / d1a_photometric | PHONE_SDR200_DARK | 0.2 | 1.92 | 0.982 | 104 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | 23.9 | 500 | 1.32 | 1 |
-| controls / d1b_key018 | PHONE_HDR1000_DARK | 47.8 | 1e+03 | 1.32 | 1 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | 4.78 | 100 | 1.32 | 1 |
-| controls / d1b_key018 | PHONE_SDR200_DARK | 9.57 | 200 | 1.32 | 1 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | 0.005 | 1.92 | 2.58 | 261 |
+| controls / ctrl_photometric_clamp | PHONE_HDR1000_DARK | 0.00503 | 1.92 | 2.58 | 520 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | 0.1 | 1.92 | 1.28 | 52.1 |
+| controls / ctrl_photometric_clamp | PHONE_SDR200_DARK | 0.2 | 1.92 | 0.982 | 104 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | 23.9 | 500 | 1.32 | 1 |
+| controls / ctrl_key018_clamp | PHONE_HDR1000_DARK | 47.8 | 1e+03 | 1.32 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | 4.78 | 100 | 1.32 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR200_DARK | 9.57 | 200 | 1.32 | 1 |
 | reinhard02 / defaults | PHONE_BRIGHT500_DARK | 19.9 | 441 | 1.35 | 1.13 |
 | reinhard02 / defaults | PHONE_SDR100_DARK | 4.07 | 88.2 | 1.34 | 1.13 |
 | reinhard02 / defaults | PHONE_SDR200_DARK | 8.15 | 176 | 1.34 | 1.13 |
@@ -158,14 +158,14 @@ All values are light emitted by the parametric display (cd/m²) decoded with `d0
 | pcond / native_default | PHONE_SDR100_DARK | 0.999 | 1 | 0.752 | 81.5 | – | 1 | 0.403 |
 | pcond / target_SDR200 | PHONE_SDR200_DARK | 0.997 | 1 | 0.543 | 131 | – | 1 | 0.438 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | 0.997 | 1 | 0.963 | 280 | – | 1 | 0.135 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | -1.3e-05 | -1.3e-05 | 0 | 500 | 1.85 | 1 | 0.005 |
-| controls / d1a_photometric | PHONE_HDR1000_DARK | 0.000761 | 0.0098 | 0.074 | 995 | 1.85 | 1 | 0.0054 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | -1.3e-05 | -1.3e-05 | 0 | 100 | 1.85 | 1 | 0.1 |
-| controls / d1a_photometric | PHONE_SDR200_DARK | -1.3e-05 | -1.3e-05 | 0 | 200 | 1.85 | 1 | 0.2 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | 1 | 1 | 1 | 500 | 3.21 | 1 | 97.5 |
-| controls / d1b_key018 | PHONE_HDR1000_DARK | 1 | 1 | 1 | 1e+03 | 3.21 | 1 | 195 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | 1 | 1 | 0.995 | 100 | 3.21 | 1 | 19.5 |
-| controls / d1b_key018 | PHONE_SDR200_DARK | 1 | 1 | 0.995 | 200 | 3.21 | 1 | 39 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | -1.3e-05 | -1.3e-05 | 0 | 500 | 1.85 | 1 | 0.005 |
+| controls / ctrl_photometric_clamp | PHONE_HDR1000_DARK | 0.000761 | 0.0098 | 0.074 | 995 | 1.85 | 1 | 0.0054 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | -1.3e-05 | -1.3e-05 | 0 | 100 | 1.85 | 1 | 0.1 |
+| controls / ctrl_photometric_clamp | PHONE_SDR200_DARK | -1.3e-05 | -1.3e-05 | 0 | 200 | 1.85 | 1 | 0.2 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | 1 | 1 | 1 | 500 | 3.21 | 1 | 97.5 |
+| controls / ctrl_key018_clamp | PHONE_HDR1000_DARK | 1 | 1 | 1 | 1e+03 | 3.21 | 1 | 195 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | 1 | 1 | 0.995 | 100 | 3.21 | 1 | 19.5 |
+| controls / ctrl_key018_clamp | PHONE_SDR200_DARK | 1 | 1 | 0.995 | 200 | 3.21 | 1 | 39 |
 | reinhard02 / defaults | PHONE_BRIGHT500_DARK | 1 | 1 | 1 | 410 | – | 1 | 76.2 |
 | reinhard02 / defaults | PHONE_SDR100_DARK | 1 | 1 | 0.993 | 81.9 | – | 1 | 15.3 |
 | reinhard02 / defaults | PHONE_SDR200_DARK | 1 | 1 | 0.993 | 164 | – | 1 | 30.6 |
@@ -194,14 +194,14 @@ SCENE bar Weber contrast (physical, the bar is black on the 4e-4 cd/m² sky): 1
 | pcond / native_default | PHONE_SDR100_DARK | 9.38 | 3.98 | 1.12 | 0 | 85.9 | 0 | 9.17 | 1.77 | 2.44 |
 | pcond / target_SDR200 | PHONE_SDR200_DARK | 7.44 | 3.24 | 1.04 | 0 | 173 | 0.000381 | 23.1 | 1.83 | 4.4 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | 3.96 | 1.67 | 1.16 | 0 | 143 | 0 | 36 | 1.97 | 20.2 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | 0.693 | 0.292 | 1.32 | 0 | 36 | 0 | 51.9 | 2.14 | 80 |
-| controls / d1a_photometric | PHONE_HDR1000_DARK | 0.698 | 0.297 | 1.28 | 0 | 36 | 0 | 51.5 | 2.09 | 160 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | 0.693 | 0.292 | 1.05 | 19.8 | 36 | 0 | 51.9 | 1.8 | 16 |
-| controls / d1a_photometric | PHONE_SDR200_DARK | 0.693 | 0.302 | 0.753 | 24.1 | 36 | 0 | 51.9 | 1.49 | 32 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | 224 | 94.3 | 1.27 | 0 | 500 | 2.51 | 2.24 | 1.53 | 1 |
-| controls / d1b_key018 | PHONE_HDR1000_DARK | 447 | 189 | 1.3 | 0 | 1e+03 | 0.363 | 2.23 | 1.53 | 1 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | 44.7 | 18.9 | 1.27 | 0 | 100 | 2.51 | 2.24 | 1.53 | 1 |
-| controls / d1b_key018 | PHONE_SDR200_DARK | 89.4 | 37.7 | 1.27 | 0 | 200 | 2.51 | 2.24 | 1.53 | 1 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | 0.693 | 0.292 | 1.32 | 0 | 36 | 0 | 51.9 | 2.14 | 80 |
+| controls / ctrl_photometric_clamp | PHONE_HDR1000_DARK | 0.698 | 0.297 | 1.28 | 0 | 36 | 0 | 51.5 | 2.09 | 160 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | 0.693 | 0.292 | 1.05 | 19.8 | 36 | 0 | 51.9 | 1.8 | 16 |
+| controls / ctrl_photometric_clamp | PHONE_SDR200_DARK | 0.693 | 0.302 | 0.753 | 24.1 | 36 | 0 | 51.9 | 1.49 | 32 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | 224 | 94.3 | 1.27 | 0 | 500 | 2.51 | 2.24 | 1.53 | 1 |
+| controls / ctrl_key018_clamp | PHONE_HDR1000_DARK | 447 | 189 | 1.3 | 0 | 1e+03 | 0.363 | 2.23 | 1.53 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | 44.7 | 18.9 | 1.27 | 0 | 100 | 2.51 | 2.24 | 1.53 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR200_DARK | 89.4 | 37.7 | 1.27 | 0 | 200 | 2.51 | 2.24 | 1.53 | 1 |
 | reinhard02 / defaults | PHONE_BRIGHT500_DARK | 155 | 79.4 | 1.09 | 0 | 500 | 0.783 | 3.23 | 1.37 | 1.48 |
 | reinhard02 / defaults | PHONE_SDR100_DARK | 31 | 16 | 1.08 | 0 | 99.9 | 0.783 | 3.22 | 1.36 | 1.48 |
 | reinhard02 / defaults | PHONE_SDR200_DARK | 62 | 31.9 | 1.08 | 0 | 200 | 0.783 | 3.22 | 1.36 | 1.48 |
@@ -228,14 +228,14 @@ SCENE bar Weber contrast (physical, the bar is black on the 4e-4 cd/m² sky): 1
 | pcond / native_default | PHONE_SDR100_DARK | – | 2.73 | 2.09 | 0 | 100 | 0.257 | 0.199 | 49 | 2.39 | 2.04 |
 | pcond / target_SDR200 | PHONE_SDR200_DARK | – | 2.25 | 1.95 | 0 | 200 | 0.00308 | 0.277 | 66.4 | 2.38 | 3.01 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | – | 1.13 | 2.27 | 0 | 468 | 0.000487 | 0.0469 | 38.2 | 2.91 | 13.1 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | – | 0.498 | 2.37 | 0 | 286 | 0 | 0.0169 | 23.4 | 3.14 | 21.4 |
-| controls / d1a_photometric | PHONE_HDR1000_DARK | – | 0.503 | 2.33 | 0 | 286 | 0 | 0.0217 | 23.4 | 3.03 | 42.8 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | – | 0.505 | 2.04 | 3.8 | 100 | 0.074 | 0.1 | 23.4 | 2.37 | 4.28 |
-| controls / d1a_photometric | PHONE_SDR200_DARK | – | 0.513 | 1.74 | 14.8 | 200 | 0.0432 | 0.2 | 23.4 | 2.07 | 8.55 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | – | 67.1 | 1.85 | 0 | 500 | 19.2 | 2.25 | 500 | 2.35 | 1 |
-| controls / d1b_key018 | PHONE_HDR1000_DARK | – | 134 | 1.9 | 0 | 1e+03 | 13.7 | 4.51 | 1e+03 | 2.35 | 1 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | – | 13.4 | 1.85 | 0 | 100 | 19.2 | 0.452 | 100 | 2.34 | 1 |
-| controls / d1b_key018 | PHONE_SDR200_DARK | – | 26.9 | 1.85 | 0 | 200 | 19.2 | 0.904 | 200 | 2.34 | 1 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | – | 0.498 | 2.37 | 0 | 286 | 0 | 0.0169 | 23.4 | 3.14 | 21.4 |
+| controls / ctrl_photometric_clamp | PHONE_HDR1000_DARK | – | 0.503 | 2.33 | 0 | 286 | 0 | 0.0217 | 23.4 | 3.03 | 42.8 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | – | 0.505 | 2.04 | 3.8 | 100 | 0.074 | 0.1 | 23.4 | 2.37 | 4.28 |
+| controls / ctrl_photometric_clamp | PHONE_SDR200_DARK | – | 0.513 | 1.74 | 14.8 | 200 | 0.0432 | 0.2 | 23.4 | 2.07 | 8.55 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | – | 67.1 | 1.85 | 0 | 500 | 19.2 | 2.25 | 500 | 2.35 | 1 |
+| controls / ctrl_key018_clamp | PHONE_HDR1000_DARK | – | 134 | 1.9 | 0 | 1e+03 | 13.7 | 4.51 | 1e+03 | 2.35 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | – | 13.4 | 1.85 | 0 | 100 | 19.2 | 0.452 | 100 | 2.34 | 1 |
+| controls / ctrl_key018_clamp | PHONE_SDR200_DARK | – | 26.9 | 1.85 | 0 | 200 | 19.2 | 0.904 | 200 | 2.34 | 1 |
 | reinhard02 / defaults | PHONE_BRIGHT500_DARK | – | 59.2 | 1.74 | 0 | 500 | 18.3 | 2.25 | 362 | 2.21 | 1.38 |
 | reinhard02 / defaults | PHONE_SDR100_DARK | – | 11.9 | 1.71 | 0 | 100 | 18.3 | 0.548 | 72.3 | 2.12 | 1.38 |
 | reinhard02 / defaults | PHONE_SDR200_DARK | – | 23.8 | 1.71 | 0 | 200 | 18.3 | 1.1 | 145 | 2.12 | 1.38 |
@@ -283,10 +283,10 @@ SCENE bar Weber contrast (physical, the bar is black on the 4e-4 cd/m² sky): 1
 |---|---|---|---|---|---|---|---|---|
 | pcond / native_default | PHONE_SDR100_DARK | 48 | 0.000663 | 0 | 0.00266 | 1 | 0 / 0 / 0 / 0.0063 | 0.317 → 0.317 |
 | pcond / target_BRIGHT500 | PHONE_BRIGHT500_DARK | 48 | 0.00139 | 0 | 0.00588 | 0 | 0 / 0 / 0 / 0.00956 | 0.0977 → 0.0977 |
-| controls / d1a_photometric | PHONE_BRIGHT500_DARK | 48 | 0.00655 | 0 | 0.02 | 0 | 0 / 0 / 0 / 0 | 0.005 → 0.005 |
-| controls / d1a_photometric | PHONE_SDR100_DARK | 48 | 0.000867 | 0 | 0.019 | 0 | 0 / 0 / 0 / 0 | 0.1 → 0.1 |
-| controls / d1b_key018 | PHONE_BRIGHT500_DARK | 48 | 3.86e-05 | 8.15e-05 | 0.00145 | 0 | 5.29e-05 / 0.000471 / 6.74e-05 / 0.000712 | 251 → 251 |
-| controls / d1b_key018 | PHONE_SDR100_DARK | 48 | 3.85e-05 | 7.95e-05 | 0.00145 | 0 | 5.02e-05 / 0.000497 / 6.87e-05 / 0.000709 | 50.2 → 50.1 |
+| controls / ctrl_photometric_clamp | PHONE_BRIGHT500_DARK | 48 | 0.00655 | 0 | 0.02 | 0 | 0 / 0 / 0 / 0 | 0.005 → 0.005 |
+| controls / ctrl_photometric_clamp | PHONE_SDR100_DARK | 48 | 0.000867 | 0 | 0.019 | 0 | 0 / 0 / 0 / 0 | 0.1 → 0.1 |
+| controls / ctrl_key018_clamp | PHONE_BRIGHT500_DARK | 48 | 3.86e-05 | 8.15e-05 | 0.00145 | 0 | 5.29e-05 / 0.000471 / 6.74e-05 / 0.000712 | 251 → 251 |
+| controls / ctrl_key018_clamp | PHONE_SDR100_DARK | 48 | 3.85e-05 | 7.95e-05 | 0.00145 | 0 | 5.02e-05 / 0.000497 / 6.87e-05 / 0.000709 | 50.2 → 50.1 |
 | mantiuk08 / video_whiteauto | PHONE_SDR100_DARK | 48 | 0.000108 | 0.00017 | 0.0067 | 0 | 6.37e-05 / 0.000687 / 0.000156 / 0.00111 | 12.5 → 12.6 |
 | aces2 / DOCUMENTED_TARGET_CONFIG | PHONE_BRIGHT500_PQ_DARK | 48 | 0.00811 | 0 | 0.0272 | 0 | 0 / 0 / 0 / 0 | 0.005 → 0.005 |
 | aces2 / DOCUMENTED_TARGET_CONFIG | PHONE_HDR1000_DARK | 48 | 0.00887 | 0 | 0.0283 | 0 | 0 / 0 / 0 / 0 | 0.005 → 0.005 |
@@ -300,14 +300,14 @@ SCENE bar Weber contrast (physical, the bar is black on the 4e-4 cd/m² sky): 1
 | pcond / native_default | SDR100 | 0.317 | 0.14 | 99.9 | 0 | 0.927 | 270 |
 | pcond / target_SDR200 | SDR200 | 0.37 | 0.231 | 195 | 0.000254 | – | 510 |
 | pcond / target_BRIGHT500 | BRIGHT500 | 0.0977 | 0.0221 | 467 | 0 | – | 4.53e+03 |
-| controls / d1a_photometric | BRIGHT500 | 0.005 | 0.005 | 287 | 99.3 | – | 3.06e+04 |
-| controls / d1a_photometric | HDR1000 | 0.00529 | 0.00507 | 302 | 62.7 | – | 2.89e+04 |
-| controls / d1a_photometric | SDR100 | 0.1 | 0.1 | 100 | 99.6 | 0.927 | 944 |
-| controls / d1a_photometric | SDR200 | 0.2 | 0.2 | 188 | 99.7 | – | 704 |
-| controls / d1b_key018 | BRIGHT500 | 251 | 58.2 | 500 | 0 | 109 | 1.99 |
-| controls / d1b_key018 | HDR1000 | 502 | 116 | 1e+03 | 0 | 116 | 1.99 |
-| controls / d1b_key018 | SDR100 | 50.2 | 11.6 | 100 | 0 | 109 | 1.99 |
-| controls / d1b_key018 | SDR200 | 100 | 23.3 | 200 | 0 | 109 | 1.99 |
+| controls / ctrl_photometric_clamp | BRIGHT500 | 0.005 | 0.005 | 287 | 99.3 | – | 3.06e+04 |
+| controls / ctrl_photometric_clamp | HDR1000 | 0.00529 | 0.00507 | 302 | 62.7 | – | 2.89e+04 |
+| controls / ctrl_photometric_clamp | SDR100 | 0.1 | 0.1 | 100 | 99.6 | 0.927 | 944 |
+| controls / ctrl_photometric_clamp | SDR200 | 0.2 | 0.2 | 188 | 99.7 | – | 704 |
+| controls / ctrl_key018_clamp | BRIGHT500 | 251 | 58.2 | 500 | 0 | 109 | 1.99 |
+| controls / ctrl_key018_clamp | HDR1000 | 502 | 116 | 1e+03 | 0 | 116 | 1.99 |
+| controls / ctrl_key018_clamp | SDR100 | 50.2 | 11.6 | 100 | 0 | 109 | 1.99 |
+| controls / ctrl_key018_clamp | SDR200 | 100 | 23.3 | 200 | 0 | 109 | 1.99 |
 | reinhard02 / defaults | BRIGHT500 | 151 | 45.8 | 496 | 0 | 0.927 | 3.18 |
 | reinhard02 / defaults | SDR100 | 30.4 | 9.25 | 99.1 | 0 | 0.927 | 3.17 |
 | reinhard02 / defaults | SDR200 | 60.7 | 18.5 | 198 | 0 | 0.927 | 3.17 |
@@ -322,4 +322,51 @@ SCENE bar Weber contrast (physical, the bar is black on the 4e-4 cd/m² sky): 1
 | aces2 / DOCUMENTED_TARGET_CONFIG | BRIGHT500_PQ | 0.005 | 0.005 | 213 | 99.6 | – | 2.6e+04 |
 | aces2 / DOCUMENTED_TARGET_CONFIG | HDR1000 | 0.005 | 0.005 | 291 | 99.6 | – | 3.25e+04 |
 | aces2 / DOCUMENTED_TARGET_CONFIG | SDR100 | 0.1 | 0.1 | 74.2 | 99.7 | – | 584 |
+
+## D0.1: ACES 2 exposure family (S1; S3 P_det; S4 sky)
+
+| config | scenario | S1 sky median | S1 % near black | S1 silhouette Weber | S1 plateau n | S1 plateau ⌀ max ′ | S1 lamp sat. kept | S3 P_det viewer | S3 P_det off | S4 sky median |
+|---|---|---|---|---|---|---|---|---|---|---|
+| EXPOSURE_FAMILY_EVp00 | PHONE_SDR100_DARK | 0.1 | 99.7 | 0 | 0 | – | 0.602 | -1.3e-05 | -1.3e-05 | 0.133 |
+| EXPOSURE_FAMILY_EVp00 | PHONE_HDR1000_DARK | 0.005 | 99.6 | 0 | 0 | – | 1.12 | -1.3e-05 | -1.3e-05 | 0.0484 |
+| EXPOSURE_FAMILY_EVp08 | PHONE_SDR100_DARK | 0.1 | 98.9 | 0.00235 | 60 | 1.85 | 0.368 | 0.000234 | 0.000475 | 61.3 |
+| EXPOSURE_FAMILY_EVp08 | PHONE_HDR1000_DARK | 0.00527 | 71.6 | 0.0483 | 13 | 1.31 | 0.602 | 0.00159 | 0.0184 | 189 |
+| EXPOSURE_FAMILY_EVp12 | PHONE_SDR100_DARK | 0.2 | 50.3 | 0.472 | 104 | 22.7 | 0.0217 | 0.998 | 1 | 97.2 |
+| EXPOSURE_FAMILY_EVp12 | PHONE_HDR1000_DARK | 0.137 | 0 | 0.907 | 80 | 2.45 | 0.118 | 0.993 | 1 | 821 |
+| EXPOSURE_FAMILY_EVp14 | PHONE_SDR100_DARK | 1.55 | 0 | 0.856 | 83 | 44 | 0.00221 | 1 | 1 | 99.9 |
+| EXPOSURE_FAMILY_EVp14 | PHONE_HDR1000_DARK | 1.93 | 0 | 0.914 | 132 | 9.59 | 0.025 | 1 | 1 | 958 |
+| EXPOSURE_FAMILY_EVp16 | PHONE_SDR100_DARK | 10.7 | 0 | 0.829 | 89 | 47.2 | 0.000662 | 1 | 1 | 100 |
+| EXPOSURE_FAMILY_EVp16 | PHONE_HDR1000_DARK | 15.4 | 0 | 0.851 | 86 | 42.7 | 0.00225 | 1 | 1 | 999 |
+| EXPOSURE_FAMILY_EVp18 | PHONE_SDR100_DARK | 38.2 | 0 | 0.685 | 337 | 60.6 | 0.000662 | 1 | 1 | 100 |
+| EXPOSURE_FAMILY_EVp18 | PHONE_HDR1000_DARK | 79.3 | 0 | 0.777 | 87 | 46.7 | 0.000443 | 1 | 1 | 1e+03 |
+
+## D0.1: iCAM06 absolute-level ladder (S1 x 10^k, max_L = 0, p 0.7, gamma 1.2; model internals in icam06_ladder.json)
+
+| config | S1 sky median | S1 dark median | silhouette Weber | plateau n | plateau ⌀ max ′ | lamp sat. kept | S3 P_det viewer |
+|---|---|---|---|---|---|---|---|
+| ladder_x1e0 | 26.6 | 17 | 0.962 | 572 | 84.8 | 0.00285 | 1 |
+| ladder_x1e1 | 27.8 | 10.2 | 0.883 | 427 | 93 | 0.000367 | 1 |
+| ladder_x1e2 | 21.3 | 9.1 | 0.903 | 480 | 90.5 | 0.00115 | 1 |
+| ladder_x1e3 | 10.7 | 5.11 | 0.888 | 324 | 82.2 | 0.00353 | 1 |
+| ladder_x1e4 | 13.4 | 4.84 | 0.841 | 331 | 81.7 | 0.0104 | 1 |
+| ladder_x1e5 | 18 | 9.21 | 0.85 | 455 | 50.5 | 0.0148 | 1 |
+| ladder_x1e6 | 17.8 | 8.68 | 0.814 | 414 | 30.6 | 0.0736 | 1 |
+
+## D0.1: Mantiuk08 on pfstools master c860691 (same options = 2.2.0 byte for byte; --tone-value max)
+
+| config | scene | scenario | sky median | plateau n | plateau ⌀ max ′ | lamp sat. kept | P_det viewer | P_det off |
+|---|---|---|---|---|---|---|---|---|
+| master_desktop | S1 | DESKTOP_SDR100_DARK | 12.5 | 88 | 38.6 | 0.0465 | – | – |
+| master_tonemax_whiteauto | S1 | PHONE_BRIGHT500_DARK | 14.7 | 576 | 73.8 | 0.000662 | – | – |
+| master_tonemax_whiteauto | S1 | PHONE_SDR100_DARK | 11.7 | 590 | 64.7 | 0.000662 | – | – |
+| master_tonemax_whiteauto | S3_bar | PHONE_BRIGHT500_DARK | 216 | 1 | 3.21 | 0.000618 | 1 | 1 |
+| master_tonemax_whiteauto | S3_bar | PHONE_SDR100_DARK | 58.4 | 1 | 3.21 | 0.000618 | 1 | 1 |
+| master_whiteanchor | S1 | PHONE_BRIGHT500_DARK | 2.5 | 0 | – | 0.0485 | – | – |
+| master_whiteanchor | S1 | PHONE_SDR100_DARK | 4.98 | 28 | 1.31 | 0.0375 | – | – |
+| master_whiteanchor | S3_bar | PHONE_BRIGHT500_DARK | 0.0155 | 1 | 1.85 | 0.392 | 0.669 | 0.98 |
+| master_whiteanchor | S3_bar | PHONE_SDR100_DARK | 0.175 | 1 | 1.85 | 0.369 | 0.993 | 0.999 |
+| master_whiteauto | S1 | PHONE_BRIGHT500_DARK | 13.5 | 371 | 61 | 0.000662 | – | – |
+| master_whiteauto | S1 | PHONE_SDR100_DARK | 12.5 | 88 | 38.6 | 0.0465 | – | – |
+| master_whiteauto | S3_bar | PHONE_BRIGHT500_DARK | 0.0179 | 1 | 3.21 | 0.000618 | 0.571 | 0.985 |
+| master_whiteauto | S3_bar | PHONE_SDR100_DARK | 0.19 | 1 | 3.21 | 0.000618 | 0.991 | 0.999 |
 

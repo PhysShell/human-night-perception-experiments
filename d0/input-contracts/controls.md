@@ -12,18 +12,20 @@
 
 **Edge case.** In S3_bar the bar pixels have Y = 0 exactly, so the tool's Ld/Y rescale gives 0/0 there: 2398 non-finite pixels. We write them as 0 (black), which is what they are. The count is logged in `runs.json`.
 
-**Outputs.** `d0/work/out/reinhard02/defaults/<scene>__PHONE_{SDR100,SDR200,BRIGHT500}_DARK.png` for S0, S1, S3_bar, S3_nobar, S4 and S5. S2 is always tone-mapped (48 frames, one stream). Its frames are written to `…/S2__PHONE_<LUM>_DARK/frame_####.png` only when `D0_WRITE_S2` allows it: in the D0 round they were **not kept**, to stay inside the disk budget (about 7 MB per 16-bit frame). Regenerate them with `D0_WRITE_S2=all d0/donors/mantiuk08/run.sh`, or with the `reinhard02` step alone. Command lines and parameters are in `d0/work/out/reinhard02/runs.json`.
+**Outputs.** `d0/work/out/reinhard02/defaults/<scene>__PHONE_{SDR100,SDR200,BRIGHT500}_DARK.png` for S0, S1, S3_bar, S3_nobar, S4 and S5. S2 is always tone-mapped (48 frames, one stream). Its frames are written to `…/S2__PHONE_<LUM>_DARK/frame_####.png` only when `D0_WRITE_S2` allows it: in the D0 round only the SDR100 clip was kept (`D0_WRITE_S2=reinhard02:defaults:SDR100`), to stay inside the disk budget (about 7 MB per 16-bit frame). Regenerate them with `D0_WRITE_S2=all d0/donors/mantiuk08/run.sh`, or with the `reinhard02` step alone. Command lines and parameters are in `d0/work/out/reinhard02/runs.json`.
 
-## D1 exposure + clamp (`d0/donors/controls_d1.py`)
+## Exposure controls CTRL-PHOT and CTRL-KEY (`d0/donors/controls_exposure.py`)
+
+Called D1a/D1b before D0.1; renamed because "D1" is the name of the next research round, which has not started.
 
 No curve, no adaptation, no tuning. Two fixed variants, labelled DOCUMENTED_TARGET_CONFIG.
 
 - **Input.** `d0/work/inputs`, linear Rec.709/D65 RGB, Y in absolute cd/m². Used as is.
-- **d1a_photometric.** Exposure 1: the display is asked to emit the scene's own luminance.
+- **CTRL-PHOT (`ctrl_photometric_clamp`).** Exposure 1: the display is asked to emit the scene's own luminance.
   - Each channel is clamped to [black, peak] of the scenario.
   - This is the literal "show the physical scene" control.
   - For the night scenes nearly everything lands on the display's black.
-- **d1b_key018.** Exposure k = 0.18 · peak / L̄, then the same clamp.
+- **CTRL-KEY (`ctrl_key018_clamp`).** Exposure k = 0.18 · peak / L̄, then the same clamp.
   - L̄ = exp(mean ln(Y + 1e-9)) of the frame. That is Reinhard et al. 2002 eq. 1–2 *without* their curve.
   - The guard (1e-9 cd/m²) is far below every scene's level.
   - For the clip it is computed per frame with no temporal smoothing: a naive auto-exposure.
@@ -31,7 +33,7 @@ No curve, no adaptation, no tuning. Two fixed variants, labelled DOCUMENTED_TARG
   - SDR: code = OETF((L − black)/(peak − black)), sRGB for SDR100 and ^(1/2.2) for SDR200/BRIGHT500.
   - HDR1000: code = PQ(L) after Rec.709 → Rec.2020 primaries (absolute).
   - 16-bit PNG. Per-channel clamping shifts the hue of clipped warm sources towards the display's primaries/white.
-- **Display awareness.** Peak and black enter only through the exposure (d1b) and the clamp. No ambient, no
+- **Display awareness.** Peak and black enter only through the exposure (CTRL-KEY) and the clamp. No ambient, no
   geometry.
-- **Exposures used** (S1): d1b k = 1.7·10⁵ (SDR100) … 1.7·10⁶ (HDR1000). Every value is in
+- **Exposures used** (S1): CTRL-KEY k = 1.7·10⁵ (SDR100) … 1.7·10⁶ (HDR1000). Every value is in
   `d0/work/out/controls/runs.json`.

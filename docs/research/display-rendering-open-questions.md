@@ -1,41 +1,49 @@
-# Display rendering: open questions after D0
+# Display rendering: open questions after D0 and D0.1
 
 Only questions that D0's measurements actually raised. No answer is proposed here, and D1 is not started.
 Numbers: `d0/README.md`, `d0/results/tables/summary.md`.
 
-1. **Where should night brightness come from?** Every donor places the sky somewhere between display black and a
-   dusk grey:
-   - D1a / ACES: 0.1 cd/m² (= black);
-   - pcond: 0.3;
-   - Mantiuk08 anchor: 5;
-   - Mantiuk08 auto: 12;
-   - iCAM06 / Reinhard02 / D1b: 27–50.
+1. **Where should night brightness come from?** After the D0.1 audit (`d0/input-semantics.md`) this is two
+   questions, one per input class.
+   - **1a. Absolute-appearance models** (pcond, iCAM06) take the physical level and derive brightness from their
+     adaptation machinery.
+     - pcond puts the S1 sky at 0.3 cd/m² (3× display black).
+     - iCAM06's machinery *does* respond to 4·10⁻⁴ cd/m². But its rod term lifts dark regions, and its relative
+       display stage re-stretches the result, so the physical night renders at 27 cd/m²: lighter than the same
+       image at daylight level (18 cd/m²).
 
-   Not one of them has a principled input for the viewer's night adaptation *state* at the scene (4·10⁻⁴ cd/m²):
-   - pcond has one only implicitly;
-   - Mantiuk08 assumes an eye adapted to 1000 cd/m², except through WHITE_Y;
-   - ACES uses fixed dim-surround constants.
+     Is there an absolute-appearance model whose *display stage* keeps the absolute level, so that a scotopic
+     scene is not re-normalised to full range?
+   - **1b. Relative / scene-referred renderers** (Mantiuk08, ACES, Reinhard02, CTRL-KEY) need an external
+     appearance/exposure anchor *by design*. The sky moves from display black to 38 cd/m² over ACES EV 0…+18, and
+     from 5 to 64 cd/m² over Mantiuk08's WHITE_Y. This is not a defect.
 
-   Is there an existing, documented rule for "how bright should a scotopic scene look on a photopic display",
-   rather than a free parameter?
+     Which documented rule should set the anchor for a night scene: a stated adaptation luminance, a viewer
+     judgement, or a convention such as ACES 1.0 = 100 cd/m²? Should it be the same rule for every scene? (For
+     ACES, S4 needs ~8–12 stops less than S1.)
 2. **WHITE_Y / exposure as the real design axis.**
    - Mantiuk08 WHITE_Y: two defensible anchors 5.4 decades apart.
-   - ACES exposure: a 16-stop range from all-black to day-like.
+   - ACES exposure: a family, no member of which gives a dark sky, separate lamps and warm lamps together (HDR1000
+     at EV +12 comes closest).
 
-   Both are appearance-design parameters for a night scene. Should the project fix them from a documented
-   convention (e.g. a stated adaptation luminance), from viewer judgements, or leave them as exposed axes?
-3. **Giant white lines vs individual lamps.** Where a donor's curve clips many distant lamps (D1b, iCAM06,
-   Mantiuk08 auto), the ribbon becomes one white plateau up to ~110′ long. Donors that keep lamps at ~1′ (pcond,
-   Reinhard02, Mantiuk08 anchor, ACES) do so by very different means (compression, key, WHITE_Y, a black sky).
+   Should the project fix these anchors from a documented convention, from viewer judgements, or leave them as
+   exposed axes?
+3. **Giant white lines vs individual lamps.** Where a donor's curve clips many distant lamps (CTRL-KEY, iCAM06,
+   Mantiuk08 auto, ACES at any EV that shows the sky), the ribbon becomes one white plateau up to ~110′ long. Donors that keep lamps at ~1′ (pcond,
+   Reinhard02, Mantiuk08 anchor, ACES EV 0) do so by very different means (compression, key, WHITE_Y, a black sky).
    Which of these is compatible with P3 (salient) and P5 (no giant disks) at the same time, on our scene?
 4. **P4 without crushing.**
-   - The only D0 case where the bar next to the lamp lost detectability *because of glare* was Mantiuk08 on
-     500–1000 cd/m² displays: there the real display's glare in the real eye does it.
-   - Where it "disappears" in D1a/ACES, the whole sky is black.
-   - Is display-side glare (a bright physical display plus a dark surround) a legitimate route to P4, or does the
-     project need a rendered glare cue (explicitly out of scope for D0)?
-5. **Warm colour vs range.** Saturation retention ranges from ≈ 0 (clipped to white: D1b, iCAM06, Mantiuk08) to
-   0.6–1.1 (ACES, per its CAM and gamut mapping). Is warm-hue retention of distant sodium/LED lamps worth a
+   - No donor simulates ocular glare.
+   - The only case where the bar next to the lamp lost detectability with the sky *not* crushed was Mantiuk08's
+     mapping for 500–1000 cd/m² displays: sky 0.018 cd/m², lamp at peak.
+     - HDR-VDP-3 detects the bar with P = 0.43–0.67 with its ocular MTF on, and 0.98 with it off.
+     - So the loss comes from the observer model's optics acting on the *displayed* luminance ratio, not from the
+       operator.
+   - Where the bar "disappears" in CTRL-PHOT or ACES EV ≤ +8, the whole sky is black.
+   - Is a displayed luminance ratio that lets the viewer's own eye produce the veil a legitimate route to P4? Or
+     does the project need a rendered glare cue (explicitly out of scope for D0)?
+5. **Warm colour vs range.** Saturation retention ranges from ≈ 0 (clipped to white: CTRL-KEY, iCAM06, Mantiuk08 even with
+   `--tone-value max`) to 0.6–1.1 (ACES at EV 0, where only the lamps are not black; ≤ 0.12 at any EV that shows the sky). Is warm-hue retention of distant sodium/LED lamps worth a
    dedicated test at P6?
 6. **Temporal: which breathing is display grid, which is operator?**
    - D0's region-sum temporal measures are flat for every donor (≤ 3 %, no pumping).
@@ -46,8 +54,9 @@ Numbers: `d0/README.md`, `d0/results/tables/summary.md`.
    - The MPI HDR scenes are blocked (403).
    - A manually downloaded calibrated daytime HDR would complete S5.
 8. **Donor gaps.**
-   - Mantiuk08 in pfstools 2.2.0 ignores viewing geometry and 24 fps.
-   - A newer pfstools git build would test the geometry axis the paper describes.
+   - Mantiuk08: the CLI accepts `--display-size` but the operator never uses it, in 2.2.0 and in master c860691
+     (source-verified). Testing the geometry axis the paper describes would need a code change: out of scope for a
+     native run. 24 fps is unsupported in both builds.
    - BT.2446 needs a display-referred HDR master first (e.g. ACES HDR1000 → BT.2446 → SDR would be a
      *combination*, excluded in D0).
    - Tariq 2023 has no public code.

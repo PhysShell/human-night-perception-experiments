@@ -76,3 +76,43 @@ The ACES tonescale toe (a Michaelis-Menten / Daniele curve with flare `t_1`) sen
 OCIO 2.5.2 was compared with the official CTL (ctlrender) on the same ACES2065-1 chart: a neutral ramp from 2^-26 to 2^10, 35 upstream test patches (SMPTE ST 2065-1 ColorChecker, ACEScg primaries ×4, 18 % grey, perfect diffuser), and 8192 random AP0 colours. The largest difference is 4.5e-4 in code value (at most about 29 16-bit codes, on saturated random colours). The ramp and patches differ by 0.4 16-bit codes in SDR and 4.4 in PQ. **Every sample agrees within 1 10-bit code.** OCIO's fixed-function ACES 2.0 op also reproduces its upstream unit-test vectors to within 1e-6.
 
 The upstream "golden" reference images are distributed only as a 7 GB Dropbox archive, which is over the download limit, so they were not used. See `aces2_native_repro.json`.
+
+## 8. D0.1: ACES's result is an exposure family, not one image
+
+The ACES Output Transform maps **scene-referred ACES values** to a display rendering. The ACES documentation places
+the target peak and gamut in the output transform, and the scene exposure *before* it. The tonescale anchors are
+ACES 0.18 → 10 cd/m² and ACES 1.0 → ~45.8 cd/m² on the 100-nit output.
+
+ACES defines no unique mapping from real-world cd/m² to ACES values. The mapping "ACES 1.0 = 100 cd/m²" used above
+(§3) is the transform's own implied photometric scale, and it is still *our* exposure choice. The D0 statement
+"ACES puts the night sky at display black" is therefore a statement about that choice, **not a property of the
+algorithm**.
+
+The honest D0 result for ACES is the family below:
+- `python3 d0/donors/aces2/run.py family` (with the venv from `run.py`), runs `EXPOSURE_FAMILY_EV..`, label SENSITIVITY_RUN;
+- EV 0/8/12/14/16/18, scenes S0, S1, S3 pair and S4, on SDR100 and HDR1000.
+
+| EV | ACES per cd/m² | display | S1 sky, cd/m² | S1 % at black | S1 silhouette Weber | S1 white plateaus (n / largest) | S1 lamp saturation kept | S3 P_det viewer / off | S4 sky, cd/m² |
+|---|---|---|---|---|---|---|---|---|---|
+| +0 | 2^0/100 | SDR100 | 0.1 | 99.7 | 0.00 | 0 | 0.6 | 0.00 / 0.00 | 0.133 |
+| +0 | 2^0/100 | HDR1000 | 0.005 | 99.6 | 0.00 | 0 | 1.1 | 0.00 / 0.00 | 0.0484 |
+| +8 | 2^8/100 | SDR100 | 0.1 | 98.9 | 0.00 | 60 / 1.9′ | 0.37 | 0.00 / 0.00 | 61.3 |
+| +8 | 2^8/100 | HDR1000 | 0.00527 | 71.6 | 0.05 | 13 / 1.3′ | 0.6 | 0.00 / 0.02 | 189 |
+| +12 | 2^12/100 | SDR100 | 0.2 | 50.3 | 0.47 | 104 / 22.7′ | 0.022 | 1.00 / 1.00 | 97.2 |
+| +12 | 2^12/100 | HDR1000 | 0.137 | 0 | 0.91 | 80 / 2.5′ | 0.12 | 0.99 / 1.00 | 821 |
+| +14 | 2^14/100 | SDR100 | 1.55 | 0 | 0.86 | 83 / 44.0′ | 0.0022 | 1.00 / 1.00 | 99.9 |
+| +14 | 2^14/100 | HDR1000 | 1.93 | 0 | 0.91 | 132 / 9.6′ | 0.025 | 1.00 / 1.00 | 958 |
+| +16 | 2^16/100 | SDR100 | 10.7 | 0 | 0.83 | 89 / 47.2′ | 0.00066 | 1.00 / 1.00 | 100 |
+| +16 | 2^16/100 | HDR1000 | 15.4 | 0 | 0.85 | 86 / 42.7′ | 0.0022 | 1.00 / 1.00 | 999 |
+| +18 | 2^18/100 | SDR100 | 38.2 | 0 | 0.68 | 337 / 60.6′ | 0.00066 | 1.00 / 1.00 | 100 |
+| +18 | 2^18/100 | HDR1000 | 79.3 | 0 | 0.78 | 87 / 46.7′ | 0.00044 | 1.00 / 1.00 | 1e+03 |
+
+**Reading the family.**
+- Every exposure at which the night is not crushed to black (EV ≥ +12) also turns the lamps white. Lamp
+  saturation kept is ≤ 0.12, and on SDR it is ≤ 0.02.
+- On SDR100 no exposure keeps the sky dark (≤ 0.2 cd/m²) *and* the ribbon as separate lamps. At EV +12 half the
+  image is at black and the largest plateau is 23′.
+- HDR1000 at EV +12 comes closest: sky 0.14 cd/m², silhouette Weber 0.91, plateaus ≤ 2.5′, lamp saturation 0.12.
+- The real night photograph S4 (sky 0.69 cd/m²) needs about 8–12 stops *less* than S1 for a comparable result. So
+  a single fixed EV cannot serve both scenes, and a per-scene exposure is exactly the external anchor ACES leaves
+  to its user.

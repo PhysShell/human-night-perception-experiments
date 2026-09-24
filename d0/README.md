@@ -23,8 +23,11 @@ luminance/contrast/gamut, how do existing display-rendering systems map it?
     nix develop -c d0/donors/pcond/run.sh                     # A  pcond V0, unchanged
     d0/donors/mantiuk08/run.sh                                # B  pfstmo_mantiuk08 + D2 pfstmo_reinhard02 (pfstools 2.2.0)
     python3 d0/donors/aces2/run.py                            # C  ACES 2 via OpenColorIO 2.5.2 (creates its venv; CTL check)
-    nix develop -c python3 d0/donors/controls_d1.py           # D1 exposure + clamp
-    (E iCAM06: authors' V1.3 MATLAB under Octave, see d0/input-contracts/icam06.md; code not redistributed)
+    nix develop -c python3 d0/donors/controls_exposure.py     # CTRL-PHOT, CTRL-KEY exposure + clamp
+    d0/donors/icam06/setup.sh && tracks/temporal-glare-2009/py.sh d0/donors/icam06/run_all.py   # E iCAM06 (author code fetched, not redistributed)
+    tracks/temporal-glare-2009/py.sh d0/donors/icam06/ladder.py          # D0.1 iCAM06 absolute-level ladder
+    python3 d0/donors/aces2/run.py family                                # D0.1 ACES exposure family (run.py venv)
+    D0_PFSTOOLS_BUILD=master python3 d0/donors/mantiuk08/run_pfstmo.py master   # D0.1, master pfstools first on PATH
     nix develop -c python3 d0/metrics.py                      # -> results/tables/metrics.jsonl, scene_reference.json
     python3 d0/summarize.py                                   # -> results/tables/summary.md, metrics_S*.csv
     tracks/temporal-glare-2009/py.sh d0/contact_sheets.py     # -> results/stills/sheet_*.png
@@ -62,68 +65,83 @@ All inputs are linear Rec.709/D65 float EXR, Y in **absolute cd/m²**.
 
 ## Donors and status
 
-| donor | status | configs (NATIVE_DEFAULT / DOCUMENTED_TARGET_CONFIG / SENSITIVITY_RUN) |
-|---|---|---|
-| A pcond V0 (Radiance, `m1/pcond_colorimetric.sh LC` + PBR-oog sRGB) | run unchanged | native_default (SDR100); `-u/-d` for SDR200, BRIGHT500; no HDR |
-| B Mantiuk08 (pfstools 2.2.0 `pfstmo_mantiuk08`) | run; native example reproduced | native_default; WHITE_Y auto; WHITE_Y = display peak; WHITE_Y sweep 4e-4…4; DESKTOP; DIM; `--scene-y-adapt auto`; video (IIR smoothing, 25 fps) |
-| C ACES 2 (OCIO 2.5.2 built-in `studio-config-v4.0.0_aces-v2.0_ocio-v2.5`) | run; **matches the CTL reference within one 10-bit code** | fixed mapping ACES 1.0 = 100 cd/m² on SDR100, BRIGHT500_PQ, HDR1000; exposure sweep −4…+20 stops |
-| D1 exposure + clamp | run | d1a photometric (exposure 1), d1b log-average key 0.18 |
-| D2 Reinhard02 (`pfstmo_reinhard02`) | run, defaults | SDR100/200/BRIGHT500 encodings |
-| E iCAM06 (authors' V1.3 MATLAB, Octave, trivial shims) | run on stills; native PeckLake example reproduced | native (max_L 20000); absolute input γ 1.2 (Readme) and γ 1.5 (paper) |
-| F ITU-R BT.2446 | **STANDARD_REFERENCE_ONLY** | display-referred HDR→SDR, needs an HDR rendering first; no trustworthy full implementation |
-| G Tariq et al. 2023 | **REFERENCE_ONLY** | no code |
+Every donor is classed by what its input numbers mean (**`d0/input-semantics.md`**, the D0.1 audit). Results are
+readable only within that class.
+
+| donor | input class | status | configs |
+|---|---|---|---|
+| A pcond V0 (Radiance, `m1/pcond_colorimetric.sh LC` + PBR-oog sRGB) | physical | run unchanged | native_default (SDR100); `-u/-d` for SDR200, BRIGHT500; no HDR |
+| B Mantiuk08 (pfstools CLI `pfstmo_mantiuk08`, release 2.2.0; checked against master c860691, 2025) | relative + WHITE_Y anchor | run; native example reproduced; master = 2.2.0 byte for byte | native_default; WHITE_Y auto; WHITE_Y = display peak; WHITE_Y sweep 4e-4…4; DESKTOP; DIM; `--scene-y-adapt auto`; video (IIR, 25 fps); master: `--tone-value max` |
+| C ACES 2 (OCIO 2.5.2 built-in `studio-config-v4.0.0_aces-v2.0_ocio-v2.5`) | scene-referred + exposure | run; **matches the CTL reference within one 10-bit code** | **exposure family** EV 0…18 on S0, S1, S3, S4 × SDR100, HDR1000; sweep −4…+20 on S1; EV 0 also on BRIGHT500_PQ and the clip |
+| CTRL-PHOT, CTRL-KEY exposure + clamp (`controls_exposure.py`; D1a/D1b before D0.1) | physical clipping / relative key | run | exposure 1; log-average key 0.18 |
+| D2 Reinhard02 (`pfstmo_reinhard02`) | relative key | run, defaults | SDR100/200/BRIGHT500 encodings |
+| E iCAM06 (authors' V1.3 MATLAB, Octave, trivial shims) | absolute appearance | run on stills; native PeckLake example reproduced | native (max_L 20000); absolute γ 1.2 (Readme) and γ 1.5 (paper); **absolute-level ladder ×10⁰…10⁶** |
+| F ITU-R BT.2446 | display-referred HDR | **STANDARD_REFERENCE_ONLY** | needs an HDR rendering first; no trustworthy full implementation |
+| G Tariq et al. 2023 | — | **REFERENCE_ONLY** | no code |
 
 ## What the donors do: measurements, not a ranking
 
 Full tables: `results/tables/summary.md`. Previews: `results/stills/sheet_*_SDR100.png`. Measurement view across
-displays: `results/stills/sheet_S1_scenarios.png`. Clips: `results/video/`. Numbers are for PHONE, DARK, emitted
-cd/m². The physical sky of S0/S1 is 2.9·10⁻⁴ cd/m².
+displays: `results/stills/sheet_S1_scenarios.png`. ACES exposure family: `results/stills/aces2_family_S1.png`.
+iCAM06 ladder: `results/stills/icam06_ladder_S1.png`. Clips: `results/video/`. Numbers are for PHONE, DARK,
+emitted cd/m². The physical sky of S0/S1 is 2.9·10⁻⁴ cd/m².
 
 **P1: does it read as night?** S1 sky median on SDR100, cd/m²:
 
-| pcond V0 | D1a | D1b | Reinhard02 | Mantiuk08 auto | Mantiuk08 anchor | ACES 2 | iCAM06 native / abs γ1.2 |
+| pcond V0 | CTRL-PHOT | CTRL-KEY | Reinhard02 | Mantiuk08 auto | Mantiuk08 anchor | ACES 2, EV 0 / +12 / +14 / +18 | iCAM06 native / absolute |
 |---|---|---|---|---|---|---|---|
-| 0.32 | 0.1 (= black) | 50 | 30 | 12.5 | 5.0 | 0.1 (= black) | 30 / 27 |
+| 0.32 | 0.1 (= black) | 50 | 30 | 12.5 | 5.0 | 0.1 (black) / 0.2 / 1.6 / 38 | 30 / 27 |
 
-- Two groups:
-  - **Crushing to the display's black:** D1a and ACES 2 at its documented mapping. 99.7 % of pixels sit at black;
-    only lamps remain.
-  - **Lifting the night into a grey/brown dusk:** D1b, Reinhard02, iCAM06, and Mantiuk08 with automatic WHITE_Y.
-- pcond V0 sits between them (sky 0.3 cd/m², 3× black).
-- ACES needs about +12–14 stops before the sky leaves black. The scene median reaches ACES 0.18 near +18 stops. It has
-  no notion of an observer adapted to 4·10⁻⁴ cd/m².
+- **Read by input class.**
+  - *Physical* inputs: CTRL-PHOT shows literal photometry, which is display black; pcond puts the sky at 0.3 cd/m²
+    (3× black).
+  - *Absolute appearance*: iCAM06 does have a principled input for the absolute level, and the D0.1 ladder shows
+    its machinery responds to it. It still renders the physical night as a dusk at 27 cd/m²; see "iCAM06 ladder"
+    below.
+  - *Relative / scene-referred* renderers (Mantiuk08, ACES, Reinhard02, CTRL-KEY) take night brightness from an
+    **external anchor**: WHITE_Y, exposure, key. That is by design, not a failure to "know the night". Their D0
+    numbers are one member of a family per anchor.
+- **ACES is an exposure family.** EV 0 (ACES 1.0 = 100 cd/m², the transform's own scale) crushes the night to
+  black; EV +12…+14 gives a dark-but-visible sky. "Sky at black" describes our exposure choice, not ACES.
 
 **P2: silhouettes.** Displayed Weber contrast sky→poplar (physical 0.72):
-- pcond 0.56, Reinhard02 0.64, D1b 0.72, Mantiuk08 auto 0.79 / anchor 0.71, iCAM06 0.89–0.96;
-- 0 where everything is black (D1a, ACES).
-- iCAM06 floors luminance at 1e-4 cd/m² in its bilateral filter (52 % of S0/S1 pixels), which flattens the dark
-  ground in its absolute configs.
+- pcond 0.56, Reinhard02 0.64, CTRL-KEY 0.72, Mantiuk08 auto 0.79 / anchor 0.71, iCAM06 0.89–0.96;
+- ACES 0 at EV 0 and ≤ +8 (black), 0.47 (SDR) / 0.91 (HDR1000) at +12;
+- 0 for CTRL-PHOT.
+- iCAM06 floors each XYZ channel at 1e-4 cd/m² in its bilateral filter (52 % of S0/S1 pixels), which flattens the
+  dark ground in its absolute configs.
 
 **P3, P5: sources, plateaus.** S1 SDR100:
 
-| | pcond | D1b | Reinhard02 | Mantiuk08 auto | Mantiuk08 anchor | ACES 2 | iCAM06 native |
+| | pcond | CTRL-KEY | Reinhard02 | Mantiuk08 auto | Mantiuk08 anchor | ACES 2 EV 0 / +12 / +16 | iCAM06 native |
 |---|---|---|---|---|---|---|---|
-| source/sky contrast | 270 | 2 | 3.2 | 8 | 20 | 584 (the sky is black) | 3.3 |
-| display-white plateaus (n / largest ⌀) | 2 / 0.9′ | 338 / 109′ | 1 / 0.9′ | 88 / 39′ | 28 / 1.3′ | 0 | 467 / 96′ |
+| source/sky contrast | 270 | 2 | 3.2 | 8 | 20 | 584 / 499 / 9 | 3.3 |
+| display-white plateaus (n / largest ⌀) | 2 / 0.9′ | 338 / 109′ | 1 / 0.9′ | 88 / 39′ | 28 / 1.3′ | 0 / 104 × 23′ / 89 × 47′ | 467 / 96′ |
 
 - The largest plateau is the lamp ribbon merged into one white line where the curve clips many lamps. That is a
-  "giant white" failure of D1b, iCAM06 and Mantiuk08 auto.
-- pcond, Reinhard02, Mantiuk08-anchor and ACES keep individual lamps below or at ~1′.
+  "giant white" failure of CTRL-KEY, iCAM06, Mantiuk08 auto, and ACES once exposed to show the sky.
+- pcond, Reinhard02 and Mantiuk08-anchor keep individual lamps at ~1′.
+- ACES keeps lamps small only at EV 0 (where everything else is black) and, on HDR1000, at EV +12 (≤ 2.5′).
 
 **P6: warm lamps.** Saturation kept (u′v′ distance from white, displayed / scene):
 
-| ACES 2 | Reinhard02 | pcond | Mantiuk08 | D1b, iCAM06 |
+| ACES 2 EV 0 / +12 | Reinhard02 | pcond | Mantiuk08 (also `--tone-value max`) | CTRL-KEY, iCAM06 |
 |---|---|---|---|---|
-| 0.60 (SDR), 1.1 (HDR) | 0.76 | 0.35 | 0.001–0.10 | ≈ 0 (clipped to white) |
+| 0.60 / 0.02 (SDR); 1.1 / 0.12 (HDR) | 0.76 | 0.35 | 0.001–0.10 | ≈ 0 (clipped to white) |
 
-**P4: nearby dark object.** S3, HDR-VDP-3 P_det diagnostic; EVAL_VIEWER = the viewer's eye at the phone.
-- Everything that lifts the sky (D1b, Reinhard02, iCAM06, pcond) keeps the bar next to the lamp detectable
-  (P ≈ 1).
-- D1a and ACES make it "invisible" only because the whole sky is at display black (P = 0, bar Weber 0). **That is
-  crushing, not glare.**
-- **Mantiuk08 on BRIGHT500/HDR1000 is the only case where the bar's detectability drops under the viewer's own
-  eye** (EVAL_VIEWER 0.43–0.67, EVAL_OFF 0.98). There the sky is 0.018 cd/m² and the lamp reaches peak: the real
-  display's glare in the real eye does it.
+- ACES's warm lamps at EV 0 exist only because the lamps are the only thing not crushed. At any EV that shows the
+  sky, ACES whitens them too.
+
+**P4: nearby dark object.** S3, HDR-VDP-3 P_det diagnostic.
+- EVAL_VIEWER: HDR-VDP's observer including its ocular MTF, viewing the phone. EVAL_OFF: the same with the MTF off.
+- Everything that lifts the sky keeps the bar next to the lamp detectable (P ≈ 1): CTRL-KEY, Reinhard02, iCAM06
+  at every ladder level, pcond, ACES from EV +12.
+- CTRL-PHOT and ACES at EV ≤ +8 make it "invisible" only because the whole sky is at display black (P = 0, bar
+  Weber ≈ 0). **That is crushing, not glare.**
+- **No donor simulates ocular glare.** In one case the bar's detectability dropped with the observer's optics on:
+  Mantiuk08's mapping for BRIGHT500/HDR1000 (sky 0.018 cd/m², lamp at display peak). P_det was 0.43–0.67 with
+  HDR-VDP's ocular MTF, and 0.98 without it. The operator produced a displayed luminance ratio at which the
+  *observer model's* optics hide the bar. It did not render glare.
 
 **P7: temporal.** 2 s clip:
 - **No donor creates flicker or tone pumping:**
@@ -131,7 +149,7 @@ cd/m². The physical sky of S0/S1 is 2.9·10⁻⁴ cd/m².
   - empirical tone curve steps ≤ 1 % (pcond: 0.6–1 % at the brightest level);
   - one isolated-flash frame (pcond).
 - Mantiuk08's tone curves are smoothed (max step 1.1·10⁻³ log₁₀; 2.6·10⁻² without smoothing).
-- D1b and Reinhard02 re-normalise every frame, but the scene's key barely changes while walking.
+- CTRL-KEY and Reinhard02 re-normalise every frame, but the scene's key barely changes while walking.
 - Source-region energy modulation is 0.1–2.8 %. The per-lamp display-grid breathing (M2.6) is not visible in this
   region-sum measure.
 
@@ -141,43 +159,75 @@ cd/m². The physical sky of S0/S1 is 2.9·10⁻⁴ cd/m².
 |---|---|
 | pcond | 0.32 → 0.37 → 0.10 |
 | Reinhard02 | scales with peak (30 → 61 → 151) |
-| D1b | scales with peak |
+| CTRL-KEY | scales with peak |
 | Mantiuk08 auto | 12.5 → 19.7 → 13.5 → 14.6, with deeper dark regions on high-range displays |
 | Mantiuk08 anchor | 5.0 → 5.8 → 2.5 → 2.5 |
-| ACES | black on every target; lamp peak 74 → 213 → 291 cd/m² |
+| ACES EV 0 / +12 | black on every target / 0.2 (SDR) → 0.14 (HDR1000) |
 
-- Donors that only encode (Reinhard02, D1b) put more light on a brighter display.
+- Donors that only encode (Reinhard02, CTRL-KEY) put more light on a brighter display.
 - Display-aware ones (Mantiuk08, pcond with its range, ACES) use the range differently.
 
 **Real night photograph (S4) and interior (S5).**
-- All donors behave as on S1 in kind.
-- Physical sky 0.69 cd/m² → ACES 0.13, D1a 0.69, pcond 9.4, Mantiuk08 auto 26, Reinhard02 31, iCAM06 23–31, D1b 45.
-- On S5 there is no "night special-casing" failure beyond the same brightening/crushing split.
+- Physical sky 0.69 cd/m² → ACES EV 0 0.13 (EV +8 already 61), CTRL-PHOT 0.69, pcond 9.4, Mantiuk08 auto 26,
+  Reinhard02 31, iCAM06 23–31, CTRL-KEY 45.
+- ACES would need an exposure about 8–12 stops lower for S4 than for S1. No single EV serves both scenes.
+
+## D0.1: contract audit and three short re-runs
+
+1. **Mantiuk08: which implementation, and upstream.**
+   - It was the pfstools **CLI** `pfstmo_mantiuk08`, release 2.2.0, run with `-s ppd=73` (not LuminanceHDR's
+     embedded copy).
+   - The CLI's `--display-size` exists, and 30 ppd is its documented default. But the operator **never reads it**:
+     `optimize_tonecurve` receives `ds` and does not use it, and the frequency bands are built with
+     `conditional_density()`'s default `pix_per_deg = 30`. That holds in 2.2.0 **and in current master**.
+   - The D0 phrase "hard-wired" was imprecise; the correct statement is "accepted, printed, unused". Verified
+     byte-identical PHONE = DESKTOP in both builds.
+   - Master (c860691, 2025-09-20, `donors/mantiuk08/pfstools-master.nix`) reproduces 2.2.0 byte for byte.
+   - Its new `--tone-value max` changes what the curve is computed on (max RGB instead of luminance). It is
+     **not a luminance anchor**, and on S1 it makes lamps whiter, not warmer.
+   - `--fps 0` disables the filter; 24 fps is still unsupported.
+   - Details: `input-contracts/mantiuk08.md` §9.
+2. **iCAM06: absolute-level ladder** (`input-contracts/icam06.md` §D0.1). S1 × 10⁰…10⁶, absolute input, the
+   original sub-functions, with the model output saved before the display stage.
+   - The level strongly changes the model's output: the model's sky sits at 1 % of its max at night and 0.0008 %
+     at daylight.
+   - The rod term lifts dark regions; hue goes pink (night) → blue (mesopic) → warm lamps (day).
+   - The native display stage (max-Y normalisation + 1–99 % stretch) keeps the displayed sky at 11–28 cd/m² over
+     six decades. **The physical night renders lighter than daylight.**
+   - Plateaus stay 31–93′, lamp saturation ≤ 0.07, P_det of the bar = 1 at every level.
+3. **ACES 2: exposure family** (`input-contracts/aces2.md` §8), EV 0…18, S0, S1, S3, S4 × SDR100, HDR1000.
+   - No exposure gives a dark sky, separate lamps and warm lamps at once.
+   - HDR1000 at EV +12 is the closest member: sky 0.14 cd/m², silhouettes 0.91, plateaus ≤ 2.5′, lamp saturation
+     0.12.
+4. **Controls renamed** CTRL-PHOT / CTRL-KEY; "D1" now only names the next round.
 
 ## Parameters without an objective value (explicit axes)
+
+These are anchors that relative or scene-referred renderers need *by design*. They are not defects.
 
 - **Mantiuk08 WHITE_Y.** A night scene has no diffuse white. Two defensible anchors differ by 5.4 decades: display
   peak (used here) vs a white surface lit by the night sky, ~4·10⁻⁴ cd/m². The resulting sky ranges from 5 to
   64 cd/m² (sweep). **WHITE_Y is an appearance-design parameter here, not a physical one.**
-- **ACES scene exposure.** The ACES documentation fixes 1.0 = 100 cd/m² only as a convention. Across −4…+20 stops,
-  S1 goes from all-black to a clipped day-like image. There is no documented night anchor.
+- **ACES scene exposure.** ACES defines no real-world cd/m² → ACES mapping. EV 0 = the transform's implied scale.
+  Across −4…+20 stops S1 goes from all-black to a clipped day-like image; there is no documented night anchor.
 - **pcond display range, target peak, ambient** (Mantiuk08 DIM lifts the sky 12.5 → 16.5 cd/m²).
-- **iCAM06 max_L / absolute scaling and surround γ** (Readme 1.2 vs paper 1.5).
+- **iCAM06 surround γ** (Readme 1.2 vs paper 1.5). `max_L` is not an axis in the absolute configs: the ladder
+  shows what the level does.
 
 ## Limits and incidents
 
-- **pfstools 2.2.0 `pfstmo_mantiuk08`:**
-  - ignores the viewing geometry (hard-wired 30 px/deg; PHONE = DESKTOP, byte-identical);
-  - accepts only 25/30/60 fps (25 used for the 24-fps clip, labelled ADAPTED);
-  - its temporal filter is a 3rd-order IIR, not the paper's.
-- **Disk.** Clips were written only for pcond, D1, Mantiuk08 auto (SDR100), ACES and Reinhard02 (SDR100). The
-  other clips' tone curves exist; their frames can be regenerated (`D0_WRITE_S2`).
+- **pfstools `pfstmo_mantiuk08`** (2.2.0 and master):
+  - viewing geometry is accepted but unused (source-verified);
+  - only 25/30/60 fps (25 used for the 24-fps clip, labelled ADAPTED);
+  - its temporal filter is a 3rd-order IIR, not the paper's FIR.
+- **Disk.** Clips were written only for pcond, the exposure controls, Mantiuk08 auto (SDR100), ACES (EV 0) and
+  Reinhard02 (SDR100). The other clips' tone curves exist, and their frames can be regenerated (`D0_WRITE_S2`).
 - **iCAM06** was run on stills only.
-- **Disk incident.** A 4.7 GB unbounded download filled the disk during the round; five D1 frames were corrupted
-  and regenerated. Containers were restarted once; all runs were redone from the frozen inputs.
-- **P_det** is HDR-VDP-3's detection model applied to emitted light, one observer model. It is not a human
-  measurement, and nothing is ranked by it.
+- **Disk incident.** A 4.7 GB unbounded download filled the disk during the round. Five control frames were
+  corrupted and regenerated. Containers were restarted once; all runs were redone from the frozen inputs.
+- **P_det** is HDR-VDP-3's detection model applied to emitted light: one observer model, not a human
+  measurement. Nothing is ranked by it.
 
-**D0 is complete; it stops here.** Not started: D1 (no custom objective, no Spencer/Temporal Glare, no Blender
-changes). Open questions: `docs/research/display-rendering-open-questions.md`. Donor matrix:
+**D0 + D0.1 stop here.** Not started: D1 (no custom objective, no Spencer/Temporal Glare, no Blender changes).
+Open questions: `docs/research/display-rendering-open-questions.md`. Donor matrix:
 `docs/research/display-renderer-matrix.md`.

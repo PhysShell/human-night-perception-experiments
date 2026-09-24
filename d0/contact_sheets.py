@@ -18,12 +18,12 @@ from display_model import decode, read_code
 
 OUT = "d0/work/out"
 ROWS = [("pcond", "native_default", "pcond V0 (frozen, NATIVE_DEFAULT: Ldmax 100, 100:1)"),
-        ("controls", "d1a_photometric", "D1a exposure 1 (absolute cd/m^2) + clamp"),
-        ("controls", "d1b_key018", "D1b log-average key 0.18 + clamp"),
+        ("controls", "ctrl_photometric_clamp", "CTRL-PHOT: exposure 1 (absolute cd/m^2) + clamp"),
+        ("controls", "ctrl_key018_clamp", "CTRL-KEY: log-average key 0.18 + clamp"),
         ("reinhard02", "defaults", "D2 pfstmo_reinhard02 defaults"),
         ("mantiuk08", "target_whiteauto", "Mantiuk08 pfstmo 2.2.0, SDR100 LUT, WHITE_Y auto"),
         ("mantiuk08", "target_whiteanchor", "Mantiuk08, WHITE_Y = display peak (anchor)"),
-        ("aces2", "DOCUMENTED_TARGET_CONFIG", "ACES 2.0 SDR 100 nits Rec.709 (OCIO 2.5.2), ACES 1.0 = 100 cd/m^2"),
+        ("aces2", "DOCUMENTED_TARGET_CONFIG", "ACES 2.0 SDR 100 nits (OCIO 2.5.2), exposure EV 0 = ACES 1.0 at 100 cd/m^2 (ONE member of the exposure family)"),
         ("icam06", "native_default", "iCAM06 V1.3 native (max_L 20000, p 0.7, gamma 1)"),
         ("icam06", "target_abs_dark_readme", "iCAM06 absolute input, gamma 1.2 (dark surround, Readme)")]
 
@@ -55,7 +55,7 @@ def sheet(scene, dest):
 
 def scenarios_sheet(scene, dest):
     donors = [("pcond", {"SDR100": "native_default", "SDR200": "target_SDR200", "BRIGHT500": "target_BRIGHT500"}),
-              ("controls", {k: "d1b_key018" for k in ("SDR100", "SDR200", "BRIGHT500", "HDR1000")}),
+              ("controls", {k: "ctrl_key018_clamp" for k in ("SDR100", "SDR200", "BRIGHT500", "HDR1000")}),
               ("mantiuk08", {k: "target_whiteauto" for k in ("SDR100", "SDR200", "BRIGHT500", "HDR1000")}),
               ("aces2", {"SDR100": "DOCUMENTED_TARGET_CONFIG", "BRIGHT500_PQ": "DOCUMENTED_TARGET_CONFIG", "HDR1000": "DOCUMENTED_TARGET_CONFIG"})]
     lums = ["SDR100", "SDR200", "BRIGHT500", "BRIGHT500_PQ", "HDR1000"]
@@ -74,6 +74,23 @@ def scenarios_sheet(scene, dest):
     plt.savefig(dest, dpi=110); plt.close(fig)
 
 
+def aces_family(dest):
+    """D0.1: ACES as a family over scene exposure (SDR100 preview left, HDR1000 measurement view right)."""
+    evs = [0, 8, 12, 14, 16, 18]
+    fig, axs = plt.subplots(len(evs), 2, figsize=(14, 2.1 * len(evs)))
+    for i, ev in enumerate(evs):
+        c = f"{OUT}/aces2/EXPOSURE_FAMILY_EVp{ev:02d}"
+        v = read_code(f"{c}/S1__PHONE_SDR100_DARK.png"); f = max(1, v.shape[1] // 800)
+        axs[i, 0].imshow(lin_to_srgb(area_down(srgb_to_lin(v), f))); axs[i, 0].axis("off")
+        axs[i, 0].set_title(f"EV +{ev} (ACES = Y * 2^{ev} / 100 cd/m^2): SDR100 PREVIEW", fontsize=8, loc="left")
+        Y = decode(read_code(f"{c}/S1__PHONE_HDR1000_DARK.png"), "HDR1000", "DARK")[0][..., 1]
+        im = axs[i, 1].imshow(np.log10(np.maximum(area_down(Y[..., None], f)[..., 0], 1e-3)), vmin=-3, vmax=3, cmap="magma"); axs[i, 1].axis("off")
+        axs[i, 1].set_title(f"EV +{ev}: HDR1000 MEASUREMENT VIEW, log10 emitted cd/m^2", fontsize=8, loc="left")
+    fig.colorbar(im, ax=axs[:, 1], fraction=0.02, label="log10 emitted luminance [cd/m^2] (HDR1000)")
+    fig.suptitle("ACES 2.0 (OCIO 2.5.2) on S1: the result is a family over scene exposure (ACES defines no cd/m^2 -> ACES mapping)", fontsize=9)
+    plt.savefig(dest, dpi=100); plt.close(fig)
+
+
 if __name__ == "__main__":
     os.makedirs("d0/results/stills", exist_ok=True); os.makedirs("d0/work/sheets", exist_ok=True)
     for s in ("S0", "S1", "S3_bar"):
@@ -81,4 +98,5 @@ if __name__ == "__main__":
     for s in ("S4", "S5"):
         sheet(s, f"d0/work/sheets/sheet_{s}_SDR100.png")
     scenarios_sheet("S1", "d0/results/stills/sheet_S1_scenarios.png")
+    aces_family("d0/results/stills/aces2_family_S1.png")
     print("sheets done")

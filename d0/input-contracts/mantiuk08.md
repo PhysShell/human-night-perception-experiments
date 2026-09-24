@@ -87,3 +87,52 @@ Result: the two physically defensible anchors, (a) and (b), are about 5.4 log10 
 * **`--scene-y-adapt auto`:** the scene-side CSF is evaluated at the scene's own scotopic levels. Night contrasts are then judged nearly invisible, and the image is flattened to a uniform mid-grey (S1 SDR100: 1st–99th percentile displayed range 20.8–28.4 cd/m²).
 * **Temporal (S2, `--fps 25`):** the filtered tone curves change very little and smoothly. Over the nodes the content occupies, the largest frame-to-frame step is 1.1e-3 log10 (SDR100, auto) and ≤ 2e-4 in the other three clips. The unfiltered per-frame optimum steps by up to 2.6e-2 log10 (SDR100 auto) and 1.8e-2 (BRIGHT500 anchored), with second differences up to 5e-2. So the IIR filter removes frame-to-frame jitter of the per-frame optimum. Drift over the 2 s clip is ≤ 0.02 log10 in all cases (`d0/results/curves/mantiuk08/video_smoothness.json`).
 * **Disk budget:** a 16-bit 1920 × 820 frame is about 7 MB. Of the S2 clips, only `video_whiteauto/S2__PHONE_SDR100_DARK/` (48 frames) was kept. The three other mantiuk08 clips and the reinhard02 clips were computed (their tone curves are saved) but their frames were not written. Regenerate them with `D0_WRITE_S2=all d0/donors/mantiuk08/run.sh`. Byte-identical stills are hardlinked.
+
+## 9. D0.1 audit: which implementation, and upstream master
+
+**Which implementation ran.** The pfstools CLI `pfstmo_mantiuk08` itself, the release 2.2.0 tarball, built by
+`nix/pfstools.nix`. It is not the copy embedded in LuminanceHDR (`src/TonemappingOperators/mantiuk08/`). That
+copy hard-codes `fps = 25`, `scene_l_adapt = 1000` and `new DisplaySize(30.f, 0.5f)` in its driver. Every command
+line in `runs.json` passes `-s ppd=73:d=0.3` (PHONE) or `ppd=48.4:d=0.6` (DESKTOP).
+
+**Why `-s` changes nothing: source evidence.** The CLI option exists and is documented, with 30 ppd only as its
+default (man page). But the algorithm never reads the value:
+
+- `display_size.cpp` `createDisplaySizeFromArgs` parses `ppd=` into a `DisplaySize`. It is passed to
+  `datmo_compute_tone_curve(..., DisplaySize *ds, ...)` → `optimize_tonecurve(C, dm, ds, ...)`.
+- `optimize_tonecurve` never dereferences `ds`. `grep 'ds->\|getPixPerDeg\|getViewD'` over
+  `display_adaptive_tmo.cpp` finds nothing.
+- The frequency bands come from `datmo_compute_conditional_density()`, which builds
+  `new conditional_density()` with its **default `pix_per_deg = 30.f`** (line 323 in 2.2.0, 316 in master). The
+  bands are `f_scale[i] = 0.5 * pix_per_deg / 2^i`.
+- The CSF is `csf_daly(rho, 0, l_adapt, 1)`, with image size 1 and the default viewing distance 0.5 m.
+
+So the viewing geometry is accepted and printed, and has no effect. That is true in **2.2.0 and in current
+master**. Verified by output: PHONE and DESKTOP are byte-identical in both builds.
+
+**Upstream master (D0.1).**
+- Build: `d0/donors/mantiuk08/pfstools-master.nix`, git c8606912656a3adebaeaddce66cf559bec643e11, 2025-09-20,
+  unreleased 2.2.1.
+- `D0_PFSTOOLS_BUILD=master python3 d0/donors/mantiuk08/run_pfstmo.py master` with the master `bin/` first on
+  PATH. Configs `master_*`, each run tagged `tool_build`.
+- Changes to this operator since 2.2.0 (ChangeLog, source diff):
+  - `--tone-value luminance|max`. The quantity the tone curve is computed on: pixel luminance (default, as in
+    2.2.0), or max(R, G, B) to limit saturation clipping of bright colourful pixels. **It is not a luminance anchor**
+    and does not replace WHITE_Y.
+  - `--fps 0` disables the temporal filter. 25/30/60 are unchanged, so 24 fps is still not available.
+  - `clamp_channel` was moved, and there are comment changes.
+  - The tone-curve optimisation, the visual model and WHITE_Y handling are unchanged.
+- **Result:**
+  - With the same options, master is **byte-identical to 2.2.0** on S0, S1 and S3_bar (SDR100, BRIGHT500, WHITE_Y
+    auto and anchor).
+  - `--tone-value max` does *not* keep the warm lamps on our scene. S1 SDR100 lamp saturation retention is
+    0.0007 (luminance: 0.047). White plateaus grow from 88 to 590, the largest from 39′ to 65′.
+  - The 2.2.0 results therefore stand for the current operator.
+
+**Wording correction (P4).** Mantiuk08 is a display-adaptive, contrast-preserving tone mapper. It does not simulate
+ocular glare. The D0 observation is:
+- On BRIGHT500/HDR1000, its mapping of S3 puts the sky at ~0.018 cd/m² with the lamp at display peak.
+- In that displayed image, HDR-VDP-3's observer model detects the bar with P = 0.57–0.67 when its ocular MTF is on
+  (EVAL_VIEWER), and 0.98 with the MTF off (EVAL_OFF).
+- So the visibility drop comes from the *observer model's* optics acting on the displayed luminance ratio, not from
+  the operator.
