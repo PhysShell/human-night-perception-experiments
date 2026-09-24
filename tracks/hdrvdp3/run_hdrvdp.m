@@ -2,7 +2,7 @@
 repo = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 donor = fullfile(repo,'research-cache','hdrvdp3','src','hdrvdp-3.0.7');
 pkg load statistics; pkg load image;
-addpath(donor); addpath(fullfile(donor,'utils')); addpath(fullfile(repo,'tracks','hdrvdp3'));
+addpath(donor); addpath(fullfile(donor,'utils')); addpath(fullfile(repo,'tracks','hdrvdp3')); addpath(fullfile(repo,'b0','octave_shim'));  % dirac() for the 'cie' MTF under Octave (b0/octave_shim/dirac.m)
 warning('off','Octave:data-file-in-path'); addpath(fullfile(donor,'data'));  % utils/hdrvdp_iturgb2native.m:6 dlmread('ciexyz31.csv') needs data/ on the path
 g = @(k) getenv(k);
 out = g('HV_OUT'); target = g('HV_TARGET'); disp_mode = g('HV_DISP');

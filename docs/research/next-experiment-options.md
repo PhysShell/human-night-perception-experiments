@@ -97,6 +97,16 @@ The baseline stays frozen until one of them is chosen.
   visible.
 - **New code:** none (existing tools), plus measured lamp SPDs.
 
+## B0 status
+
+**Run: `b0/`.**
+- Six optics schools on one calibrated lamp, one display step, a blind set for the viewer.
+- The current no-optics state shows a trunk next to a lamp at detection probability 0.997,
+  against a world prediction of 0.01–0.15.
+- Wide-glare variants (Spencer, HDR-VDP MTF, temporal) fall within that range; narrow-core
+  variants (ISET, CIE99) do not.
+- The viewer's blind choice is pending.
+
 ## Cheapest discriminating experiment
 
 **A (falsification side-by-side) and C/D (ColorVideoVDP at the render-noise bar)** can be run

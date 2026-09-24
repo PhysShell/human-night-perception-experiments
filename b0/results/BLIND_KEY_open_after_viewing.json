@@ -1,0 +1,11 @@
+{
+ "key": {
+  "A": "V1_iset",
+  "B": "V5_temporal",
+  "C": "V4_spencer",
+  "D": "V0_none",
+  "E": "V2_hdrvdpmtf",
+  "F": "V3_cie99"
+ },
+ "nominal": "source x1 (800 cd at 3 km), Ldmax 100, no silhouette, PHONE 73 px/deg"
+}

@@ -12,6 +12,7 @@ perception**, not a camera render, assembled from **existing** software.
 - M2.5 (slow camera move over the frozen scene, video; two-pass clip render, clip invariants, ColorVideoVDP): [`m25/`](m25/README.md)
 - M2.6 (sampling density 16/32/64 px/deg; form the image at the display before pcond): [`m26/`](m26/README.md)
 - Round 8 donor bake-off (independent human-vision / glare / adaptation / atmosphere donors, common stimuli): [`docs/research/experiment-summary.md`](docs/research/experiment-summary.md)
+- B0 bright-point bake-off (six optics schools on one calibrated lamp, same display step, blind set): [`b0/`](b0/README.md)
 
 Environment (Nix flakes; x86_64-linux):
 
