@@ -11,7 +11,7 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")); os.
 exec(open("d1/chroma_b4/run.py").read().split("res = {")[0])          # frozen B: filament(), stage(), uv(), M709, WU
 AXD = "d1/a_extract"; AXC = f"{AXD}/.cache"                         # after the exec (it defines its own D, C)
 MAT = np.loadtxt(f"{AXD}/matscan_mat.txt")                                # pcond matscan matrix (XYZ_E -> Rec.709, von Kries)
-LMIN, BOT, TOP, SWNORM, LDMAX, LDMIN, HIST = 1e-7, 5.62e-3, 5.62, 2.26, 100.0, 1.0, 100
+LMIN, BOT, TOP, SWNORM, LDMAX, LDMIN, HIST, WHTEFF = 1e-7, 5.62e-3, 5.62, 2.26, 100.0, 1.0, 100, 179.0
 t = lambda L: L / (L + 0.108)
 
 
@@ -20,7 +20,7 @@ def tone_map(path):
     m = np.loadtxt(path); w, d = m[:, 0], m[:, 1]; ratio = d / w
     if np.ptp(ratio[(d > LDMIN * 1.0001) & (d < LDMAX * 0.9999)]) / np.median(ratio) < 1e-4:      # DO_LINEAR
         k = np.median(ratio[(d > LDMIN * 1.0001) & (d < LDMAX * 0.9999)])
-        return (lambda L: np.where(L > 0, k * L / LDMAX, 0.0)), {"mode": "linear", "slope_cdm2_per_cdm2": float(k)}
+        return (lambda L: np.where(L > 0, k * L / WHTEFF, 0.0)), {"mode": "linear", "slope_cdm2_per_cdm2": float(k)}   # v2 (PREREG_v2.md)
     b = np.log(w); s = np.mean(np.diff(b)); bwmin = b[0] - 0.5 * s; bwmax = bwmin + HIST * s
     c = (np.log(d) - np.log(LDMIN)) / (np.log(LDMAX) - np.log(LDMIN)); cum = np.zeros(HIST + 1)
     for i in range(HIST): cum[i + 1] = 2 * c[i] - cum[i]
