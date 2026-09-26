@@ -1,6 +1,6 @@
 # D1-B1: Filament `scotopicAdaptation()` (Cao 2008 / Kirk & O'Brien 2011 lineage)
 
-**Classification: `Filament/Cao-Kirk production approximation`, run VERBATIM. Gates G1–G2 pass. It is not a
+**Classification: `Filament/Cao-Kirk production approximation`, run VERBATIM; in D1 used as the "Filament-derived Cao/Kirk kernel under an absolute-luminance input convention" (Filament itself feeds exposure-adjusted renderer values). Scale calibration: `d1/filament_b3/`. Gates G1–G2 pass. It is not a
 reference implementation of Kirk & O'Brien 2011.**
 
 ## Provenance
@@ -55,7 +55,7 @@ S4 (real photograph, sky 0.69 cd/m²), a = 1: sky Y ×1.14, chroma 0.061 → 0.0
 ## What it does, effect by effect (no ranking)
 - **Hue: Purkinje direction, correct.** Dark regions move to blue. Bright lamps keep their warm hue, because the
   effect falls with *local* luminance through g. This is the local dependence that the D1.0 donors lacked.
-- **Desaturation: none. The opposite happens.** At scotopic levels the output becomes a *saturated* blue. Scotopic
+- **Desaturation: none. The opposite happens** (extrapolation beyond Cao 2008's 2–100 Td mesopic data: the kernel cannot by itself model the transition to achromatic scotopic vision). At scotopic levels the output becomes a *saturated* blue. Scotopic
   vision is essentially achromatic, so at full strength the function goes well beyond a perceptual night.
   Presumably this is why Filament exposes `nightAdaptation` as an artistic control.
 - **Luminance: coupled.** Dark regions are brightened ×2–7.5 in the scene domain (rod contribution). The donor is

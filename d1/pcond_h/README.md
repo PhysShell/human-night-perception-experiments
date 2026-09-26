@@ -53,7 +53,7 @@ The frozen V0 path runs only `-s -c`. This run checks the rest.
 - Our questions P3 (lamps), P4 (the bar at 0.3°) and P5 (no giant disks) are at **arcminute** scale. There, `-a`
   and `-v` produce degree-scale block and ring artefacts, not acuity loss or veiling glare.
 - The P_det drop at S3 is caused by those artefacts; it is not a glare result.
-- On this material, pcond `-h` is therefore **not usable as an acuity or glare cue**. V0 (`-s -c`) stays the pcond
+- The limitation is spatial discretisation, not a wrong model: a 1°-step representation is fundamentally incompatible with arcminute-scale target phenomena. pcond `-h` is therefore **unsuitable for P3–P5 at our angular scales**, not an invalid acuity/glare model in general. V0 (`-s -c`) stays the pcond
   reference.
 - A defensible acuity cue for night scenes still needs a donor that works at the display's pixel scale.
 

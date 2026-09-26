@@ -39,7 +39,8 @@ vision.
 - [x] iCAM06_APPEARANCE (`d1/icam06_appearance/`)
 - [x] D1.1 pcond `-a`/`-v`/`-h` checked (`d1/pcond_h/`): 1° foveal grid → degree-scale block/ring artefacts on arcminute material; not usable as acuity/glare cue here
 - [x] D1-B1 Filament `scotopicAdaptation()` (`d1/filament/`), verbatim: gates pass; Purkinje-direction hue with local level dependence; lamps stay warm; no desaturation (saturated blue at scotopic levels); dark regions brightened ×2–7.5
-- [ ] D1-B3 how the strength is driven by physical luminance (level already inside Filament's g; avoid double counting)
+- [x] D1-B3 absolute-scale calibration (`d1/filament_b3/`, pre-registered): a = 1 fixed, v = κ·L; admissible κ ≈ 1.1–8.3 (κ = 3 adopted); κ = 1 fails G1 by 3 % (blue patch). Kernel transition width 3.2–3.4 decades ≈ the whole CIE mesopic range. Deep-scotopic chromatic plateau remains (extrapolation limit)
+- [ ] scotopic desaturation below ~0.005 cd/m² without destroying the mesopic hue shift
 - [ ] cross-donor measurements, contact sheets, findings
 
 ## D1.0 results: S1, the physical night (sky 2.9·10⁻⁴ cd/m²). Descriptive only; no ranking.
@@ -65,4 +66,4 @@ vision.
   - Kirk 2011, Krawczyk 2005 and Jensen 2000 remain PAPER_REFERENCE for low-light colour.
 - **Detail (corrected).** No donor *run in D1.0* showed a convincing spatial-acuity effect. The detail loss that was seen came from numerical floors. However, Radiance `pcond` contains an explicit acuity-loss model (`-a`: defocus of darker regions) and veiling glare (`-v`). The frozen V0 path runs only `-s -c`, and D1.0 did not validate `-a`/`-v`/`-h`. Checked in D1.1.
 
-Update D1.1: D1-B is no longer a gap. Filament's Cao/Kirk transform passes the photopic identity gate and gives a local, level-dependent Purkinje shift (`d1/filament/README.md`). References only: Wanat & Mantiuk 2014, Shin et al. 2004 / Rezagholizadeh et al. 2016 (no public code found).
+Update D1.1: D1-B is no longer a gap. the Filament-derived Cao/Kirk kernel (run verbatim; under an absolute-luminance input convention) passes the photopic identity gate and gives a local, level-dependent Purkinje shift (`d1/filament/README.md`). References only: Wanat & Mantiuk 2014, Shin et al. 2004 / Rezagholizadeh et al. 2016 (no public code found).
