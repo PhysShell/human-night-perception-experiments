@@ -12,7 +12,7 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")); os.
 __file__ = f"{REPO}/d1/a_extract/extract.py"
 exec(open("d1/a_extract/extract.py").read().split("\nres = {\"prereg\"")[0])      # frozen extract(), frozen B (filament, stage, uv, M709, WU)
 from display_model import decode
-OUT = "d0/work/out/d1_pipeline"; CAND = {"cprio": "dr_cprio", "yprio": "dr_yprio"}; LO, HI = 0.1, 100.0
+OUT = "d0/work/out/d1_pipeline"; CAND = {"cprio": "dr2_cprio", "yprio": "dr2_yprio"}   # v2 output dirs (v1 kept as dr_*); LO, HI = 0.1, 100.0
 ld = lambda p: oiio.ImageBuf(p).get_pixels(oiio.FLOAT)[..., :3].astype(np.float64)
 
 
@@ -38,7 +38,7 @@ def realise(x0, Yreq, cand):
 
 
 def emit(x, dst, H, W):
-    v = np.clip((x - LO) / (HI - LO), 0, 1); code = np.where(v <= 0.0031308, 12.92 * v, 1.055 * v ** (1 / 2.4) - 0.055).reshape(H, W, 3)
+    v = np.clip((x - LO) / (HI - LO), 0, 1); code = np.where(v <= 0.04045 / 12.92, 12.92 * v, 1.055 * v ** (1 / 2.4) - 0.055).reshape(H, W, 3)
     if dst:
         o = oiio.ImageBuf(oiio.ImageSpec(W, H, 3, oiio.UINT16)); o.set_pixels(oiio.ROI(0, W, 0, H, 0, 1, 0, 3), np.ascontiguousarray(code, np.float32)); o.write(dst)
     XYZ, _ = decode(code, "SDR100", "DARK"); return XYZ.reshape(-1, 3)
@@ -67,7 +67,8 @@ def run_image(src, axname, cand, dst):
     if cand == "cprio":
         nf = ~c["fb"]; red = Yo < Yreq * (1 - 1e-9)
         g["S1_duv_max"] = float(duv[nf].max()) if nf.any() else 0.0
-        g["S2_Y_over_req_max"] = float((Yo / Yreq).max()); g["S2_Y_reduced_outside_above"] = int((red & ~c["above"]).sum())
+        Yrc = np.clip(Yreq, LO, HI); red = Yo < Yrc * (1 - 1e-9)                                  # v2: clamped reference
+        g["S2_Y_over_req_max"] = float((Yo / Yrc).max()); g["S2_Y_reduced_outside_above"] = int((red & ~c["above"]).sum())
         g["S3_reduced_not_in_above"] = int((red & ~c["above"]).sum())
         g["S3_reduced_max_ch_dev"] = float(np.abs(x[red].max(1) - HI).max() / HI) if red.any() else 0.0
         g["S-1"] = g["S1_duv_max"] <= 1e-6; g["S-2"] = g["S2_Y_over_req_max"] <= 1 + 1e-9 and g["S2_Y_reduced_outside_above"] == 0
