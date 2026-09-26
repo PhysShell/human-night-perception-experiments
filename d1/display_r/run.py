@@ -12,7 +12,7 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")); os.
 __file__ = f"{REPO}/d1/a_extract/extract.py"
 exec(open("d1/a_extract/extract.py").read().split("\nres = {\"prereg\"")[0])      # frozen extract(), frozen B (filament, stage, uv, M709, WU)
 from display_model import decode
-OUT = "d0/work/out/d1_pipeline"; CAND = {"cprio": "dr2_cprio", "yprio": "dr2_yprio"}   # v2 output dirs (v1 kept as dr_*); LO, HI = 0.1, 100.0
+OUT = "d0/work/out/d1_pipeline"; CAND = {"cprio": "dr2_cprio", "yprio": "dr2_yprio"}; LO, HI = 0.1, 100.0   # v2 output dirs (v1 kept as dr_*)
 ld = lambda p: oiio.ImageBuf(p).get_pixels(oiio.FLOAT)[..., :3].astype(np.float64)
 
 
