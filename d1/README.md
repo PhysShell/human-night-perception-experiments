@@ -48,7 +48,8 @@ vision.
 - [x] D1-A3-K0 pcond as luminance-only axis-A donor (`d1/axis_a3_pcond/`, pre-registered): **both -s and -s -c PASS** all gates recombined with frozen B (sky 0.32 cd/m², poplar Weber 0.56–0.59, lamps 82 cd/m², 0 % reversals, B chromaticity exact, 0.3 % above peak); -s -c reproduces V0 luminance (0.9999). Recommended: -s -c (pcond-derived scotopic luminance model). A3a (Ashraf & Mantiuk 2024) not needed for S1 now
 - [x] **Axis A FROZEN**: pcond-derived scotopic luminance mapping (`-s -c`, luminance only). PASS = a deterministic luminance donor satisfying D1's necessary conditions on our scenes; not a claim that Ward Larson/Ferwerda reproduce night brightness appearance exactly
 - [x] **Axis C** (near-threshold temporal rod noise, Kellnhofer 2015) is **out of scope for D1**: an optional extension. C0 kill-gate first: if the end product is static (sheets/screenshots), KILL C, because the model's key effect is temporal
-- [ ] D1 acceptance: the frozen A+B pipeline on the whole corpus (`d1/pipeline/PREREG.md`)
+- [x] D1 acceptance run (`d1/pipeline/`, pre-registered): **NOT accepted; D1 open for 3 failures only**. PASS P-1/P-2/P-5/P-6/P-7 (S1 reproduces A3-K0; S2 no temporal artefact; S3 bar visible). FAIL P-3/P-8/P-9: no gamut handling in the A0 recombination (S5 twilight sky 4.1 % above peak, saturated clipped blue; F1 red/blue non-monotone at the primary ceilings). FAIL P-4: S4 0.937 / S5 0.968 caused by `-c` (the `-s`-only diagnostic gives 1.000); S3_nobar NaN = gate-definition defect. Fixes need their own pre-registration
+- [ ] D1 fixes: R1 gamut-aware recombination, R2 P-4 semantics vs `-c`, R3 P-4 on constant fields
 - [ ] cross-donor measurements, contact sheets, findings
 
 ## D1.0 results: S1, the physical night (sky 2.9·10⁻⁴ cd/m²). Descriptive only; no ranking.
