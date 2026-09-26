@@ -1,0 +1,60 @@
+{
+ "prereg": "d1/axis_a3_pcond/PREREG.md",
+ "variants": {
+  "s": {
+   "Yrel_max": 1.0000001,
+   "sky_median": 0.32231622146316524,
+   "lamp_median": 82.44216726356632,
+   "poplar_median": 0.14326206358856203,
+   "silhouette_weber": 0.5555232593065931,
+   "silhouette_weber_D0_tree_mask": 0.4986827280233769,
+   "ring_median": 0.30400468088073734,
+   "far_sky_median": 0.3251448874632263,
+   "edge_reversal_frac": 0.0,
+   "duv_max_unclipped": 2.9893669801409083e-16,
+   "frac_channel_above_peak": 0.003359375,
+   "frac_channel_below_black": 0.0,
+   "sky_Yd_pre_encoding": 0.3223162214631653,
+   "consistency_vs_V0_sky": 1.0183640294424394,
+   "gates": {
+    "G1 sky<=2": true,
+    "G1 lamp/sky>=10": true,
+    "G1 silhouette>=0.1": true,
+    "G2 poplar<ring": true,
+    "G2 reversals<=5%": true,
+    "G2 halo within 1.5x": true,
+    "G3 B preserved": true,
+    "G4 above-peak <=1%": true
+   },
+   "pass": true
+  },
+  "sc": {
+   "Yrel_max": 1.0000001,
+   "sky_median": 0.3164581515286256,
+   "lamp_median": 83.00335436653928,
+   "poplar_median": 0.12934379871074678,
+   "silhouette_weber": 0.5912767672883066,
+   "silhouette_weber_D0_tree_mask": 0.5563541068985696,
+   "ring_median": 0.2913063240622711,
+   "far_sky_median": 0.3210312110679626,
+   "edge_reversal_frac": 0.0,
+   "duv_max_unclipped": 2.9893669801409083e-16,
+   "frac_channel_above_peak": 0.0031840701219512193,
+   "frac_channel_below_black": 0.0,
+   "sky_Yd_pre_encoding": 0.31645815152862555,
+   "consistency_vs_V0_sky": 0.99985534974828,
+   "gates": {
+    "G1 sky<=2": true,
+    "G1 lamp/sky>=10": true,
+    "G1 silhouette>=0.1": true,
+    "G2 poplar<ring": true,
+    "G2 reversals<=5%": true,
+    "G2 halo within 1.5x": true,
+    "G3 B preserved": true,
+    "G4 above-peak <=1%": true
+   },
+   "pass": true
+  }
+ },
+ "consistency_ok": true
+}

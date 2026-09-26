@@ -45,7 +45,8 @@ vision.
 - [x] D1-A1 Wanat 2014 global tone curve (our implementation; CSF = HDR-VDP-2.2.2 full CSF, reproduces the paper's Mt = 0.4 %): synthetic kill tests pass (paper behaviour reproduced); on S1 **FAIL** A1-S3: the curve is flat below ~5e-4 cd/m², so the whole night including silhouettes lands on display black (model thresholds at rho = 2 cpd; S1 is below the paper's validated range). Not tuned
 - [x] D1-A2-K0 analytic feasibility gate (`d1/axis_a2_k0/`, pre-registered): NOT KILLED (weak). Base-band energy 0.29 < 0.5 at 73 ppd (0.68 at scene 32 ppd); ideal Eq. 17 at rho_N = 1.14 cpd gives Weber 0.48 (tree-side luminance: 0.00; only 6.6 % of edge energy in that band; m < 0 in finer bands). Lead's prediction not confirmed
 - [x] D1-A2 literal Wanat 2014 local contrast (`d1/axis_a2/`, pre-registered): **KILL for S1**. Raw Eq. 17 gives m ≈ −75 in the 2–9 cpd bands (subthreshold source contrast → amplified, inverted noise; poplars brighter than sky, Weber −2.1, 53 % edge reversals); clamp m ≥ 0 returns the night to display black (Weber 0.0003, 5.8 % reversals). No tuning
-- [ ] A3a Ashraf & Mantiuk 2024 hybrid supra-threshold contrast model; then Kellnhofer 2015 / Ferwerda 1996 for < 1e-3 cd/m²
+- [x] D1-A3-K0 pcond as luminance-only axis-A donor (`d1/axis_a3_pcond/`, pre-registered): **both -s and -s -c PASS** all gates recombined with frozen B (sky 0.32 cd/m², poplar Weber 0.56–0.59, lamps 82 cd/m², 0 % reversals, B chromaticity exact, 0.3 % above peak); -s -c reproduces V0 luminance (0.9999). Recommended: -s -c (pcond-derived scotopic luminance model). A3a (Ashraf & Mantiuk 2024) not needed for S1 now
+- [ ] decide: freeze deterministic A = pcond -s -c (Y only); whether a Kellnhofer 2015 near-threshold layer is needed for the end task
 - [ ] cross-donor measurements, contact sheets, findings
 
 ## D1.0 results: S1, the physical night (sky 2.9·10⁻⁴ cd/m²). Descriptive only; no ranking.
