@@ -50,6 +50,8 @@ def uvE(E):
 
 def run_image(src, axname, cand, dst):
     r_ax, v = extract(axname); H, W = v["H"], v["W"]; Ya = v["Ynew"]
+    for f_ in ("pre.f32", "clip.f32"):                                              # disk hygiene: extract() dumps
+        if os.path.exists(f"{AXC}/{axname}/{f_}"): os.remove(f"{AXC}/{axname}/{f_}")
     phys = ld(src).reshape(-1, 3); Y = phys @ M709[1]
     b = stage(filament(phys), Y, t(Y), "uv"); Yb = b @ M709[1]; Yreq = LO + (HI - LO) * Ya
     x0 = b * (Yreq / np.where(Yb > 0, Yb, 1))[:, None]
