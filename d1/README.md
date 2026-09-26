@@ -37,7 +37,9 @@ vision.
 
 - [x] D1.0 donor audit + native runtime: Kirk & O'Brien 2011 (`d1/kirk2011/`), Pattanaik 2000 (`d1/pattanaik00/`)
 - [x] iCAM06_APPEARANCE (`d1/icam06_appearance/`)
-- [ ] D1-B still has **no donor with a working low-light colour model** (see below)
+- [x] D1.1 pcond `-a`/`-v`/`-h` checked (`d1/pcond_h/`): 1° foveal grid → degree-scale block/ring artefacts on arcminute material; not usable as acuity/glare cue here
+- [x] D1-B1 Filament `scotopicAdaptation()` (`d1/filament/`), verbatim: gates pass; Purkinje-direction hue with local level dependence; lamps stay warm; no desaturation (saturated blue at scotopic levels); dark regions brightened ×2–7.5
+- [ ] D1-B3 how the strength is driven by physical luminance (level already inside Filament's g; avoid double counting)
 - [ ] cross-donor measurements, contact sheets, findings
 
 ## D1.0 results: S1, the physical night (sky 2.9·10⁻⁴ cd/m²). Descriptive only; no ranking.
@@ -61,7 +63,6 @@ vision.
   - iCAM06's cast is not a Purkinje shift.
   - The only public "Kirk 2011" code fails photopic colour before any night modelling.
   - Kirk 2011, Krawczyk 2005 and Jensen 2000 remain PAPER_REFERENCE for low-light colour.
-- **Detail.** No donor models scotopic acuity loss; the only detail loss seen comes from numerical floors.
+- **Detail (corrected).** No donor *run in D1.0* showed a convincing spatial-acuity effect. The detail loss that was seen came from numerical floors. However, Radiance `pcond` contains an explicit acuity-loss model (`-a`: defocus of darker regions) and veiling glare (`-v`). The frozen V0 path runs only `-s -c`, and D1.0 did not validate `-a`/`-v`/`-h`. Checked in D1.1.
 
-Next (not started): decide whether D1-B needs an implementation that passes a photopic round-trip, or whether it
-stays a documented gap.
+Update D1.1: D1-B is no longer a gap. Filament's Cao/Kirk transform passes the photopic identity gate and gives a local, level-dependent Purkinje shift (`d1/filament/README.md`). References only: Wanat & Mantiuk 2014, Shin et al. 2004 / Rezagholizadeh et al. 2016 (no public code found).
