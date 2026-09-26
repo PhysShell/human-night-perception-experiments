@@ -125,8 +125,8 @@ P-7 PASS (mean step 0.07 %, sky step 0, flashes 0). **S1 lamp saturation retenti
 **G5 is not caused by the projection; the non-monotonicity is inside the frozen axis A.**
 - R1 keeps Y_A exactly (ΔY/Y ≤ 10⁻⁷), so the blue non-monotonicity is already present in Y_A.
 - Cause, from the Radiance source: pcond converts to the output primaries in `matscan()` (`src/px/pcond2.c`), then
-  calls `clipgamut()` (`src/common/spec_rgb.c:482`). That function pulls out-of-gamut colours towards a grey with
-  the same **RGB channel mean**, not the same luminance.
+  calls `clipgamut()` (`src/common/spec_rgb.c:482`). That function pulls out-of-gamut colours towards a grey (see the erratum
+  below).
 - Measured on the axis-A output:
   - blue 10 cd/m² → RGB (0.047, 0.055, **1.0**), Y_rel 0.121;
   - blue 3.16 → (0.117, 0.125, 0.856), Y_rel 0.176;
@@ -160,3 +160,8 @@ P-7 PASS (mean step 0.07 %, sky step 0, flashes 0). **S1 lamp saturation retenti
     from the XYZE file pcond reads (`pcond3.c:474`, `cielum()`). This is pcond's luminance before `clipgamut()`.
   - The same L_eff is the natural reference for P-4 v2.
   - Lamp-core colour at peak luminance remains a separate, unavoidable SDR trade-off: Y or chroma.
+
+**Erratum (found while writing `d1/a_extract/PREREG.md`; conclusion unchanged).** The grey target of pcond's
+`clipgamut()` is **not** the RGB channel mean. It is `greypoint()` (`src/px/pcond2.c:144`): the brightness
+(`bright()`) of the colour after clamping each channel to [0, 1]. The luminance lost by the clamp is therefore lost
+from Y, and the F1/G5 diagnosis holds: the non-monotone Y is created inside pcond before our recombination.
