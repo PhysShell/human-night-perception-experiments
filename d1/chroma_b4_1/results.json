@@ -1,0 +1,116 @@
+{
+ "prereg": "d1/chroma_b4_1/PREREG.md",
+ "scenes": {
+  "S1": {
+   "L_mean": 0.011349909039081518,
+   "sigma_px": 32.0,
+   "local": {
+    "t_median_lamp": 0.9331603105334213,
+    "sky_chroma_median": 0.0003679096120019315,
+    "sky_hue_median": -101.3253087853097,
+    "ground_chroma_median": 4.709463043661321e-05,
+    "ground_hue_median": -103.30622430030006,
+    "tree_chroma_median": 0.00010198120263481465,
+    "tree_hue_median": -101.38114376587095,
+    "lamp_chroma_median": 0.07038031241601103,
+    "lamp_hue_median": 41.19391075766333,
+    "lamp_chroma_ratio_median": 0.9331603105334209,
+    "finite": true,
+    "pass_G8_thresholds": true
+   },
+   "global": {
+    "t_median_lamp": 0.0950977602786857,
+    "sky_chroma_median": 0.013200068298998838,
+    "sky_hue_median": -101.32530878530534,
+    "ground_chroma_median": 0.014310772805426857,
+    "ground_hue_median": -103.30622430029058,
+    "tree_chroma_median": 0.013116892551357827,
+    "tree_hue_median": -101.38114376584272,
+    "lamp_chroma_median": 0.007534296679089938,
+    "lamp_hue_median": 41.193910757663296,
+    "lamp_chroma_ratio_median": 0.0950977602786857,
+    "finite": true,
+    "pass_G8_thresholds": false
+   },
+   "field": {
+    "t_median_lamp": 0.49911973968285395,
+    "sky_chroma_median": 0.00040279707672704907,
+    "sky_hue_median": -101.32530878530827,
+    "ground_chroma_median": 4.6768895863924694e-05,
+    "ground_hue_median": -103.30622430030348,
+    "tree_chroma_median": 0.055839728564045434,
+    "tree_hue_median": -101.38114376584272,
+    "lamp_chroma_median": 0.037703189104335066,
+    "lamp_hue_median": 41.19391075766326,
+    "lamp_chroma_ratio_median": 0.4991197396828545,
+    "finite": true,
+    "pass_G8_thresholds": false
+   }
+  },
+  "S0": {
+   "L_mean": 0.00022218437525549839,
+   "sigma_px": 32.0,
+   "local": {
+    "t_median_lamp": null,
+    "sky_chroma_median": 0.0003679096120019315,
+    "sky_hue_median": -101.3253087853097,
+    "ground_chroma_median": 4.709463043661321e-05,
+    "ground_hue_median": -103.30622430030006,
+    "tree_chroma_median": 0.00010198120263481465,
+    "tree_hue_median": -101.38114376587095,
+    "finite": true
+   },
+   "global": {
+    "t_median_lamp": null,
+    "sky_chroma_median": 0.0002849726026048356,
+    "sky_hue_median": -101.32530878530699,
+    "ground_chroma_median": 0.0003089512932262363,
+    "ground_hue_median": -103.30622430029439,
+    "tree_chroma_median": 0.00028317694452637606,
+    "tree_hue_median": -101.3811437658495,
+    "finite": true
+   },
+   "field": {
+    "t_median_lamp": null,
+    "sky_chroma_median": 0.0003844480246459358,
+    "sky_hue_median": -101.32530878530827,
+    "ground_chroma_median": 4.6768895863924694e-05,
+    "ground_hue_median": -103.30622430030348,
+    "tree_chroma_median": 0.0007212132696899316,
+    "tree_hue_median": -101.38114376584254,
+    "finite": true
+   }
+  },
+  "S4": {
+   "L_mean": 0.3935189159680992,
+   "sigma_px": 32.0,
+   "local": {
+    "t_median_lamp": 0.9898244066654274,
+    "sky_chroma_median": 0.06069177591468556,
+    "sky_hue_median": -107.58225941297724,
+    "lamp_chroma_median": 0.05499547216836809,
+    "lamp_hue_median": 20.443967755325236,
+    "lamp_chroma_ratio_median": 0.9898244066654275,
+    "finite": true
+   },
+   "global": {
+    "t_median_lamp": 0.7846541843959687,
+    "sky_chroma_median": 0.05592932378787848,
+    "sky_hue_median": -107.58225941297722,
+    "lamp_chroma_median": 0.043532064338605014,
+    "lamp_hue_median": 20.443967755325318,
+    "lamp_chroma_ratio_median": 0.7846541843959687,
+    "finite": true
+   },
+   "field": {
+    "t_median_lamp": 0.8531101776780713,
+    "sky_chroma_median": 0.0614701782254837,
+    "sky_hue_median": -107.58225941297725,
+    "lamp_chroma_median": 0.048674632619400644,
+    "lamp_hue_median": 20.443967755325243,
+    "lamp_chroma_ratio_median": 0.8531101776780714,
+    "finite": true
+   }
+  }
+ }
+}

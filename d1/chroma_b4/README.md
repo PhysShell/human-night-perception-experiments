@@ -85,4 +85,4 @@ https://www.cl.cam.ac.uk/~rkm38/pdfs/wanat14lum_retargeting.pdf, sha256 b6cbf343
   - It is a property of the composition: the kernel's hue trajectory combined with a scalar chroma law. It is not a
     measurement error.
   - No special-case clamp is added. That would be inventing a visual model to pass our own gate.
-- B4.1 (`d1/chroma_b4_1/`): does t depend on local, global-mean or adaptation-field luminance?
+- B4.1 (`d1/chroma_b4_1/`, pre-registered): only the **local** drive passes on S1. The global mean (Wanat's own variable) fails (lamps 0.095, sky 0.013), and the 1° field fails (lamps 0.50, blue poplars next to the lamps). B4 keeps the local form. **B4 closed.**
