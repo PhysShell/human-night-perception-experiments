@@ -1,0 +1,105 @@
+{
+ "prereg": "d1/axis_a2/PREREG.md",
+ "bands": [
+  {
+   "k": 1,
+   "rho_cpd": 18.25,
+   "sigma_px": 2.0,
+   "frac_px_m_neg": 0.0,
+   "frac_abs_band_m_neg": 0.0,
+   "m_median": 1.0,
+   "m_p1": 0.9999999999999905,
+   "m_p99": 1.00000000000001
+  },
+  {
+   "k": 2,
+   "rho_cpd": 9.125,
+   "sigma_px": 4.0,
+   "frac_px_m_neg": 0.9955443343495934,
+   "frac_abs_band_m_neg": 0.8307775885158735,
+   "m_median": -75.68246945703206,
+   "m_p1": -124.2457012445361,
+   "m_p99": -1.0578579217056885
+  },
+  {
+   "k": 3,
+   "rho_cpd": 4.5625,
+   "sigma_px": 8.0,
+   "frac_px_m_neg": 0.9923558180894309,
+   "frac_abs_band_m_neg": 0.706579626310538,
+   "m_median": -74.35042136070214,
+   "m_p1": -118.11347269764622,
+   "m_p99": -0.3901367395619483
+  },
+  {
+   "k": 4,
+   "rho_cpd": 2.28125,
+   "sigma_px": 16.0,
+   "frac_px_m_neg": 0.9628379065040651,
+   "frac_abs_band_m_neg": 0.4390767756819836,
+   "m_median": -30.680482635957667,
+   "m_p1": -76.38079276539885,
+   "m_p99": 0.7732201296511706
+  },
+  {
+   "k": 5,
+   "rho_cpd": 1.140625,
+   "sigma_px": 32.0,
+   "frac_px_m_neg": 0.8280748221544716,
+   "frac_abs_band_m_neg": 0.11309696863674153,
+   "m_median": -7.153884730888686,
+   "m_p1": -27.722188601206476,
+   "m_p99": 0.9093613006571742
+  }
+ ],
+ "variants": {
+  "raw": {
+   "clipped_to_display_range": 0.46909552845528457,
+   "sky_median": 0.1000457913973809,
+   "lamp_median": 82.77560324007428,
+   "poplar_median": 0.31372652956040326,
+   "silhouette_weber": -2.135829355522658,
+   "silhouette_weber_D0_tree_mask": -2.5084199807972634,
+   "ring_median": 0.1000370222512717,
+   "far_sky_median": 0.10004528616603797,
+   "edge_pairs": 1573,
+   "edge_reversal_frac": 0.5257469802924348,
+   "duv_max_unclipped": 2.758827043085604e-08,
+   "frac_channel_below_black": 0.4661350355691057,
+   "gates": {
+    "A2-S1 sky<=2": true,
+    "A2-S2 lamp/sky>=10": true,
+    "A2-S3 silhouette>=0.1": false,
+    "A2-S4 B untouched": true,
+    "A2-AR1 poplar<ring": false,
+    "A2-AR2 reversals<=5%": false,
+    "A2-AR3 halo within 1.5x": true
+   },
+   "pass": false
+  },
+  "clamp0": {
+   "clipped_to_display_range": 0.513427337398374,
+   "sky_median": 0.100042111889671,
+   "lamp_median": 82.77560324007428,
+   "poplar_median": 0.1000095036008582,
+   "silhouette_weber": 0.0003259456262655336,
+   "silhouette_weber_D0_tree_mask": 0.00029918561823760736,
+   "ring_median": 0.10959954161934403,
+   "far_sky_median": 0.10004180282783459,
+   "edge_pairs": 1573,
+   "edge_reversal_frac": 0.05785123966942149,
+   "duv_max_unclipped": 2.897767167584095e-16,
+   "frac_channel_below_black": 0.522287855691057,
+   "gates": {
+    "A2-S1 sky<=2": true,
+    "A2-S2 lamp/sky>=10": true,
+    "A2-S3 silhouette>=0.1": false,
+    "A2-S4 B untouched": true,
+    "A2-AR1 poplar<ring": true,
+    "A2-AR2 reversals<=5%": false,
+    "A2-AR3 halo within 1.5x": true
+   },
+   "pass": false
+  }
+ }
+}
