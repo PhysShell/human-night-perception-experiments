@@ -55,3 +55,5 @@ luminance, hue-dependent; bluish stimuli may keep or gain lightness).
   - pcond_c fails G7, because its weight at 0.1 cd/m² is ≈ 0.017;
   - wanat14 is expected to pass. G2 is the uncertain gate, because Filament's own chroma rises at low L for some
     patches.
+
+**Post-run note (not a change to the gates above).** The constant was later verified in the authors' preprint (Eq. 26, k3 = 0.108; see README). The candidate is renamed "Wanat-derived local chroma-collapse model".

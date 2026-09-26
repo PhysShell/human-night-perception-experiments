@@ -1,5 +1,23 @@
 # D1-B4: an independent scotopic chroma-collapse stage on top of the Cao/Kirk kernel
 
+**Status: provisional PASS with one recorded residual.** The pre-registered B4-G2 stays FAIL in the table below.
+- The research question was whether an independent chroma-collapse layer exists that removes the unrealistic
+  scotopic saturation without destroying the mesopic hue shift and the colour of bright sources.
+- The data answer yes, with one small residual (G2, yellow patch).
+- The candidate is named **"Wanat-derived local chroma-collapse model"**: t(L) from Wanat & Mantiuk 2014 Eq. 26,
+  applied per pixel as radial u′v′ attenuation. It is **not** "the Wanat–Mantiuk saturation correction" (their
+  Eq. 25).
+
+**Source verified.** `s(L) = L/(L + 0.108)` is verified from Wanat & Mantiuk 2014 Eq. 26 (authors' preprint,
+https://www.cl.cam.ac.uk/~rkm38/pdfs/wanat14lum_retargeting.pdf, sha256 b6cbf343…5011; k3 = 0.108).
+- The fitted relation was measured against the **mean image luminance**, with a 200 cd/m² reference (Fig. 11).
+- Their colour correction is Eq. 25, R̂ = (R̃/Ỹ)^s(Ỹ)·Ỹ.
+- B4's application to **per-pixel physical luminance** and **radial u′v′ chroma** is a derived hypothesis, not a
+  reproduction of Eq. 25. B4.1 tests the per-pixel vs mean-luminance choice.
+- The same paper records that the full Cao 2008 model "was generating colors that much exceeded the gamut", which is
+  why they model saturation loss separately. It also notes that Kirk & O'Brien 2011 apply the rod model to the whole
+  image, bright regions included.
+
 **Pre-registered** in `PREREG.md`, committed in `6d38a90` before `run.py` existed.
 - Upstream (frozen from B3): the Filament-derived Cao/Kirk kernel, a = 1, κ = 3.
 - The stage: `out = Y_f·white + w·(f − Y_f·white)`.
@@ -24,7 +42,7 @@
 |---|---|---|---|---|---|---|---|---|---|
 | none | 1.000 ✓ | 7.4·10⁻³ ✗ | 0.200 ✗ | 0 ✓ | ✓ | ✓ | 1.00 ✓ | 1.00, **0.139 ✗** | not supported (as expected) |
 | pcond_c | 1.000 ✓ | 4·10⁻⁶ ✓ | 0.000 ✓ | 0 ✓ | ✓ | ✓ | **0.017 ✗** | **0.27 ✗**, 0.000 | not supported (G7 as expected; G8 lamps also) |
-| **wanat14** | 0.9989 ✓ | **4.2·10⁻⁴ ✗** (yellow only) | 0.0018 ✓ | 0 ✓ | ✓ | ✓ | 0.48 ✓ | 0.93 ✓, 0.0004 ✓ | **passes 7 of 8; fails G2 on one patch** |
+| **wanat14** (Wanat-derived local) | 0.9989 ✓ | **4.2·10⁻⁴ ✗** (yellow only) | 0.0018 ✓ | 0 ✓ | ✓ | ✓ | 0.48 ✓ | 0.93 ✓, 0.0004 ✓ | **passes 7 of 8; fails G2 on one patch** |
 
 **What the results show.**
 1. **wanat14 does what the architecture needs.**
@@ -56,8 +74,15 @@
      axis-A effect that B4 deliberately leaves alone.
 
 **Open before any B4 conclusion is final.**
-- Verify `s(L) = L/(L + 0.108)` and its conditions (saturation measure, reference level) in Wanat & Mantiuk 2014.
-  The paper was not reachable from this container.
-- Decide on the G2 FAIL. Two options, both requiring a *new* pre-registration, not an edit of this one:
-  - accept it as a physiologically plausible hue-path effect;
-  - require the chroma stage to handle hue paths through neutral.
+- ~~Verify s(L)~~: done (Eq. 26, see top).
+- **G2 residual, recorded and not "fixed".**
+  - B4 has one pre-registered quantitative failure: a small non-monotonic chroma rebound (+4·10⁻⁴ u′v′) for the
+    yellow patch after its hue trajectory crosses neutral.
+  - The effect is inconsistent with the monotonic chroma-loss trend reported by Shin et al. 2004: all test chips
+    move towards neutral grey. Reddish/yellowish chips lose chroma continuously down to ~0.1 lx; greenish/bluish
+    chips down to ~1 lx, then roughly constant.
+  - Its magnitude is very small.
+  - It is a property of the composition: the kernel's hue trajectory combined with a scalar chroma law. It is not a
+    measurement error.
+  - No special-case clamp is added. That would be inventing a visual model to pass our own gate.
+- B4.1 (`d1/chroma_b4_1/`): does t depend on local, global-mean or adaptation-field luminance?
