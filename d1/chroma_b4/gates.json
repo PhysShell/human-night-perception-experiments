@@ -1,0 +1,113 @@
+{
+ "none": {
+  "G1": 0.999999999999999,
+  "G1_pass": true,
+  "G2_worst_increase": {
+   "red": -0.00020526961456684978,
+   "green": 0.0053916397864677,
+   "blue": -0.0008244424937544625,
+   "cyan": 0.0037181695061004882,
+   "warm_lamp": 0.006177539430278295,
+   "yellow": 0.007389028328952524
+  },
+  "G2_pass": false,
+  "G3": 0.19987811176147313,
+  "G3_pass": false,
+  "G4": 7.389644451905042e-13,
+  "G4_pass": true,
+  "G5": 4.440892098500626e-16,
+  "G5_pass": true,
+  "G6_pass": true,
+  "G7": {
+   "E_out": 0.0353406922047449,
+   "E_f": 0.0353406922047449,
+   "ratio": 1.0
+  },
+  "G7_pass": true,
+  "G8": {
+   "lamp_chroma_ratio_median": 0.9999999999999994,
+   "sky_chroma_median": 0.1388052490438862,
+   "ground_chroma_median": 0.1504848564623278,
+   "lamp_chroma_median": 0.07922685725731604,
+   "lamp_hue_median": 41.193910757663296,
+   "finite": true,
+   "min_rgb": 2.888901265881341e-05
+  },
+  "G8_pass": false,
+  "supported": false
+ },
+ "pcond_c": {
+  "G1": 0.999999999999999,
+  "G1_pass": true,
+  "G2_worst_increase": {
+   "red": 6.861555643110583e-17,
+   "green": 7.671452424696274e-17,
+   "blue": 1.2270457205032142e-16,
+   "cyan": 8.326672684688674e-17,
+   "warm_lamp": 8.326672684688674e-17,
+   "yellow": 3.880096616814506e-06
+  },
+  "G2_pass": true,
+  "G3": 1.8619006149354548e-16,
+  "G3_pass": true,
+  "G4": 2.1032064978498966e-12,
+  "G4_pass": true,
+  "G5": 1.0000000028043132e-07,
+  "G5_pass": true,
+  "G6_pass": true,
+  "G7": {
+   "E_out": 0.0005940913387202338,
+   "E_f": 0.0353406922047449,
+   "ratio": 0.016810404710762006
+  },
+  "G7_pass": false,
+  "G8": {
+   "lamp_chroma_ratio_median": 0.26756051981545775,
+   "sky_chroma_median": 1.1443916996305594e-16,
+   "ground_chroma_median": 1.1443916996305594e-16,
+   "lamp_chroma_median": 0.01821771027111977,
+   "lamp_hue_median": 41.193910757663204,
+   "finite": true,
+   "min_rgb": 0.00011938412571768345
+  },
+  "G8_pass": false,
+  "supported": false
+ },
+ "wanat14": {
+  "G1": 0.9989211651416467,
+  "G1_pass": true,
+  "G2_worst_increase": {
+   "red": -3.6239164578735734e-05,
+   "green": -3.131653773985423e-05,
+   "blue": -4.441566898365798e-05,
+   "cyan": -3.551908963613843e-05,
+   "warm_lamp": -2.9757719121559684e-05,
+   "yellow": 0.00042231024105688253
+  },
+  "G2_pass": false,
+  "G3": 0.001833744144600737,
+  "G3_pass": true,
+  "G4": 1.3926637620897964e-12,
+  "G4_pass": true,
+  "G5": 9.994252714307095e-08,
+  "G5_pass": true,
+  "G6_pass": true,
+  "G7": {
+   "E_out": 0.01699071740612737,
+   "E_f": 0.0353406922047449,
+   "ratio": 0.48076923076923117
+  },
+  "G7_pass": true,
+  "G8": {
+   "lamp_chroma_ratio_median": 0.9331603105334209,
+   "sky_chroma_median": 0.0003679096120019315,
+   "ground_chroma_median": 4.709463043661321e-05,
+   "lamp_chroma_median": 0.07038031241601103,
+   "lamp_hue_median": 41.19391075766333,
+   "finite": true,
+   "min_rgb": 0.00011937216075763097
+  },
+  "G8_pass": true,
+  "supported": false
+ }
+}

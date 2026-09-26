@@ -72,3 +72,5 @@ S4 (real photograph, sky 0.69 cd/m²), a = 1: sky Y ×1.14, chroma 0.061 → 0.0
      transition lies. With s = 1 the half-effect sits near 0.01–0.03 cd/m², inside the CIE mesopic range.
   2. The input fixed at the adaptation state that CIE's m defines, with a as the only control.
 - To decide before any S1 "final" run.
+
+**Note (added in D1-B4).** The hue and chroma values in this file were measured about a rounded D65 white u′v′ (0.1978, 0.4683). The exact Rec.709 white is (0.197840, 0.468336). The offset is ≤ 4·10⁻⁵, negligible for the chroma ≥ 0.005 reported here; it matters only near chroma 0.002 (`d1/chroma_b4/README.md`).
