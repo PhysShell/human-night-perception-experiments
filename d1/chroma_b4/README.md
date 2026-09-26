@@ -1,6 +1,6 @@
 # D1-B4: an independent scotopic chroma-collapse stage on top of the Cao/Kirk kernel
 
-**Status: provisional PASS with one recorded residual.** The pre-registered B4-G2 stays FAIL in the table below.
+**Status: FROZEN. Provisional PASS with one recorded residual.** The pre-registered B4-G2 stays FAIL in the table below.
 - The research question was whether an independent chroma-collapse layer exists that removes the unrealistic
   scotopic saturation without destroying the mesopic hue shift and the colour of bright sources.
 - The data answer yes, with one small residual (G2, yellow patch).
