@@ -51,11 +51,14 @@ patch and on S1.
 1. **Single representative frequency.** ρ = 2 cpd is near the *photopic* peak. At 3·10⁻⁴ cd/m² the same CSF
    gives Mt = 0.28 at 0.5 cpd against 0.66 at 2 cpd: the scotopic peak moves to low frequencies. The poplar
    silhouettes are large, low-frequency structures.
-2. **Out of the validated range.**
-   - Wanat & Mantiuk's matching experiments used 1D/2D neutral-density filters in front of a ~200 cd/m² display,
-     i.e. retargeting down to a ~2 cd/m² peak.
-   - S1's sky is several decades below that. ρ = 2 cpd, G = 0.4 and S = 8.6 were chosen there.
-   - The HDR-VDP-2.2.2 CSF table itself ends at 0.002 cd/m²; its parameters are clamped below.
+2. **Out of the range of the authors' own calibration.**
+   - The authors' complex-image calibration did not cover S1-like starlight levels: haploscopic matching with
+     1D/2D neutral-density filters in front of a ~200 cd/m² display. ρ = 2 cpd, G = 0.4 and S = 8.6 were chosen as
+     the best matches in that setup.
+   - The underlying Kulikowski contrast-matching model *was*, however, compared against psychophysical
+     measurements extending to much lower luminances (Fig. 6, e.g. Hess et al. down to 2·10⁻⁵ cd/m² at 0.25 cpd).
+   - Our HDR-VDP-2.2.2 CSF implementation additionally clamps below 0.002 cd/m², so S1 still requires
+     extrapolation in the actual implementation used here.
 3. **Changing ρ (or G) until S1's silhouettes appear would be fitting the method to our scene.** It is not
    done.
 
@@ -70,3 +73,12 @@ patch and on S1.
   - **A2:** Wanat's multi-band local contrast, which evaluates thresholds per frequency band and so uses the
     low-frequency scotopic sensitivity;
   - accept that the global model is not applicable below its validated range, and state an explicit lower bound.
+
+**Note on the silhouette mask (found while preparing A2-K0).**
+- The D0 `tree` mask (`occ > 0.98 & ~near_lamp`) covers only fragments of the poplars: components about 19 px
+  high.
+- Measured from luminance, the two large poplars are 57 × 221 px and 53 × 162 px, i.e. 0.78° × 3.0° and
+  0.73° × 2.2° on the PHONE display. Their median luminance is 5.4·10⁻⁵ and 5.9·10⁻⁵ cd/m², against a sky of
+  2.9·10⁻⁴ cd/m² (Weber 0.81).
+- The A1-S3 FAIL does not depend on this: sky and poplars both sit on display black. A2-K0 uses the
+  luminance-defined region (`d1/axis_a2_k0/PREREG.md`).
