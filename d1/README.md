@@ -49,7 +49,8 @@ vision.
 - [x] **Axis A FROZEN**: pcond-derived scotopic luminance mapping (`-s -c`, luminance only). PASS = a deterministic luminance donor satisfying D1's necessary conditions on our scenes; not a claim that Ward Larson/Ferwerda reproduce night brightness appearance exactly
 - [x] **Axis C** (near-threshold temporal rod noise, Kellnhofer 2015) is **out of scope for D1**: an optional extension. C0 kill-gate first: if the end product is static (sheets/screenshots), KILL C, because the model's key effect is temporal
 - [x] D1 acceptance run (`d1/pipeline/`, pre-registered): **NOT accepted; D1 open for 3 failures only**. PASS P-1/P-2/P-5/P-6/P-7 (S1 reproduces A3-K0; S2 no temporal artefact; S3 bar visible). FAIL P-3/P-8/P-9: no gamut handling in the A0 recombination (S5 twilight sky 4.1 % above peak, saturated clipped blue; F1 red/blue non-monotone at the primary ceilings). FAIL P-4: S4 0.937 / S5 0.968 caused by `-c` (the `-s`-only diagnostic gives 1.000); S3_nobar NaN = gate-definition defect. Fixes need their own pre-registration
-- [ ] D1 fixes: R1 gamut-aware recombination, R2 P-4 semantics vs `-c`, R3 P-4 on constant fields
+- [x] D1-R1 minimum chroma projection (`d1/pipeline/PREREG_R1_gamut.md`): **KILLED** (G3 hue undefined at peak white = gate defect; G5 F1 blue still non-monotone). Projection works as specified (Y exact, P-3 → 0 everywhere) but the F1 non-monotonicity is upstream: pcond's own `clipgamut()` preserves the RGB mean, not luminance, so the frozen axis-A Y is already non-monotone for saturated colours. S5 sky saturation is B's, not clipping. S1 lamps turn white at Ldmax (retention 0.52 → 0.0007)
+- [ ] D1 open: A-extraction (pcond `-x` mapping × exact post-`scotscan` L_eff, no `clipgamut`), then P-4 v2 (reference L_eff) and R3 (N/A + flat-field guard)
 - [ ] cross-donor measurements, contact sheets, findings
 
 ## D1.0 results: S1, the physical night (sky 2.9·10⁻⁴ cd/m²). Descriptive only; no ranking.
