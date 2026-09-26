@@ -41,6 +41,9 @@ vision.
 - [x] D1-B1 Filament `scotopicAdaptation()` (`d1/filament/`), verbatim: gates pass; Purkinje-direction hue with local level dependence; lamps stay warm; no desaturation (saturated blue at scotopic levels); dark regions brightened ×2–7.5
 - [x] D1-B3 absolute-scale calibration (`d1/filament_b3/`, pre-registered): a = 1 fixed, v = κ·L; admissible κ ≈ 1.1–8.3 (κ = 3 adopted); κ = 1 fails G1 by 3 % (blue patch). Kernel transition width 3.2–3.4 decades ≈ the whole CIE mesopic range. Deep-scotopic chromatic plateau remains (extrapolation limit)
 - [x] D1-B4 independent chroma-collapse stage (`d1/chroma_b4/`, pre-registered): provisional PASS with one recorded residual: the Wanat-derived local chroma-collapse model (Eq. 26 verified in the authors' preprint; per-pixel radial u′v′ application is a derived hypothesis, not Eq. 25) passes 7/8 gates; G2 stays FAIL (+4e-4 u′v′ rebound on the yellow patch after its hue crosses neutral). pcond `-c` law erases the mesopic tint and most lamp colour; S1 = neutral grey night + warm lamps. B4.1: only the local (per-pixel) luminance drive works; the global mean and the 1° field fail on the lamps. B4 closed
+- [x] D1-A0 axis separation (`d1/axis_a/`, pre-registered): PASS: B supplies chromaticity only, the kernel's luminance gain is discarded
+- [x] D1-A1 Wanat 2014 global tone curve (our implementation; CSF = HDR-VDP-2.2.2 full CSF, reproduces the paper's Mt = 0.4 %): synthetic kill tests pass (paper behaviour reproduced); on S1 **FAIL** A1-S3: the curve is flat below ~5e-4 cd/m², so the whole night including silhouettes lands on display black (model thresholds at rho = 2 cpd; S1 is below the paper's validated range). Not tuned
+- [ ] decide: A2 (multi-band local contrast) or an explicit validity bound for the global model
 - [ ] cross-donor measurements, contact sheets, findings
 
 ## D1.0 results: S1, the physical night (sky 2.9·10⁻⁴ cd/m²). Descriptive only; no ranking.
