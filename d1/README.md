@@ -1,5 +1,7 @@
 # D1: low-light appearance reproduction
 
+> **D1 is CLOSED and frozen as a baseline** (accepted at `0ee0765`). Versions, frozen decisions, limitations and the rule for any later version: [`MANIFEST.md`](MANIFEST.md); integrity check: `d1/verify_manifest.sh`.
+
 **Question.** How do existing low-light *appearance* models turn a physically calibrated night scene into what a
 dark-adapted human would perceive? The display viewer stays mesopic/photopic, so the image has to *suggest* that
 experience (Jensen et al. 2000). The goal is not `retina(phone) = retina(world)`.
