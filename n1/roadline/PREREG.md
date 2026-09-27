@@ -362,3 +362,35 @@ no 8192 spp and no fourth estimator.
 3. R3–R5;
 4. V1–V6;
 5. the blind sheet.
+
+## Addendum-6 result: **FAIL. RoadLine-A on the raster/Cycles method is stopped for good**, per the addendum-6 KILL (`a6_A.json`)
+
+| gate | 800 m | 1600 m |
+|---|---|---|
+| far-pass convergence (seed 0 vs 1) | −0.06 % | −0.06 % |
+| equivalence, energy vs true radius (tol 2 %) | +0.62 % | −1.19 % |
+| **output-pixel stimulus, 5 × 5 L1 (≤ 0.10)** | 0.083 | **0.154 FAIL** |
+| peak-pixel share, far / reference | 0.497 / 0.530 | 0.582 / 0.659 |
+| apparent diameter, natural → far pass | 0.44 → 0.70 px | 0.22 → 0.70 px |
+
+**R1, all PASS** (base with the r_ap estimator for 50–400 m, far pass for 800/1600 m):
+
+| d (m) | 50 | 100 | 200 | 400 | 800 | 1600 |
+|---|---|---|---|---|---|---|
+| measured / table | 0.986 | 0.987 | 0.983 | 0.987 | 0.989 | 0.998 |
+
+**The stimulus failure is real, not noise.**
+- The same metric between the two seeds is 0.020 (reference) and 0.001 (far pass) at 1600 m, and 0.008 / 0.002 at
+  800 m.
+- Enlarging the 1600 m emitter from 0.22 to 0.70 px spreads it: the peak share falls from 0.659 to 0.582. The
+  output-pixel stimulus that D1 would receive is therefore not the physical one. That is exactly the risk addendum 6
+  was written to catch.
+
+**Noted, not acted on** (it would be a new method, outside this PREREG's KILL):
+- The **true-radius reference itself** (0.105 m, 16 384 spp, emitters only) converged in energy between seeds (0.37 %
+  at 800 m, 0.32 % at 1600 m).
+- By construction it is the physical output-pixel stimulus, and it matches the table (via the far pass: 0.989 /
+  0.998).
+- Using it as the far-lamp pass would need its own pre-registration and the user's decision.
+
+No D1, V0 or comparator output of RoadLine-A exists.
