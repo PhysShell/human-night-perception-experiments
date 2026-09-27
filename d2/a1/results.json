@@ -1,0 +1,160 @@
+{
+ "prereg": "d2/a1/PREREG.md",
+ "S": 0.2641,
+ "verify_manifest": {
+  "before_roadline": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "after_roadline": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "before_corpus": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "after_corpus": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n"
+ },
+ "roadline": {
+  "R3_display_gates": {
+   "finite": true,
+   "ch_min": 0.10225069989709336,
+   "ch_max": 100.0,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  },
+  "R3_extraction_C0": true,
+  "H1_ceiling_frac": 0.002929369918699187,
+  "H1_PASS": true,
+  "H2_road_ceiling_frac": 0.011450061279653477,
+  "H2_PASS": false,
+  "H3_floor_frac": 0.0,
+  "H3_field_floor_frac": 0.0,
+  "H3_PASS": true,
+  "R4_inversions": [],
+  "R4_PASS": true,
+  "R5_present_final": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "R5_present_raw": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "lamp_max_code_above_bg": {
+   "50": 65287.0,
+   "100": 65287.0,
+   "200": 65287.0,
+   "400": 65287.0,
+   "800": 65287.0,
+   "1600": 65287.0
+  },
+  "lamp_display_signal": {
+   "50": 0.0025821212894147644,
+   "100": 0.0010456485654474087,
+   "200": 0.0004090098820575255,
+   "400": 0.00022997459743361777,
+   "800": 0.00011431119606061688,
+   "1600": 3.975995784244356e-05
+  },
+  "R5_PASS": true,
+  "automatic_PASS": false
+ },
+ "corpus": {
+  "note": "P-7 not run (ratio gate; S2 frames not written)",
+  "S0": {
+   "P-1": true,
+   "P-2a_duv_max": 2.897767167584095e-16,
+   "P-2a": true,
+   "P-2b": true,
+   "P-3": true,
+   "P-4": "PASS",
+   "ceiling_frac": 0.0,
+   "floor_frac": 0.0
+  },
+  "S1": {
+   "P-1": true,
+   "P-2a_duv_max": 2.9893669801409083e-16,
+   "P-2a": true,
+   "P-2b": true,
+   "P-3": true,
+   "P-4": "PASS",
+   "S1": {
+    "sky": 0.15754057245178843,
+    "lamp_over_sky": 634.7571831415215,
+    "poplar_weber": 0.31583500389573116,
+    "reversals": 0.0,
+    "halo": 0.9497787620772253
+   },
+   "P-5": true,
+   "ceiling_frac": 0.0025139735772357723,
+   "floor_frac": 0.0
+  },
+  "S3_bar": {
+   "P-1": true,
+   "P-2a_duv_max": 1.1102230246251565e-16,
+   "P-2a": true,
+   "P-2b": true,
+   "P-3": true,
+   "P-4": "PASS",
+   "S3_bar_weber": 0.4456879146987871,
+   "P-6": true,
+   "ceiling_frac": 1.042513709055274e-05,
+   "floor_frac": 0.006249869685786368
+  },
+  "S3_nobar": {
+   "P-1": true,
+   "P-2a_duv_max": 6.206335383118183e-17,
+   "P-2a": true,
+   "P-2b": true,
+   "P-3": true,
+   "P-4": "N/A+R3-flat PASS",
+   "ceiling_frac": 1.042513709055274e-05,
+   "floor_frac": 0.0
+  },
+  "S4": {
+   "P-1": true,
+   "P-2a_duv_max": 3.3766115072321297e-16,
+   "P-2a": true,
+   "P-2b": true,
+   "P-3": true,
+   "P-4": "PASS",
+   "ceiling_frac": 1.9073486328125e-05,
+   "floor_frac": 0.0
+  },
+  "S5": {
+   "P-1": true,
+   "P-2a_duv_max": 2.5430941400019818e-08,
+   "P-2a": true,
+   "P-2b": false,
+   "P-3": true,
+   "P-4": "PASS",
+   "ceiling_frac": 0.000741343957641196,
+   "floor_frac": 0.0
+  },
+  "F1": {
+   "P-1": true,
+   "P-2a_duv_max": 1.6653345369377348e-16,
+   "P-2a": true,
+   "P-2b": true,
+   "P-3": true,
+   "P-4": "PASS",
+   "P-8": true,
+   "ceiling_frac": 0.020202020202020204
+  },
+  "S2_frames": {
+   "P-1": true,
+   "P-2a": true,
+   "P-2b": false,
+   "P-3": true,
+   "P-4": [
+    "PASS"
+   ],
+   "inversions": 0
+  }
+ }
+}
