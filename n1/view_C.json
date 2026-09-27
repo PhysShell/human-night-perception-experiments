@@ -1,0 +1,137 @@
+{
+ "view": "C",
+ "spec": {
+  "what": "from darkness towards the source: standing in the barn's moon shadow on the lane, looking at the lamp",
+  "loc": [
+   0.5,
+   18.0,
+   1.7
+  ],
+  "yaw_deg": -8.4,
+  "pitch_deg": 0.0,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {
+   "shadow_foreground": [
+    1.5,
+    26,
+    0.003
+   ],
+   "pool_edge": [
+    4.5,
+    32,
+    0.003
+   ],
+   "pool_centre": [
+    4.5,
+    45,
+    0.003
+   ],
+   "moonlit_field": [
+    -4,
+    40,
+    0
+   ],
+   "sky": [
+    0,
+    500,
+    60
+   ],
+   "lamp_head": [
+    4.5,
+    45,
+    5.92
+   ]
+  }
+ },
+ "oidn_gate": {
+  "crops": {
+   "shadow_foreground": {
+    "mean_noisy": 0.0002265461388504567,
+    "mean_denoised": 0.00022506528336313514,
+    "rel_dev": -0.006536661780402686,
+    "cov_noisy": 0.8640802286453424,
+    "cov_denoised": 0.034168061018709804
+   },
+   "pool_edge": {
+    "mean_noisy": 0.031752581524632145,
+    "mean_denoised": 0.03175708815497111,
+    "rel_dev": 0.00014192957304803855,
+    "cov_noisy": 0.6446980083906346,
+    "cov_denoised": 0.6453516000089428
+   },
+   "pool_centre": {
+    "mean_noisy": 0.3153896256468738,
+    "mean_denoised": 0.3156095538384234,
+    "rel_dev": 0.0006973222124808665,
+    "cov_noisy": 0.4512044676294338,
+    "cov_denoised": 0.45117124326791264
+   },
+   "moonlit_field": {
+    "mean_noisy": 0.032330578248149694,
+    "mean_denoised": 0.03234286476644353,
+    "rel_dev": 0.00038002779286938626,
+    "cov_noisy": 0.2604837438439171,
+    "cov_denoised": 0.260583530209478
+   },
+   "sky": {
+    "mean_noisy": 0.001000001174940462,
+    "mean_denoised": 0.0010001601929322092,
+    "rel_dev": 0.00015901780491067719,
+    "cov_noisy": 0.0,
+    "cov_denoised": 6.123823467280067e-07
+   },
+   "lamp_head": {
+    "mean_noisy": 141.12063404544313,
+    "mean_denoised": 141.46159338076268,
+    "rel_dev": 0.002416084207853997,
+    "cov_noisy": 6.596363766696428,
+    "cov_denoised": 6.59639140703566
+   }
+  },
+  "whole_frame_rel_dev": 0.002317674559095595,
+  "PASS": true
+ },
+ "d1": {
+  "extraction_selfcheck": {
+   "colour_active": true,
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0,
+   "C3_fail_px": 0,
+   "X_le_0_px": 0
+  },
+  "tone_map_mode": "linear",
+  "display_gates": {
+   "finite": true,
+   "ch_min": 0.10677406706987079,
+   "ch_max": 100.0,
+   "G1": true,
+   "G2": true,
+   "G3": false,
+   "S-1": true,
+   "S-2": false,
+   "S-3": true
+  }
+ },
+ "my_reading_sha256_before_verdict": "bff072ad37264d05f8f46d420621f983be9d621d1eec6fe4ec202c7f838354b5",
+ "d1_gate_failure_classification": {
+  "failed": [
+   "G3 (hue_max 2.99e-5 rad > 1e-6)",
+   "S-2 (chroma increase 8.1e-9 > 1e-12)"
+  ],
+  "pixels": 1,
+  "pixel": [
+   646,
+   1238
+  ],
+  "class_of_pixel": "in-gamut (x == x0, untouched by the display mapping)",
+  "cause": "sRGB knee round trip of D1 own measurement: R channel v = 0.00313081 is 3e-12 above the encoder knee 0.04045/12.92, the power branch gives code 0.04044997 < 0.04045, so the decoder takes the linear branch. DR v2 claimed the encoder knee is the exact inverse of the decoder; it is not: the power branch still yields codes just below 0.04045 in a tiny band above the knee.",
+  "classification": "D1 known residual class (measurement artefact of the encode/decode round trip, first diagnosed in DR v1); not an image defect: hue difference 3e-5 rad at chroma 8.7e-4 u'v'. Erratum to the DR v2 claim of exactness. D1 unchanged.",
+  "addendum7_prediction_error": "the barn west wall (not only its NW corner) is in frame, right fifth",
+  "crop_mislabel": "crop moonlit_field (-4,40) lies inside the lamp pool (9.8 m from the foot); the OIDN bias it measures (+0.04%) is valid, its name is wrong"
+ }
+}
