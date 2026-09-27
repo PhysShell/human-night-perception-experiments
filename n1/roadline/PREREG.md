@@ -179,3 +179,15 @@ IES-shaded visible sphere, not in pixel integration or geometry.
   table. This is stated as such.
 - The **A0 emitter distances become 50, 100 and 400 m** (25 m is out of frame).
 - The gates are unchanged; A0 is re-run once.
+
+## A0 run 3: **PASS** (`a0_A.json`)
+- **Direction probes and ground:** ratio 0.991–1.021 against the table; V = 90° gives 1.7 cd (< 10).
+- **Camera-visible emitter:** 50 / 100 / 400 m give 247.9 / 57.1 / 9.4 cd against 251.5 / 57.8 / 9.6
+  (ratio 0.986 / 0.987 / 0.979).
+- **A1 is built with exactly this mapping:**
+  - P = 177.83/K;
+  - rotation −90° about z;
+  - the IES light hidden from the camera;
+  - a camera-only emitter with L = I_table(eye)/(π r²).
+- **Correction to the prediction table:** the 25 m luminaire head is out of frame at pitch 0°. It appears only through
+  its road pool.
