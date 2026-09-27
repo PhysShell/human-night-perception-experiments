@@ -102,3 +102,55 @@ Report per scene, as in §3.
     appearance; I expect it to be judged within the declared B-tint class.
 - **R4/R5 pass** (f is strictly monotonic), and **H3 passes.**
 - **Overall: stage-1 PASS is more likely than not.** The main risk is the RoadLine gradient.
+
+## Stage 1 automatic results (`results_A1b.json`, code `5168693`): **all PASS**; visual gates pending
+`d1/verify_manifest.sh` before and after: all OK. Y_A < 0: 0 px in both scenes.
+
+**RoadLine:**
+- **Automatic gates:**
+  - R3: C0 bit-identical, C2/C3 100 %, display gates: PASS;
+  - R4: no inversion;
+  - R5: presence identical to the frozen linear anchor (all six lamps, 64 613 codes above the background);
+  - H3: floor 0 % frame / 0 % field.
+- **Report:**
+
+  | quantity | frozen | shoulder |
+  |---|---|---|
+  | frame luminance ceiling | 16.18 % | **0.004 %** |
+  | any-channel ceiling | 17.92 % | 0.014 % |
+  | H2v2 road luminance ceiling | — | **0 %** |
+  | median Y_disp | 0.2074 cd/m² | 0.2073 cd/m² |
+
+  The road's median Y_disp under the shoulder is 63.1 cd/m². The frozen Y_A quantiles are Q50/Q90/Q99/Q99.9 =
+  0.0011 / 1.68 / 2.70 / 3.71.
+
+**S1:**
+- **Automatic gates:** P-1, P-2a, P-2b, P-3, P-4 and P-5 all PASS.
+- **P-5 metrics:**
+
+  | metric | frozen | shoulder |
+  |---|---|---|
+  | sky | 0.3179 | 0.3174 cd/m² |
+  | poplar Weber | 0.5927 | 0.5921 |
+  | lamp/sky | 315 | 278 |
+  | reversals | 0 | 0 |
+  | halo | 0.906 | 0.907 |
+
+- **Report:**
+
+  | quantity | frozen | shoulder |
+  |---|---|---|
+  | luminance ceiling | 0.303 % | 0.0006 % |
+  | any-channel ceiling | 0.318 % | 0.270 % |
+  | median Y_disp | 0.14167 | 0.14166 |
+
+  The frozen Y_A quantiles are Q50/Q90/Q99/Q99.9 = 0.0004 / 0.0025 / 0.0065 / 10.2.
+
+**Against the prediction:**
+- **S1 "nearly unchanged in the dark parts, P-5 PASS":** right.
+- **R4/R5/H3 PASS:** right.
+- **RoadLine "road maps to 0.67–0.8 of the peak":** the road median is 63 cd/m², inside that range.
+
+**Visual sheets:** `renders/A1b_sheet_roadline.png`, `renders/A1b_sheet_S1.png`, frozen D1 vs shoulder.
+
+**My reading** `A1b_my_reading.txt`: sha256 `c58ca393ff0b9afb17b1d871f2708b197e7cf32b4acf995e0de96bf756e9d4fe`, taken from the command output.

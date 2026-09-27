@@ -1,0 +1,8 @@
+D2-A1b stage 1, my reading before the external verdict (does not count).
+- RoadLine shoulder: broad roadway saturation gone (no white slab); the lit road keeps a readable gradient from the
+  near hot spot outwards, but it is low-contrast and flat-looking, with a cold lavender cast (B rod-term class). Lamp
+  cores still read as bright points; far lamps present. No new A-side defect I can name; the flatness is the risk for
+  the "road gradient preserved" question. My guess: V6 PASS, weak.
+- S1 shoulder: indistinguishable from frozen D1 in sky, poplar silhouettes and horizon; the lamp row keeps its
+  structure and now shows a slight warm/pink tint instead of pure white (B chroma no longer clipped away). No darkness
+  collapse. PASS.

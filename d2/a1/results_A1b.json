@@ -1,0 +1,135 @@
+{
+ "prereg": "d2/a1/PREREG_A1b.md",
+ "operator": "f(Y)=Y/(1+Y) on max(Y_A,0)",
+ "verify_manifest_before": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+ "roadline": {
+  "R3_extraction": {
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0
+  },
+  "R3_display_gates": {
+   "finite": true,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  },
+  "R4_inversions": [],
+  "R5_present_final": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "R5_present_raw": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "lamp_max_code_above_bg": {
+   "50": 64613.0,
+   "100": 64613.0,
+   "200": 64613.0,
+   "400": 64613.0,
+   "800": 64613.0,
+   "1600": 64613.0
+  },
+  "lamp_display_signal": {
+   "50": 0.0025569812024133494,
+   "100": 0.001048336857578712,
+   "200": 0.00045044914276682935,
+   "400": 0.00024401320865853146,
+   "800": 0.00013706916072492274,
+   "1600": 5.784147311237076e-05
+  },
+  "H3_floor_frac": 0.0,
+  "H3_field_floor_frac": 0.0,
+  "report_H2v2_road_luminance_ceiling": 0.0,
+  "report_road_median_Y_disp": 63.07537270254916,
+  "report": {
+   "Y_A_Q": {
+    "50": 0.0010750860645261607,
+    "90": 1.6778142709525148,
+    "99": 2.701018358016516,
+    "99.9": 3.7107141309042455
+   },
+   "Y_A_negative_px": 0,
+   "frozen": {
+    "lum_ceiling": 0.16184895833333332,
+    "any_ch_ceiling": 0.17923208841463414,
+    "floor": 0.0,
+    "median_Y_disp": 0.20740255061873444
+   },
+   "shoulder": {
+    "lum_ceiling": 4.3191056910569106e-05,
+    "any_ch_ceiling": 0.00013910060975609755,
+    "floor": 0.0,
+    "median_Y_disp": 0.20728456483796975
+   }
+  },
+  "R3_PASS": true,
+  "R4_PASS": true,
+  "R5_PASS": true,
+  "H3_PASS": true,
+  "automatic_PASS": true
+ },
+ "S1": {
+  "P": {
+   "P-1": true,
+   "P-2a_duv_max": 3.510833468576701e-16,
+   "P-2a": true,
+   "P-2b": true,
+   "P-3": true,
+   "P-4": "PASS",
+   "P-5": true
+  },
+  "P5_metrics": {
+   "shoulder": {
+    "sky": 0.31740005300388496,
+    "lamp_over_sky": 277.71387048968825,
+    "poplar_weber": 0.5921108852342813,
+    "reversals": 0.0,
+    "halo": 0.9065163101467357
+   },
+   "frozen": {
+    "sky": 0.31787418573187587,
+    "lamp_over_sky": 314.58990534182334,
+    "poplar_weber": 0.5926919359915138,
+    "reversals": 0.0,
+    "halo": 0.9062724975869036
+   }
+  },
+  "report": {
+   "Y_A_Q": {
+    "50": 0.0004170206334859521,
+    "90": 0.0025318646953345117,
+    "99": 0.006527886091899469,
+    "99.9": 10.229901732895048
+   },
+   "Y_A_negative_px": 0,
+   "frozen": {
+    "lum_ceiling": 0.0030265497967479674,
+    "any_ch_ceiling": 0.0031840701219512193,
+    "floor": 0.0,
+    "median_Y_disp": 0.14166601775668286
+   },
+   "shoulder": {
+    "lum_ceiling": 6.351626016260163e-06,
+    "any_ch_ceiling": 0.002698170731707317,
+    "floor": 0.0,
+    "median_Y_disp": 0.14165749918331164
+   }
+  },
+  "automatic_PASS": true
+ },
+ "stage1_automatic_PASS": true,
+ "verify_manifest_after": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n"
+}
