@@ -36,6 +36,23 @@ def sheet(name, pairs):
 
 sheet("hero", [("hero", "n1/renders/final/hero.png", f"{WK}/views/hero.png")])
 sheet("C", [("Camera C", "n1/renders/final/cam_C.png", f"{WK}/views/C.png")])
-sheet("S1", [("S1", f"{FRZ}/S1__PHONE_SDR100_DARK.png", f"{WK}/final/S1__PHONE_SDR100_DARK.png")])
-sheet("S2", [(f"S2 frame {f}", f"{FRZ}/S2__PHONE_SDR100_DARK/frame_{f:04d}.png", f"{WK}/s2_frame_{f:04d}.png") for f in (1, 48)])
+
+
+def band_sheet(name, pairs):
+    """S1-type panoramas: per image, full frame (960 wide) + the sky/poplar/lamp band rows 100-420 at 1:1 (left, right half)."""
+    blocks = []
+    for c, fz, gd in pairs:
+        for lab, p in (("frozen D1", fz), ("Q99.9 guard", gd)):
+            im = ld(p); full = im.reshape(410, 2, 960, 2, 3).mean((1, 3)); bl, br = im[100:420, :960], im[100:420, 960:]
+            blocks.append((f"{c}: {lab}: full frame | band rows 100-420 1:1, left half | right half", np.concatenate([full, np.zeros((6, 960, 3)), bl, np.zeros((6, 960, 3)), br])))
+    lab_h = 26; H = sum(b.shape[0] + lab_h for _, b in blocks); canvas = np.zeros((H, 960, 3)); y = 0; ys = []
+    for c, b in blocks:
+        ys.append(y); canvas[y + lab_h:y + lab_h + b.shape[0]] = b; y += lab_h + b.shape[0]
+    fig = plt.figure(figsize=(9.6, H / 100), dpi=100, facecolor="black"); fig.figimage(canvas, 0, 0, origin="upper")
+    for (c, _), y0 in zip(blocks, ys): fig.text(0.01, 1 - (y0 + 18) / H, c, color="w", fontsize=10)
+    fig.savefig(f"d2/a2/renders/A2b2_sheet_{name}.png", dpi=100, facecolor="black")
+
+
+band_sheet("S1", [("S1", f"{FRZ}/S1__PHONE_SDR100_DARK.png", f"{WK}/final/S1__PHONE_SDR100_DARK.png")])
+band_sheet("S2", [(f"S2 frame {f}", f"{FRZ}/S2__PHONE_SDR100_DARK/frame_{f:04d}.png", f"{WK}/s2_frame_{f:04d}.png") for f in (1, 48)])
 print("ok")
