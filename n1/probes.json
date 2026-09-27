@@ -109,5 +109,152 @@
    "barn_shadow_L_ratio_info": 4.588582245707066,
    "PASS": true
   }
+ },
+ "b": {
+  "L1": {
+   "lights": [
+    [
+     "luminaire",
+     "SPOT"
+    ],
+    [
+     "moon",
+     "SUN"
+    ]
+   ],
+   "emissive": [
+    [
+     "lamp_disc",
+     [
+      "Circle"
+     ]
+    ]
+   ],
+   "world_cdm2": 0.000999999990199285,
+   "PASS": true
+  },
+  "illuminance_lx": {
+   "barn_shadow": 0.08418434802834969,
+   "field_open": 1.4142767922342219,
+   "field_open_right": 0.023448961835271502,
+   "tree_shadow": 0.0029067309933393597,
+   "lane_near": 0.024361603564753084,
+   "lamp_y+0": 17.524601755225596,
+   "lamp_y+5": 5.232874647521052,
+   "lamp_y+10": 1.3050684880573473,
+   "lamp_y+15": 0.042903258965632414,
+   "lamp_y+20": 0.024734890711619946,
+   "lamp_y+30": 0.023211551063093614,
+   "lamp_y-10": 1.3161906341514256,
+   "lamp_y-20": 0.02572153671682408,
+   "lamp_y-30": 0.023132037468544097,
+   "lamp_x-30": 0.02606140040116328
+  },
+  "hero_luminance_cdm2": {
+   "field_open": 0.03633088795220465,
+   "tree_shadow": 0.00038869050841167335,
+   "lane_near": null,
+   "puddle": 0.010762921188322798,
+   "lane_under_lamp": 0.4648480551236076,
+   "barn_front": null,
+   "barn_west": 1.1261607876345048,
+   "barn_shadow": 0.02037080845757591,
+   "sky_9deg": 0.0009999952854876028,
+   "lamp_disc": 8035.94030148983
+  },
+  "M2_paths_cdm2": {
+   "field_open": {
+    "Diffuse Direct": 0.43380681550684386,
+    "Diffuse Indirect": 0.021069285464035782,
+    "Diffuse Color": 14.320028493782878,
+    "Glossy Direct": 0.0,
+    "Glossy Indirect": 0.0,
+    "Glossy Color": 0.0
+   },
+   "tree_shadow": {
+    "Diffuse Direct": 0.0048131079485490775,
+    "Diffuse Indirect": 9.862647512676403e-06,
+    "Diffuse Color": 14.320028493782878,
+    "Glossy Direct": 0.0,
+    "Glossy Indirect": 0.0,
+    "Glossy Color": 0.0
+   },
+   "puddle": {
+    "Diffuse Direct": 0.007358526616279413,
+    "Diffuse Indirect": 3.9979406359373916e-07,
+    "Diffuse Color": 4.825466314330697,
+    "Glossy Direct": 1.0657176231242005e-05,
+    "Glossy Indirect": 0.04600243117093778,
+    "Glossy Color": 41.129519015550606
+   },
+   "lane_under_lamp": {
+    "Diffuse Direct": 3.7135122996661813,
+    "Diffuse Indirect": 0.28390621360032814,
+    "Diffuse Color": 11.433731190860271,
+    "Glossy Direct": 2.1864134746545463,
+    "Glossy Indirect": 0.23065931853976798,
+    "Glossy Color": 15.661002039909363
+   },
+   "barn_west": {
+    "Diffuse Direct": 2.1667654124175195,
+    "Diffuse Indirect": 0.0782171400449035,
+    "Diffuse Color": 76.62956199661494,
+    "Glossy Direct": 2.982870024548657,
+    "Glossy Indirect": 0.08557605976362247,
+    "Glossy Color": 8.712090276181698
+   },
+   "barn_shadow": {
+    "Diffuse Direct": 0.020607411638672055,
+    "Diffuse Indirect": 0.004510269664041425,
+    "Diffuse Color": 11.561709955334663,
+    "Glossy Direct": 0.1708103159151098,
+    "Glossy Indirect": 0.06744804707908333,
+    "Glossy Color": 13.832730546593666
+   },
+   "sky_9deg": {
+    "Diffuse Direct": 0.0,
+    "Diffuse Indirect": 0.0,
+    "Diffuse Color": 0.0,
+    "Glossy Direct": 0.0,
+    "Glossy Indirect": 0.0,
+    "Glossy Color": 0.0
+   }
+  },
+  "lamp_only_lx": {
+   "lamp_y+0": 17.5019462836857,
+   "lamp_y+5": 5.2091592052921145,
+   "lamp_y+10": 1.2815760144473762,
+   "lamp_y+15": 0.019598541070916013,
+   "lamp_y+20": 0.0015119098968244364,
+   "lamp_y+30": 4.9203296930814405e-05,
+   "lamp_y-10": 1.3132735226959258,
+   "lamp_y-20": 0.002624163342953522,
+   "lamp_y-30": 3.8673188219214005e-06,
+   "lamp_x-30": 0.002930386533260828
+  },
+  "moon_only_lx": 0.019936126761089905,
+  "L3": {
+   "under_lamp_lx": 17.5019462836857,
+   "under_in_5_30": true,
+   "at_30m_lx": {
+    "lamp_y+30": 4.9203296930814405e-05,
+    "lamp_y-30": 3.8673188219214005e-06,
+    "lamp_x-30": 0.002930386533260828
+   },
+   "at_30m_below_10pct_moon": false,
+   "PASS": false
+  },
+  "L4": {
+   "disc_cdm2": 8051.6135211483,
+   "pred_I0_over_A": 8051.674551787073,
+   "disc_ratio": 0.9999924201309454,
+   "under_lamp_ratio_to_I0_over_h2": 1.0704632610906768,
+   "pred_E0_lx": 16.349880392768704,
+   "PASS": true
+  },
+  "outside_unchanged_vs_a": {
+   "field_open": 61.28321290424403,
+   "tree_shadow": 1.0002513899119096
+  }
  }
 }

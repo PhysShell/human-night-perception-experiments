@@ -154,6 +154,9 @@ wall_v = [(BX0, BY0, 0), (BX1, BY0, 0), (BX1, BY1, 0), (BX0, BY1, 0), (BX0, BY0,
           (BX0, BY1, BH), ((BX0 + BX1) / 2, BY0, BR), ((BX0 + BX1) / 2, BY1, BR)]
 mesh("barn_walls", wall_v, [(0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7), (4, 5, 8), (6, 7, 9)], MAT["wall"])
 mesh("barn_roof", wall_v, [(4, 8, 9, 7), (8, 5, 6, 9)], MAT["roof"])
+if os.environ.get("N1_DIAG_NO_BARN_BOUNCE"):                   # diagnostic only (M2 attribution), never a scene setting
+    for nm in ("barn_walls", "barn_roof"):
+        bpy.data.objects[nm].visible_diffuse = False
 
 # --- luminaire geometry (all stages: the scene is fixed; only the light and its emitter are staged) ---
 PX, PY = 6.3, LAMP_POS[1]                                  # addendum 2: beside the barn west wall
