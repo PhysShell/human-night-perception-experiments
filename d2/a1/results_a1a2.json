@@ -1,0 +1,36 @@
+{
+ "prereg": "d2/a1/PREREG_A1a2.md",
+ "S": 0.2641,
+ "verify_manifest_before": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+ "roadline": {
+  "H2v2_road_luminance_ceiling_frac": 0.0006984201601665463,
+  "C1_road_chromatic_ceiling_frac_report": 0.01075164111948693,
+  "H1_frame_any_channel_ceiling_report": 0.002929369918699187,
+  "note": "not prospective (A1a output); confirms the metric fix only",
+  "H2v2_PASS": true
+ },
+ "holdout_C": {
+  "HO1_luminance_ceiling_frac": 0.0004643038617886179,
+  "HO1_limit": 0.004442,
+  "HO2_floor_frac": 0.0,
+  "HO2_limit": 0.0062,
+  "HO3_lamp_head_code_above_annulus": 60643.0,
+  "any_channel_ceiling_report": 0.0006142022357723577,
+  "R3_display_gates": {
+   "finite": true,
+   "ch_min": 0.10178366920606113,
+   "ch_max": 100.0,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  },
+  "HO1_PASS": true,
+  "HO2_PASS": true,
+  "HO3_PASS": true
+ },
+ "automatic_PASS": true,
+ "verify_manifest_after": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n"
+}

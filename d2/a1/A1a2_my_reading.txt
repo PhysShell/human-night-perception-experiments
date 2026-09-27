@@ -1,0 +1,9 @@
+D2-A1a2 hold-out, N1 Camera C with s = 0.2641. My reading, written before the external V6 verdict (does not count).
+- Broad saturation: none seen. The lit ground pool has a readable gradient from the pole base outwards; only the lamp
+  core and a thin stripe on the pole reach white.
+- Source readability: lamp head readable (white core under a visible housing and arm).
+- Darkness: not collapsed; field, barn mass on the right and the dark oval shapes on the left stay separable from the
+  black sky, but the frame is overall darker than frozen D1 C, and the far ground reads near-black.
+- New defect class: none I can name. Hard wedge edges of the pool = luminaire cut-off geometry, present in the scene.
+- Declared residuals: white lamp core; warm/pinkish tint of the pool (B rod-term class, d2/b2).
+- My guess at V6: PASS, with "dark overall" as the main risk.

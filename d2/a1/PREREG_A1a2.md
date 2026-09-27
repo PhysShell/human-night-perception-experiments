@@ -61,3 +61,15 @@ No new Blender render; minutes of CPU. `d1/verify_manifest.sh` before and after.
 - HO1 passes: C's pool and core become darker, so less reaches the peak.
 - **HO2 is the risk:** C's dark foreground (barn moon shadow) drops 1.92 stops towards the floor.
 - HO3 passes: the lamp core is ≫ its surroundings.
+
+## A1a2 results before the verdict (`results_a1a2.json`, code c1b76d9)
+- `d1/verify_manifest.sh` before and after: all OK.
+- **RoadLine (confirmatory only):** H2v2 road luminance ceiling **0.070 %** ≤ 0.1 % PASS. C1 chromatic ceiling (report)
+  1.08 %. H1 any-channel frame ceiling (report) 0.29 %.
+- **Hold-out Camera C, same s:**
+  - HO1 luminance ceiling **0.046 %** ≤ 0.444 % PASS (any-channel ceiling, report: 0.061 %);
+  - HO2 floor **0.000 %** ≤ 0.62 % PASS;
+  - HO3 lamp head 60 643 codes above the annulus ≥ 1 PASS;
+  - R3 display gates G1–G3, S-1…S-3 all PASS.
+- **Automatic: PASS.** V6 pending: external observer, sheet `renders/holdout_C_a1a2_sheet.png`.
+- My reading, written before the verdict: `A1a2_my_reading.txt`, sha256 `00ab5916aa7ce86a4c66e9a5b40da0aee47e249bfdf2a417d7aa34a31f87c0d1`.
