@@ -59,3 +59,23 @@ The A1 rule requires the comparator exposure to be committed before *any* D1 out
 - **R4 and R5 pass.**
 - Visually: a few lamps at 50–200 m, faint points at 400–800 m, and 1600 m at the edge of presence. This is the
   modern-LED "short road".
+
+## A2 results before the verdict (`a2_A.json`)
+**Automatic gates, all PASS:**
+- **G-A2:** far display signal seed 0 vs 1: +1.05 % (800 m), −0.11 % (1600 m); R4/R5 identical.
+- **R3:** C0 bit-identical, C2/C3 at 100 %, display gates all PASS.
+- **R4:** no inversion.
+- **R5:** presence identical to the linear anchor.
+
+**Stated plainly:**
+- D1's A (pcond's linear branch, anchor 2.55 Y_A per cd/m²) puts the display peak at **0.39 cd/m² of scene**.
+- The lit near road (≈ 1.2 cd/m²) and **all six lamps reach the display peak**. Peak pixels per lamp: 50 m 49 of 49,
+  1600 m 2 of 49.
+- **R5 is therefore trivially true.** R4 holds through the size of the saturated spot only: display signal 2.6·10⁻³ →
+  8.4·10⁻⁵.
+- Frame fraction at the peak: **D1 17.9 %**, raw anchor 16.2 %, V0 16.2 %, plain Blender 0 %.
+
+**Blind sheet** `renders/blind/sheet.png` (X, Y, Z plus far-lamp crops); seed-0 permutation of D1 / V0 / Blender
+AgX +7, all from the canonical input.
+- Key sha256 `0465859c9d40ac53b267bcc8a7568d9f7f7d5f8e355008b1e6ade132c2b2842b`.
+- My reading, written before the verdict: sha256 `4e6b13dd5229e5a7724e8bb54c657817f846a5d0dacdc05250390875ee070992`.

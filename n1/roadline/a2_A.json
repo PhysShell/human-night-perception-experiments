@@ -1,0 +1,290 @@
+{
+ "prereg": "n1/roadline/PREREG_A2.md",
+ "in_s0": {
+  "R3": {
+   "extraction_selfcheck": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0
+   },
+   "tone_map_mode": "linear",
+   "display_gates": {
+    "finite": true,
+    "ch_min": 0.10856832623298962,
+    "ch_max": 100.0,
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "S-1": true,
+    "S-2": true,
+    "S-3": true
+   }
+  },
+  "final": {
+   "50": {
+    "display_signal": 0.0026053167364602364,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "100": {
+    "display_signal": 0.0011028280390386318,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "200": {
+    "display_signal": 0.0005066041488076383,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "400": {
+    "display_signal": 0.00029188284113523377,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "800": {
+    "display_signal": 0.00017727317767360183,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "1600": {
+    "display_signal": 8.391613752744616e-05,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   }
+  }
+ },
+ "in_s1": {
+  "R3": {
+   "extraction_selfcheck": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0
+   },
+   "tone_map_mode": "linear",
+   "display_gates": {
+    "finite": true,
+    "ch_min": 0.10856832623298962,
+    "ch_max": 100.0,
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "S-1": true,
+    "S-2": true,
+    "S-3": true
+   }
+  },
+  "final": {
+   "50": {
+    "display_signal": 0.0026053167364602364,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "100": {
+    "display_signal": 0.0011028280390386318,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "200": {
+    "display_signal": 0.0005066041488076383,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "400": {
+    "display_signal": 0.00029188284113523377,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "800": {
+    "display_signal": 0.00017542909960846138,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "1600": {
+    "display_signal": 8.400585802939185e-05,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   }
+  }
+ },
+ "canonical": {
+  "R3": {
+   "extraction_selfcheck": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0
+   },
+   "tone_map_mode": "linear",
+   "display_gates": {
+    "finite": true,
+    "ch_min": 0.10856832623298962,
+    "ch_max": 100.0,
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "S-1": true,
+    "S-2": true,
+    "S-3": true
+   }
+  },
+  "final": {
+   "50": {
+    "display_signal": 0.0026053167364602364,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "100": {
+    "display_signal": 0.0011028280390386318,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "200": {
+    "display_signal": 0.0005066041488076383,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "400": {
+    "display_signal": 0.00029188284113523377,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "800": {
+    "display_signal": 0.0001763682969162742,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   },
+   "1600": {
+    "display_signal": 8.370008375610658e-05,
+    "present": true,
+    "max_code_above_bg": 64612.0
+   }
+  },
+  "raw": {
+   "50": {
+    "display_signal": 0.0026054645670610674,
+    "present": true,
+    "max_code_above_bg": 64476.0
+   },
+   "100": {
+    "display_signal": 0.0011439335471326829,
+    "present": true,
+    "max_code_above_bg": 64476.0
+   },
+   "200": {
+    "display_signal": 0.0005820702259088107,
+    "present": true,
+    "max_code_above_bg": 64476.0
+   },
+   "400": {
+    "display_signal": 0.00030747630514632747,
+    "present": true,
+    "max_code_above_bg": 64476.0
+   },
+   "800": {
+    "display_signal": 0.00020159834204623564,
+    "present": true,
+    "max_code_above_bg": 64476.0
+   },
+   "1600": {
+    "display_signal": 9.959207395560383e-05,
+    "present": true,
+    "max_code_above_bg": 64476.0
+   }
+  },
+  "anchor_k_per_cdm2": 2.5456112543936125
+ },
+ "G-A2": {
+  "far_display_signal_dev": {
+   "800": 0.010511813999252384,
+   "1600": -0.0010680267311155012
+  },
+  "R4_inversions_s0": [],
+  "R4_inversions_s1": [],
+  "R5_present_s0": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "R5_present_s1": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "PASS": true
+ },
+ "R3": {
+  "extraction_selfcheck": {
+   "colour_active": true,
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0
+  },
+  "tone_map_mode": "linear",
+  "display_gates": {
+   "finite": true,
+   "ch_min": 0.10856832623298962,
+   "ch_max": 100.0,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  }
+ },
+ "R4": {
+  "inversions": [],
+  "display_signal": {
+   "50": 0.0026053167364602364,
+   "100": 0.0011028280390386318,
+   "200": 0.0005066041488076383,
+   "400": 0.00029188284113523377,
+   "800": 0.0001763682969162742,
+   "1600": 8.370008375610658e-05
+  },
+  "PASS": true
+ },
+ "R5": {
+  "present_final": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "present_raw": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "max_code_above_bg_final": {
+   "50": 64612.0,
+   "100": 64612.0,
+   "200": 64612.0,
+   "400": 64612.0,
+   "800": 64612.0,
+   "1600": 64612.0
+  },
+  "max_code_above_bg_raw": {
+   "50": 64476.0,
+   "100": 64476.0,
+   "200": 64476.0,
+   "400": 64476.0,
+   "800": 64476.0,
+   "1600": 64476.0
+  },
+  "PASS": true
+ }
+}
