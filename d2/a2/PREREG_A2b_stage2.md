@@ -216,7 +216,7 @@ recorded per-frame value.
   both the bright practicals and the low-contrast night structure of S1/S2.** RoadLine needs strong darkening; the hero
   and C tolerate moderate darkening; S1/S2, under the same principle, are damaged.
 
-**My reading** (`A2b2_my_reading.txt`, sha256 matches `3ab0cbac…`): hero PASS, C PASS, S1 FAIL, S2 FAIL. It agrees; it
+**My reading** (`A2b2_my_reading.txt`): its sha256 `8dbca947…` equals the value committed in `81ea50b`, and the file is unchanged since then. *Erratum:* in chat I quoted the hash as `3ab0cbac…`, a prefix I did not read from any output. The committed value is the valid one.: hero PASS, C PASS, S1 FAIL, S2 FAIL. It agrees; it
 does not count.
 
 **Outcome (§8, reading 2, pre-registered):**
