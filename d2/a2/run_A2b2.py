@@ -33,7 +33,8 @@ def bi(png, frozen):
 
 
 def expo(ax):
-    return float(re.search(r"EXPOSURE=([0-9.eE+-]+)", open(f"d1/a_extract/.cache/{ax}/out.header").read()).group(1))
+    m_ = re.search(r"EXPOSURE=([0-9.eE+-]+)", open(f"d1/a_extract/.cache/{ax}/out.header").read())
+    return float(m_.group(1)) if m_ else None                                         # mapped branch (e.g. F1) writes no EXPOSURE
 
 
 def row(ax, png, frozen):
