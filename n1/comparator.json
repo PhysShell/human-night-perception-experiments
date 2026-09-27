@@ -1,0 +1,23 @@
+{
+ "chosen_exposure_stops": 12,
+ "view": {
+  "view_transform": "AgX",
+  "look": "None",
+  "display_device": "sRGB",
+  "gamma": 1.0
+ },
+ "input": "n1/work/hero_final_rgb.exr (Cycles units, sha256 3ce7fab2...)",
+ "ladder_seen": [
+  8,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16
+ ],
+ "reason": "+12 is how I would grade a normal night render: dark grey sky with the poplars as clear silhouettes, dark field that still keeps its tone, warm lamp pool not blown, deep barn shadow. +11 crushes field and silhouettes to near-black; +13 and above read as dusk.",
+ "chosen_before_D1": "no D1 output of the hero exists at this commit",
+ "png_sha256": "e4584fd99db15472b99743725c936b73a1e5174e1e6d2d21ce97638f34615944"
+}
