@@ -170,3 +170,34 @@ T(d): 50 m 0.992; 200 m 0.969; 400 m 0.939; 800 m 0.882; 1600 m 0.779.
   - "C1 may fail" — it did fail, on both ages;
   - C2 holds.
 - **Not predicted:** frozen D1 losing the 50/100 m lamps into their veil blobs under glare.
+
+## Errata (after the user's review; the results above are unchanged)
+**E1: wrong pcond flag.**
+- **The error:** "pcond's own veiling option `-a`" is wrong. In pcond, `-a` is the loss of visual **acuity**
+  (DO_ACUITY), `-v` is **veiling glare** (DO_VEIL), and `-h` = `-a -v -s -c`.
+- **Correction:** frozen D1 is pcond `-s -c`, without `-v`.
+- **pcond's own glare coupling differs from T0b's.**
+  - In `pcond4.c`: VADAPT = 0.08, the "fraction of adaptation from veil". `compveil()` mixes the veil into the foveal
+    image at that fraction before the histogram is recomputed.
+  - Radiance therefore does **not** feed the full veil 1:1 into exposure selection.
+  - pcond's `-v` computes glare only from bright regions **inside** the image. It would not see the dominant
+    out-of-frame 25 m lamp, which CIE 146 counts as a legitimate source (0.1°–100°).
+
+**E2: the reading is too strong. It is replaced by:**
+> Under the T0b coupling, where the full CIE 146 veil is added to the scene before adaptation, the observed A-side
+> saturation disappears. Whether this coupling is an appropriate observer model is unresolved.
+
+- The −3.7/−4.4-stop scale change and C1's failure belong to that specific coupling, not to human disability glare in
+  general.
+- **The "double counting" argument is also weakened.** pcond is designed to put simulated veiling glare into the
+  display image, so an effect in the final picture is not double counting as such. The real question is how much
+  optical glare the display itself adds for the viewer, compared with the real lamps (E_eye ≈ 3.4 lx from the 25 m
+  lamp). That can be measured.
+
+**Order (user decision):**
+1. A1b stage 2 now.
+2. A1b closed PASS/FAIL, with the operator unchanged.
+3. Then a separate **D2-G1, observer glare architecture**, with three cheap kill-gates and no renders:
+   - **G0.1:** CIE 146 source inventory, including out-of-frame sources;
+   - **G0.2:** the adaptation coupling, full veil vs Radiance's VADAPT = 0.08;
+   - **G0.3:** a display double-count bound, E_eye from the final SDR display vs the 3.4 lx of the real lamp.
