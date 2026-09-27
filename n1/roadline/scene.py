@@ -2,7 +2,9 @@
 
     blender -b --factory-startup --python n1/roadline/scene.py -- MODE STIM OUTDIR [samples]
 
-MODE  a0probes      one luminaire at (5.5, 30, 8); albedo-1 patches facing it at 5 m in the addendum-1 directions and
+MODE  full          the RoadLine still: 7 luminaires at DISTANCES with poles and arms, the eye camera, OIDN with the
+                    N1 addendum-5 settings and the noisy pass stored -> OUTDIR/roadline.exr, lamps.json
+      a0probes      one luminaire at (5.5, 30, 8); albedo-1 patches facing it at 5 m in the addendum-1 directions and
                     one on the road under it. DIRECT LIGHT ONLY (max_bounces 0, world off): a measurement setting,
                     so ground bounce cannot pose as luminaire intensity. -> OUTDIR/a0_<name>.exr, a0_dirs.json
       a0emit_D      one luminaire at (5.5, D, 8), the full frozen sky/ground, seen from the eye; render border around
@@ -29,6 +31,8 @@ TAB = lm63.read(IES); IMAX = float(TAB["C"].max())
 SKY_CDM2, SKY_TINT = 4e-4, (0.85, 0.9, 1.0)
 EYE = (0.5, 0.0, 1.7); HFOV, RES = 60.0, (1920, 820)
 LUM_X, LUM_Z, RADIUS = 5.5, 8.0, 0.105
+DISTANCES = (25, 50, 100, 200, 400, 800, 1600)
+POLE_X = 7.5
 
 
 def unit_lum(rgb):
@@ -146,3 +150,27 @@ elif MODE.startswith("a0emit_"):
     sc.render.filepath = f"{OUT}/a0emit_{int(D)}.exr"; bpy.ops.render.render(write_still=True)
     json.dump({"stim": STIM, "D": D, "px": [px, py], "r_m": r, "V": V, "H": H, "I_table_cd": lm63.intensity(TAB, V, H),
                "pixel_solid_angle_sr_at_centre": (math.radians(HFOV) / RES[0]) ** 2}, open(f"{OUT}/a0emit_{int(D)}.json", "w"), indent=1)
+elif MODE == "full":
+    POLE = material("pole", 0.3, 0.5, 0.5)
+    lamps = []
+    for d in DISTANCES:
+        luminaire(float(d))
+        bpy.ops.mesh.primitive_cylinder_add(radius=0.1, depth=LUM_Z + 0.2, location=(POLE_X, d, (LUM_Z + 0.2) / 2)); bpy.context.active_object.data.materials.append(POLE)
+        bpy.ops.mesh.primitive_cube_add(size=1, location=((POLE_X + LUM_X) / 2, d, LUM_Z + 0.15)); arm = bpy.context.active_object
+        arm.scale = (POLE_X - LUM_X + 0.3, 0.08, 0.06); arm.data.materials.append(POLE)
+    cd = bpy.data.cameras.new("eye"); cd.sensor_fit = "HORIZONTAL"; cd.angle = math.radians(HFOV)
+    cam = bpy.data.objects.new("eye", cd); cam.location = EYE; cam.rotation_euler = (math.radians(90), 0, 0)
+    sc.collection.objects.link(cam); sc.camera = cam; sc.render.resolution_x, sc.render.resolution_y = RES
+    from bpy_extras.object_utils import world_to_camera_view
+    bpy.context.view_layer.update()
+    for d in DISTANCES:
+        c = world_to_camera_view(sc, cam, Vector((LUM_X, d, LUM_Z))); e = Vector(EYE) - Vector((LUM_X, d, LUM_Z)); r = e.length
+        V = math.degrees(math.acos(-e.z / r)); H = math.degrees(math.atan2(-e.y, -e.x)) % 360
+        lamps.append({"d": d, "px": [c.x * RES[0], (1 - c.y) * RES[1]], "in_frame": 0 <= c.x <= 1 and 0 <= c.y <= 1,
+                      "r_m": r, "V": V, "H": H, "I_table_cd": lm63.intensity(TAB, V, H)})
+    json.dump({"stim": STIM, "lamps": lamps, "eye": EYE, "hfov": HFOV, "res": RES}, open(f"{OUT}/lamps.json", "w"), indent=1)
+    sc.cycles.use_denoising = True; sc.cycles.denoiser = "OPENIMAGEDENOISE"; sc.cycles.denoising_input_passes = "RGB_ALBEDO_NORMAL"
+    sc.cycles.denoising_prefilter = "ACCURATE"; sc.cycles.denoising_quality = "HIGH"; sc.cycles.denoising_use_gpu = False
+    bpy.context.view_layer.cycles.denoising_store_passes = True           # N1 addendum-5 settings, unchanged
+    sc.render.image_settings.media_type = "MULTI_LAYER_IMAGE"
+    sc.render.filepath = f"{OUT}/roadline.exr"; bpy.ops.render.render(write_still=True)
