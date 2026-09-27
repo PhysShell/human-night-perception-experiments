@@ -133,5 +133,16 @@
   "classification": "D1 known residual class (measurement artefact of the encode/decode round trip, first diagnosed in DR v1); not an image defect: hue difference 3e-5 rad at chroma 8.7e-4 u'v'. Erratum to the DR v2 claim of exactness. D1 unchanged.",
   "addendum7_prediction_error": "the barn west wall (not only its NW corner) is in frame, right fifth",
   "crop_mislabel": "crop moonlit_field (-4,40) lies inside the lamp pool (9.8 m from the foot); the OIDN bias it measures (+0.04%) is valid, its name is wrong"
- }
+ },
+ "external_verdict": {
+  "V1": "PASS",
+  "V2": "PASS (better than B: source, pool, dark foreground, poplars and barn give depth)",
+  "V3": "PASS",
+  "V4": "PASS (source visible, pool spatially consistent)",
+  "V5": "PASS (poplars read against the sky; barn a dark mass without fill)",
+  "V6": "PASS (white core and pinkish flank are declared residuals, not new failures)"
+ },
+ "G3_S2_record": "G3/S-2: FAIL (literal, 1 px), root cause classified as the previously known measurement-artefact class in D1's sRGB encode/decode round-trip; no corresponding display-mapping or visible-image defect. Not rewritten as PASS.",
+ "my_reading_hash_matches": true,
+ "verdict": "Camera C ACCEPTED (V1-V6 PASS; G3/S-2 literal FAIL classified as known measurement artefact)"
 }

@@ -1,0 +1,11 @@
+My reading of Camera C (D1), written before the observer's verdict; does not count.
+V1 night: yes; dark sky, dark foreground (the barn's moon shadow), one lit island.
+V2 composition: the strongest of the three views. Lamp and pole at the centre, the pool beneath, the lane receding,
+   four poplars as silhouettes on the left, the barn's west wall as a dark mass on the right.
+V3 darkness: yes; foreground shadow, the field beyond the pool and the sky lose detail.
+V4 source: the lamp head is a bright white core (declared residual: white at the SDR peak) and plausibly lights the
+   pool; the pool is whitish at its centre with a pinkish-warm flank (declared rod-term residual).
+V5: the poplar silhouettes read against the sky; the barn wall reads as a dark mass.
+V6: no halos, banding or blocking seen; the lit wedge of lane asphalt is the geometry of the cone on the lane.
+My geometric prediction was wrong in one respect: the barn's west wall, not only its NW corner, is in frame (right
+fifth).
