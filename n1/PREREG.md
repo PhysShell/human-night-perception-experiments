@@ -221,3 +221,46 @@ direction; the ridge shadow is 18.2 m long):
 2. A moon-only probe inside it (3, 16) is clearly darker than the open field, of the same order as the tree-shadow
    result (≈ 8×).
 3. Outside the shadow, L1 and L2 reproduce the N1.1a values. A change there would mean more than geometry changed.
+
+---
+
+## Addendum 3 (committed before the change): N1.1b geometry, the lamp moves behind the barn
+
+**Scope, deliberately narrow.** The practical lamp moves behind the barn so that its direct pool no longer erases the
+moon-cast barn shadow in the hero frame. N1.1b (`README.md`, `628666c`) showed:
+- the dark ground in the frame fell from 8.7 % to 0.6 % with the lamp on;
+- L3 failed at 30 m from the barn-wall bounce (the lamp 2.5 m from a 0.45-albedo wall).
+
+**New coordinates, frozen:**
+- lamp head (4.5, 45, 5.9);
+- pole at x = 6.3 (y = 45);
+- puddle centred at (1.0, 10.1), the lamp's mirror point for the eye (1.007, 10.07).
+- The barn stays at x 7–17, y 22–32.
+
+**Unchanged:** moon, sky luminance, camera, materials, spot settings (I₀, cone, blend, radius), all photometric gates
+and bands.
+
+**Lamp description corrected (no parameter change).**
+- The luminaire is a Blender 5.2 spot with I₀ = 569 cd on axis, set for 2000 lm under a uniform-cone model.
+- The **measured** angular profile (1.0 / 0.69 / 0.59 at 0° / 40° / 60°) gives an **effective flux of ≈ 1500 lm**.
+- I₀ is not raised to reach 2000 lm: that would only strengthen bounce and pool.
+
+**Predicted from geometry before rendering:**
+- **pool:** the 70° cone reaches radius ≈ 16 m, i.e. y ≈ 29–61 on the ground. The barn shadow on the lane lies at
+  y ≈ 10–25, so the pool ends ≥ 4 m beyond it. The dark ground fraction with the lamp on should return close to the
+  moon-only 8.7 %;
+- **L3:** the nearest barn corner (7, 32) is 13 m from the lamp foot, and the west and north walls are hit only near
+  the cone edge or outside it. The wall bounce at 30 m should drop far below the 10 % limit; L3 should pass;
+- **puddle** (y 8.3–11.9): mostly moonlit, just below the barn shadow's near edge (y ≈ 11.6 at x = 1). It reflects
+  the lamp head, so it is a test of the specular response at the shadow boundary;
+- **lamp head** at bearing 5.7°, elevation 5.3°: in frame, not hidden by the barn (whose left edge is at bearing
+  ≥ 12°).
+
+**Checks:**
+- L1, L3, L4 as pre-registered;
+- dark ground fraction (< 0.5 × moonlit field) with the lamp on, reported against stage a;
+- the preview for V3, judged by the user.
+- Stage a is re-rendered (the puddle moved) so that lamp-only = b − a uses identical geometry.
+
+**If V3 still does not come together after this**, the cause is no longer the lamp placement. It is the scene or the
+hero-shot idea itself, and N1 stops for a decision.
