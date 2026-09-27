@@ -419,3 +419,15 @@ structure of the dark scene where there is almost no practical light.
 residual / new D1 failure / preference). Nothing is fixed after viewing.
 
 **Budget:** one render (~35 min). Camera C only after B's verdict.
+
+---
+
+## Addendum 6a (committed while the Camera B render runs, before any B output is viewed): gate wording only
+No change to scene, camera, render or D1.
+
+1. **Who judges V1–V6.** Addendum 6's "judged by the user" is replaced by: **judged by the same external observer
+   who gave the hero blind verdict** (`n1/blind_verdict.md`), on the D1 image alone. My own reading is reported
+   separately and does not count, as on the hero.
+2. **V5 for Camera B.** This view has no skyline silhouettes: only the barn mass, cropped at the top, against the
+   field horizon. For Camera B, V5 reads: **"the large dark barn mass remains readable as a form without hidden
+   fill"**. It is not N/A and not a test of tree silhouettes.
