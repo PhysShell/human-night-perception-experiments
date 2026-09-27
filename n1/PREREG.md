@@ -370,3 +370,52 @@ pool, puddle, moonlit field):
   - record the FAIL;
   - no other denoiser settings, no wider tolerance, no 8192 spp;
   - N1.2 stops for the choice of the next method.
+
+---
+
+## Addendum 6 (committed before the render): N1.5 Camera B, from the source into darkness
+
+**Question.** Does the frozen D1 survive a change of viewpoint without a new class of defect? Stress case: the
+structure of the dark scene where there is almost no practical light.
+
+**Camera** (`n1/views.json`, view B):
+- eye at (3.0, 47.0, 1.7), standing in the lamp pool on the lane, 2 m past the lamp foot;
+- looking back down the lane (yaw 180°, towards −y), pitch −3°, HFOV 60°, 1920 × 820.
+
+**Everything else is frozen and reused:**
+- the scene (`scene.py` sha256 3a4df7cf…, byte-unchanged; `n1/view_render.py` hash-checks it and substitutes only the
+  camera lines);
+- stage b, 4096 spp, the same seed;
+- OIDN with the addendum-5 settings;
+- D1, called unchanged via `n1/view_eval.py`, with `verify_manifest` before and after.
+
+**Predicted from geometry:**
+- the lamp head and pole are out of frame (behind and above the eye, 59° off-axis); the pool lies in the foreground;
+- the barn is on the left, cropped at the top (ridge 17° above centre vs the 13.9° frame edge);
+- behind it, the flat field horizon, with no sky silhouette except the barn mass;
+- the barn shadow and the puddle sit at ~31–37 m, near the image centre;
+- the original hero eye position is 47 m ahead.
+
+**Gates:**
+1. **OIDN bias.** On five crops fixed now:
+   - pool foreground (3, 38);
+   - pool edge (3, 30);
+   - barn shadow (3, 16);
+   - puddle (1.0, 10.1);
+   - moonlit field (−6, 25).
+   - Rule: \|mean(denoised)/mean(noisy) − 1\| ≤ 2 % (the addendum-5 rule). FAIL → stop.
+2. **D1 extraction self-check** (C0 bit-identical to pcond, C2, C3) and the display gates (G1–G3, S-1…S-3), as on
+   the hero.
+3. **Visual V1–V6, judged by the user** on the D1 image alone. V4 for this view reads "the practical light's pool is
+   brighter than its surroundings and plausibly lit", since the source itself is out of frame.
+   - No blind tournament. V0 and plain Blender versions are rendered from the same EXR for documentation only, after
+     the verdict.
+
+**Declared known residuals (not new failures):**
+- the white pool centre at the SDR peak (Y-priority);
+- the pinkish warm flank (the Cao/Kirk rod term, `d2/b2/`).
+
+**Stop rule.** A new class of defect → stop until its cause is classified (scene / lighting / sampling / D1 known
+residual / new D1 failure / preference). Nothing is fixed after viewing.
+
+**Budget:** one render (~35 min). Camera C only after B's verdict.

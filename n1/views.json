@@ -1,0 +1,4 @@
+{"B": {"what": "from the source into darkness: standing in the lamp pool on the lane, looking back down the lane (-y)",
+       "loc": [3.0, 47.0, 1.7], "yaw_deg": 180.0, "pitch_deg": -3.0, "hfov_deg": 60.0, "res": [1920, 820],
+       "crops": {"pool_foreground": [3, 38, 0.003], "pool_edge": [3, 30, 0.003], "barn_shadow": [3, 16, 0],
+                 "puddle": [1.0, 10.1, 0.006], "moonlit_field": [-6, 25, 0]}}}
