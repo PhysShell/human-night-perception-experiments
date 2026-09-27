@@ -1,0 +1,10 @@
+D2-A1b stage 2 visual sheets, my reading before the external verdict (does not count).
+- Hero: pool core less blown, shape and gradient kept; silhouettes/barn unchanged; pole and lamp head now show a warm
+  tint instead of white (B chroma no longer clipped away; declared B residual class). No darkness collapse. PASS.
+- B: practically unchanged (slightly lower lit ground). PASS.
+- C: pool core less blown with a more visible gradient; pole warm-tinted; structure unchanged. PASS.
+- S0, S3_bar, S3_nobar: no material difference. PASS.
+- S4, S5: light points marginally less bright; no visible loss of structure, no flat mid/high tones. PASS.
+- S2 frames 1/48: as S1 in stage 1, lamp row slightly warm; sky/poplars unchanged. PASS.
+- Possible observer objection: the warm/pink tint on lamp poles and cores (hero, C, S1/S2) now visible where frozen D1
+  showed white; I class it as the declared B rod-term residual, not an A-side defect.

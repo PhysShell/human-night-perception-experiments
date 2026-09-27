@@ -223,3 +223,49 @@ stage-2 literal FAILs. That correction was recorded in `d2/a2/PREREG_A2b_stage2.
 - **or** a visual finding of a new defect, darkness collapse or visibly degraded structure on any natural scene.
 
 The operator is not changed after viewing.
+
+## Stage 2 automatic results (`results_A1b2.json`, code `227ac75`): all PASS except two E1-class literal FAILs
+`d1/verify_manifest.sh` before and after: all OK.
+
+| scene | luminance ceiling frozen → shoulder | any-channel ceiling | median Y_disp | frac Y_A > 0.0101 | gates |
+|---|---|---|---|---|---|
+| Hero | 0.192 % → 0.002 % | 0.347 % → 0.044 % | 0.460 → 0.459 | 3.1 % | CF PASS; **R3: G3 literal FAIL (E1)** |
+| B | 0 → 0 | 0 → 0 | 1.739 → 1.712 | 52.7 % | CF, R3 PASS |
+| C | 0.444 % → 0.005 % | 1.17 % → 0.07 % | 0.692 → 0.688 | 14.7 % | CF, R3, HO1–HO3 PASS (head 54 511 codes) |
+| S0 | 0.0006 % → 0 | | 0.1417 → 0.1417 | 0.7 % | P PASS, CF PASS |
+| S1 | 0.303 % → 0.0006 % | | 0.1417 → 0.1417 | 0.8 % | P-1…P-5 PASS (= stage 1), CF PASS |
+| S3_bar | 0.003 % → 0.001 % | | 0.4045 → 0.4035 | 0 % | P, P-6 PASS (Weber 0.752), CF PASS |
+| S3_nobar | 0.003 % → 0.001 % | | 0.4043 → 0.4034 | 0 % | P PASS, CF PASS |
+| S4 | 0.065 % → 0 | 0.112 % → 0.035 % | 4.016 → 3.869 | 86.8 % | P PASS, CF PASS |
+| S5 | 0.095 % → 0 | 4.35 % → 0.08 % | 2.754 → 2.685 | 77.7 % | P PASS, CF PASS |
+| F1 | | | | | P-1…P-4, P-8 (monotone, all colours) PASS |
+| S2 (48 frames) | ≤ 0.0008 % | | | ≤ 0.85 % | P-1, P-2a, P-3, P-4 PASS; **P-2b literal FAIL (E1) on frames 14, 31, 42**; CF PASS |
+
+**P-7: PASS.**
+- mean max step 0.076 %;
+- sky-median step 0;
+- flashes 0;
+- source-energy modulation 0.41 %;
+- frozen D1: mean step 0.071 %.
+
+**Classification of the literal FAILs** (post-hoc diagnostic `diag_A1b2_E1.py` → `diag_A1b2_E1.json`; it changes no
+result):
+- **What fails.**
+  - Hero G3: one pixel.
+  - S2 frames 14, 31 and 42: P-2b via G3, one pixel each. S-1, S-2 and S-3 pass everywhere.
+- **The pixel, in every case:**
+  - it is in gamut;
+  - its blue linear display channel lies **2·10⁻¹¹ to 9·10⁻¹⁰ above the sRGB knee** (0.04045/12.92);
+  - its hue deviation is 3.7–4.0·10⁻⁶ rad (limit 10⁻⁶), at chroma 6–7·10⁻⁴;
+  - its chroma **decreases** (by 3.7·10⁻⁸).
+- **Class:** exactly  **E1** (the encoder-knee round-trip), a measurement artefact. The literal FAILs stay
+  FAIL and are classified; **not a KILL** under the addendum.
+
+**Visual sheets** (frozen vs shoulder, all natural scenes):
+- `renders/A1b2_sheet_views.png` (hero, B, C);
+- `renders/A1b2_sheet_corpus.png` (S0, S3_bar, S3_nobar, S4, S5);
+- `renders/A1b2_sheet_S2.png` (frames 1 and 48).
+
+S1 was judged in stage 1.
+
+**My reading** `A1b2_my_reading.txt`: sha256 `97ad653867bceabb64b87a3adbd3d119519dda16b618703428450b934f8cc44c`, taken from the command output.
