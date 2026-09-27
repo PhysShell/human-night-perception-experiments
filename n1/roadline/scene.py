@@ -80,7 +80,29 @@ mesh("field", [(-20000, -5000, 0), (20000, -5000, 0), (20000, 30000, 0), (-20000
 mesh("road", [(0, -5, 0.003), (7, -5, 0.003), (7, 3000, 0.003), (0, 3000, 0.003)], [(0, 1, 2, 3)], ASPHALT)
 
 
-def luminaire(y):
+def eye_intensity(y):
+    e = Vector(EYE) - Vector((LUM_X, y, LUM_Z)); r = e.length
+    V = math.degrees(math.acos(-e.z / r)); H = math.degrees(math.atan2(-e.y, -e.x)) % 360
+    return lm63.intensity(TAB, V, H), r
+
+
+def emitter_sphere(y, radius):
+    """Addendum 3: camera-only emitter, radiance = I_table(towards the eye) / (pi radius^2) (Cycles does not evaluate
+    the IES towards the eye for camera rays on the visible sphere; verified in A0 run 2). Addendum 6: radius may be
+    enlarged for unresolved far lamps at the same intensity."""
+    I_eye, _ = eye_intensity(y)
+    m = bpy.data.materials.new(f"emit_{y}"); m.use_nodes = True; nt2 = m.node_tree; nt2.nodes.clear()
+    em = nt2.nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (*COLOUR, 1)
+    em.inputs["Strength"].default_value = I_eye / (math.pi * radius ** 2) / K
+    nt2.links.new(em.outputs[0], nt2.nodes.new("ShaderNodeOutputMaterial").inputs["Surface"])
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, location=(LUM_X, y, LUM_Z), segments=24, ring_count=12)
+    sp = bpy.context.active_object; sp.data.materials.append(m)
+    for att in ("visible_diffuse", "visible_glossy", "visible_transmission", "visible_volume_scatter", "visible_shadow"):
+        setattr(sp, att, False)
+    return sp
+
+
+def luminaire(y, camera_emitter=True):
     ld = bpy.data.lights.new(f"lum_{y}", "POINT"); ld.energy = 177.83 / K                                     # addendum 2; ld.color = COLOUR
     ld.shadow_soft_size = RADIUS; ld.use_nodes = True; nt = ld.node_tree
     ies = nt.nodes.new("ShaderNodeTexIES"); ies.mode = "EXTERNAL"; ies.filepath = IES
@@ -88,19 +110,8 @@ def luminaire(y):
     o = bpy.data.objects.new(f"lum_{y}", ld); o.location = (LUM_X, y, LUM_Z); o.rotation_euler = (0, 0, -math.pi / 2)
     o.visible_camera = False                                    # addendum 3: the IES light only illuminates
     sc.collection.objects.link(o)
-    # addendum 3: camera-only emitter, radiance = I_table(towards the eye) / (pi r^2) (Cycles does not evaluate the IES
-    # towards the eye for camera rays on the visible sphere; verified in A0 run 2)
-    e = Vector(EYE) - Vector((LUM_X, y, LUM_Z)); r = e.length
-    V = math.degrees(math.acos(-e.z / r)); H = math.degrees(math.atan2(-e.y, -e.x)) % 360
-    I_eye = lm63.intensity(TAB, V, H)
-    m = bpy.data.materials.new(f"emit_{y}"); m.use_nodes = True; nt2 = m.node_tree; nt2.nodes.clear()
-    em = nt2.nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (*COLOUR, 1)
-    em.inputs["Strength"].default_value = I_eye / (math.pi * RADIUS ** 2) / K
-    nt2.links.new(em.outputs[0], nt2.nodes.new("ShaderNodeOutputMaterial").inputs["Surface"])
-    bpy.ops.mesh.primitive_uv_sphere_add(radius=RADIUS, location=(LUM_X, y, LUM_Z), segments=24, ring_count=12)
-    sp = bpy.context.active_object; sp.data.materials.append(m)
-    for att in ("visible_diffuse", "visible_glossy", "visible_transmission", "visible_volume_scatter", "visible_shadow"):
-        setattr(sp, att, False)
+    if camera_emitter:
+        emitter_sphere(y, RADIUS)
     return o
 
 
@@ -150,11 +161,12 @@ elif MODE.startswith("a0emit_"):
     sc.render.filepath = f"{OUT}/a0emit_{int(D)}.exr"; bpy.ops.render.render(write_still=True)
     json.dump({"stim": STIM, "D": D, "px": [px, py], "r_m": r, "V": V, "H": H, "I_table_cd": lm63.intensity(TAB, V, H),
                "pixel_solid_angle_sr_at_centre": (math.radians(HFOV) / RES[0]) ** 2}, open(f"{OUT}/a0emit_{int(D)}.json", "w"), indent=1)
-elif MODE == "full":
+elif MODE in ("full", "base"):
     POLE = material("pole", 0.3, 0.5, 0.5)
     lamps = []
+    FAR = (800, 1600)                                                   # addendum 6: split-pass lamps
     for d in DISTANCES:
-        luminaire(float(d))
+        luminaire(float(d), camera_emitter=not (MODE == "base" and d in FAR))
         bpy.ops.mesh.primitive_cylinder_add(radius=0.1, depth=LUM_Z + 0.2, location=(POLE_X, d, (LUM_Z + 0.2) / 2)); bpy.context.active_object.data.materials.append(POLE)
         bpy.ops.mesh.primitive_cube_add(size=1, location=((POLE_X + LUM_X) / 2, d, LUM_Z + 0.15)); arm = bpy.context.active_object
         arm.scale = (POLE_X - LUM_X + 0.3, 0.08, 0.06); arm.data.materials.append(POLE)
@@ -169,8 +181,32 @@ elif MODE == "full":
         lamps.append({"d": d, "px": [c.x * RES[0], (1 - c.y) * RES[1]], "in_frame": 0 <= c.x <= 1 and 0 <= c.y <= 1,
                       "r_m": r, "V": V, "H": H, "I_table_cd": lm63.intensity(TAB, V, H)})
     json.dump({"stim": STIM, "lamps": lamps, "eye": EYE, "hfov": HFOV, "res": RES}, open(f"{OUT}/lamps.json", "w"), indent=1)
-    sc.cycles.use_denoising = True; sc.cycles.denoiser = "OPENIMAGEDENOISE"; sc.cycles.denoising_input_passes = "RGB_ALBEDO_NORMAL"
-    sc.cycles.denoising_prefilter = "ACCURATE"; sc.cycles.denoising_quality = "HIGH"; sc.cycles.denoising_use_gpu = False
-    bpy.context.view_layer.cycles.denoising_store_passes = True           # N1 addendum-5 settings, unchanged
-    sc.render.image_settings.media_type = "MULTI_LAYER_IMAGE"
-    sc.render.filepath = f"{OUT}/roadline.exr"; bpy.ops.render.render(write_still=True)
+    if MODE == "full":
+        sc.cycles.use_denoising = True; sc.cycles.denoiser = "OPENIMAGEDENOISE"; sc.cycles.denoising_input_passes = "RGB_ALBEDO_NORMAL"
+        sc.cycles.denoising_prefilter = "ACCURATE"; sc.cycles.denoising_quality = "HIGH"; sc.cycles.denoising_use_gpu = False
+        bpy.context.view_layer.cycles.denoising_store_passes = True       # N1 addendum-5 settings, unchanged
+        sc.render.image_settings.media_type = "MULTI_LAYER_IMAGE"
+        sc.render.filepath = f"{OUT}/roadline.exr"
+    else:                                                              # addendum 6: raw, no OIDN, no far camera emitters
+        sc.render.filepath = f"{OUT}/base.exr"
+    bpy.ops.render.render(write_still=True)
+elif MODE.startswith(("far_", "ref_")):
+    # addendum 6: only the 800/1600 m camera-visible emitters; no world, ground, poles or lights
+    bg.inputs["Strength"].default_value = 0.0
+    for ob in list(sc.objects): bpy.data.objects.remove(ob)
+    kind, seed = MODE.split("_")[0], int(MODE.split("_")[1]); sc.cycles.seed = seed
+    fpx = (RES[0] / 2) / math.tan(math.radians(HFOV / 2)); info = []
+    for d in (800, 1600):
+        _, r = eye_intensity(float(d)); nat_px = 2 * RADIUS / r * fpx
+        rad = max(RADIUS, 0.35 * r / fpx) if kind == "far" else RADIUS    # far: apparent diameter >= 0.7 px (M2.5)
+        emitter_sphere(float(d), rad); info.append({"d": d, "natural_diam_px": nat_px, "radius_m": rad, "diam_px": 2 * rad / r * fpx})
+    cd = bpy.data.cameras.new("eye"); cd.sensor_fit = "HORIZONTAL"; cd.angle = math.radians(HFOV); cd.clip_end = 60_000.0
+    cam = bpy.data.objects.new("eye", cd); cam.location = EYE; cam.rotation_euler = (math.radians(90), 0, 0)
+    sc.collection.objects.link(cam); sc.camera = cam
+    if kind == "far":                                                  # M2.5: 4x resolution, 1-px box filter, 256 spp
+        sc.render.resolution_x, sc.render.resolution_y = RES[0] * 4, RES[1] * 4
+        sc.cycles.pixel_filter_type = "BOX"; sc.cycles.filter_width = 1.0; sc.cycles.samples = 256
+    else:                                                              # reference: output resolution, Cycles' own filter
+        sc.render.resolution_x, sc.render.resolution_y = RES; sc.cycles.samples = 16384
+    sc.render.filepath = f"{OUT}/{MODE}.exr"; bpy.ops.render.render(write_still=True)
+    json.dump({"mode": MODE, "lamps": info}, open(f"{OUT}/{MODE}.json", "w"), indent=1)
