@@ -76,3 +76,37 @@ input is present) and the whole corpus. It is the stage 2 already written in `PR
 - Sheet: `renders/A2c_blind_sheet.png`, made by `sheet_A2c.py` with a seed-0 permutation and a salted key.
 - **Key** `A2c_blind_key.json` (not committed until the reveal): sha256 `fad1a45df74419ba75eafb70bf7082feaaba6d1f482fb8e62b80d43cc1c1d7cd`.
 - **My reading** `A2c_my_reading.txt`: sha256 `832d45de53e6576dbf9cb50ddb2d00627b2808ce435c19e33bd30da749515f2c`.
+
+## Verdict and reveal: **A2c PASS**
+**External blind verdict** (given before the reveal):
+
+| label | broad roadway saturation | new A-side defect | road gradient/structure |
+|---|---|---|---|
+| X | no | no | preserved |
+| Y | **yes, clearly** | **yes: broad roadway saturation** | visibly lost over a large bright region |
+| Z | no | no | preserved |
+
+- **Validity control: PASS.** Y is unambiguously the target defect.
+- **X vs Z:** no materially noticeable difference in gradient/structure. X looks slightly brighter and Z slightly more
+  restrained in the highlights, a fine exposure difference, not worse structure.
+- **Preference:** Z ≈ X ≫ Y, with a slight preference for Z that is not enough to call X structurally worse.
+
+**Key** (`A2c_blind_key.json`, sha256 matches the pre-committed `fad1a45d…`):
+- **X = Q99.9 A2b** (s_hist = 0.2692);
+- **Y = frozen D1** (the control);
+- **Z = oracle A1a2** (s = 0.2641).
+
+"X slightly brighter" matches the +0.028 stop.
+
+**My reading** (`A2c_my_reading.txt`, sha256 matches `832d45de…`): Y = frozen D1, X and Z indistinguishable,
+X = Z > Y. It agrees; it does not count.
+
+**Deviation, stated:** `d1/verify_manifest.sh` ran just *after* the sheet was built, not before (all OK). The sheet
+does not touch D1.
+
+**Recorded outcome (pre-registered wording):**
+> A2b stage 1 remains a literal KILL on H2v2. A2c shows that H2v2 was over-strict relative to the pre-existing visual
+> defect it was meant to proxy. The Q99.9 policy itself is not yet accepted.
+
+**Next, per section 7:** a new prospective stage-2 PREREG with the **unchanged** Q99.9 policy on Camera C, the hero, B
+(if its input is present) and the whole corpus. It carries the "active everywhere = ND filter" KILL. D2-B3 stays LOCKED.
