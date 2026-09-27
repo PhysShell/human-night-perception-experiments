@@ -298,3 +298,67 @@ passes.
     addendum 5.
 
 Per addendum 5: stop. There is no 8192 spp and no third estimator without a decision.
+
+---
+
+## Addendum 6 (committed before any new render): the M2.5 split pass for the two unresolved far lamps only
+The design is the user's review of my first draft. My draft **rejected**:
+- enlarging sub-pixel emitters to 2 px inside the full render;
+- a new ±2.5 px margin.
+
+**Reason for the rejection.** Keeping I = L·πr² keeps the integrated intensity in linear optics, not the
+**output-pixel stimulus**. D1 is nonlinear after rasterisation: B works per pixel, pcond depends on the luminance
+distribution, and the display mapping is per pixel.
+- For an unresolved source, the continuous linear image is defined by its intensity and the PSF.
+- Artificial enlargement is allowed only if the supersampling/resampling provably reproduces the original
+  output-pixel stimulus.
+
+**What converged is not touched.**
+- The scene crops (0.00–0.13 %) and the 50–400 m emitters (≤ 0.79 %) converged in addendum 5.
+- The IES lighting of the road is unchanged.
+
+**1. Base render.** RoadLine-A exactly as before (raw Cycles, 4096 spp, same seed, **no OIDN**). The only change: the
+**camera-visible emitters of the 800 m and 1600 m luminaires are removed**; their IES lights stay.
+- No new base ladder: the addendum-5 test showed that the non-emitter scene signal converges.
+
+**2. Far-lamps pass (M2.5 method, `m25/render_clip.sh`, `m25/resample.py`).** It contains only the 800 m and 1600 m
+camera-visible emitters: no sky, road, field, poles or lights. Nothing occludes them from the eye: the lines of sight
+pass ≥ 6 m below the arms, and the poles stand beyond the lamps.
+- **Enlargement.** The apparent diameter is raised to **0.7 px** (the M2.5 value), r′ = 0.35 · distance / f. The
+  radiance is lowered by area so that I = L′·πr′² = I_table(eye).
+- **Rendering.** 4× resolution, 1-px box filter, 256 spp (4096 per output pixel), fixed seed, no adaptive sampling.
+- **Resampling** to the output with Cycles' Blackman-Harris over a 3-output-pixel window (`m25/resample.py`,
+  unchanged).
+- **Output.** The final scene-linear image = base + far pass.
+
+**3. Estimator.**
+- Aperture radius **r_ap = projected emitter radius (px) + 1.5 px**. 1.5 px is the half-width of Cycles'
+  Blackman-Harris window (2 × filter_width 1.5 = 3 px; `film.cpp`, as in M2.5).
+- **Base render, 50–400 m:** background = median of the annulus r_ap + 1 < r ≤ r_ap + 3.5 px, excluding pixels within
+  r_ap of any other emitter centre.
+- **Far pass:** the background is identically zero, so no background estimator is needed.
+- The same estimator is used for R1, R4 and R5.
+
+**Gates:**
+1. **Far-pass convergence.** Two fixed seeds (0 and 1): for each far lamp, \|S_seed0/S_seed1 − 1\| ≤ 2 %.
+2. **Far-pass equivalence (the M2.5 gate).**
+   - Reference: the true-radius (0.105 m) emitters only, rendered directly at the output resolution with Cycles'
+     own filter, 16 384 spp, seeds 0 and 1.
+   - Per lamp: total energy far-pass/reference within max(2 %, 2 × the reference's seed spread).
+   - **Output-pixel stimulus:** the 5 × 5 energy distributions, normalised to 1, satisfy Σ\|p_far − p_ref\| ≤ 0.10.
+     The peak-pixel share is reported.
+3. **R1** (±10 %, as pre-registered):
+   - 800 and 1600 m from the far pass (I = S·d²);
+   - 50–400 m from the base with the r_ap estimator.
+   - The 25 m lamp is out of frame.
+4. **R2:** N/A (no denoiser).
+
+**KILL:** any far-pass gate fails, or R1 fails. RoadLine-A on the raster/Cycles method then stops for good; there is
+no 8192 spp and no fourth estimator.
+
+**If all pass:** the addendum-5 order applies:
+1. the comparator exposure before D1;
+2. D1 and the linear reference;
+3. R3–R5;
+4. V1–V6;
+5. the blind sheet.
