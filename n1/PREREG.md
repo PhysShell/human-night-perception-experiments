@@ -323,3 +323,50 @@ or the shadow too black:
 - only then is every FAIL classified: scene / lighting / sampling / D1 known residual / new D1 failure /
   art-direction preference.
 - Only "new D1 failure" may open D2.
+
+---
+
+## Addendum 5 (committed before the run): one bounded OIDN experiment for the hero input
+
+**Why.** Brute force is killed operationally. The lit regions converge at 512 spp, but the barn shadow is a firefly
+regime (pixel CoV 0.94 at 4096). At the observed 1/√N a smooth shadow needs ≈ 4·10⁵ spp, about two CPU-days per
+frame (`README.md`, `dfb1be5`).
+
+**Correction of my earlier claim.** M2.5 is **not** a precedent in OIDN's favour. `m25/README.md` line 108: Cycles OIDN
+on the haze pass was **rejected**, band energy −25 %. The bias gate below tests that known risk.
+
+**Semantics.** The denoiser is part of the **N1 scene renderer / input preparation**, never part of D1. D1 receives an
+estimate of scene radiance that Monte Carlo could not practically produce within budget; the immutable D1 is
+untouched.
+
+**The run, fixed now. One render, no parameter ladder.**
+- The frozen scene (`n1/scene/scene.py` sha256 3a4df7cf1423032a…, byte-unchanged), stage b, 4096 spp, the same default seed.
+- It is invoked through `n1/denoise_render.py`, which checks that hash and adds only:
+  - `cycles.use_denoising = True`;
+  - `denoiser = OPENIMAGEDENOISE`;
+  - `denoising_input_passes = RGB_ALBEDO_NORMAL`;
+  - `denoising_prefilter = ACCURATE`;
+  - `denoising_quality = HIGH`;
+  - `denoising_use_gpu = False`;
+  - `view_layer.cycles.denoising_store_passes = True`, which also writes the Noisy Image, Denoising Albedo and
+    Denoising Normal.
+- Cycles' render-time OIDN works on the scene-linear HDR radiance: no [0, 1] clamp, no view transform.
+
+**Precondition (identity of the noisy input).** The Noisy Image pass of this render must be **bit-identical** to the
+Combined pass of the earlier 4096-spp render (`n1/work/spp4096/hero_b.exr`). If it is not, stop and report: the
+"same noisy input" claim would not hold.
+
+**Bias gate.** For each of the five crops frozen in addendum 4 (48 × 48 px; barn shadow, shadow/pool boundary, warm
+pool, puddle, moonlit field):
+- \|mean(denoised) / mean(noisy 4096) − 1\| ≤ **2 %**;
+- **crop means**, because the means converged and the medians did not; 2 % is D1's P-7 tolerance again.
+- Also reported, with no new threshold: the before/after mean, median and pixel CoV per crop, and the whole-frame
+  mean.
+
+**Outcome.**
+- **PASS (all five ≤ 2 %):** the denoised 4096 EXR becomes the single input for the comparator, A-only, B-only, V0 and
+  D1 final (N1.2 steps 2–5 as in addendum 4).
+- **KILL (any crop > 2 %):**
+  - record the FAIL;
+  - no other denoiser settings, no wider tolerance, no 8192 spp;
+  - N1.2 stops for the choice of the next method.
