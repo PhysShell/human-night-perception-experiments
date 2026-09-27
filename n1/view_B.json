@@ -105,5 +105,15 @@
    "S-3": true
   }
  },
- "my_reading_sha256_before_verdict": "7d7094a73a703558cf0c84ee080621411b8c6cd5496c62bedef10eee2c7566b6"
+ "my_reading_sha256_before_verdict": "7d7094a73a703558cf0c84ee080621411b8c6cd5496c62bedef10eee2c7566b6",
+ "external_verdict": {
+  "V1": "PASS",
+  "V2": "PASS (weak): readable but ascetic, a technical rather than expressive shot",
+  "V3": "PASS",
+  "V4": "PASS (source off-screen; pool plausibly lit, falloff to dark)",
+  "V5": "PASS (barn reads as a mass, not pulled up)",
+  "V6": "PASS (no new artefact class; slightly pinkish-warm pool = declared residual)"
+ },
+ "my_reading_hash_matches": true,
+ "verdict": "Camera B PASS (V1-V6); proceed to Camera C"
 }

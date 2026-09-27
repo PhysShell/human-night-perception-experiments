@@ -431,3 +431,54 @@ No change to scene, camera, render or D1.
 2. **V5 for Camera B.** This view has no skyline silhouettes: only the barn mass, cropped at the top, against the
    field horizon. For Camera B, V5 reads: **"the large dark barn mass remains readable as a form without hidden
    fill"**. It is not N/A and not a test of tree silhouettes.
+
+---
+
+## Camera B verdict (external observer, D1 image only; `n1/view_B.json`)
+- V1 PASS, V2 **PASS (weak)**: readable but ascetic, a technical rather than expressive shot. V3 PASS, V4 PASS, V5
+  PASS (the barn reads as a mass).
+- V6 PASS: no new artefact class; the slightly pinkish-warm pool is the declared residual.
+- Automatic part PASS: OIDN crops within 0.35 %, D1 C0 bit-identical, display gates PASS, manifest OK.
+- My pre-verdict reading's hash matches.
+- The V0 and plain-Blender (AgX +12) versions were rendered after the verdict, for documentation only.
+- Viewing note: the observer could not open the 16-bit and 8-bit full-size PNG/JPEG. A 960-px sheet-format PNG (the
+  hero blind-sheet format) opened. Same code values; no change to the evidence.
+
+## Addendum 7 (committed before the render): N1.5 Camera C, from darkness towards the source
+**Question.** As for B: does the frozen D1 survive this viewpoint without a new class of defect? Stress case: a
+visible bright source, silhouettes, display mapping and the transitions around the pool.
+
+**Camera** (`n1/views.json`, view C):
+- eye at (0.5, 18.0, 1.7) on the lane, **inside the barn's moon shadow** (point-in-hull checked);
+- looking at the lamp: yaw −8.4° (to the right), pitch 0°, HFOV 60°, 1920 × 820.
+
+**Predicted from geometry (checked in front of the camera):**
+- the lamp head is at the top centre (px 961, 153); the pool beneath it (961, 513); the pool edge (1180, 605);
+- the shadow foreground is at the bottom centre;
+- the moonlit field is on the left;
+- **four poplars (x −40…−10) stand as silhouettes against the sky** on the left half; the other four are out of
+  frame;
+- only the barn's north-west corner is visible, at the right edge; its bulk is out of frame;
+- the puddle is behind the eye.
+
+**Frozen and reused:** everything exactly as in addendum 6, via `n1/view_render.py` and `n1/view_eval.py`.
+
+**Gates:**
+1. **OIDN bias ≤ 2 %** on six crops fixed now:
+   - shadow foreground (1.5, 26);
+   - pool edge (4.5, 32);
+   - pool centre (4.5, 45);
+   - moonlit field (−4, 40);
+   - sky (0, 500, 60);
+   - **lamp head** (4.5, 45, 5.92): tests OIDN on a bright core.
+2. **D1 self-check and display gates**, as for B.
+3. **V1–V6 by the same external observer**, on the D1 image alone, in the sheet format that opened.
+   - V4 has the source itself in frame.
+   - **V5 for C:** "the poplar silhouettes read against the sky, and the barn corner reads as a dark mass, without
+     hidden fill".
+
+**Declared known residuals:**
+- the white core at the SDR peak, likely in this view since the lamp head is in frame;
+- the pinkish warm pool flank (`d2/b2`).
+
+**Stop rule and budget:** as in addendum 6. One render; motion only after C's verdict.

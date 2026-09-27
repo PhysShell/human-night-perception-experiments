@@ -1,0 +1,15 @@
+My reading of Camera B (D1), written before the observer's verdict; does not count.
+V1 night: yes. Almost the whole upper two-thirds is near-black; only the lamp pool in the foreground is lit.
+V2 composition: the lane receding, the barn mass on the left, the flat field horizon on the right. The barn-shadow band
+   across the lane reads as a black wedge; the puddle and hero-side ground are not discernible.
+V3 darkness: yes, and strongly: sky, field and everything beyond the pool drop to near-black. pcond's single linear
+   scale is set by the bright pool filling the lower third, so the moonlit environment sinks much further than in the
+   hero (the sky is near-black here, dark grey in the hero). I read that as the global-adaptation behaviour of A, not
+   a new artefact.
+V4 pool: brighter than its surroundings, smooth falloff with distance, plausible. Its colour is salmon/pinkish across
+   the whole foreground: the declared rod-term residual (d2/b2), much more prominent here than in the hero because
+   the pool fills the frame. No white core (the max channel is 42 cd/m2, below the peak).
+V5 barn mass: readable. Its north face is a lighter grey block (bounce from the pool), its west face darker, with the
+   top cut by the frame as predicted.
+V6: no halos, banding, blocking or fringing seen. The pink cast is the declared residual, not a new class.
+Risk I see: V2 is thin (few readable structures beyond the pool), and the pink residual dominates this view.
