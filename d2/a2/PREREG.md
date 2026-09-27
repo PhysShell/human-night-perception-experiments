@@ -104,3 +104,44 @@ the linear branch.
 
 This outcome is still informative. It confirms that the frozen selection mechanism is the log-average adaptation
 level, and that pcond's native centre weighting addresses the opposite failure (bright periphery).
+
+## Stage 1 results (`results.json`, code `938c757`): **KILL on H2v2. The `-w` branch is closed**
+`d1/verify_manifest.sh` before and after: all OK. The copies' diff against the frozen scripts is exactly the flag
+(asserted in code).
+
+**Scale** (mapfiles `map_RLA2_canonical_{frozen,w}.txt`):
+
+| | frozen `-s -c` | `-s -w -c` |
+|---|---|---|
+| pcond branch | linear | linear |
+| EXPOSURE (slope, cd/m² per cd/m²) | 444.77 | 442.12 |
+| Δ vs frozen | — | **−0.009 stop** |
+| needed (oracle s = 0.2641) | — | −1.92 stops |
+
+**Gates:**
+
+| gate | value | result |
+|---|---|---|
+| **H2v2** road luminance ceiling | **81.8 %** (limit 0.1 %) | **FAIL** |
+| H3 floor, frame / field | 0 % / 0 % | PASS |
+| R3: C0 bit-identical, C2/C3 100 %, display gates | all hold | PASS |
+| R4 ordering | no inversion | PASS |
+| R5 presence | identical to the anchor | PASS (trivially: all six lamps at the peak, 64 618 codes) |
+| V6 | not reached (gated on automatic PASS) | — |
+
+Reports: H1 any-channel frame ceiling 17.9 %; frame luminance ceiling 16.1 %; C1 chromatic road ceiling 6.4 %.
+
+**Against the prediction:**
+- **KILL on H2v2 and "stays linear" were predicted correctly.**
+- **The magnitude was predicted correctly** (|Δ| < 0.3 stop).
+- **The sign was predicted wrong.** The exposure moved 0.009 stop *darker*, not brighter. The shift is 0.5 % of the
+  needed one, so the sign carries no practical weight, but the prediction is recorded as wrong on that point.
+
+**Reading:**
+- pcond's native centre weighting leaves the frozen selection essentially unchanged on a 60° view. The weights are
+  0.85–1.00, and only the foveal half of the histogram is weighted.
+- The saturating scale comes from the log-average adaptation level, which `-w` does not materially alter here.
+- **The `-w` branch is KILLed.** Stage 2 is not run.
+- Per section 6, the next level is a generic histogram-based global selection. It gets its own PREREG, opened only by
+  the user.
+- Adaptation / CIE 257 stay LOCKED.

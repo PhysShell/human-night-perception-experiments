@@ -1,0 +1,81 @@
+{
+ "prereg": "d2/a2/PREREG.md",
+ "verify_manifest_before": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+ "pcond_frozen": {
+  "EXPOSURE": 444.77,
+  "tone_map": {
+   "mode": "linear",
+   "slope_cdm2_per_cdm2": 444.76986818685225
+  }
+ },
+ "pcond_w": {
+  "EXPOSURE": 442.12,
+  "tone_map": {
+   "mode": "linear",
+   "slope_cdm2_per_cdm2": 442.1150740443432
+  }
+ },
+ "scale": {
+  "log2_EXPOSURE_w_over_frozen": -0.008621482339491357,
+  "log2_oracle_over_frozen": -1.9208437933823566,
+  "log2_slope_w_over_frozen": -0.008637128902011336
+ },
+ "stage1_roadline": {
+  "H2v2_road_luminance_ceiling_frac": 0.8177828517703943,
+  "H3_floor_frac": 0.0,
+  "H3_field_floor_frac": 0.0,
+  "R3_extraction": {
+   "colour_active": true,
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0
+  },
+  "R3_display_gates": {
+   "finite": true,
+   "ch_min": 0.10851708369570112,
+   "ch_max": 100.0,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  },
+  "R4_inversions": [],
+  "R5_present_final": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "R5_present_raw": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "report_H1_any_channel_frame_ceiling": 0.17886369410569106,
+  "report_C1_road_chromatic_ceiling": 0.06411698537682789,
+  "report_frame_luminance_ceiling": 0.1612989075203252,
+  "report_lamp_max_code_above_bg": {
+   "50": 64618.0,
+   "100": 64618.0,
+   "200": 64618.0,
+   "400": 64618.0,
+   "800": 64618.0,
+   "1600": 64618.0
+  },
+  "anchor_k_per_cdm2": 2.5304167137319,
+  "H2v2_PASS": false,
+  "H3_PASS": true,
+  "R3_PASS": true,
+  "R4_PASS": true,
+  "R5_PASS": true,
+  "stage1_automatic_PASS": false
+ },
+ "verify_manifest_after": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n"
+}
