@@ -258,7 +258,7 @@ result):
   - its blue linear display channel lies **2·10⁻¹¹ to 9·10⁻¹⁰ above the sRGB knee** (0.04045/12.92);
   - its hue deviation is 3.7–4.0·10⁻⁶ rad (limit 10⁻⁶), at chroma 6–7·10⁻⁴;
   - its chroma **decreases** (by 3.7·10⁻⁸).
-- **Class:** exactly  **E1** (the encoder-knee round-trip), a measurement artefact. The literal FAILs stay
+- **Class:** exactly `d1/ERRATA.md` **E1** (the encoder-knee round-trip), a measurement artefact. The literal FAILs stay
   FAIL and are classified; **not a KILL** under the addendum.
 
 **Visual sheets** (frozen vs shoulder, all natural scenes):
