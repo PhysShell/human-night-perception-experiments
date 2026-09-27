@@ -1,0 +1,99 @@
+{
+ "a": {
+  "L1": {
+   "lights": [
+    [
+     "moon",
+     "SUN"
+    ]
+   ],
+   "emissive": [],
+   "world_cdm2": 0.000999999990199285,
+   "PASS": true
+  },
+  "illuminance_lx": {
+   "field_open": 0.023129920946981335,
+   "field_open_right": 0.023139386377647658,
+   "tree_shadow": 0.0029062367667686967,
+   "lane_near": 0.02313707451476072
+  },
+  "hero_luminance_cdm2": {
+   "field_open": 0.0005888910169889641,
+   "tree_shadow": 0.0003857607211363756,
+   "lane_near": null,
+   "puddle": 0.0004981654367366446,
+   "lane_under_lamp": 0.0013200122235983143,
+   "barn_front": 0.0003120494883599577,
+   "barn_west": 0.0003193839024815588,
+   "sky_9deg": 0.0009999952854876028,
+   "lamp_disc": 0.0009999952854876028
+  },
+  "M2_paths_cdm2": {
+   "field_open": {
+    "Diffuse Direct": 0.007362225407375081,
+    "Diffuse Indirect": 9.282059912959717e-07,
+    "Diffuse Color": 14.320028493782878,
+    "Glossy Direct": 0.0,
+    "Glossy Indirect": 0.0,
+    "Glossy Color": 0.0
+   },
+   "tree_shadow": {
+    "Diffuse Direct": 0.004811154654522761,
+    "Diffuse Indirect": 1.0418869591426017e-05,
+    "Diffuse Color": 14.320028493782878,
+    "Glossy Direct": 0.0,
+    "Glossy Indirect": 0.0,
+    "Glossy Color": 0.0
+   },
+   "puddle": {
+    "Diffuse Direct": 0.007367456442844558,
+    "Diffuse Indirect": 0.0,
+    "Diffuse Color": 4.21196250244975,
+    "Glossy Direct": 0.0009912015591196906,
+    "Glossy Indirect": 0.0,
+    "Glossy Color": 58.65823936462402
+   },
+   "lane_under_lamp": {
+    "Diffuse Direct": 0.0072013500808170644,
+    "Diffuse Indirect": 9.69908393513208e-06,
+    "Diffuse Color": 11.381089203059673,
+    "Glossy Direct": 0.009377256788892554,
+    "Glossy Indirect": 6.137928118847071e-05,
+    "Glossy Color": 16.4129841402173
+   },
+   "barn_front": {
+    "Diffuse Direct": 0.0004964352753199365,
+    "Diffuse Indirect": 0.00018286197442874937,
+    "Diffuse Color": 79.03041439833045,
+    "Glossy Direct": 0.0004981521064814388,
+    "Glossy Indirect": 0.00017573803447832004,
+    "Glossy Color": 3.3762719463557005
+   },
+   "barn_west": {
+    "Diffuse Direct": 0.000489435118343954,
+    "Diffuse Indirect": 0.00016392627042567938,
+    "Diffuse Color": 75.28343119528293,
+    "Glossy Direct": 0.0004474364567155589,
+    "Glossy Indirect": 0.0002210283023553757,
+    "Glossy Color": 11.70351604372263
+   },
+   "sky_9deg": {
+    "Diffuse Direct": 0.0,
+    "Diffuse Indirect": 0.0,
+    "Diffuse Color": 0.0,
+    "Glossy Direct": 0.0,
+    "Glossy Indirect": 0.0,
+    "Glossy Color": 0.0
+   }
+  },
+  "L2": {
+   "field_open_E_in_0.01_0.03": true,
+   "sky_within_5pct": true,
+   "field_L_vs_rhoE_over_pi": 0.9998173453436514,
+   "sky_brighter_than_field": true,
+   "tree_shadow_E_below_open": true,
+   "tree_shadow_L_below_open": true,
+   "PASS": true
+  }
+ }
+}
