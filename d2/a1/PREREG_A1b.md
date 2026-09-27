@@ -154,3 +154,31 @@ Report per scene, as in §3.
 **Visual sheets:** `renders/A1b_sheet_roadline.png`, `renders/A1b_sheet_S1.png`, frozen D1 vs shoulder.
 
 **My reading** `A1b_my_reading.txt`: sha256 `c58ca393ff0b9afb17b1d871f2708b197e7cf32b4acf995e0de96bf756e9d4fe`, taken from the command output.
+
+## Stage 1 visual verdict (external observer): **stage 1 PASS**
+| scene | item | verdict |
+|---|---|---|
+| **RoadLine** | broad roadway saturation | **gone** |
+| | road gradient | **preserved** |
+| | new A-side defect | none seen |
+| | V6 | **PASS** |
+| **S1** | sky separation, poplar silhouettes, weak structure near the lamp line | preserved |
+| | darkness collapse | not seen |
+| | new A-side defect | none seen |
+| | V | **PASS** |
+
+**Observer's notes:**
+- **RoadLine.** Frozen D1 turns much of the road into a white slab. Y/(1+Y) returns the spatial gradient and the local
+  pools. The road is calmer and greyer but not flat: brightness still varies in space, and the direction of the
+  lighting and the source line remain.
+- **S1.** The shoulder barely intervenes. There is nothing like the −3.36-stop Q99.9 failure.
+
+**My reading** (`A1b_my_reading.txt`, sha256 `c58ca393…`, committed in `0761430` before the verdict): RoadLine
+V6 PASS (weak, flatness risk); S1 PASS. It agrees; it does not count.
+
+**Reading:** the simple luminance-only shoulder resolves the highlight/shadow conflict that killed the global scalar
+Q99.9. RoadLine is fixed, and S1 is practically unchanged.
+
+**Before stage 2** (user decision): a cheap T0 distance-transport audit (`d2/a1/PREREG_T0.md`). The current RoadLine has
+no atmosphere and no eye glare. A1b is not changed, Reinhard is not tuned, no extra 1/r² is added, and B3 stays
+closed.
