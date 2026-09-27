@@ -188,3 +188,36 @@ and no second practical source.
   Rec.709 at luminance 1.
 - Moonlight: neutral D65 white (an authoring simplification; real moonlight is slightly warmer).
 - Sky: the M1 tint.
+
+---
+
+## Addendum 2 (committed before the geometry change): N1.1a geometry, barn shadow in frame
+
+**Scope, deliberately narrow.** The barn and the luminaire location move so that the moon-cast barn shadow occupies a
+substantial visible region of the hero frame. This addresses the pre-registered element "a region that should almost
+vanish", which was absent in the frame (`README.md`, stop condition 5).
+
+**Frozen, unchanged:** moon, sky luminance, materials (after round 1), camera, all photometric gates and bands.
+
+**New coordinates, frozen from here.** Not to be nudged for looks.
+- barn: x 7–17 m, y 22–32 m (walls 5 m, ridge 8.5 m);
+- luminaire head at (4.5, 30, 5.9); the pole moves to x = 6.3, since x = 7.2 would stand inside the barn;
+- puddle centred at (1.0, 6.6), at the lamp's mirror point for the eye (1.0, 6.7).
+- The poplar row stays at 125 m.
+
+**Predicted from geometry before rendering** (shadow = convex hull of the barn vertices projected along the moon
+direction; the ridge shadow is 18.2 m long):
+- the barn shadow covers the lane and the field edge at about y 10–25 m, x −2…17: the lower-middle, right part of
+  the frame;
+- the puddle lies outside it (moonlit);
+- the lamp foot (4.5, 30) sits on the shadow's edge, so the lamp pool will straddle it;
+- the barn is cropped by the right frame edge and by the top (ridge at ~15° elevation vs the 10.9° frame edge);
+- the sky silhouette is carried by the poplars alone.
+- These are consequences, reported now, not reasons to move anything.
+
+**Checks before N1.1b** (the user's three; no new numeric threshold):
+1. The barn shadow is present in the hero frame over a substantial part of the lower/middle frame. Shown on the
+   luminance map.
+2. A moon-only probe inside it (3, 16) is clearly darker than the open field, of the same order as the tree-shadow
+   result (≈ 8×).
+3. Outside the shadow, L1 and L2 reproduce the N1.1a values. A change there would mean more than geometry changed.
