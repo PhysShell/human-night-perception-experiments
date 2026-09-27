@@ -136,7 +136,7 @@ if MODE == "a0probes":
     json.dump({"stim": STIM, "I_max": IMAX, "energy_W": 177.83 / K, "probes": out}, open(f"{OUT}/a0_dirs.json", "w"), indent=1)
 elif MODE.startswith("a0emit_"):
     D = float(MODE.split("_")[1]); luminaire(D)
-    cd = bpy.data.cameras.new("eye"); cd.sensor_fit = "HORIZONTAL"; cd.angle = math.radians(HFOV)
+    cd = bpy.data.cameras.new("eye"); cd.sensor_fit = "HORIZONTAL"; cd.angle = math.radians(HFOV); cd.clip_end = 60_000.0   # addendum 4 (M1 value)
     cam = bpy.data.objects.new("eye", cd); cam.location = EYE; cam.rotation_euler = (math.radians(90), 0, 0)
     sc.collection.objects.link(cam); sc.camera = cam; sc.render.resolution_x, sc.render.resolution_y = RES
     from bpy_extras.object_utils import world_to_camera_view
@@ -158,7 +158,7 @@ elif MODE == "full":
         bpy.ops.mesh.primitive_cylinder_add(radius=0.1, depth=LUM_Z + 0.2, location=(POLE_X, d, (LUM_Z + 0.2) / 2)); bpy.context.active_object.data.materials.append(POLE)
         bpy.ops.mesh.primitive_cube_add(size=1, location=((POLE_X + LUM_X) / 2, d, LUM_Z + 0.15)); arm = bpy.context.active_object
         arm.scale = (POLE_X - LUM_X + 0.3, 0.08, 0.06); arm.data.materials.append(POLE)
-    cd = bpy.data.cameras.new("eye"); cd.sensor_fit = "HORIZONTAL"; cd.angle = math.radians(HFOV)
+    cd = bpy.data.cameras.new("eye"); cd.sensor_fit = "HORIZONTAL"; cd.angle = math.radians(HFOV); cd.clip_end = 60_000.0   # addendum 4 (M1 value)
     cam = bpy.data.objects.new("eye", cd); cam.location = EYE; cam.rotation_euler = (math.radians(90), 0, 0)
     sc.collection.objects.link(cam); sc.camera = cam; sc.render.resolution_x, sc.render.resolution_y = RES
     from bpy_extras.object_utils import world_to_camera_view

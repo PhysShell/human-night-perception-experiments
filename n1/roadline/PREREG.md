@@ -191,3 +191,14 @@ IES-shaded visible sphere, not in pixel integration or geometry.
   - a camera-only emitter with L = I_table(eye)/(π r²).
 - **Correction to the prediction table:** the 25 m luminaire head is out of frame at pitch 0°. It appears only through
   its road pool.
+
+---
+
+## A1 run 1 invalid, and Addendum 4 (committed before re-rendering): the camera far clip
+- A1 run 1 rendered the 1600 m luminaire as **nothing**: its window equals the sky, 4·10⁻⁴ cd/m².
+- Cause: Blender's default camera `clip_end` is **1000 m** (verified). M1 used 60 km; `n1/roadline/scene.py` did not
+  set it. So everything beyond 1 km was clipped: the 1600 m lamp and the far road and field.
+- **Fix, implementing the PREREG geometry as written:** `clip_end = 60 000 m` (the M1 value) on the eye camera, and on
+  the A0 emitter camera for consistency.
+- Run 1 is discarded without evaluation. R1/R2 were aborted by a zero lamp signal at 1600 m, and no D1 output exists.
+- The same default affected N1 (`n1/README.md`, erratum N1-E1).

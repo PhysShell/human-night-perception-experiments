@@ -264,3 +264,14 @@ images; order as night **X > Y > Z**.
 **D2-B2 result** (`d2/b2/README.md`): **KILL**. The pinkish pool is the Cao/Kirk rod-intrusion term itself. With the
 kernel's rod term off, the rotation vanishes exactly; with it on, the hero flank rotates −31.9°. So it is not a
 defect under the frozen model. The residual is an official limitation, and **N1.5 proceeds with the current D1.**
+
+## Erratum N1-E1 (found in N1.6A1): the N1 camera far clip was Blender's default, 1000 m
+- `n1/scene/scene.py` never set `clip_end`, and Blender's default is 1000 m. M1 set 60 km.
+- Consequences in **every accepted N1 image** (hero, Camera B, Camera C):
+  - the "distant low hills (M1)" at ~20 km that the code builds were **never rendered**;
+  - ground beyond 1 km is replaced by sky: a strip of ≈ 3 px just below the horizon at 32 px/deg.
+- The verdicts (V1–V7, the blind hero comparison) were given on the images as rendered and are not rewritten.
+  PREREG N1 did not list the hills as a required element.
+- **Classification:** scene code (mine), not D1. The accepted N1 results are kept as what they are: a scene whose
+  horizon is flat sky beyond 1 km.
+- The frozen `scene.py` is not changed.
