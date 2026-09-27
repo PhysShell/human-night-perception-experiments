@@ -106,3 +106,41 @@ illuminance, step 2 minus step 1"), counts it, so it is recorded as FAIL.
 - The puddle reflects the lamp arm and pole.
 - The bounce light on the left field is visibly noisy at 512 spp. The production render (N1.2) needs a higher sample
   count; the count is fixed after N1.1.
+
+## N1.1b after addendum 3 (lamp at (4.5, 45, 5.9), puddle at (1.0, 10.1)): **L1, L3, L4 PASS**. All predictions held
+Stage a was re-rendered, because the puddle moved: L1 + L2 PASS; field 0.02308 lx; barn shadow 0.00305 lx; dark
+ground 8.4 % of the frame.
+
+| check | measured | verdict |
+|---|---|---|
+| L1 | moon + luminaire spot; emissive = lamp disc only | PASS |
+| L3 under lamp | 16.52 lx (band 5–30) | PASS |
+| L3 at 30 m (y+30, y−30, x−30) | 1·10⁻⁶ / 3·10⁻⁶ / 2·10⁻⁶ lx (limit 2.0·10⁻³) | **PASS**: the wall bounce is gone (was 2.9·10⁻³) |
+| L4 disc | 8051.6 vs 8051.7 cd/m² | PASS |
+| L4 under lamp | 16.52 vs I₀/h² = 16.35 (+1.0 %) | PASS |
+| dark ground (< 0.5 × moonlit field) | **7.8 %** with the lamp on vs 8.4 % moon-only (it was 0.6 % with the lamp at y = 30) | the barn shadow survives |
+| lamp-lit ground (> 10 × moonlit field) | 0.9 % of the frame: the pool at 29–61 m is a thin band from eye height | reported |
+| barn-shadow probe luminance | 1.29·10⁻⁴ cd/m², unchanged from moon-only | – |
+
+**Lamp-only profile** (clean, no barn bounce):
+
+| distance from lamp | E (lx) |
+|---|---|
+| 0 m | 16.5 |
+| 5 m | 5.03 |
+| 10 m | 1.26 |
+| 15 m | 0.015 |
+| 20 m | 2·10⁻⁵ |
+
+The effective flux is ≈ 1500 lm, as described in addendum 3.
+
+**Preview.**
+- Near to far: the moonlit near lane with the puddle (reflecting the lamp head and pole) → the dark barn-shadow band →
+  the warm pool with the lamp → the moonlit field and the poplar silhouettes.
+- The barn's west wall is lit only at its far end (1.5·10⁻³ cd/m²).
+- The shadow band shows Monte Carlo speckle from the lamp's indirect light at 512 spp. The N1.2 production sample
+  count must remove it.
+
+**N1.1c (barn window).** The pre-registered window on the barn's front wall (x 11.4–12.6, y = 22) lies at bearing
+27–30°, **outside the frame** (right edge at +20°) with the addendum-2 barn. It cannot be tested in this hero view.
+It goes to the user: skip it, or re-place it (another addendum).

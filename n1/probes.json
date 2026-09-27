@@ -12,38 +12,40 @@
    "PASS": true
   },
   "illuminance_lx": {
-   "barn_shadow": 0.003051576543713786,
-   "field_open": 0.023077719414679697,
-   "field_open_right": 0.023446651390941934,
+   "barn_shadow": 0.003052717669399395,
+   "field_open": 0.023078341816854392,
+   "field_open_right": 0.023446719183213758,
    "tree_shadow": 0.002906000454141184,
-   "lane_near": 0.023118540457722277,
-   "lamp_y+0": 0.02265547153989685,
-   "lamp_y+5": 0.02371544222893753,
-   "lamp_y+10": 0.023492473609971,
-   "lamp_y+15": 0.0233047178947164,
-   "lamp_y+20": 0.02322298081479551,
-   "lamp_y+30": 0.0231623477661628,
-   "lamp_y-10": 0.0029171114554998466,
-   "lamp_y-20": 0.023097373373870557,
-   "lamp_y-30": 0.023128170149722176,
-   "lamp_x-30": 0.023131013867902454
+   "lane_near": 0.023118712843334832,
+   "lamp_y+0": 0.023281435225868927,
+   "lamp_y+5": 0.023225006191285136,
+   "lamp_y+10": 0.02318553308584557,
+   "lamp_y+15": 0.02316295449403545,
+   "lamp_y+20": 0.023151299254107922,
+   "lamp_y+30": 0.023137839396641696,
+   "lamp_y-10": 0.023714969211860754,
+   "lamp_y-20": 0.002620599803672092,
+   "lamp_y-30": 0.003045972698899871,
+   "lamp_x-30": 0.023134974879636203
   },
   "hero_luminance_cdm2": {
-   "field_open": 0.0005875562545762477,
+   "field_open": 0.0005875805532070444,
    "tree_shadow": 0.00038518745164019497,
    "lane_near": null,
-   "puddle": 0.0002480928756537878,
-   "lane_under_lamp": 0.00012540788885532947,
+   "puddle": 0.0004840411248456348,
+   "lane_under_lamp": 0.0013564023806899967,
    "barn_front": null,
-   "barn_west": 0.0003122718499427492,
-   "barn_shadow": 0.00012804744975987886,
+   "barn_west": 0.00031475046081661727,
+   "barn_shadow": 0.00012811278224151011,
    "sky_9deg": 0.0009999952854876028,
-   "lamp_disc": 0.0007019593174972669
+   "lamp_disc": 0.0009790587185851108
   },
+  "dark_ground_frac_pct": 8.422319613821138,
+  "lamp_lit_ground_frac_pct": 0.0,
   "M2_paths_cdm2": {
    "field_open": {
-    "Diffuse Direct": 0.007338795030608162,
-    "Diffuse Indirect": 7.839883319179107e-06,
+    "Diffuse Direct": 0.007338792099304556,
+    "Diffuse Indirect": 8.22891529757257e-06,
     "Diffuse Color": 14.320028493782878,
     "Glossy Direct": 0.0,
     "Glossy Indirect": 0.0,
@@ -58,35 +60,35 @@
     "Glossy Color": 0.0
    },
    "puddle": {
-    "Diffuse Direct": 0.007358526616279413,
-    "Diffuse Indirect": 3.175250254645878e-09,
-    "Diffuse Color": 4.825466314330697,
-    "Glossy Direct": 1.0657176231242005e-05,
-    "Glossy Indirect": 0.00020676805692096422,
-    "Glossy Color": 41.129519015550606
+    "Diffuse Direct": 0.007352328376952209,
+    "Diffuse Indirect": 2.2927658049485406e-09,
+    "Diffuse Color": 3.9421606454998255,
+    "Glossy Direct": 0.0008414815470193388,
+    "Glossy Indirect": 3.864084610194425e-05,
+    "Glossy Color": 66.36682307720183
    },
    "lane_under_lamp": {
-    "Diffuse Direct": 0.0007486146266660398,
-    "Diffuse Indirect": 7.480746794664128e-05,
-    "Diffuse Color": 11.433731190860271,
-    "Glossy Direct": 0.0007725061338792328,
-    "Glossy Indirect": 5.755293159732559e-05,
-    "Glossy Color": 15.661002039909363
+    "Diffuse Direct": 0.007324003882164833,
+    "Diffuse Indirect": 0.0001101435615351761,
+    "Diffuse Color": 11.363539651036263,
+    "Glossy Direct": 0.009436558826252441,
+    "Glossy Indirect": 6.308694779850156e-05,
+    "Glossy Color": 16.66372041404247
    },
    "barn_west": {
-    "Diffuse Direct": 0.0004915251841482131,
-    "Diffuse Indirect": 0.0001646954584679861,
+    "Diffuse Direct": 0.0004962240330197801,
+    "Diffuse Indirect": 0.0001637930952378156,
     "Diffuse Color": 76.62956199661494,
-    "Glossy Direct": 0.000450839364428748,
-    "Glossy Indirect": 0.00020505105542636102,
+    "Glossy Direct": 0.0004670248798636294,
+    "Glossy Indirect": 0.0002061475722418436,
     "Glossy Color": 8.712090276181698
    },
    "barn_shadow": {
-    "Diffuse Direct": 0.0009584953206194768,
-    "Diffuse Indirect": 1.3067627846469068e-05,
+    "Diffuse Direct": 0.0009589432233905427,
+    "Diffuse Indirect": 1.3135898644806332e-05,
     "Diffuse Color": 11.561709955334663,
-    "Glossy Direct": 0.0007886982093871664,
-    "Glossy Indirect": 5.165942128585356e-05,
+    "Glossy Direct": 0.0007946826767371021,
+    "Glossy Indirect": 5.18617458478161e-05,
     "Glossy Color": 13.832730546593666
    },
    "sky_9deg": {
@@ -101,12 +103,12 @@
   "L2": {
    "field_open_E_in_0.01_0.03": true,
    "sky_within_5pct": true,
-   "field_L_vs_rhoE_over_pi": 0.999807639015082,
+   "field_L_vs_rhoE_over_pi": 0.9998220214414223,
    "sky_brighter_than_field": true,
    "tree_shadow_E_below_open": true,
    "tree_shadow_L_below_open": true,
-   "barn_shadow_E_ratio_open_over_shadow_info": 7.562556299700082,
-   "barn_shadow_L_ratio_info": 4.588582245707066,
+   "barn_shadow_E_ratio_open_over_shadow_info": 7.559933251670446,
+   "barn_shadow_L_ratio_info": 4.586431915118155,
    "PASS": true
   }
  },
@@ -134,38 +136,40 @@
    "PASS": true
   },
   "illuminance_lx": {
-   "barn_shadow": 0.08418434802834969,
-   "field_open": 1.4142767922342219,
-   "field_open_right": 0.023448961835271502,
-   "tree_shadow": 0.0029067309933393597,
-   "lane_near": 0.024361603564753084,
-   "lamp_y+0": 17.524601755225596,
-   "lamp_y+5": 5.232874647521052,
-   "lamp_y+10": 1.3050684880573473,
-   "lamp_y+15": 0.042903258965632414,
-   "lamp_y+20": 0.024734890711619946,
-   "lamp_y+30": 0.023211551063093614,
-   "lamp_y-10": 1.3161906341514256,
-   "lamp_y-20": 0.02572153671682408,
-   "lamp_y-30": 0.023132037468544097,
-   "lamp_x-30": 0.02606140040116328
+   "barn_shadow": 0.0030571074865136114,
+   "field_open": 0.02311061975154507,
+   "field_open_right": 0.023446719183213758,
+   "tree_shadow": 0.0029066538893553835,
+   "lane_near": 0.023119189327223445,
+   "lamp_y+0": 16.54194330589409,
+   "lamp_y+5": 5.052440083870724,
+   "lamp_y+10": 1.2810057906483772,
+   "lamp_y+15": 0.038484063392351706,
+   "lamp_y+20": 0.023173732109912696,
+   "lamp_y+30": 0.023138959701612033,
+   "lamp_y-10": 1.2821958310858306,
+   "lamp_y-20": 0.0031070837643643275,
+   "lamp_y-30": 0.0030491213126809876,
+   "lamp_x-30": 0.023137408500735434
   },
   "hero_luminance_cdm2": {
-   "field_open": 0.03633088795220465,
-   "tree_shadow": 0.00038869050841167335,
+   "field_open": 0.0005876014747076624,
+   "tree_shadow": 0.00038518745164019497,
    "lane_near": null,
-   "puddle": 0.010762921188322798,
-   "lane_under_lamp": 0.4648480551236076,
+   "puddle": 0.0027875949813429544,
+   "lane_under_lamp": 0.4143800269153667,
    "barn_front": null,
-   "barn_west": 1.1261607876345048,
-   "barn_shadow": 0.02037080845757591,
+   "barn_west": 0.0015489011369683794,
+   "barn_shadow": 0.00012891288412583888,
    "sky_9deg": 0.0009999952854876028,
-   "lamp_disc": 8035.94030148983
+   "lamp_disc": 6353.249817155074
   },
+  "dark_ground_frac_pct": 7.82787093495935,
+  "lamp_lit_ground_frac_pct": 0.8555005081300813,
   "M2_paths_cdm2": {
    "field_open": {
-    "Diffuse Direct": 0.43380681550684386,
-    "Diffuse Indirect": 0.021069285464035782,
+    "Diffuse Direct": 0.007338792099304556,
+    "Diffuse Indirect": 8.262080304703545e-06,
     "Diffuse Color": 14.320028493782878,
     "Glossy Direct": 0.0,
     "Glossy Indirect": 0.0,
@@ -173,42 +177,42 @@
    },
    "tree_shadow": {
     "Diffuse Direct": 0.0048131079485490775,
-    "Diffuse Indirect": 9.862647512676403e-06,
+    "Diffuse Indirect": 8.305158404451873e-06,
     "Diffuse Color": 14.320028493782878,
     "Glossy Direct": 0.0,
     "Glossy Indirect": 0.0,
     "Glossy Color": 0.0
    },
    "puddle": {
-    "Diffuse Direct": 0.007358526616279413,
-    "Diffuse Indirect": 3.9979406359373916e-07,
-    "Diffuse Color": 4.825466314330697,
-    "Glossy Direct": 1.0657176231242005e-05,
-    "Glossy Indirect": 0.04600243117093778,
-    "Glossy Color": 41.129519015550606
+    "Diffuse Direct": 0.007352328376952209,
+    "Diffuse Indirect": 2.068933737235032e-08,
+    "Diffuse Color": 3.9421606454998255,
+    "Glossy Direct": 0.0008414815470193388,
+    "Glossy Indirect": 0.0062236252917133245,
+    "Glossy Color": 66.36682307720183
    },
    "lane_under_lamp": {
-    "Diffuse Direct": 3.7135122996661813,
-    "Diffuse Indirect": 0.28390621360032814,
-    "Diffuse Color": 11.433731190860271,
-    "Glossy Direct": 2.1864134746545463,
-    "Glossy Indirect": 0.23065931853976798,
-    "Glossy Color": 15.661002039909363
+    "Diffuse Direct": 3.34824890755536,
+    "Diffuse Indirect": 0.007926776342066478,
+    "Diffuse Color": 11.363539651036263,
+    "Glossy Direct": 2.158167510482436,
+    "Glossy Indirect": 0.008403009340938478,
+    "Glossy Color": 16.66372041404247
    },
    "barn_west": {
-    "Diffuse Direct": 2.1667654124175195,
-    "Diffuse Indirect": 0.0782171400449035,
+    "Diffuse Direct": 0.0004962240330197801,
+    "Diffuse Indirect": 0.0019631491253294824,
     "Diffuse Color": 76.62956199661494,
-    "Glossy Direct": 2.982870024548657,
-    "Glossy Indirect": 0.08557605976362247,
+    "Glossy Direct": 0.0004670248798636294,
+    "Glossy Indirect": 0.009640132468051524,
     "Glossy Color": 8.712090276181698
    },
    "barn_shadow": {
-    "Diffuse Direct": 0.020607411638672055,
-    "Diffuse Indirect": 0.004510269664041425,
+    "Diffuse Direct": 0.0009589432233905427,
+    "Diffuse Indirect": 1.4178258666504462e-05,
     "Diffuse Color": 11.561709955334663,
-    "Glossy Direct": 0.1708103159151098,
-    "Glossy Indirect": 0.06744804707908333,
+    "Glossy Direct": 0.0007946826767371021,
+    "Glossy Indirect": 5.8325901445743966e-05,
     "Glossy Color": 13.832730546593666
    },
    "sky_9deg": {
@@ -221,40 +225,40 @@
    }
   },
   "lamp_only_lx": {
-   "lamp_y+0": 17.5019462836857,
-   "lamp_y+5": 5.2091592052921145,
-   "lamp_y+10": 1.2815760144473762,
-   "lamp_y+15": 0.019598541070916013,
-   "lamp_y+20": 0.0015119098968244364,
-   "lamp_y+30": 4.9203296930814405e-05,
-   "lamp_y-10": 1.3132735226959258,
-   "lamp_y-20": 0.002624163342953522,
-   "lamp_y-30": 3.8673188219214005e-06,
-   "lamp_x-30": 0.002930386533260828
+   "lamp_y+0": 16.518661870668222,
+   "lamp_y+5": 5.0292150776794395,
+   "lamp_y+10": 1.2578202575625317,
+   "lamp_y+15": 0.015321108898316255,
+   "lamp_y+20": 2.2432855804773583e-05,
+   "lamp_y+30": 1.1203049703374657e-06,
+   "lamp_y-10": 1.2584808618739698,
+   "lamp_y-20": 0.0004864839606922356,
+   "lamp_y-30": 3.14861378111677e-06,
+   "lamp_x-30": 2.433621099230676e-06
   },
-  "moon_only_lx": 0.019936126761089905,
+  "moon_only_lx": 0.0199367491632646,
   "L3": {
-   "under_lamp_lx": 17.5019462836857,
+   "under_lamp_lx": 16.518661870668222,
    "under_in_5_30": true,
    "at_30m_lx": {
-    "lamp_y+30": 4.9203296930814405e-05,
-    "lamp_y-30": 3.8673188219214005e-06,
-    "lamp_x-30": 0.002930386533260828
+    "lamp_y+30": 1.1203049703374657e-06,
+    "lamp_y-30": 3.14861378111677e-06,
+    "lamp_x-30": 2.433621099230676e-06
    },
-   "at_30m_below_10pct_moon": false,
-   "PASS": false
+   "at_30m_below_10pct_moon": true,
+   "PASS": true
   },
   "L4": {
    "disc_cdm2": 8051.6135211483,
    "pred_I0_over_A": 8051.674551787073,
    "disc_ratio": 0.9999924201309454,
-   "under_lamp_ratio_to_I0_over_h2": 1.0704632610906768,
+   "under_lamp_ratio_to_I0_over_h2": 1.010323101689121,
    "pred_E0_lx": 16.349880392768704,
    "PASS": true
   },
   "outside_unchanged_vs_a": {
-   "field_open": 61.28321290424403,
-   "tree_shadow": 1.0002513899119096
+   "field_open": 1.0013986245176032,
+   "tree_shadow": 1.0002248572305859
   }
  }
 }

@@ -36,7 +36,7 @@ RES = (round(1920 * RES_SCALE), round(820 * RES_SCALE))
 # --- authored photometry (PREREG table) ---
 MOON_E_H_LX, MOON_ELEV_DEG, MOON_BEARING_DEG = 0.02, 25.0, 50.0       # bearing clockwise from +y; view centre = -10
 SKY_CDM2 = 1e-3
-LAMP_LM, LAMP_HALF_DEG, LAMP_BLEND, LAMP_R, LAMP_POS = 2000.0, 70.0, 0.3, 0.15, (4.5, 30.0, 5.9)   # addendum 2
+LAMP_LM, LAMP_HALF_DEG, LAMP_BLEND, LAMP_R, LAMP_POS = 2000.0, 70.0, 0.3, 0.15, (4.5, 45.0, 5.9)   # addendum 3 (was 30: pool erased the barn shadow)
 WINDOW_CDM2 = 10.0
 # Cycles >= 4.0 spot mask: smoothstep((cos t - c0) / ((1 - c0) * blend)), no extra cosine. Flux through the cone
 # for uniform on-axis intensity I0: 2 pi I0 (1 - c0)(1 - blend/2)  ->  I0 for 2000 lm.
@@ -131,7 +131,7 @@ MAT = {"field": material("field", 0.08, (0.9, 1.0, 0.7), 0.95, spec=0.0), "aspha
 # --- ground, lane, puddle ---
 mesh("field", [(-20000, -5000, 0), (20000, -5000, 0), (20000, 30000, 0), (-20000, 30000, 0)], [(0, 1, 2, 3)], MAT["field"])
 mesh("lane", [(-1, -5, 0.003), (5, -5, 0.003), (5, 400, 0.003), (-1, 400, 0.003)], [(0, 1, 2, 3)], MAT["asphalt"])
-PUDDLE_C, PUDDLE_AX = (1.0, 6.6), (0.9, 1.8)                       # addendum 2: lamp mirror point
+PUDDLE_C, PUDDLE_AX = (1.0, 10.1), (0.9, 1.8)                      # addendum 3: lamp mirror point
 n = 48; rp = random.Random(3)
 pv = [(PUDDLE_C[0] + PUDDLE_AX[0] * (1 + 0.12 * math.sin(3 * t) * rp.uniform(0.6, 1)) * math.cos(t),
        PUDDLE_C[1] + PUDDLE_AX[1] * (1 + 0.12 * math.sin(2 * t + 1)) * math.sin(t), 0.006)
@@ -159,7 +159,7 @@ if os.environ.get("N1_DIAG_NO_BARN_BOUNCE"):                   # diagnostic only
         bpy.data.objects[nm].visible_diffuse = False
 
 # --- luminaire geometry (all stages: the scene is fixed; only the light and its emitter are staged) ---
-PX, PY = 6.3, LAMP_POS[1]                                  # addendum 2: beside the barn west wall
+PX, PY = 6.3, LAMP_POS[1]                                  # addendum 3: pole beside the lane, behind the barn
 add(bpy.ops.mesh.primitive_cylinder_add, MAT["pole"], radius=0.08, depth=6.2, location=(PX, PY, 3.1))
 arm = add(bpy.ops.mesh.primitive_cube_add, MAT["pole"], size=1, location=((PX + LAMP_POS[0]) / 2, PY, 6.15))
 arm.scale = (PX - LAMP_POS[0] + 0.3, 0.08, 0.06)

@@ -38,6 +38,10 @@ for k, v in px.items():
     x, y = int(round(v["x"])), int(round(v["y"])); w = 1 if k == "lamp_disc" else 3
     win = Y[max(y - w, 0):y + w + 1, max(x - w, 0):x + w + 1]; Lh[k] = float(win.max() if k == "lamp_disc" else np.median(win))
 r["hero_luminance_cdm2"] = Lh
+fo_a = (res.get("a", {}).get("hero_luminance_cdm2") or Lh)["field_open"] if ST != "a" else Lh["field_open"]
+g_ = np.zeros_like(Y, bool); g_[394 * H // 820:] = True       # ground rows as in the addendum-2 check (below row 394 of 820)
+r["dark_ground_frac_pct"] = float(100 * (g_ & (Y < 0.5 * fo_a)).mean())   # < 0.5 x moon-only open field (stage a)
+r["lamp_lit_ground_frac_pct"] = float(100 * (g_ & (Y > 10 * fo_a)).mean())
 M2 = {}
 for k, v in px.items():                                        # M2: split of each probe window into light paths
     if not v["in_frame"] or k == "lamp_disc": continue
