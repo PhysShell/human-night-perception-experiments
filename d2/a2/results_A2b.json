@@ -1,0 +1,83 @@
+{
+ "prereg": "d2/a2/PREREG_A2b.md",
+ "verify_manifest_before": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+ "stage1_roadline": {
+  "guard": {
+   "q": 3.7107141309042455,
+   "s_hist": 0.2692201457069823,
+   "active": true,
+   "Q": {
+    "50": 0.0010750860645261607,
+    "90": 1.6778142709525148,
+    "99": 2.701018358016516,
+    "99.9": 3.7107141309042455,
+    "99.99": 13.211790697271864
+   }
+  },
+  "stops": -1.8931417242255377,
+  "log2_s_over_oracle": 0.02770206915681851,
+  "H2v2_road_luminance_ceiling_frac": 0.0015009317865117607,
+  "H3_floor_frac": 0.0,
+  "H3_field_floor_frac": 0.0,
+  "R3_extraction": {
+   "colour_active": true,
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0
+  },
+  "R3_display_gates": {
+   "finite": true,
+   "ch_min": 0.10229465582502115,
+   "ch_max": 100.0,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  },
+  "R4_inversions": [],
+  "R5_present_final": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "R5_present_raw": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "report_H1_any_channel_frame_ceiling": 0.0032113821138211383,
+  "report_C1_road_chromatic_ceiling": 0.011345969813474807,
+  "report_frame_luminance_ceiling": 0.0009375,
+  "report_lamp_max_code_above_bg": {
+   "50": 65282.0,
+   "100": 65282.0,
+   "200": 65282.0,
+   "400": 65282.0,
+   "800": 65282.0,
+   "1600": 65282.0
+  },
+  "report_lamp_display_signal": {
+   "50": 0.0025843164273465216,
+   "100": 0.001046494745587472,
+   "200": 0.00041009322208074826,
+   "400": 0.00023093284325182665,
+   "800": 0.0001151274705401685,
+   "1600": 4.053118304795764e-05
+  },
+  "H2v2_PASS": false,
+  "H3_PASS": true,
+  "R3_PASS": true,
+  "R4_PASS": true,
+  "R5_PASS": true,
+  "stage1_automatic_PASS": false
+ },
+ "verify_manifest_after": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n"
+}

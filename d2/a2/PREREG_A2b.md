@@ -113,3 +113,50 @@ There is no policy fix after viewing. **The stage-2 code gets its own addendum, 
     p99.9, which lamp areas plus the near road probably provide. This is not guaranteed.
 - **Stage 2:** the guard is predicted **inactive on S0/S3/S4-type scenes with no bright practicals**, and **active on
   the hero, Camera C and S1**. Active on scenes with bright points, it will darken them. That is the main stage-2 risk.
+
+## Stage 1 results (`results_A2b.json`, code `bacfd86`): **literal KILL on H2v2**
+`d1/verify_manifest.sh` before and after: all OK.
+
+**What the policy selected by itself** (the oracle was not given to it):
+
+| quantity | value |
+|---|---|
+| Q50 / Q90 / Q99 / Q99.9 / Q99.99 of Y_A | 0.0011 / 1.68 / 2.70 / **3.71** / 13.2 |
+| s_hist | **0.2692** (guard active) |
+| stops | **−1.893** |
+| vs the oracle 0.2641 | +0.028 stop (brighter) |
+
+**Gates:**
+
+| gate | value | result |
+|---|---|---|
+| **H2v2** road luminance ceiling | **0.150 %** (limit 0.1 %) | **FAIL** |
+| H3 floor, frame / field | 0 % / 0 % | PASS |
+| R3: C0 bit-identical, C2/C3 100 %, display gates | all hold | PASS |
+| R4 ordering | no inversion | PASS |
+| R5 presence | identical to the anchor | PASS |
+| V6 | not reached (gated on automatic PASS) | — |
+
+Reports:
+- frame luminance ceiling 0.094 %: the guard met its own whole-frame 0.1 % budget, as constructed;
+- H1 any-channel frame ceiling 0.32 %;
+- C1 chromatic road ceiling 1.13 %.
+
+**Against the prediction:**
+- "H2v2 likely passes, not guaranteed": **wrong.**
+- "q may be set by lamps and over-darken": **wrong.** The frame's Q99.9 sits on the brightest road, and s_hist lands
+  0.028 stop from the oracle.
+- "H3 is the risk": **wrong.** H3 passes.
+
+**Stated plainly, not as a PASS:**
+- **The cause of the FAIL.** The policy spends a 0.1 % luminance-ceiling budget over the *whole frame*. H2v2 counts the
+  same condition over the *road* subset. The top 0.1 % of the frame is concentrated on the road, so the road-subset
+  fraction comes out 1.5× the budget.
+- **How sharp the gate is.** 0.028 stop separates A1a2's 0.070 % (oracle s) from this 0.150 %.
+- **The pre-registered reading for a stage-1 FAIL** ("a global histogram cannot infer the needed scale") is contradicted
+  by the scale report above. The literal outcome is still a FAIL.
+- This is recorded, not repaired:
+  - no other percentile is tried;
+  - there is no road mask;
+  - the FAIL is not reclassified here.
+- What follows (D2-B3 per section 5, or anything else) is the user's decision.
