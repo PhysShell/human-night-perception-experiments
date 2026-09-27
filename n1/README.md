@@ -195,3 +195,22 @@ Hero stage b, raw linear, same seed. The metric is the median of the 8 × 8-bloc
 - `n1/work/hero_final_rgb.exr` for the comparator;
 - `n1/work/hero_cdm2.exr` for A-only, B-only, raw, V0 and D1.
 - Source multilayer `oidn4096/hero_b.exr`, sha256 `8a51bfb5…`.
+
+## N1.2 steps 2–5: single EXR → comparator (fixed first) → D1 + variants + V0 → blind sheet
+- **Comparator** (`comparator.json`, commit `b79ba55`, made before any D1 hero output): Blender 5.2 factory AgX,
+  sRGB, no look, **+12 stops**.
+- **D1 on the hero** (`variants.json`):
+  - the extraction reproduces real pcond **bit-exactly** (C0); C2 and C3 at 100 %;
+  - `-c` is active, and pcond takes its linear fall-back (as on the corpus);
+  - the final D1 display gates (G1–G3, S-1…S-3) PASS; channels in [0.110, 100].
+  - D1's C0 self-check needed the frozen `d1/pipeline/axis_a.sh` output for the hero; it was run.
+  - A name collision in `n1/variants.py` (my camera `project` shadowed D1's `project()`) crashed the first attempt
+    before any output was written. It was fixed.
+- `d1/verify_manifest.sh` OK before and after.
+- **Blind sheet** `renders/blind/sheet.png` (and `X.png`, `Y.png`, `Z.png`):
+  - D1 final, the plain Blender comparator and V0 pcond, in a seed-0 permutation;
+  - all re-encoded to identical 8-bit PNG.
+  - **Key sha256 `173b6e88bb5a56cec32a93b740b3b23b772bc6baeba37f19cef6ca65c65b351e`** (`n1/work/blind_key.json`, revealed after the verdict).
+  - My own reading, written before the verdict: sha256 `ecfd7371d78e0bb8518f1359fddfa76545ee4c2aaca47c57fbf6a18688772dda` (`n1/work/my_reading.txt`).
+  - The diagnostic raw / A-only / B-only / final sheet is withheld until after the verdict: it would reveal which
+    blind image is D1.

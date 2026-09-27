@@ -1,0 +1,46 @@
+{
+ "extraction_selfcheck": {
+  "colour_active": true,
+  "C0_bit_identical": true,
+  "C2_frac_ok": 1.0,
+  "C3_frac_ok": 1.0,
+  "C3_fail_px": 0,
+  "X_le_0_px": 0
+ },
+ "tone_map_mode": "linear",
+ "final_D1_gates": {
+  "finite": true,
+  "ch_min": 0.10971040108720032,
+  "ch_max": 100.0,
+  "G1": true,
+  "G2": true,
+  "G3": true,
+  "S-1": true,
+  "S-2": true,
+  "S-3": true
+ },
+ "anchor_k_per_cdm2": 5.997959531762455,
+ "anchor_point": [
+  -4,
+  25,
+  0
+ ],
+ "raw": {
+  "finite": true,
+  "frac_projected": 0.04841018800813008,
+  "ch_min": 0.09999999999999999,
+  "ch_max": 100.0
+ },
+ "axis_a": {
+  "finite": true,
+  "frac_projected": 0.04618267276422764,
+  "ch_min": 0.09999999999999998,
+  "ch_max": 100.0
+ },
+ "axis_b": {
+  "finite": true,
+  "frac_projected": 0.0056789888211382115,
+  "ch_min": 0.10980863417259384,
+  "ch_max": 100.0
+ }
+}
