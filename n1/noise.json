@@ -1,0 +1,74 @@
+{
+ "projection_check_max_px": 0.0001087541070537627,
+ "crops_px": {
+  "barn_shadow": [
+   1582.861164719894,
+   507.81440697887973
+  ],
+  "shadow_pool_boundary": [
+   1535.646997596294,
+   428.11258744005755
+  ],
+  "warm_pool": [
+   1435.620495656166,
+   390.7854673940381
+  ],
+  "puddle": [
+   1422.3952649327582,
+   609.2659882385411
+  ],
+  "moonlit_dark_field": [
+   571.8411477272477,
+   512.8576742342977
+  ]
+ },
+ "pairs": {
+  "512->1024": {
+   "barn_shadow": {
+    "metric": 0.0024445823393412364,
+    "crop_median_cdm2": 0.00012881420160203164
+   },
+   "shadow_pool_boundary": {
+    "metric": 0.05607930773752644,
+    "crop_median_cdm2": 0.00020969842271515232
+   },
+   "warm_pool": {
+    "metric": 0.002780645141800057,
+    "crop_median_cdm2": 0.18427769541614689
+   },
+   "puddle": {
+    "metric": 0.0004876286886388436,
+    "crop_median_cdm2": 0.0005397944674592622
+   },
+   "moonlit_dark_field": {
+    "metric": 4.8799134921095785e-05,
+    "crop_median_cdm2": 0.0005884930589673104
+   },
+   "all_within_2pct": false
+  },
+  "1024->2048": {
+   "barn_shadow": {
+    "metric": 0.007385724679055482,
+    "crop_median_cdm2": 0.0001298565841600208
+   },
+   "shadow_pool_boundary": {
+    "metric": 0.0646556633377153,
+    "crop_median_cdm2": 0.00025192452106754214
+   },
+   "warm_pool": {
+    "metric": 0.0027506554887122008,
+    "crop_median_cdm2": 0.18339890018326044
+   },
+   "puddle": {
+    "metric": 0.0006649703908227977,
+    "crop_median_cdm2": 0.000539999320106972
+   },
+   "moonlit_dark_field": {
+    "metric": 2.8245179127920875e-05,
+    "crop_median_cdm2": 0.0005885165690052191
+   },
+   "all_within_2pct": false
+  }
+ },
+ "frozen_spp": null
+}
