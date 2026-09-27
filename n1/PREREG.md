@@ -142,3 +142,49 @@ manual colour grading; more cameras or motion. Cameras B, C and a short move com
 - `n1/renders/{raw,axis_a,axis_b,final}/`: 8-bit/16-bit PNG only.
 - EXR and other large intermediates live in `n1/work/` (gitignored, like `d0/work`); their sha256 is recorded in the
   README.
+
+---
+
+## Addendum 1 (committed before any scene code): N1.1 operating rules and an L4 correction
+
+**Split of N1.1** (the order is binding):
+- **N1.1a**: scene geometry plus materials plus moon/sky only. The environment probes (L2), M1, L1.
+- **N1.1b**: add the one luminaire only. L3, L4, and a repeat of L1.
+- **N1.1c**: the window, only if N1.1b passes.
+
+Until N1.1a/b pass there is **no** window, no volumetrics, no bloom/glare, no hidden emission, no extra-bounce hacks
+and no second practical source.
+
+**What the N1.1a preview must show** (my reading is reported; the user judges):
+- the field does not read as daytime;
+- the moon shadow under the poplars nearly vanishes;
+- the barn reads as a mass, not as a richly lit object. Its walls facing the camera are not moonlit in this geometry;
+- the puddle may catch a little sky, but does not glow.
+
+**N1.1b preview:**
+- a locally readable zone under the lamp;
+- a convincing highlight in the puddle and on the lane;
+- the lamp's influence dies quickly with distance;
+- not "black field plus searchlight".
+
+**Stop and report** (added to the KILL list for N1.1):
+1. readability makes one want a hidden fill;
+2. moon + sky fall outside the L2 bands;
+3. the one lamp lights the scene tens of metres further than L3 allows;
+4. without the barn window the composition does not come together;
+5. it becomes clear that the problem is the scene set-up rather than D1.
+
+**L4 correction.**
+- The PREREG's "disc luminance = Φ/(π·A)" is the formula for a Lambertian emitter. The luminaire is a full-cutoff
+  spot with uniform on-axis intensity I₀ inside its cone.
+- The visible emitter disc therefore gets **luminance I₀/A**, the same I₀ that lights the ground.
+- **L4 now reads:** the disc luminance measured in the render = I₀/A within 10 %, and the illuminance measured under
+  the lamp = I₀/h² within 10 %, the same I₀.
+- I₀ is set so that the cone (with Cycles' spot blend) carries 2000 lm. This makes L4 also a calibration check of the
+  Cycles spot in Blender 5.2.
+
+**Colours.**
+- 3000 K and 2700 K: the Planckian chromaticity (Kim et al. 2002 cubic approximation), converted to linear
+  Rec.709 at luminance 1.
+- Moonlight: neutral D65 white (an authoring simplification; real moonlight is slightly warmer).
+- Sky: the M1 tint.
