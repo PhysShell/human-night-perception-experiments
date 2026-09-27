@@ -112,3 +112,61 @@ the road; the vacuum value is 81.8 %.
   - That exceeds the dark field (≈ 0.08) and the sky (4·10⁻⁴) over most of the frame.
   - The frame log-mean rises strongly, so pcond's linear scale drops. **C1 may fail under glare** (low confidence), and
     C2 should still hold.
+
+## Results (`results_T0.json`, code `af92d4a`)
+`d1/verify_manifest.sh` after every step: all OK.
+
+**Pixel classes:** ground 49.9 %; above-horizon objects (poles, lamps) 0.64 %; sky 49.5 %. L_h = sky median = 4·10⁻⁴.
+
+### T0a: atmosphere, V_atm (conservative T²). **PASS: the RoadLine conclusion is robust**
+| quantity | vacuum | V_atm |
+|---|---|---|
+| frame log-mean | 0.006463 | 0.006485 (+0.3 %) |
+| road Q99.9 (cd/m²) | 1.488 | 1.472 |
+| pcond EXPOSURE | 444.77 | 444.71 (linear) |
+| **C1** frozen road at peak | 81.8 % | **81.8 %** |
+| **C2** shoulder road at peak | 0 % | **0 %** |
+| presence | all six | all six, under both |
+
+T(d): 50 m 0.992; 200 m 0.969; 400 m 0.939; 800 m 0.882; 1600 m 0.779.
+
+**Per the pre-registered rule: GO A1b stage 2.** The missing atmosphere does not change the A1b stage-1 basis.
+
+### T0b: disability glare (CIE 146, p = 0.5), diagnostic. **C1 FAILS under glare; C2 holds**
+**The veil is dominated by the out-of-frame 25 m lamp:** E_gl = 3.43 lx at the eye.
+
+| quantity | vacuum | glare A = 25 | glare A = 70 |
+|---|---|---|---|
+| veil at the frame centre (cd/m²) | — | 0.084 (0.064 from the 25 m lamp) | 0.190 (0.165) |
+| median veil/scene: road | — | 0.06 | 0.14 |
+| median veil/scene: field | — | 0.22 | 0.49 |
+| median veil/scene: sky | — | 195 | 450 |
+| frame fraction with veil > scene | — | 59.7 % | 62.7 % |
+| frame log-mean | 0.0065 | 0.137 (21×) | 0.232 (36×) |
+| **pcond EXPOSURE** (linear) | 444.8 | **34.5 (−3.7 stops)** | **20.4 (−4.4 stops)** |
+| **C1** frozen road at peak | 81.8 % | **0 % → FAIL** | **0 % → FAIL** |
+| **C2** shoulder road at peak | 0 % | **0 % → holds** | **0 % → holds** |
+| road median Y_disp, frozen / shoulder | — | 14.1 / 12.4 | 8.9 / 8.2 |
+
+**Presence under glare:**
+- Frozen D1 **loses the 50 m and 100 m lamps**: 0 codes above the annulus, because the lamp sits inside its own saturated
+  veil blob.
+- The shoulder keeps all six (50 m: 1 305 codes, 100 m: 10 572 codes).
+- It is reported here; the T0b presence reading was not a pre-registered gate.
+
+**Reading (pre-registered):**
+- **The A-side failure as observed is conditional on scene radiance *without* glare.** With a CIE veil in the input,
+  pcond's log-average adaptation rises about 20–36×, and its linear scale falls by 3.7–4.4 stops. The broad road
+  saturation disappears.
+- Frozen D1 is pcond `-s -c`, deliberately **without** pcond's own veiling option `-a`.
+- **Whether D1 should model disability glare is a separate D2 question for the user.** It does not by itself block A1b
+  stage 2.
+- **C2 holds under glare:** the shoulder's behaviour does not depend on it.
+
+**Against the prediction:**
+- **Right:**
+  - T0a PASS, with the numbers as predicted;
+  - T0b large, dominated by the 25 m lamp, with a centre veil of order 0.1–0.2 cd/m²;
+  - "C1 may fail" — it did fail, on both ages;
+  - C2 holds.
+- **Not predicted:** frozen D1 losing the 50/100 m lamps into their veil blobs under glare.

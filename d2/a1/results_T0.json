@@ -1,0 +1,361 @@
+{
+ "prereg": "d2/a1/PREREG_T0.md",
+ "atm": {
+  "build": {
+   "sky_median": 0.00039999999649589877,
+   "L_h": 0.00039999999649589877,
+   "frac_ground": 0.49878048780487805,
+   "frac_object_above_horizon": 0.006442454268292683,
+   "frac_sky": 0.49477705792682924,
+   "T_at": {
+    "25": 0.9960956419037098,
+    "50": 0.9922065278195636,
+    "100": 0.9844737938477546,
+    "200": 0.9691886507729912,
+    "400": 0.9393266407871711,
+    "800": 0.8823345380925112,
+    "1600": 0.7785142371109252
+   },
+   "road_Q_before": {
+    "50": 0.6741891850948333,
+    "90": 1.000493243765831,
+    "99": 1.3222303337769477,
+    "99.9": 1.4876395652092937
+   },
+   "road_Q_after": {
+    "50": 0.6718791378762355,
+    "90": 0.9946165899440291,
+    "99": 1.3086394077184567,
+    "99.9": 1.4716871630948802
+   },
+   "frame_logmean_before": 0.006463177178387033,
+   "frame_logmean_after": 0.006485388045483547
+  },
+  "eval": {
+   "frozen_EXPOSURE": 444.71,
+   "frozen": {
+    "road_lum_ceiling": 0.818440978459782,
+    "frame_lum_ceiling": 0.1613770325203252,
+    "road_median_Y_disp": 100.0,
+    "C0": true,
+    "tone_map": {
+     "mode": "linear",
+     "slope_cdm2_per_cdm2": 444.70656101754827
+    },
+    "present": {
+     "50": true,
+     "100": true,
+     "200": true,
+     "400": true,
+     "800": true,
+     "1600": true
+    },
+    "max_code_above_bg": {
+     "50": 64612.0,
+     "100": 64612.0,
+     "200": 64612.0,
+     "400": 64612.0,
+     "800": 64612.0,
+     "1600": 64612.0
+    }
+   },
+   "shoulder": {
+    "road_lum_ceiling": 0.0,
+    "frame_lum_ceiling": 4.3191056910569106e-05,
+    "road_median_Y_disp": 62.9780569634553,
+    "C0": true,
+    "tone_map": {
+     "mode": "linear",
+     "slope_cdm2_per_cdm2": 444.70656101754827
+    },
+    "present": {
+     "50": true,
+     "100": true,
+     "200": true,
+     "400": true,
+     "800": true,
+     "1600": true
+    },
+    "max_code_above_bg": {
+     "50": 64613.0,
+     "100": 64613.0,
+     "200": 64613.0,
+     "400": 64613.0,
+     "800": 64613.0,
+     "1600": 64613.0
+    }
+   },
+   "C1_PASS": true,
+   "C2_PASS": true,
+   "presence_PASS": true
+  }
+ },
+ "verify_manifest": {
+  "build_atm": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "eval_atm": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "build_glare25": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "eval_glare25": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "build_glare70": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+  "eval_glare70": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n"
+ },
+ "glare25": {
+  "build": {
+   "sky_median": 0.00039999999649589877,
+   "L_h": 0.00039999999649589877,
+   "frac_ground": 0.49878048780487805,
+   "frac_object_above_horizon": 0.006442454268292683,
+   "frac_sky": 0.49477705792682924,
+   "T_at": {
+    "25": 0.9960956419037098,
+    "50": 0.9922065278195636,
+    "100": 0.9844737938477546,
+    "200": 0.9691886507729912,
+    "400": 0.9393266407871711,
+    "800": 0.8823345380925112,
+    "1600": 0.7785142371109252
+   },
+   "veil": {
+    "A": 25,
+    "per_lamp": {
+     "25": {
+      "E_gl_lx_axis": 3.4253483331686003,
+      "veil_at_centre": 0.07175222878676482
+     },
+     "50": {
+      "E_gl_lx_axis": 0.09728377442881266,
+      "veil_at_centre": 0.007810676198322028
+     },
+     "100": {
+      "E_gl_lx_axis": 0.005654706165995104,
+      "veil_at_centre": 0.0020136888859600935
+     },
+     "200": {
+      "E_gl_lx_axis": 0.0004815205382583644,
+      "veil_at_centre": 0.0008677989914283986
+     },
+     "400": {
+      "E_gl_lx_axis": 5.622136871088199e-05,
+      "veil_at_centre": 0.0005835029887597793
+     },
+     "800": {
+      "E_gl_lx_axis": 6.474059900383011e-06,
+      "veil_at_centre": 0.00043249063497139404
+     },
+     "1600": {
+      "E_gl_lx_axis": 7.069402893963844e-07,
+      "veil_at_centre": 0.0003272089992320285
+     }
+    },
+    "centre": 0.08378759548543854,
+    "median_ratio_veil_over_scene": {
+     "road": 0.061761997077331425,
+     "field": 0.22153964219956807,
+     "sky": 195.4919483310325
+    },
+    "frac_frame_veil_gt_scene": 0.5967276422764227
+   },
+   "road_Q_before": {
+    "50": 0.6741891850948333,
+    "90": 1.000493243765831,
+    "99": 1.3222303337769477,
+    "99.9": 1.4876395652092937
+   },
+   "road_Q_after": {
+    "50": 0.7131245428638134,
+    "90": 1.0587402139600723,
+    "99": 1.3897202475568602,
+    "99.9": 1.5568880281306006
+   },
+   "frame_logmean_before": 0.006463177178387033,
+   "frame_logmean_after": 0.1372907525211778
+  },
+  "eval": {
+   "frozen_EXPOSURE": 34.479,
+   "frozen": {
+    "road_lum_ceiling": 0.0,
+    "frame_lum_ceiling": 0.00599657012195122,
+    "road_median_Y_disp": 14.081819471116695,
+    "C0": true,
+    "tone_map": {
+     "mode": "linear",
+     "slope_cdm2_per_cdm2": 34.478728627247364
+    },
+    "present": {
+     "50": false,
+     "100": false,
+     "200": true,
+     "400": true,
+     "800": true,
+     "1600": true
+    },
+    "max_code_above_bg": {
+     "50": 0.0,
+     "100": 0.0,
+     "200": 28683.0,
+     "400": 46498.5,
+     "800": 53089.0,
+     "1600": 27335.0
+    }
+   },
+   "shoulder": {
+    "road_lum_ceiling": 0.0,
+    "frame_lum_ceiling": 2.223069105691057e-05,
+    "road_median_Y_disp": 12.365710956367415,
+    "C0": true,
+    "tone_map": {
+     "mode": "linear",
+     "slope_cdm2_per_cdm2": 34.478728627247364
+    },
+    "present": {
+     "50": true,
+     "100": true,
+     "200": true,
+     "400": true,
+     "800": true,
+     "1600": true
+    },
+    "max_code_above_bg": {
+     "50": 1305.0,
+     "100": 10571.5,
+     "200": 32140.0,
+     "400": 46998.0,
+     "800": 53245.0,
+     "1600": 24606.0
+    }
+   },
+   "C1_PASS": false,
+   "C2_PASS": true,
+   "presence_PASS": false
+  }
+ },
+ "glare70": {
+  "build": {
+   "sky_median": 0.00039999999649589877,
+   "L_h": 0.00039999999649589877,
+   "frac_ground": 0.49878048780487805,
+   "frac_object_above_horizon": 0.006442454268292683,
+   "frac_sky": 0.49477705792682924,
+   "T_at": {
+    "25": 0.9960956419037098,
+    "50": 0.9922065278195636,
+    "100": 0.9844737938477546,
+    "200": 0.9691886507729912,
+    "400": 0.9393266407871711,
+    "800": 0.8823345380925112,
+    "1600": 0.7785142371109252
+   },
+   "veil": {
+    "A": 70,
+    "per_lamp": {
+     "25": {
+      "E_gl_lx_axis": 3.4253483331686003,
+      "veil_at_centre": 0.16522274476961382
+     },
+     "50": {
+      "E_gl_lx_axis": 0.09728377442881266,
+      "veil_at_centre": 0.017520146601257183
+     },
+     "100": {
+      "E_gl_lx_axis": 0.005654706165995104,
+      "veil_at_centre": 0.004169005771386962
+     },
+     "200": {
+      "E_gl_lx_axis": 0.0004815205382583644,
+      "veil_at_centre": 0.0015843233427704833
+     },
+     "400": {
+      "E_gl_lx_axis": 5.622136871088199e-05,
+      "veil_at_centre": 0.0009134058958252107
+     },
+     "800": {
+      "E_gl_lx_axis": 6.474059900383011e-06,
+      "veil_at_centre": 0.0005826543806377177
+     },
+     "1600": {
+      "E_gl_lx_axis": 7.069402893963844e-07,
+      "veil_at_centre": 0.00039165187607111617
+     }
+    },
+    "centre": 0.1903839326375625,
+    "median_ratio_veil_over_scene": {
+     "road": 0.14084188846512424,
+     "field": 0.49409855051884877,
+     "sky": 449.7663848962071
+    },
+    "frac_frame_veil_gt_scene": 0.6274885670731707
+   },
+   "road_Q_before": {
+    "50": 0.6741891850948333,
+    "90": 1.000493243765831,
+    "99": 1.3222303337769477,
+    "99.9": 1.4876395652092937
+   },
+   "road_Q_after": {
+    "50": 0.7646681106151525,
+    "90": 1.1378372168699178,
+    "99": 1.4864174095487601,
+    "99.9": 1.6567285805595373
+   },
+   "frame_logmean_before": 0.006463177178387033,
+   "frame_logmean_after": 0.2323943299220173
+  },
+  "eval": {
+   "frozen_EXPOSURE": 20.383,
+   "frozen": {
+    "road_lum_ceiling": 0.0,
+    "frame_lum_ceiling": 0.006200457317073171,
+    "road_median_Y_disp": 8.934462933891002,
+    "C0": true,
+    "tone_map": {
+     "mode": "linear",
+     "slope_cdm2_per_cdm2": 20.382727736451457
+    },
+    "present": {
+     "50": false,
+     "100": false,
+     "200": true,
+     "400": true,
+     "800": true,
+     "1600": true
+    },
+    "max_code_above_bg": {
+     "50": 0.0,
+     "100": 0.0,
+     "200": 33878.0,
+     "400": 47699.5,
+     "800": 51974.0,
+     "1600": 18943.0
+    }
+   },
+   "shoulder": {
+    "road_lum_ceiling": 0.0,
+    "frame_lum_ceiling": 0.0,
+    "road_median_Y_disp": 8.21643759159512,
+    "C0": true,
+    "tone_map": {
+     "mode": "linear",
+     "slope_cdm2_per_cdm2": 20.382727736451457
+    },
+    "present": {
+     "50": true,
+     "100": true,
+     "200": true,
+     "400": true,
+     "800": true,
+     "1600": true
+    },
+    "max_code_above_bg": {
+     "50": 2152.0,
+     "100": 14375.5,
+     "200": 36154.0,
+     "400": 48122.5,
+     "800": 49188.0,
+     "1600": 17443.0
+    }
+   },
+   "C1_PASS": false,
+   "C2_PASS": true,
+   "presence_PASS": false
+  }
+ }
+}
