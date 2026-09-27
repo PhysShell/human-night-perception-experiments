@@ -73,3 +73,30 @@ No new Blender render; minutes of CPU. `d1/verify_manifest.sh` before and after.
   - R3 display gates G1–G3, S-1…S-3 all PASS.
 - **Automatic: PASS.** V6 pending: external observer, sheet `renders/holdout_C_a1a2_sheet.png`.
 - My reading, written before the verdict: `A1a2_my_reading.txt`, sha256 `00ab5916aa7ce86a4c66e9a5b40da0aee47e249bfdf2a417d7aa34a31f87c0d1`.
+
+## A1a2 verdict: **PASS. D2-A1 closed**
+The external observer judged the sheet from `bbcfaad`: **V6 PASS**.
+
+| item | verdict |
+|---|---|
+| Broad luminance saturation | not seen |
+| Darkness collapse | not seen |
+| Lamp/source unreadable | no; head and pole read |
+| New A-side defect class | none seen |
+| White lamp core (declared) | present, acceptable |
+| B rod-term warm/pink tint (declared, `d2/b2`) | present, not an A1a2 matter |
+
+- **Observer's note:** the image is darker than frozen C, especially the lower foreground, but not pathologically
+  collapsed.
+  - The dark lower mass was part of the scene before; it is deeper now.
+  - The lit-road edges, the dark wedge, the field and the barn mass stay distinguishable.
+  - This agrees with HO2 = 0 %.
+- My pre-verdict reading (`A1a2_my_reading.txt`, sha256 as above) had guessed PASS, with darkness as the risk.
+
+**Reading (pre-registered wording, applied unchanged):**
+- A1a stays a literal KILL, caused by invalid H2 instrumentation. No history is rewritten.
+- The substantive hypothesis survives on an independent hold-out. The single global scale s = 0.2641 was chosen on
+  RoadLine and applied untuned to Camera C, and it removes the luminance saturation with no new A-side visual defect.
+- **Axis A's linear shape is not falsified. pcond's global exposure selection is the remaining suspect.**
+- A1b (the shoulder) is **not** opened; there is no failure that motivates it.
+- **D2-A1 is closed.** A D2 item on exposure selection/adaptation is opened only by the user. D1 is unchanged.

@@ -44,3 +44,12 @@ was OK before and after. No frozen file was touched.
 - **A1a is KILLed.** The next step per section 5 is **A1b**: one pre-registered luminance-only monotonic shoulder after
   the frozen A, B frozen.
 - If A1b fails too, the direction is KILLed.
+
+## Superseded next step: A1a2, then D2-A1 closed
+- At the user's direction, A1b was **not** run. The corrected falsifier A1a2 (`PREREG_A1a2.md`, `9852123`; code
+  `c1b76d9`; `results_a1a2.json`) ran instead. It has a luminance-based H2v2 and an independent hold-out (N1 Camera C,
+  the same s).
+- **Automatic results:** H2v2 0.070 %; HO1 0.046 %; HO2 0 %; HO3 readable; R3 PASS; manifest OK before and after.
+- **V6 (external): PASS.**
+- **Conclusion:** the linear shape of axis A is not falsified, and pcond's exposure selection is the remaining suspect.
+  **D2-A1 is closed**; A1a stays a literal KILL. See the verdict section in `PREREG_A1a2.md`.
