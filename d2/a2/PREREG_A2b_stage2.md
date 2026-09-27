@@ -111,3 +111,79 @@ stay in memory.
 - **P-7 is the real risk.** S2's lamps drive q frame by frame. I expect the mean step to stay under 2 %, with no
   flashes, but with low confidence.
 - **The main stage-2 risk is visual:** darker hero/C.
+
+## Automatic results (`results_A2b2.json`; code `13a6bb5`, report fix `34800ce`)
+**Run history.** Run 1 crashed in *reporting*: pcond took the mapped branch on F1, so there is no EXPOSURE header. It
+crashed after the corpus gates had printed and before any result file. The report fix changes no gate and no policy,
+and the full re-run is the result. `d1/verify_manifest.sh` before and after: all OK. The policy code's sha256 is
+asserted equal to `bacfd86`.
+
+| scene | frozen EXPOSURE | q = Q99.9(Y_A) | s_hist | Δ stops | active | luminance ceiling (frozen) | floor | automatic |
+|---|---|---|---|---|---|---|---|---|
+| RoadLine (stage 1) | 444.8 | 3.711 | 0.2692 | −1.89 | yes | road 0.150 % | 0 % | literal KILL H2v2; A2c visual PASS |
+| Hero | 1136.8 | 1.290 | 0.7741 | **−0.37** | yes | 0.100 % (0.192 %) | 0 % | CF PASS, R3 PASS |
+| Camera B | 453.5 | 0.286 | 1 | 0 | no | 0 % (0 %) | 0 % | BI PASS, CF PASS, R3 PASS |
+| Camera C | 982.6 | 1.591 | 0.6280 | **−0.67** | yes | 0.101 % (0.444 %) | 0 % | HO1–HO3 PASS (head 56 966 codes), R3 PASS |
+| S0 | 1390.4 | 0.061 | 1 | 0 | no | — | 0 % | BI PASS, P PASS |
+| **S1** | 1390.0 | **10.23** | **0.0977** | **−3.36** | yes | any-ch 0.17 % (0.32 %) | 0 % | P-1…P-5 PASS |
+| S3_bar | 1260.8 | 0.003 | 1 | 0 | no | — | **0.6250 %** | BI PASS, P PASS; **CF literal FAIL** (see below) |
+| S3_nobar | 1260.2 | 0.003 | 1 | 0 | no | — | 0 % | BI PASS, P PASS |
+| S4 | 16.7 | 0.583 | 1 | 0 | no | — | 0 % | BI PASS, P PASS |
+| S5 | 6.86 | 0.898 | 1 | 0 | no | any-ch **4.3545 %** | 0 % | BI PASS, P PASS; **CF literal FAIL** (see below) |
+| F1 (synthetic) | — (mapped) | 0.925 | 1 | 0 | no | — | — | BI PASS, P-8 PASS |
+| **S2** (48 frames) | 1390.0 | 10.01–10.26 | 0.0974–0.0998 (median 0.0982) | **≈ −3.35** | all 48 | ≤ 0.100 % | 0 % | P-1…P-4 PASS, BI n/a |
+
+**Corpus P-gates:**
+- P-1 … P-6 and P-8 all PASS.
+- **P-2b PASS everywhere.** The E1 knee artefact did not occur on the guarded images.
+
+**P-7 (S2 temporal): PASS.**
+- mean max step 0.28 %;
+- sky-median max step 0.19 %;
+- isolated flashes 0;
+- source-energy modulation 1.2 %.
+
+**BI:** PASS on every inactive image.
+
+**ND:** PASS. The guard is active on the hero, C, S1 and S2, and inactive on B, S0, S3_bar, S3_nobar, S4 and S5.
+
+**CF literal FAILs on S3_bar and S5, stated and classified:**
+- **The numbers.**
+  - S3_bar floor 0.6250 % > 0.62 %;
+  - S5 any-channel ceiling 4.3545 % > 4.35 %.
+- **Both images are inactive and bit-identical to the accepted frozen D1 outputs.**
+- **Cause.** The limits are those images' own frozen values, rounded *down* when written (D2-A1 PREREG: "S3_bar
+  0.62 %", "S5 4.35 %").
+- **Classification.** Anchor rounding in my threshold transcription, measurement design. **Not a guard effect.** The
+  FAILs stay literal.
+
+**S1 in plain terms, the main finding:**
+- **The guard sees q = 10.2.** The street lamps cover more than 0.1 % of the frame at ten times the display peak. It
+  therefore darkens the whole moonlit scene by **3.36 stops**.
+- **P-5 passes, but with a large movement:**
+
+  | S1 metric | frozen D1 | guard | P-5 limit |
+  |---|---|---|---|
+  | displayed sky | 0.318 cd/m² | 0.121 cd/m² | — |
+  | poplar Weber | 0.593 | **0.152** | ≥ 0.1 |
+  | lamp/sky | 315 | 598 | — |
+
+- S2 (the same scene family) is darkened identically and stably.
+- Whether this is "visibly degraded structure" or "darkness collapse" is the **visual** gate's call.
+
+**S3 and S5 are untouched.**
+
+**Against the prediction:**
+- **Right:**
+  - S0/S3/S4 inactive;
+  - ND passes;
+  - C at −0.67 stop.
+- **Wrong:**
+  - **S1 predicted as a small darkening under 1 stop; it is −3.36 stops;**
+  - S5 predicted active; it is inactive;
+  - hero predicted at 0.5–1.5 stops; it is −0.37 stop;
+  - P-7 predicted as the real risk; it passes easily.
+
+**Visual gate still to run** (external, frozen vs guard): hero, Camera C, S1, S2. The S2 frames were streamed, not
+kept. For the sheet, frames 1 and 48 are recomputed through the identical code path, with s_hist asserted equal to the
+recorded per-frame value.
