@@ -11,7 +11,7 @@ for name, p in meta["probes"].items():
     ok = abs(I / It - 1) <= TOL if It >= 10 else I < 10
     res["probes"][name] = {"I_measured": I, "I_table": It, "ratio": I / It if It > 0 else None, "PASS": ok}
 f = (1920 / 2) / math.tan(math.radians(30))
-for D in (25, 100, 400):
+for D in (50, 100, 400):                                       # addendum 3: 25 m is out of frame
     m = json.load(open(f"{W}/a0emit_{D}.json")); img = Y(f"{W}/a0emit_{D}.exr"); h, w = img.shape
     bgv = np.median(np.concatenate([img[:4].ravel(), img[-4:].ravel(), img[:, :4].ravel(), img[:, -4:].ravel()]))
     x0, y0 = m["px"][0] - 32, m["px"][1] - 32

@@ -12,7 +12,7 @@ STIM  A | B (the LM-63 file from n1/roadline/work, fetched by fetch.sh)
 Units as N1/M1: K = 179 lm/W; luminance = 179 * Y. IES mapping (addendum 2, from the Cycles source): the IES node
 outputs candela * 4 pi / 177.83, so a point light of power P = 177.83 / K W gives I(dir) = candela(dir) exactly.
 Orientation (svm/ies.h: H = atan2(x, y) + pi): table H = 0 is the light's local -y; the light is rotated -90 deg
-about z so that H = 0 (street side) faces world -x. Lights are made camera-visible (Blender default: hidden).
+about z so that H = 0 (street side) faces world -x. Lights are hidden from the camera; each has a camera-only emitter sphere, L = I_table(eye) / (pi r^2) (addendum 3).
 """
 import json, math, os, sys
 import bpy
@@ -81,8 +81,23 @@ def luminaire(y):
     ld.shadow_soft_size = RADIUS; ld.use_nodes = True; nt = ld.node_tree
     ies = nt.nodes.new("ShaderNodeTexIES"); ies.mode = "EXTERNAL"; ies.filepath = IES
     nt.links.new(ies.outputs[0], nt.nodes["Emission"].inputs["Strength"])
-    o = bpy.data.objects.new(f"lum_{y}", ld); o.location = (LUM_X, y, LUM_Z); o.rotation_euler = (0, 0, -math.pi / 2); o.visible_camera = True   # addendum 2
-    sc.collection.objects.link(o); return o
+    o = bpy.data.objects.new(f"lum_{y}", ld); o.location = (LUM_X, y, LUM_Z); o.rotation_euler = (0, 0, -math.pi / 2)
+    o.visible_camera = False                                    # addendum 3: the IES light only illuminates
+    sc.collection.objects.link(o)
+    # addendum 3: camera-only emitter, radiance = I_table(towards the eye) / (pi r^2) (Cycles does not evaluate the IES
+    # towards the eye for camera rays on the visible sphere; verified in A0 run 2)
+    e = Vector(EYE) - Vector((LUM_X, y, LUM_Z)); r = e.length
+    V = math.degrees(math.acos(-e.z / r)); H = math.degrees(math.atan2(-e.y, -e.x)) % 360
+    I_eye = lm63.intensity(TAB, V, H)
+    m = bpy.data.materials.new(f"emit_{y}"); m.use_nodes = True; nt2 = m.node_tree; nt2.nodes.clear()
+    em = nt2.nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (*COLOUR, 1)
+    em.inputs["Strength"].default_value = I_eye / (math.pi * RADIUS ** 2) / K
+    nt2.links.new(em.outputs[0], nt2.nodes.new("ShaderNodeOutputMaterial").inputs["Surface"])
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=RADIUS, location=(LUM_X, y, LUM_Z), segments=24, ring_count=12)
+    sp = bpy.context.active_object; sp.data.materials.append(m)
+    for att in ("visible_diffuse", "visible_glossy", "visible_transmission", "visible_volume_scatter", "visible_shadow"):
+        setattr(sp, att, False)
+    return o
 
 
 def white_patch(name, centre, normal, size=0.3):

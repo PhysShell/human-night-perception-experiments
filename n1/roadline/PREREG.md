@@ -155,3 +155,27 @@ projects.blender.org) and one Blender check. **Nothing below is fitted to the pr
      emission.
 
 The A0 gates are unchanged. A0 is re-run once.
+
+---
+
+## A0 run 2 (`a0_A_v2_FAIL.json`) and Addendum 3 (committed before run 3)
+**Run 2.** All nine direction probes and the ground check **PASS**: ratio 0.991–1.021; V = 90° gives 1.7 cd against
+the table's 0 (< 10). The addendum-2 normalisation and orientation are confirmed. The emitter check **FAILS**:
+- **25 m: out of frame.** The luminaire at 8 m, 25 m away, is at 14.1° elevation; the frame top at pitch 0 is 13.85°.
+  My PREREG prediction table did not check the frame. The 25 m lamp appears in A1 only through its road pool.
+- **100 m: 0.82 × table; 400 m: 0.64 × table.**
+
+**Diagnosis.** The same camera-visible point light **without IES** gives exactly P·K/4π at 100 and 400 m (14.2 vs
+14.15 cd). So for camera rays Cycles does not evaluate the IES at the direction towards the eye. The deficit is in the
+IES-shaded visible sphere, not in pixel integration or geometry.
+
+**Addendum 3, derived from that behaviour** (the N1 construction):
+- The IES point light is **hidden from the camera** and only illuminates; its illumination is verified by the probes.
+- Each luminaire gets a **camera-only emitter**: a sphere of the same 0.105 m radius, uniform radiance
+  **L = I_table(eye direction) / (π r²)** in the luminaire colour. It is invisible to diffuse, glossy, transmission,
+  volume and shadow rays.
+- I_table uses the exact eye direction from `lm63.py`.
+- The emitter check therefore tests the construction plus pixel integration; the photometric truth comes from the
+  table. This is stated as such.
+- The **A0 emitter distances become 50, 100 and 400 m** (25 m is out of frame).
+- The gates are unchanged; A0 is re-run once.
