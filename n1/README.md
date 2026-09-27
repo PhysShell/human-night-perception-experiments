@@ -260,3 +260,7 @@ images; order as night **X > Y > Z**.
 - D1 vs plain Blender: **D1 wins**. D1 vs V0: **V0 wins on this hero**.
 - The cause is isolated: the axis-B warm-mesopic hue residual.
 - **Next: the D2-B2 cheap falsifier** (`d2/b2/PREREG.md`) **before N1.5.**
+
+**D2-B2 result** (`d2/b2/README.md`): **KILL**. The pinkish pool is the Cao/Kirk rod-intrusion term itself. With the
+kernel's rod term off, the rotation vanishes exactly; with it on, the hero flank rotates −31.9°. So it is not a
+defect under the frozen model. The residual is an official limitation, and **N1.5 proceeds with the current D1.**
