@@ -214,3 +214,43 @@ Hero stage b, raw linear, same seed. The metric is the median of the 8 × 8-bloc
   - My own reading, written before the verdict: sha256 `ecfd7371d78e0bb8518f1359fddfa76545ee4c2aaca47c57fbf6a18688772dda` (`n1/work/my_reading.txt`).
   - The diagnostic raw / A-only / B-only / final sheet is withheld until after the verdict: it would reveal which
     blind image is D1.
+
+## N1 hero result: **ACCEPTED under the pre-registered gates (V1–V7 PASS)**. One classified D1 residual
+The user's blind verdict (`blind_verdict.md`, commit `40451c8`, recorded before the reveal): V1–V6 PASS for all three
+images; order as night **X > Y > Z**.
+
+**Key revealed** (`blind_key.json`; its sha256 `173b6e88…` matches the pre-committed hash):
+- **X = V0 pcond**;
+- **Y = D1 final**;
+- **Z = plain Blender AgX +12**.
+- My pre-verdict reading (`my_reading.txt`, sha256 `ecfd7371…` matches) had guessed Z as the comparator and ranked
+  Z > X > Y as a picture.
+
+**V7** (D1 not judged worse than the plain exposure): **PASS**. D1 (Y) ranks above the plain exposure (Z) as night.
+**V3** is lifted from PENDING: PASS.
+
+**The finding the gates don't show: on this hero D1 does not beat the old V0 (X > Y).**
+- Luminance is the same in both: pcond `-s -c`, linear fall-back. The only difference is colour.
+- The diagnostic sheet (`renders/diagnostic_sheet.png`) and the pool-flank chromaticity (display Y 5–60 cd/m²,
+  below the peak) locate it:
+
+| version | u′v′ chroma from D65 | hue |
+|---|---|---|
+| raw (scene colour) | 0.075 | 53° (warm orange) |
+| A-only | 0.073 | 50° |
+| **B-only** | **0.008** | **6°** |
+| **final (D1)** | **0.012** | **19°** |
+| V0 pcond | 0.001 | (neutral) |
+| plain Blender | 0.046 | 50° |
+
+- **Axis B** collapses the 3000 K pool's chroma ×6–9 and rotates its hue from orange (~50°) towards red (6–19°): the
+  "warmer/fleshier", pinkish pool the user saw in Y.
+- V0 simply neutralises it (pcond `-c` plus clipgamut), and the user judged that slightly more coherent.
+- The pool centre is white in every D1 variant: the known Y-priority peak whitening.
+
+**Classification** (addendum 4):
+- **D1 known residual, axis B.** It belongs to the documented B limitations (`d1/MANIFEST.md`: the mesopic calibration
+  of B is an envelope only; B4-G2, a warm/yellow hue driven across neutral).
+- It is **not a new D1 failure**, and the gates pass. D1 is not changed here.
+- **Candidate D2 question** (only if wanted, via `d2/TEMPLATE.md`): *D2-B2: at mesopic pool levels, does B push warm
+  practical light through neutral to pink?*

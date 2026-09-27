@@ -1,0 +1,13 @@
+My reading of the blind sheet (written before the user's verdict; does not count). I built the sheet but did not print
+the key. I am not truly blind: Z's warm, saturated colour rendering looks to me like the Blender AgX comparator. X vs Y
+I can only guess.
+X: V1 yes (clearly night). V2 lane, lamp, barn, poplars, field all read. V3 yes: lower-left field and barn shadow
+   nearly black. V4 the pool is brighter than its surroundings but near-neutral white; the lamp head is a small warm
+   dot; the puddle reflection reads. V5 poplars read against a slightly lighter sky; the barn mass reads. V6 no
+   blobs/banding; the pool is whitish (lamp-core whitening class).
+Y: like X in structure and darkness. The pool centre has a pinkish/magenta tint that I would flag as a possible colour
+   artefact (V6 candidate). Otherwise V1-V5 as X.
+Z: V1 night, but closer to dusk; more readable field (greenish), strongly lit warm barn wall, warm pool. V3 barn shadow
+   dark, field not lost. V5 silhouettes read best. V6 none seen.
+Preference as a picture: Z > X > Y. As "night": X ~ Y > Z. If D1 is X or Y, V7 (D1 not worse than the plain
+exposure) is genuinely at risk on colour: D1 loses the lamp's warmth that the plain exposure keeps.
