@@ -272,3 +272,29 @@ passes.
   6. V1–V6;
   7. the blind sheet.
 - **FAIL:** stop. There is no 8192 spp and no third estimator.
+
+## Addendum-5 result: **FAIL, stopped** (`a1_A.json`: `convergence`, `R1v2`)
+**Convergence, raw 2048 vs raw 4096:**
+- crops: near road 0.02 %, far road 0.13 %, field 0.11 %, sky 0.00 %, all PASS;
+- emitters: 50 m +0.01 %, 100 m −0.07 %, 200 m +0.33 %, 400 m +0.79 %, **800 m +2.005 %**, **1600 m −2.385 %**
+  (**FAIL**).
+
+**R1v2 (4096 raw):**
+
+| d (m) | 50 | 100 | 200 | 400 | 800 | 1600 |
+|---|---|---|---|---|---|---|
+| measured / table | **0.541** | 0.982 | 0.983 | 0.987 | 0.995 | 1.078 |
+
+**FAIL at 50 m.**
+
+**Causes (diagnosis, no re-evaluation):**
+- **Sub-pixel emitters are Monte-Carlo-limited.** The 0.105 m sphere is 0.44 px across at 800 m and 0.22 px at
+  1600 m, so only a few per cent of camera samples hit it; the hit count fluctuates at ~2 % even at 2048/4096 spp.
+  This is the unresolved-source sampling problem met in M2.5 (`m1/scene.py`, M25_LAMP_PX).
+- **The addendum-5 estimator is wrong for resolved emitters. This is my design error.**
+  - r = 2.5 px is the filter support for a *point*. The 50 m emitter is 6.9 px across, so the aperture truncates it
+    (0.541). The 100 m emitter (3.5 px) is at the limit.
+  - The run-2 diagnostic had already shown 0.541 at 50 m with r = 2.5, and I did not catch it when writing
+    addendum 5.
+
+Per addendum 5: stop. There is no 8192 spp and no third estimator without a decision.
