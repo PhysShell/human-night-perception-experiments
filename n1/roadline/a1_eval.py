@@ -39,7 +39,54 @@ def window_signal(img, px, h, omega=True):
     return float(((win - bg) * om).sum()), bg, win
 
 
-if STEP == "gate":
+def ap_signal(img, px, others):
+    """Addendum-5 estimator: r = 2.5 px aperture, background = median of the 3.5 < r <= 6.0 px annulus excluding other
+    emitters' apertures; signal in (value x sr)."""
+    cx, cy = px; x0, x1, y0, y1 = int(cx) - 8, int(cx) + 9, int(cy) - 8, int(cy) + 9
+    ys, xs = np.mgrid[y0:y1, x0:x1]; r = np.hypot(xs + 0.5 - cx, ys + 0.5 - cy); sub = img[y0:y1, x0:x1]
+    excl = np.zeros_like(r, bool)
+    for o in others: excl |= np.hypot(xs + 0.5 - o[0], ys + 0.5 - o[1]) <= 2.5
+    ann = (r > 3.5) & (r <= 6.0) & ~excl; ap = r <= 2.5; bg = float(np.median(sub[ann]))
+    om = (F / np.sqrt(F ** 2 + (xs + 0.5 - 960) ** 2 + (ys + 0.5 - 410) ** 2)) ** 3 / F ** 2
+    return float(((sub - bg) * om)[ap].sum()), bg, sub[ap]
+
+
+def ap_all(img):
+    out = {}
+    for l in lamps:
+        others = [m["px"] for m in lamps if m is not l]; out[l["d"]] = ap_signal(img, l["px"], others)
+    return out
+
+
+def load_passes(src):
+    P = {}
+    for si in range(oiio.ImageBuf(src).nsubimages):
+        b = oiio.ImageBuf(src, si, 0); a = b.get_pixels(oiio.FLOAT)
+        for i, c in enumerate(b.spec().channelnames):
+            parts = c.split("."); P.setdefault(parts[-2], {})[parts[-1]] = a[..., i]
+    return P
+
+
+if STEP == "conv":                                                  # addendum 5: raw 2048 vs raw 4096
+    Y = {n: K * (np.stack([load_passes(p)["Noisy Image"][c] for c in "RGB"], -1) @ YW) for n, p in ((2048, "n1/roadline/work/A2048/roadline.exr"), (4096, f"{W_}/roadline.exr"))}
+    cr = {}
+    for k_, p in CROPS.items():
+        cx, cy = project_view(p, EYE, 0.0, 0.0); x0, y0 = int(round(cx)) - 24, int(round(cy)) - 24
+        A_ = Y[4096][y0:y0 + 48, x0:x0 + 48].reshape(6, 8, 6, 8).transpose(0, 2, 1, 3).reshape(36, 64)
+        B_ = Y[2048][y0:y0 + 48, x0:x0 + 48].reshape(6, 8, 6, 8).transpose(0, 2, 1, 3).reshape(36, 64)
+        ma, mb = np.median(A_, 1), np.median(B_, 1); cr[k_] = float(np.median(np.abs(ma / mb - 1)))
+    s4, s2 = ap_all(Y[4096]), ap_all(Y[2048]); em = {d: s4[d][0] / s2[d][0] - 1 for d in s4}
+    res["convergence"] = {"crops_block_median_dev": cr, "emitter_dev": em,
+                          "PASS": all(abs(v) <= 0.02 for v in cr.values()) and all(abs(v) <= 0.02 for v in em.values())}
+    r1 = {}
+    for l in lamps:
+        I = s4[l["d"]][0] * l["r_m"] ** 2; r1[l["d"]] = {"I_measured": I, "I_table": l["I_table_cd"], "ratio": I / l["I_table_cd"], "bg_cdm2": s4[l["d"]][1], "PASS": abs(I / l["I_table_cd"] - 1) <= 0.10}
+    res["R1v2"] = {"lamps": r1, "PASS": all(v["PASS"] for v in r1.values())}; res["R2"] = "N/A (no denoiser used; addendum 5)"
+    raw = np.stack([load_passes(f"{W_}/roadline.exr")["Noisy Image"][c] for c in "RGB"], -1); H_, W2 = raw.shape[:2]
+    for name, arr in (("rl_cdm2.exr", raw * K), ("rl_rgb.exr", raw)):
+        o = oiio.ImageBuf(oiio.ImageSpec(W2, H_, 3, oiio.FLOAT)); o.set_pixels(oiio.ROI(0, W2, 0, H_, 0, 1, 0, 3), np.ascontiguousarray(arr, np.float32)); o.write(f"{W_}/{name}")
+    print(json.dumps({k_: res[k_] for k_ in ("convergence", "R1v2", "R2")}, indent=1, default=float))
+elif STEP == "gate":
     P = {}
     src = f"{W_}/roadline.exr"
     for si in range(oiio.ImageBuf(src).nsubimages):
@@ -88,11 +135,13 @@ elif STEP == "d1":
     out = {}
     for tag in ("final", "raw"):
         cv = codes(f"n1/roadline/renders/{ST}_{tag}.png"); mx = cv.max(-1).astype(float); Yd = disp_Y(cv); rows = {}
-        for l, h in windows():
-            s, _, _ = window_signal(Yd, l["px"], h); _, bgc, winc = window_signal(mx, l["px"], h, omega=False)
-            rows[l["d"]] = {"display_signal": s, "present": bool(winc.max() >= bgc + 1), "max_code_above_bg": float(winc.max() - bgc)}
+        sY, sM = ap_all(Yd), ap_all(mx)                                # addendum-5 estimator
+        for l in lamps:
+            s = sY[l["d"]][0]; bgc, apc = sM[l["d"]][1], sM[l["d"]][2]
+            rows[l["d"]] = {"display_signal": s, "present": bool(apc.max() >= bgc + 1), "max_code_above_bg": float(apc.max() - bgc)}
         out[tag] = rows
-    ds = [l["d"] for l, _ in windows()]; scene_sig = {d: res["R1"]["lamps"][str(d) if str(d) in res["R1"]["lamps"] else d]["I_measured"] / (next(l for l in lamps if l["d"] == d)["r_m"] ** 2) for d in ds}
+    ds = [l["d"] for l in lamps]; R1s = res["R1v2"]["lamps"]
+    scene_sig = {d: R1s[str(d) if str(d) in R1s else d]["I_measured"] / (next(l for l in lamps if l["d"] == d)["r_m"] ** 2) for d in ds}
     inv = []
     for a_, b_ in zip(ds, ds[1:]):                                     # b_ farther than a_
         if scene_sig[b_] < scene_sig[a_]:

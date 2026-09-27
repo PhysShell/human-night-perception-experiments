@@ -234,3 +234,41 @@ IES-shaded visible sphere, not in pixel integration or geometry.
     **the denoised A1 image is not trusted.**
 
 No D1, V0 or comparator output of A1 exists. The next step is a decision.
+
+---
+
+## Addendum 5 (committed before the 2048-spp render): no OIDN for RoadLine; a frozen point-source estimator; raw convergence
+**The previous A1 run stays FAIL** under the original R1 and R2. Root causes:
+- R1 at 1600 m: the 9 × 9 estimator is contaminated by the neighbouring lamp and the horizon;
+- R2 at 400 and 800 m: OIDN introduces a real point-source bias above the frozen 2 % and gives no material variance
+  reduction.
+
+**RoadLine input preparation = raw Cycles (the Noisy Image pass), no OIDN**, only if the convergence test below
+passes.
+- The OIDN decision in N1 (hero, B, C: firefly regime) is untouched. The scenes are in different sampling regimes.
+- **R2 becomes N/A (no denoiser used), not PASS.**
+- The geometry is **not** changed (no lowering of the lamp row to help the metric).
+
+**Frozen point-source estimator ("R1v2"), for R1, the convergence test, R4 and R5:**
+- **centre:** the predicted emitter centre from `lamps.json` (continuous pixel coordinates; pixel centres at +0.5);
+- **signal aperture:** all pixels whose centre lies within **r = 2.5 px** of it. 2.5 px is the support of Cycles'
+  default Blackman-Harris 1.5 px filter;
+- **background:** the median over the annulus **3.5 < r ≤ 6.0 px** around the same centre, excluding every pixel whose
+  centre lies within 2.5 px of any other in-frame emitter centre;
+- **signal:** Σ over the aperture (value − background) × pixel solid angle cos³θ/f². Intensity = signal × distance².
+
+**Bounded convergence experiment:**
+- **one** additional raw render at **2048 spp** (same scene, same seed; OIDN may run, but only its stored noisy pass is
+  used), compared with the existing corrected 4096 raw;
+- **pass:** every scene crop (near road, far road, field, sky; the N1 addendum-4 metric: median over 8 × 8 blocks of
+  \|block median(4096)/block median(2048) − 1\|) **≤ 2 %**, **and** every in-frame emitter signal
+  \|S4096/S2048 − 1\| ≤ 2 %;
+- **PASS:** the existing raw 4096 is frozen as the RoadLine-A input. Then:
+  1. R1v2;
+  2. R2 = N/A;
+  3. the comparator exposure before D1;
+  4. D1 and the linear reference;
+  5. R3–R5;
+  6. V1–V6;
+  7. the blind sheet.
+- **FAIL:** stop. There is no 8192 spp and no third estimator.
