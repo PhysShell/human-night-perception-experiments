@@ -144,3 +144,25 @@ The effective flux is ≈ 1500 lm, as described in addendum 3.
 **N1.1c (barn window).** The pre-registered window on the barn's front wall (x 11.4–12.6, y = 22) lies at bearing
 27–30°, **outside the frame** (right edge at +20°) with the addendum-2 barn. It cannot be tested in this hero view.
 It goes to the user: skip it, or re-place it (another addendum).
+
+## N1.2 step 1: sample-count calibration. **No spp frozen: stopped per addendum 4 (2048 → 4096 still fails)**
+Hero stage b, raw linear, same seed. The metric is the median of the 8 × 8-block median changes N → 2N, per crop
+(`noise.json`).
+
+| crop | 512→1024 | 1024→2048 | 2048→4096 |
+|---|---|---|---|
+| barn shadow (3, 16) | 0.24 % | 0.74 % | **4.32 %** |
+| shadow/pool boundary (4.5, 28) | **5.61 %** | **6.47 %** | **8.01 %** |
+| warm pool (4.5, 43) | 0.28 % | 0.28 % | 0.15 % |
+| puddle (1.0, 10.1) | 0.05 % | 0.07 % | 0.11 % |
+| moonlit dark field (−6, 14) | 0.00 % | 0.00 % | 0.00 % |
+
+**Cause: a firefly regime, not a metric artefact.**
+- In the barn shadow the only light besides sky and bounce is the lamp's **indirect** light, and it arrives through
+  rare high-value paths.
+- Shadow-crop pixels: mean 1.86 → 1.88 → 1.98 → 1.99·10⁻⁴ cd/m² (converging); median 1.29 → 1.29 → 1.30 →
+  1.37·10⁻⁴ (still climbing towards the mean as more pixels collect a hit).
+- Per-pixel coefficient of variation: 2.57 / 1.67 / 1.39 / 0.94 (≈ 1/√N from 1024 on).
+- The block medians therefore drift with N instead of settling. At the observed rate, the per-pixel scatter reaches
+  ~0.1 only at ≈ 4·10⁵ spp (≈ 2 days of CPU for one frame).
+- Everything lit directly (pool, puddle, moonlit field) converges at 512.

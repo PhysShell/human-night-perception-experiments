@@ -68,6 +68,29 @@
     "crop_median_cdm2": 0.0005885165690052191
    },
    "all_within_2pct": false
+  },
+  "2048->4096": {
+   "barn_shadow": {
+    "metric": 0.04321949044087797,
+    "crop_median_cdm2": 0.00013754521522969866
+   },
+   "shadow_pool_boundary": {
+    "metric": 0.08012798351240968,
+    "crop_median_cdm2": 0.00028387678766439705
+   },
+   "warm_pool": {
+    "metric": 0.0014626031291463944,
+    "crop_median_cdm2": 0.18385736926699028
+   },
+   "puddle": {
+    "metric": 0.0010846180407909785,
+    "crop_median_cdm2": 0.0005415774061971661
+   },
+   "moonlit_dark_field": {
+    "metric": 1.9133013870270514e-05,
+    "crop_median_cdm2": 0.0005884989811510194
+   },
+   "all_within_2pct": false
   }
  },
  "frozen_spp": null
