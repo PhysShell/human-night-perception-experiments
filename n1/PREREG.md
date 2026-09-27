@@ -264,3 +264,62 @@ and bands.
 
 **If V3 still does not come together after this**, the cause is no longer the lamp placement. It is the scene or the
 hero-shot idea itself, and N1 stops for a decision.
+
+---
+
+## Addendum 4 (committed before N1.2 code): N1.1 closed, scene frozen, N1.2 procedure
+
+**N1.1 closed.**
+- L1–L4 and M1 PASS (after round 1 and addenda 2–3).
+- **V3: PENDING (visual).** The geometric/photometric prerequisite exists: the barn-shadow band is 7.8 % of the
+  frame at 1.29·10⁻⁴ cd/m², and the lamp no longer erases it. The visual judgement is made on the hero blind sheet,
+  not from numbers.
+- **N1.1c: NOT INSTANTIATED.** The optional barn-window source became non-visible after the pre-registered geometry
+  corrections (front wall at bearing 27–30°, frame edge +20°). It is omitted rather than relocating geometry or adding
+  a new visible emitter.
+
+**Scene frozen.** `n1/scene/scene.py` sha256 3a4df7cf1423032a…, stage b (moon + sky + one luminaire). From here until the
+hero acceptance, no coordinates, materials, power, sky/moon or optics change.
+
+### N1.2 procedure
+**1. Noise calibration, on the raw linear render only, before any D1.**
+- Hero stage b at 512 → 1024 → 2048 spp, and 4096 only if needed; same seed. Crops are 48 × 48 px, fixed now by world
+  point:
+  - barn shadow (3, 16);
+  - shadow/pool boundary on the lane (4.5, 28);
+  - warm pool (4.5, 43);
+  - puddle (1.0, 10.1);
+  - moonlit dark field (−6, 14).
+- **Metric:** for each crop, the median over its 8 × 8-px blocks of \|block median(N) − block median(2N)\| / block
+  median(2N).
+- **Rule:** the frozen spp is the first N for which every crop stays **≤ 2 %** from N to 2N. The 2 % is D1's frozen
+  P-7 step tolerance (the S2 flicker gate), reused so as not to invent a new constant.
+- If 2048 → 4096 still fails: stop and report. No higher count without a decision.
+
+**2. The spp is frozen** and the hero is rendered once at it: `n1/work/hero_final.exr`. **Every variant below comes
+from this one EXR**, so sampling noise cannot pose as a difference between algorithms.
+
+**3. The plain Blender comparator, fixed before any D1 output exists.**
+- The same EXR through Blender's default view transform (as shipped in 5.2), with exposure in whole stops.
+- I look at a ladder of stops, choose one "as a normal night render would be graded", record it with its reason in
+  `n1/comparator.json`, and commit it **before** D1 is run on the hero.
+
+**4. Variants from the same EXR:**
+- raw (Y-priority display, the global exposure anchor from the PREREG);
+- A-only;
+- B-only;
+- D1 final.
+- Plus D0 pcond (`pcond -s -c` full RGB) for the blind sheet.
+- D1 code is only called, never edited; `d1/verify_manifest.sh` runs before and after.
+
+**5. Blind sheet.**
+- D1 final, plain Blender and D0 pcond in a seed-0 permutation.
+- The key's sha256 is committed before the sheet is shown.
+- V1–V7 are judged by the user on this sheet.
+
+**No fixing after the first D1 hero render.** Even if the pool looks too small, the lamp too white, the sky too blue
+or the shadow too black:
+- the result is saved first, and all V gates are judged;
+- only then is every FAIL classified: scene / lighting / sampling / D1 known residual / new D1 failure /
+  art-direction preference.
+- Only "new D1 failure" may open D2.
