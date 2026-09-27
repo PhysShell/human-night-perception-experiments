@@ -254,3 +254,9 @@ images; order as night **X > Y > Z**.
 - It is **not a new D1 failure**, and the gates pass. D1 is not changed here.
 - **Candidate D2 question** (only if wanted, via `d2/TEMPLATE.md`): *D2-B2: at mesopic pool levels, does B push warm
   practical light through neutral to pink?*
+
+**Status (user decision after the reveal):**
+- N1.2 hero **ACCEPTED** and frozen (`3ea5c40`).
+- D1 vs plain Blender: **D1 wins**. D1 vs V0: **V0 wins on this hero**.
+- The cause is isolated: the axis-B warm-mesopic hue residual.
+- **Next: the D2-B2 cheap falsifier** (`d2/b2/PREREG.md`) **before N1.5.**
