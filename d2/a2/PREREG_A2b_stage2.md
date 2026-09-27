@@ -194,3 +194,37 @@ recorded per-frame value.
 - S1/S2 are laid out as the full frame plus a 1:1 sky band (layout only).
 
 **My reading** `A2b2_my_reading.txt`, sha256 `8dbca947ee144b6d879c09daa9eb0814334212c54e79313142fec76c89196e5e`, was committed before the verdict.
+
+## Visual verdict (external observer, given without opening my reading): **stage 2 FAIL**
+| scene | new A-side defect | darkness collapse | structure visibly degraded | verdict |
+|---|---|---|---|---|
+| Hero (−0.37 stop) | no | no | no | **PASS** |
+| Camera C (−0.67 stop) | no | no | no | **PASS** |
+| **S1 (−3.36 stops)** | **yes: excessive global darkening** | not a literal floor collapse, but substantial perceptual crushing | **yes** | **FAIL** |
+| **S2 (≈ −3.35 stops)** | **yes: the same class** | not a literal collapse | **yes** | **FAIL** |
+
+**Observer's notes:**
+- **S1.** Frozen D1 separates sky, poplar silhouettes, the source line and the horizon. Under the guard, the sky/
+  background separation shrinks, the silhouettes separate worse, and the low-contrast structure around the lamp row is
+  pressed into darkness.
+  - The automatic floor = 0 % is not wrong: it is not a literal black floor.
+  - The P-5 pass (poplar Weber 0.152 ≥ 0.1) did not catch it.
+- **S2.** P-7 PASS is confirmed visually: the guard is consistent from frame to frame. It proves the absence of
+  flicker, not the absence of exposure damage ("very reliably spoiled exposure").
+- **The cause is not content-inappropriate activation.** The lamps really do cover more than 0.1 % of the frame, and
+  the global scalar protects the highlights, as designed. The problem is structural: **one global scale cannot keep
+  both the bright practicals and the low-contrast night structure of S1/S2.** RoadLine needs strong darkening; the hero
+  and C tolerate moderate darkening; S1/S2, under the same principle, are damaged.
+
+**My reading** (`A2b2_my_reading.txt`, sha256 matches `3ab0cbac…`): hero PASS, C PASS, S1 FAIL, S2 FAIL. It agrees; it
+does not count.
+
+**Outcome (§8, reading 2, pre-registered):**
+- **Stage 2 FAIL.** Cause: the global-scalar highlight/shadow trade-off.
+- **The Q99.9 global selector is not acceptable as it is.**
+- **The global-histogram branch is not disproven** as a selector: its activation was content-appropriate, and ND and
+  P-7 passed.
+- **D2-B3 is not earned by this result.**
+- **A1b** (one pre-registered, luminance-only, monotonic shoulder after the frozen A, B frozen; `d2/a1/PREREG.md` §5)
+  **is now earned.** The independent counterexample is RoadLine versus S1/S2 under one scalar.
+- The CF literal FAILs on S3_bar and S5 stay recorded as classified (anchor rounding, bit-identical inactive outputs).
