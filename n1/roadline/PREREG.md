@@ -202,3 +202,35 @@ IES-shaded visible sphere, not in pixel integration or geometry.
   the A0 emitter camera for consistency.
 - Run 1 is discarded without evaluation. R1/R2 were aborted by a zero lamp signal at 1600 m, and no D1 output exists.
 - The same default affected N1 (`n1/README.md`, erratum N1-E1).
+
+## A1 run 2 (after addendum 4): **R1 FAIL (1600 m) and R2 FAIL (lamp windows at 400 and 800 m)**. Stopped per the KILL clause (`a1_A.json`)
+
+**R1** (pre-registered window rule).
+
+| d (m) | 50 | 100 | 200 | 400 | 800 | 1600 |
+|---|---|---|---|---|---|---|
+| measured / table | 0.986 | 0.987 | 1.000 | 1.015 | 1.072 | **1.221** |
+
+**R2 (OIDN):**
+- the crops are within ±0.11 % and the whole frame +0.50 %;
+- the lamp windows are within < 1 % except **400 m +4.16 %** and **800 m +5.79 %**.
+
+**Diagnosis** (post-hoc diagnostic, not a change of the gates):
+- **R1 at 1600 m is measurement contamination, not the render.**
+  - With a circular aperture of the pixel filter's support (r = 2.5 px) and the sky as background, the 1600 m lamp
+    gives **1.078**; with r = 4 px, 1.20. It grows with aperture.
+  - The 9 × 9 window next to the horizon collects the far road pools (now rendered) and the 800 m lamp's filter tail
+    8.4 px away.
+  - At 100–800 m, every aperture gives 0.98–1.00.
+  - **Classification:** measurement error of the pre-registered window rule near the horizon. It stays a literal
+    FAIL.
+- **R2 is a real denoiser bias on small point sources.**
+  - The OIDN excess is independent of aperture: +4.3 % at 400 m, +6.2 % at 800 m (1–3 px emitters). It is < 1 % at
+    50–200 m and −0.6 % at 1600 m.
+  - The denoiser also does no visible work elsewhere: the pixel CoV of every crop is identical before and after
+    (near road 0.026, far road 1.164, field 0.567, sky 0.000). This scene has no firefly regime: every surface is lit
+    directly, with no occluders except the poles.
+  - **Classification:** input preparation (denoiser) biasing the very quantity RoadLine tests. Under the KILL clause,
+    **the denoised A1 image is not trusted.**
+
+No D1, V0 or comparator output of A1 exists. The next step is a decision.
