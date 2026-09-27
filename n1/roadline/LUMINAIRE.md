@@ -17,3 +17,15 @@
 - **Terms.** Cooper Lighting Terms of Use (effective 07/20/2020), §9: "All rights … not expressly granted herein are
   reserved". There is no open license. The file is therefore **not committed**; it is fetched by URL and checked
   against the sha256, like the Fairchild HDR data in D0.
+
+## Stimulus B (B0 PASS, `B0_RESULTS.md`)
+- **Luminaire:** Cooper Lighting Solutions — Streetworks **RMA15SXX22**, "RMA 150W HPS TYPE II ACRYLIC".
+  - Open-bottom Type II acrylic refractor, fluted aluminium reflector;
+  - lamp 150 W HPS ED-23.5, 16000 lamp lumens.
+- **File:** LM-63, relative photometry. Test 766466, dated 12/29/92, issued 3/3/2020.
+  - Integrated luminaire flux 12772 lm.
+  - Max 7681 cd; 1372 cd at V = 90° along the road.
+- **URL:**
+  `https://www.webtools.cooperlighting.com/Public/files/ies/instabase/STREETWORKS/ROADWAY/RMA%20RMC%20SECURITY%20LIGHT/RMA15SXX22.ies`
+- **sha256:** `5041092f4b4a2f828305646e90c2fb8b9c0be7724ce707249f2c8e48b34c6184`.
+- **Terms:** as for A. The file is not committed.
