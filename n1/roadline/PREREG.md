@@ -91,3 +91,37 @@ There is no animation before both verdicts. The motion step (N1.7) needs its own
 - **R4 and R5 pass** for both (D1's A is a single global pcond scale, and B changes no luminance).
 - The far HPS cores in B are small bright points, rendered close to photopic by B's per-pixel law; the rod-term tint
   is expected mainly on the dim road pools, not on the cores.
+
+---
+
+## Addendum 1 (committed before any scene code): N1.6A0, single-luminaire IES calibration and orientation check
+A0 comes **first**, as its own kill-gate. N1.6A1 (the full RoadLine-A still) runs only if A0 passes.
+
+**Mapping hypothesis, fixed before testing:**
+- The Cycles IES texture outputs the table **normalised to its maximum** (factor f(dir) ∈ [0, 1]).
+- A point light of power P then has I(dir) = K · P/(4π) · f(dir) (K = 179, the N1/M1 convention).
+- So **P = 4π · I_max / K**, with I_max = 4844.7 cd for Archeon.
+- The emission node strength is 1, the colour is 3000 K at unit luminance, and the radius is 0.105 m (a disc of the
+  file's 0.15 × 0.23 m luminous area).
+- **Orientation:** the light points down (V = 0° = −z). The table's H = 0° (street side) is placed along the light's
+  local axis that faces −x (across the road) in the scene.
+- The exact node vector/rotation used is recorded in code. A0 tests it and it is not tuned.
+
+**A0 measurements** (the same frozen sky, ground, materials and camera as A; one luminaire):
+1. **Intensity by direction.**
+   - Albedo-1 Lambertian patches, 0.3 m, facing the light at 10 m in directions (V, H):
+     (0, –), (45, 0), (60, 0), (60, 90), (60, 180), (75, 90), (82.5, 90), (87.5, 90), (90, 90).
+   - Measured I = π·L·r² (small orthographic cameras, as in N1).
+   - **PASS:** every direction within **10 %** of the LM-63 value where the table gives ≥ 10 cd. Where it gives
+     < 10 cd (V = 90°: 0 cd), the measured value is < 10 cd.
+2. **Camera-visible emitter.**
+   - The luminaire at d = 25, 100, 400 m, one at a time, seen from the A eye.
+   - Integrated lamp-window luminance above background × pixel solid angle × distance² = LM-63 I(eye direction)
+     within **10 %** (R1's rule).
+3. **Ground check.** Illuminance under the luminaire (albedo-1 probe at the road surface) = I(0°)/h² within 10 %.
+
+**Outcome:**
+- **All pass:** A1 is built with this exact mapping.
+- **Any fail:** stop and diagnose (normalisation, orientation, camera visibility), and report. Any correction is
+  derived from the Cycles/Blender behaviour it reveals and registered as a further addendum before A1. It is never
+  fitted to make A1 look right.
