@@ -182,3 +182,44 @@ Q99.9. RoadLine is fixed, and S1 is practically unchanged.
 **Before stage 2** (user decision): a cheap T0 distance-transport audit (`d2/a1/PREREG_T0.md`). The current RoadLine has
 no atmosphere and no eye glare. A1b is not changed, Reinhard is not tuned, no extra 1/r² is added, and B3 stays
 closed.
+
+## Stage 2 addendum (committed before the stage-2 code; after T0a PASS)
+**Operator:** unchanged, the same shoulder line as `run_A1b.py`, asserted in code. **0 renders.**
+
+**Inputs:**
+- the hero, Camera B and Camera C (frozen caches `N1_hero`, `N1_B`, `N1_C`);
+- the whole corpus through the frozen `d1/final/run.py` text, with only these replacements:
+  - the scale line becomes the shoulder;
+  - Yexp uses the same f;
+  - the output goes to `d2/a1/work/A1b2`;
+  - the acceptance JSON goes to `d2/a1/work/acceptance_A1b2.json`;
+  - the S2 frames are read into memory and deleted, except frames 1 and 48, which are kept for the sheet.
+
+**Automatic gates:**
+
+| id | criterion |
+|---|---|
+| **R3** | hero, B, C: extraction C0, AX-C2/C3 ≥ 99.9 %; display G1–G3, S-1…S-3 (E1 class: literal FAIL, classified, not KILL) |
+| **HO** | C: HO1 luminance ceiling ≤ 0.444 %; HO2 floor ≤ 0.62 %; HO3 lamp head (961, 153) ≥ 1 code |
+| **CF** | per natural image: luminance ceiling ≤ that image's frozen value; any-channel ceiling ≤ max(frozen value of that image, 4.3545 %); floor ≤ max(frozen value of that image, 0.6250 %) |
+| **P** | D1 final P-1…P-6, P-8 on the stills/F1/S2 frames; **P-7** by the frozen d0 `clip_metrics`, unchanged, on the 48 in-memory S2 frames (mean step ≤ 2 %, sky step ≤ 2 %, flashes ≤ 1) |
+| report | per scene: frozen Y_A Q50/Q90/Q99/Q99.9; luminance/any-channel ceiling, floor and median Y_disp, frozen → shoulder; **fraction of pixels with Y_A > 0.0101**, where f changes luminance by > 1 % |
+
+The CF anchors are the exact frozen values (0.6250 %, 4.3545 %), not the rounded 0.62 %/4.35 % that produced the A2b
+stage-2 literal FAILs. That correction was recorded in `d2/a2/PREREG_A2b_stage2.md`.
+
+**Visual:**
+- **Frozen vs shoulder for every natural scene. There is no pre-filter.**
+  - one sheet for the hero, B and C;
+  - one sheet for S0, S3_bar, S3_nobar, S4 and S5;
+  - one band sheet for S2 frames 1 and 48.
+  - S1 was judged in stage 1.
+- **The question:** is there a new A-side defect, darkness collapse, or visibly degraded structure (including
+  over-compressed highlights or flat mid/high tones)? The observer may mark a scene "no material difference".
+- My reading is hashed from the command output and committed before the verdict.
+
+**Stage-2 KILL:**
+- any gate above fails, other than a classified E1 literal FAIL;
+- **or** a visual finding of a new defect, darkness collapse or visibly degraded structure on any natural scene.
+
+The operator is not changed after viewing.
