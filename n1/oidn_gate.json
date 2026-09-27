@@ -1,0 +1,66 @@
+{
+ "passes": [
+  "Combined",
+  "Denoising Albedo",
+  "Denoising Specular Albedo",
+  "Diffuse Color",
+  "Diffuse Direct",
+  "Diffuse Indirect",
+  "Emission",
+  "Glossy Color",
+  "Glossy Direct",
+  "Glossy Indirect",
+  "Noisy Image"
+ ],
+ "precondition_noisy_bit_identical": true,
+ "noisy_vs_ref_max_abs": 0.0,
+ "crops": {
+  "barn_shadow": {
+   "mean_noisy": 0.0001996302170883476,
+   "mean_denoised": 0.00019815209772381032,
+   "rel_dev": -0.007404286716189534,
+   "median_noisy": 0.00013663804944531537,
+   "median_denoised": 0.00019701792921378568,
+   "cov_noisy": 0.9647414705011543,
+   "cov_denoised": 0.05321560573108902
+  },
+  "shadow_pool_boundary": {
+   "mean_noisy": 0.008115190921180616,
+   "mean_denoised": 0.008109434871136531,
+   "rel_dev": -0.0007092932378289785,
+   "median_noisy": 0.0005875625841882197,
+   "median_denoised": 0.0003904659163536735,
+   "cov_noisy": 1.7554663194456794,
+   "cov_denoised": 1.7583454300955947
+  },
+  "warm_pool": {
+   "mean_noisy": 0.1987627945418046,
+   "mean_denoised": 0.19897968737143198,
+   "rel_dev": 0.0010912144303836246,
+   "median_noisy": 0.19164061851363368,
+   "median_denoised": 0.19151867416772583,
+   "cov_noisy": 0.7625263535365393,
+   "cov_denoised": 0.7626505215448256
+  },
+  "puddle": {
+   "mean_noisy": 0.0010528442240052291,
+   "mean_denoised": 0.001056485083529422,
+   "rel_dev": 0.0034581179638732973,
+   "median_noisy": 0.0005420714439680068,
+   "median_denoised": 0.0005448216594388213,
+   "cov_noisy": 1.719440513670493,
+   "cov_denoised": 1.7005582115545177
+  },
+  "moonlit_dark_field": {
+   "mean_noisy": 0.0005906340742012794,
+   "mean_denoised": 0.0005907538214464304,
+   "rel_dev": 0.0002027435435603131,
+   "median_noisy": 0.0005885062198010927,
+   "median_denoised": 0.000590722187098504,
+   "cov_noisy": 0.02216568216172338,
+   "cov_denoised": 0.0013095485207215622
+  }
+ },
+ "whole_frame_rel_dev": -0.0018383500112515438,
+ "gate_PASS": true
+}

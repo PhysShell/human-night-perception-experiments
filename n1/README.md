@@ -166,3 +166,32 @@ Hero stage b, raw linear, same seed. The metric is the median of the 8 × 8-bloc
 - The block medians therefore drift with N instead of settling. At the observed rate, the per-pixel scatter reaches
   ~0.1 only at ≈ 4·10⁵ spp (≈ 2 days of CPU for one frame).
 - Everything lit directly (pool, puddle, moonlit field) converges at 512.
+
+## N1.2 addendum 5: one OIDN run. **PASS**
+- `n1/denoise_render.py`: the frozen `scene.py` (hash-checked, byte-unchanged), 4096 spp, Cycles OIDN with Albedo and
+  Normal, Accurate prefilter, High quality, CPU.
+- Stored passes: Noisy Image, Denoising Albedo, Normal, Specular Albedo, Roughness, Depth.
+- **Precondition: the Noisy Image is bit-identical** to the earlier 4096 Combined (max abs difference 0.0).
+- Results in `oidn_gate.json`.
+
+| crop | mean noisy → denoised | deviation (gate ≤ 2 %) | median | pixel CoV |
+|---|---|---|---|---|
+| barn shadow | 1.996 → 1.982·10⁻⁴ | **−0.74 %** | 1.37 → 1.97·10⁻⁴ | 0.96 → **0.05** |
+| shadow/pool boundary | 8.115 → 8.109·10⁻³ | **−0.07 %** | 5.9 → 3.9·10⁻⁴ | 1.76 → 1.76 |
+| warm pool | 0.1988 → 0.1990 | **+0.11 %** | 0.192 → 0.192 | 0.76 → 0.76 |
+| puddle | 1.053 → 1.056·10⁻³ | **+0.35 %** | 5.4 → 5.4·10⁻⁴ | 1.72 → 1.70 |
+| moonlit field | 5.906 → 5.908·10⁻⁴ | **+0.02 %** | 5.89 → 5.91·10⁻⁴ | 0.02 → 0.00 |
+| whole frame | | −0.18 % | | |
+
+**Reading.**
+- Energy is preserved everywhere, so the M2.5 risk (−25 %) did not recur here.
+- The barn shadow's fireflies are gone: its median rose to its mean, and the pixel CoV dropped from 0.96 to 0.05.
+- In the boundary, pool and puddle crops, the CoV is structure (a light edge, the pool, a reflection), not noise, and
+  it is unchanged.
+- The boundary crop's median fell (5.9 → 3.9·10⁻⁴): its shadow half lost its hit pixels, while the mean is kept to
+  0.07 %.
+
+**The single N1 hero input** (denoised Combined, sha256 `3ce7fab2…` in Cycles units, `0e4a3803…` ×179 in cd/m²):
+- `n1/work/hero_final_rgb.exr` for the comparator;
+- `n1/work/hero_cdm2.exr` for A-only, B-only, raw, V0 and D1.
+- Source multilayer `oidn4096/hero_b.exr`, sha256 `8a51bfb5…`.
