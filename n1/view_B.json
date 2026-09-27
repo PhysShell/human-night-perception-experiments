@@ -1,0 +1,109 @@
+{
+ "view": "B",
+ "spec": {
+  "what": "from the source into darkness: standing in the lamp pool on the lane, looking back down the lane (-y)",
+  "loc": [
+   3.0,
+   47.0,
+   1.7
+  ],
+  "yaw_deg": 180.0,
+  "pitch_deg": -3.0,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {
+   "pool_foreground": [
+    3,
+    38,
+    0.003
+   ],
+   "pool_edge": [
+    3,
+    30,
+    0.003
+   ],
+   "barn_shadow": [
+    3,
+    16,
+    0
+   ],
+   "puddle": [
+    1.0,
+    10.1,
+    0.006
+   ],
+   "moonlit_field": [
+    -6,
+    25,
+    0
+   ]
+  }
+ },
+ "oidn_gate": {
+  "crops": {
+   "pool_foreground": {
+    "mean_noisy": 0.07694786682477979,
+    "mean_denoised": 0.07699157772932368,
+    "rel_dev": 0.0005680586915219887,
+    "cov_noisy": 0.09849598241460267,
+    "cov_denoised": 0.09859496561936078
+   },
+   "pool_edge": {
+    "mean_noisy": 0.0019887656551017302,
+    "mean_denoised": 0.001985145591725889,
+    "rel_dev": -0.0018202563819195161,
+    "cov_noisy": 0.9681682236137101,
+    "cov_denoised": 0.968917385124049
+   },
+   "barn_shadow": {
+    "mean_noisy": 0.00034196652767338526,
+    "mean_denoised": 0.00034077623298534076,
+    "rel_dev": -0.0034807344921821137,
+    "cov_noisy": 0.8287178023988022,
+    "cov_denoised": 0.8272621188608288
+   },
+   "puddle": {
+    "mean_noisy": 0.0005087515011325026,
+    "mean_denoised": 0.0005076868728507473,
+    "rel_dev": -0.0020926292686809234,
+    "cov_noisy": 0.5975487585705559,
+    "cov_denoised": 0.597136294349653
+   },
+   "moonlit_field": {
+    "mean_noisy": 0.0005962302803302238,
+    "mean_denoised": 0.0005945066290419619,
+    "rel_dev": -0.0028909153813979627,
+    "cov_noisy": 0.04437291566001138,
+    "cov_denoised": 0.004442323582985529
+   }
+  },
+  "whole_frame_rel_dev": 0.000521862558163777,
+  "PASS": true
+ },
+ "d1": {
+  "extraction_selfcheck": {
+   "colour_active": true,
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0,
+   "C3_fail_px": 0,
+   "X_le_0_px": 0
+  },
+  "tone_map_mode": "linear",
+  "display_gates": {
+   "finite": true,
+   "ch_min": 0.11276350039368253,
+   "ch_max": 42.03148286024186,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  }
+ },
+ "my_reading_sha256_before_verdict": "7d7094a73a703558cf0c84ee080621411b8c6cd5496c62bedef10eee2c7566b6"
+}
