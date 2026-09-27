@@ -125,3 +125,33 @@ A0 comes **first**, as its own kill-gate. N1.6A1 (the full RoadLine-A still) run
 - **Any fail:** stop and diagnose (normalisation, orientation, camera visibility), and report. Any correction is
   derived from the Cycles/Blender behaviour it reveals and registered as a further addendum before A1. It is never
   fitted to make A1 look right.
+
+---
+
+## A0 run 1: **FAIL** (`a0_A_v1_FAIL.json`) and Addendum 2, three corrections derived from Cycles itself (committed before re-running)
+Run 1 failed everywhere:
+- probe intensities were 63–3210 × the table, with a direction-dependent ratio;
+- the emitter was invisible to the camera.
+
+Diagnosed from the Cycles source (`intern/cycles/util/ies.cpp`, `intern/cycles/kernel/svm/ies.h`, fetched from
+projects.blender.org) and one Blender check. **Nothing below is fitted to the probes.**
+
+1. **Normalisation.**
+   - Cycles does not normalise to the maximum. The IES node outputs **candela × 4π/177.83** (`ies.cpp`: "4·π/177.83 as
+     a Candela to Watt factor"; D65 efficacy 177.83 lm/W). The light's power multiplies that.
+   - Hence I(dir) = candela(dir) · P · K/177.83 in our K = 179 convention, and **P = 177.83/179 W** gives I = the table
+     exactly.
+   - Run 1 used P = 4π·I_max/K = 340 W. The predicted nadir ratio is 340 × 179/177.83 = 342; measured 344.
+2. **Orientation.**
+   - `svm/ies.h`: V = acos(−z), **H = atan2(x, y) + π** in the light's local frame. So table H = 0 is local **−y**,
+     H = 90° is local −x, and H = 180° is local +y.
+   - To put H = 0 (street side) on world −x, the light is rotated **−90° about z** (run 1 used +180°).
+   - Run 1 checked against that convention: my "V60/H0" probe was seen by Cycles as H = 270 (table 2248 → measured
+     2235 after the scale); "V60/H180" as H = 90 (2248 → 2235); "V60/H90" as H = 0 (973 → 975). This explains why
+     H0 and H180 were identical.
+3. **Camera visibility.**
+   - Blender light objects default to `visible_camera = False`, verified: a bare point light renders 0.
+   - The light is set **`visible_camera = True`**, so the camera sees its 0.105 m sphere, shaded by the same IES
+     emission.
+
+The A0 gates are unchanged. A0 is re-run once.
