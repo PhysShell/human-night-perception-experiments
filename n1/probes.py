@@ -50,15 +50,25 @@ if ST == "a":
                "sky_within_5pct": abs(Lh["sky_9deg"] / A["sky_cdm2"] - 1) <= 0.05,
                "field_L_vs_rhoE_over_pi": Lh["field_open"] / (A["materials"]["field"] * fo / np.pi),
                "sky_brighter_than_field": Lh["sky_9deg"] > Lh["field_open"],
-               "tree_shadow_E_below_open": E["tree_shadow"] < fo, "tree_shadow_L_below_open": Lh["tree_shadow"] < Lh["field_open"]}
+               "tree_shadow_E_below_open": E["tree_shadow"] < fo, "tree_shadow_L_below_open": Lh["tree_shadow"] < Lh["field_open"],
+               "barn_shadow_E_ratio_open_over_shadow_info": fo / E["barn_shadow"], "barn_shadow_L_ratio_info": Lh["field_open"] / Lh["barn_shadow"]}
     q = r["L2"]["field_L_vs_rhoE_over_pi"]
     r["L2"]["PASS"] = bool(r["L2"]["field_open_E_in_0.01_0.03"] and r["L2"]["sky_within_5pct"] and 1 / 3 <= q <= 3
                            and r["L2"]["sky_brighter_than_field"] and r["L2"]["tree_shadow_E_below_open"] and r["L2"]["tree_shadow_L_below_open"])
 else:
-    a = res["a"]["illuminance_lx"]; lamp = {k: E[k] - a.get(k, 0.0) for k in E if k.startswith("lamp")}
-    # stage-a has no lamp probes: their moon+sky part is measured in this stage by the same-geometry difference below
-    r["lamp_only_lx_note"] = "lamp probes minus the stage-a open-field illuminance scaled by nothing: see README"
-    r["lamp_probe_E_total_lx"] = {k: E[k] for k in E if k.startswith("lamp")}
+    a = res["a"]["illuminance_lx"]; lamp = {k: E[k] - a[k] for k in E if k.startswith("lamp")}
+    moon = a["field_open"] - np.pi * A["sky_cdm2"]                  # the moon's own horizontal illuminance (measured)
+    far = {k: v for k, v in lamp.items() if k in ("lamp_y+30", "lamp_y-30", "lamp_x-30")}
+    disc = float(K * np.median(ld(f"{W}/probe_{ST}_disc.exr") @ YW))
+    pred_E0, pred_disc = A["lamp_I0_cd"] / A["lamp_height_m"] ** 2, A["lamp_disc_cdm2"]
+    r["lamp_only_lx"] = lamp; r["moon_only_lx"] = moon
+    r["L3"] = {"under_lamp_lx": lamp["lamp_y+0"], "under_in_5_30": 5 <= lamp["lamp_y+0"] <= 30,
+               "at_30m_lx": far, "at_30m_below_10pct_moon": all(v < 0.1 * moon for v in far.values())}
+    r["L3"]["PASS"] = bool(r["L3"]["under_in_5_30"] and r["L3"]["at_30m_below_10pct_moon"])
+    r["L4"] = {"disc_cdm2": disc, "pred_I0_over_A": pred_disc, "disc_ratio": disc / pred_disc,
+               "under_lamp_ratio_to_I0_over_h2": lamp["lamp_y+0"] / pred_E0, "pred_E0_lx": pred_E0}
+    r["L4"]["PASS"] = bool(abs(r["L4"]["disc_ratio"] - 1) <= 0.1 and abs(r["L4"]["under_lamp_ratio_to_I0_over_h2"] - 1) <= 0.1)
+    r["outside_unchanged_vs_a"] = {k: E[k] / a[k] for k in ("field_open", "tree_shadow") if k in a}
 json.dump({**res, ST: r}, open("n1/probes.json", "w"), indent=1, default=float)
 print(json.dumps(r, indent=1, default=float)[:3000])
 # diagnostic preview: log10 luminance (false colour, decades) and one linear exposure (sky -> 0.25 display): NOT a render
@@ -68,7 +78,7 @@ im = ax[0].imshow(np.log10(np.maximum(Y, 1e-6)), cmap="turbo", vmin=-5, vmax=0);
 for k, v in px.items():
     if v["in_frame"]: ax[0].plot(v["x"], v["y"], "w+", ms=8); ax[0].text(v["x"] + 6, v["y"] - 6, k, color="w", fontsize=7)
 ax[0].set_title(f"N1.1{ST} absolute luminance (log10 cd/m²), probe windows marked", fontsize=9)
-g = 0.25 / Lh["sky_9deg"]; lin = np.clip(img * K * g, 0, 1); srgb = np.where(lin <= 0.0031308, 12.92 * lin, 1.055 * lin ** (1 / 2.4) - 0.055)
+g = 0.25 / res.get("a", r)["hero_luminance_cdm2"]["sky_9deg"]; lin = np.clip(img * K * g, 0, 1); srgb = np.where(lin <= 0.0031308, 12.92 * lin, 1.055 * lin ** (1 / 2.4) - 0.055)
 ax[1].imshow(srgb); ax[1].set_title(f"diagnostic linear exposure (sky -> 0.25), x{g:.0f}: shows structure only, not a night rendering", fontsize=9)
 for a_ in ax: a_.axis("off")
 plt.tight_layout(); plt.savefig(f"n1/renders/raw/n1_1{ST}_preview.png", dpi=80)

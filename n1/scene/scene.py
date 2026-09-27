@@ -36,7 +36,7 @@ RES = (round(1920 * RES_SCALE), round(820 * RES_SCALE))
 # --- authored photometry (PREREG table) ---
 MOON_E_H_LX, MOON_ELEV_DEG, MOON_BEARING_DEG = 0.02, 25.0, 50.0       # bearing clockwise from +y; view centre = -10
 SKY_CDM2 = 1e-3
-LAMP_LM, LAMP_HALF_DEG, LAMP_BLEND, LAMP_R, LAMP_POS = 2000.0, 70.0, 0.3, 0.15, (4.5, 40.0, 5.9)
+LAMP_LM, LAMP_HALF_DEG, LAMP_BLEND, LAMP_R, LAMP_POS = 2000.0, 70.0, 0.3, 0.15, (4.5, 30.0, 5.9)   # addendum 2
 WINDOW_CDM2 = 10.0
 # Cycles >= 4.0 spot mask: smoothstep((cos t - c0) / ((1 - c0) * blend)), no extra cosine. Flux through the cone
 # for uniform on-axis intensity I0: 2 pi I0 (1 - c0)(1 - blend/2)  ->  I0 for 2000 lm.
@@ -131,7 +131,7 @@ MAT = {"field": material("field", 0.08, (0.9, 1.0, 0.7), 0.95, spec=0.0), "aspha
 # --- ground, lane, puddle ---
 mesh("field", [(-20000, -5000, 0), (20000, -5000, 0), (20000, 30000, 0), (-20000, 30000, 0)], [(0, 1, 2, 3)], MAT["field"])
 mesh("lane", [(-1, -5, 0.003), (5, -5, 0.003), (5, 400, 0.003), (-1, 400, 0.003)], [(0, 1, 2, 3)], MAT["asphalt"])
-PUDDLE_C, PUDDLE_AX = (0.6, 9.0), (0.9, 1.8)
+PUDDLE_C, PUDDLE_AX = (1.0, 6.6), (0.9, 1.8)                       # addendum 2: lamp mirror point
 n = 48; rp = random.Random(3)
 pv = [(PUDDLE_C[0] + PUDDLE_AX[0] * (1 + 0.12 * math.sin(3 * t) * rp.uniform(0.6, 1)) * math.cos(t),
        PUDDLE_C[1] + PUDDLE_AX[1] * (1 + 0.12 * math.sin(2 * t + 1)) * math.sin(t), 0.006)
@@ -149,14 +149,14 @@ for i in range(8):
     t = add(bpy.ops.mesh.primitive_uv_sphere_add, MAT["poplar"], radius=1, location=(x, y, hgt / 2), segments=24, ring_count=16)
     t.scale = (rng.uniform(1.8, 2.6), rng.uniform(1.8, 2.6), hgt / 2)
     TREES.append((x, y, hgt))
-BX0, BX1, BY0, BY1, BH, BR = 7.0, 17.0, 48.0, 58.0, 5.0, 8.5
+BX0, BX1, BY0, BY1, BH, BR = 7.0, 17.0, 22.0, 32.0, 5.0, 8.5   # addendum 2
 wall_v = [(BX0, BY0, 0), (BX1, BY0, 0), (BX1, BY1, 0), (BX0, BY1, 0), (BX0, BY0, BH), (BX1, BY0, BH), (BX1, BY1, BH),
           (BX0, BY1, BH), ((BX0 + BX1) / 2, BY0, BR), ((BX0 + BX1) / 2, BY1, BR)]
 mesh("barn_walls", wall_v, [(0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7), (4, 5, 8), (6, 7, 9)], MAT["wall"])
 mesh("barn_roof", wall_v, [(4, 8, 9, 7), (8, 5, 6, 9)], MAT["roof"])
 
 # --- luminaire geometry (all stages: the scene is fixed; only the light and its emitter are staged) ---
-PX, PY = 7.2, LAMP_POS[1]
+PX, PY = 6.3, LAMP_POS[1]                                  # addendum 2: beside the barn west wall
 add(bpy.ops.mesh.primitive_cylinder_add, MAT["pole"], radius=0.08, depth=6.2, location=(PX, PY, 3.1))
 arm = add(bpy.ops.mesh.primitive_cube_add, MAT["pole"], size=1, location=((PX + LAMP_POS[0]) / 2, PY, 6.15))
 arm.scale = (PX - LAMP_POS[0] + 0.3, 0.08, 0.06)
@@ -230,8 +230,8 @@ if MODE == "hero":
     sc.render.resolution_x, sc.render.resolution_y = RES
     bpy.context.view_layer.update()
     pts = {"field_open": (-4, 25, 0), "tree_shadow": shadow_point(TREES[5]) + (0,), "lane_near": (2.5, 6, 0),
-           "puddle": PUDDLE_C + (0.006,), "lane_under_lamp": (LAMP_POS[0], LAMP_POS[1] - 2, 0),
-           "barn_front": (12, BY0, 2.5), "barn_west": (BX0, 53, 2.5), "sky_9deg": (3000 * math.sin(math.radians(1)), 3000 * math.cos(math.radians(1)), 3000 * math.tan(math.radians(9))),   # bearing +1 deg: clear of trees, lamp, barn
+           "puddle": PUDDLE_C + (0.006,), "lane_under_lamp": (LAMP_POS[0], LAMP_POS[1] - 2, 0.003),
+           "barn_front": (12, BY0, 2.5), "barn_west": (BX0, 27, 2.5), "barn_shadow": (3, 16, 0), "sky_9deg": (3000 * math.sin(math.radians(1)), 3000 * math.cos(math.radians(1)), 3000 * math.tan(math.radians(9))),   # bearing +1 deg: clear of trees, lamp, barn
            "lamp_disc": (LAMP_POS[0], LAMP_POS[1], 5.92)}
     px = {}
     for k, p in pts.items():
@@ -251,9 +251,9 @@ else:
     _nt = white.node_tree; _nt.nodes.clear(); _d = _nt.nodes.new("ShaderNodeBsdfDiffuse")
     _d.inputs["Color"].default_value = (1, 1, 1, 1); _d.inputs["Roughness"].default_value = 0.0
     _nt.links.new(_d.outputs[0], _nt.nodes.new("ShaderNodeOutputMaterial").inputs["Surface"])
-    probes = {"field_open": (-4, 25), "field_open_right": (25, 20), "tree_shadow": shadow_point(TREES[5]),
+    probes = {"barn_shadow": (3, 16), "field_open": (-4, 25), "field_open_right": (25, 20), "tree_shadow": shadow_point(TREES[5]),
               "lane_near": (2.5, 6)}
-    if STAGE in ("b", "c"):
+    if True:                                                   # lamp probes in every stage: stage a gives their moon+sky part
         for d in (0, 5, 10, 15, 20, 30):
             probes[f"lamp_y+{d}"] = (LAMP_POS[0], LAMP_POS[1] + d)
         for d in (10, 20, 30):
@@ -274,4 +274,9 @@ else:
         sc.render.filepath = f"{OUT}/probe_{STAGE}_{name}.exr"
         bpy.ops.render.render(write_still=True)
         bpy.data.objects.remove(pa)                            # one patch at a time: no patch lights another
+    if STAGE in ("b", "c"):                                    # L4: the emitter disc seen straight from below
+        cd = bpy.data.cameras.new("c_disc"); cd.type = "ORTHO"; cd.ortho_scale = 0.1
+        cam = bpy.data.objects.new("c_disc", cd); cam.location = (LAMP_POS[0], LAMP_POS[1], 5.0)
+        cam.rotation_euler = (math.pi, 0, 0); sc.collection.objects.link(cam); sc.camera = cam
+        sc.render.filepath = f"{OUT}/probe_{STAGE}_disc.exr"; bpy.ops.render.render(write_still=True)
     json.dump({k: list(v) for k, v in probes.items()}, open(f"{OUT}/probes_{STAGE}_xy.json", "w"), indent=1)

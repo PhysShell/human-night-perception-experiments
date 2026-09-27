@@ -42,11 +42,23 @@ second was out of frame. It now sits at bearing +1°, elevation 9°.
 - The poplar row at 76 m had its crowns cut off by the top of the frame. It moved to 125 m (height 16–22 m, tops ≤ 10°),
   so the whole silhouettes stand against the sky.
 
-## Open: the "almost vanishing" region (stop condition 5: reported, not fixed)
-In this layout the moon's shadows are **physically only slivers** in the frame. From 1.7 m eye height a ground shadow
-80–130 m away subtends ≲ 1°, and with the moon 60° to the side the poplars' and barn's shadows run back-left, away
-from the view. The pre-registered element *"a region that should almost vanish: the ground under the poplars in
-their moon shadow"* is therefore not present in the picture. It exists only in the probe (0.0029 lx).
+## The "almost vanishing" region → addendum 2 (geometry): **N1.1a complete**
+With the first layout the moon's shadows were only slivers in the frame (1.7 m eye height; the shadows 80–130 m
+away, pointing back-left). This was reported under stop condition 5. The user chose option A, frozen in addendum 2:
+- barn at x 7–17, y 22–32;
+- lamp head (4.5, 30, 5.9), pole at x = 6.3;
+- puddle at the lamp mirror point (1.0, 6.6).
 
-Fixing it is a scene-design decision (an occluder near the camera, and/or the moon's direction), so it goes to the
-user before N1.1b.
+The user's three checks:
+1. **The barn shadow is in the frame.** Ground below half the open-field luminance covers 8.7 % of the frame (17 % of
+   the lower half): a band across the lane and the field edge.
+2. **Inside it** (3, 16): 0.0031 lx, **7.6× darker** than the open field (luminance ×4.6 on the shadowed asphalt).
+   The same order as the tree shadow (8×).
+3. **Outside it, unchanged.** Open field 0.02308 vs 0.02313 lx, luminance 5.88 vs 5.89·10⁻⁴, sky 1.000·10⁻³, tree
+   shadow identical, **L1 + L2 PASS**. The field probe right beside the barn rose 1.3 % (bounce off its wall).
+
+Consequences predicted in addendum 2 and confirmed:
+- the puddle is moonlit and now reflects the pole;
+- the barn is cropped by the right and top edges;
+- the lamp foot (4.5, 30) lies just outside the shadow (0.0227 lx moon + sky); lamp_y−10 (4.5, 20) is inside
+  (0.0029 lx).
