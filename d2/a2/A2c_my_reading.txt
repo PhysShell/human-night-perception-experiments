@@ -1,0 +1,7 @@
+D2-A2c blind sheet, my reading before the external verdict (does not count).
+- Y: broad roadway saturation (the lit road is a white slab in full frame and crop; gradient lost). Validity control
+  expected to hold if Y is frozen D1.
+- X and Z: no broad saturation; the road keeps a visible gradient from the near hot spot outwards; no new A-side defect
+  I can name; bluish/cold cast on the lit road (B residual class).
+- X vs Z: I cannot tell them apart on this sheet; no noticeable difference in road gradient/structure.
+- Guess: Y = frozen D1; X/Z = oracle/A2b in unknown order. Order: X = Z > Y.

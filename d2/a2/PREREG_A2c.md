@@ -71,3 +71,8 @@ input is present) and the whole corpus. It is the stage 2 already written in `PR
 - **The oracle and A2b are visually indistinguishable,** being 0.028 stop apart. Their road ceiling fractions are
   0.07 % and 0.15 %, a few hundred pixels in the near-road hot spot.
 - **Expected: PASS.**
+
+## Sheet built (before the verdict)
+- Sheet: `renders/A2c_blind_sheet.png`, made by `sheet_A2c.py` with a seed-0 permutation and a salted key.
+- **Key** `A2c_blind_key.json` (not committed until the reveal): sha256 `fad1a45df74419ba75eafb70bf7082feaaba6d1f482fb8e62b80d43cc1c1d7cd`.
+- **My reading** `A2c_my_reading.txt`: sha256 `832d45de53e6576dbf9cb50ddb2d00627b2808ce435c19e33bd30da749515f2c`.
