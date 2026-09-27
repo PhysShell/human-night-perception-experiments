@@ -187,3 +187,10 @@ asserted equal to `bacfd86`.
 **Visual gate still to run** (external, frozen vs guard): hero, Camera C, S1, S2. The S2 frames were streamed, not
 kept. For the sheet, frames 1 and 48 are recomputed through the identical code path, with s_hist asserted equal to the
 recorded per-frame value.
+
+**Visual sheets:**
+- `renders/A2b2_sheet_{hero,C,S1,S2}.png`, made by `sheet_A2b2.py`;
+- the S2 frames' s_hist matched the recorded values;
+- S1/S2 are laid out as the full frame plus a 1:1 sky band (layout only).
+
+**My reading** `A2b2_my_reading.txt`, sha256 `8dbca947ee144b6d879c09daa9eb0814334212c54e79313142fec76c89196e5e`, was committed before the verdict.

@@ -1,0 +1,11 @@
+D2-A2b stage-2 visual sheets, my reading before the external verdict (does not count).
+- Hero (-0.37 stop): no new A-side defect; slightly darker overall; lamp pool keeps shape and gradient; tree
+  silhouettes, barn mass still separable. PASS.
+- Camera C (-0.67 stop): pool gradient arguably better (less white core spread); darker field/barn but structure kept.
+  PASS.
+- S1 (-3.36 stops): the moonlit sky goes to near-black; the poplar silhouettes, which are the scene's point in frozen
+  D1, are not visible to me on the sheet; only the lamp row remains (now showing orange hue). Structure visibly
+  degraded / darkness close to collapse. FAIL.
+- S2 frames 1 and 48: same as S1. FAIL.
+- Implied reading per PREREG §8: reading 2 or 3. The guard fires on S1 because lamps cover >0.1 % of the frame at
+  ~10x peak, i.e. activation driven by practical-source area, not by a bad exposure of the scene content.
