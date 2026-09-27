@@ -275,3 +275,12 @@ defect under the frozen model. The residual is an official limitation, and **N1.
 - **Classification:** scene code (mine), not D1. The accepted N1 results are kept as what they are: a scene whose
   horizon is flat sky beyond 1 km.
 - The frozen `scene.py` is not changed.
+
+## N1.6 RoadLine status (`n1/roadline/`)
+- **A1:** KILL (addenda 4–6).
+- **A2** (direct true-radius reference):
+  - automatic gates PASS;
+  - **blind: D1 worst** (Blender AgX > V0 > D1); **V6 FAIL** (broad roadway saturation from axis A's global
+    linear scale: peak at 0.39 cd/m², 17.9 % of the frame clipped); **V7 FAIL**.
+- **Classified as a new D1 failure (axis A).** N1 stops before motion; B is not run.
+- A D2 item may be opened for it (`d2/TEMPLATE.md`).

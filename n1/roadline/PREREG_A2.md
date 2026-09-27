@@ -79,3 +79,40 @@ The A1 rule requires the comparator exposure to be committed before *any* D1 out
 AgX +7, all from the canonical input.
 - Key sha256 `0465859c9d40ac53b267bcc8a7568d9f7f7d5f8e355008b1e6ade132c2b2842b`.
 - My reading, written before the verdict: sha256 `4e6b13dd5229e5a7724e8bb54c657817f846a5d0dacdc05250390875ee070992`.
+
+## A2 verdict after the reveal: **D1 FAILS RoadLine-A visually. KILL: N1 stops before motion**
+**Key** (`A2_blind_key.json`; its sha256 matches the pre-committed one): **X = V0 pcond, Y = D1 final, Z = plain
+Blender AgX +7.** My pre-verdict reading (`A2_my_reading.txt`, sha256 matches) had guessed Z as Blender and ranked
+Z > X ≈ Y.
+
+**Observer's order:** Z > X > Y. **D1 is the worst.**
+
+| gate | D1 (Y) | notes |
+|---|---|---|
+| V1 | PASS | |
+| V2 | PASS (weak) | |
+| V3 | PASS | |
+| V4 | PASS (weak) | |
+| V5 | N/A | not operationalised: RoadLine has no silhouette target |
+| **V6** | **FAIL** | broad roadway saturation, plus a cold-bluish cast |
+| **V7** | **FAIL** | D1 is judged worse than the plain exposure |
+
+D1 is also judged worse than V0, as on the N1 hero.
+
+**Classification** (the addendum-4 categories; the observer's classification was given before the reveal):
+1. **Broad roadway saturation: a new D1 failure, axis A.**
+   - D1's frozen A (pcond `-s -c`, linear fall-back on this scene) puts the display peak at **0.39 cd/m²** of scene.
+     The lit road (≈ 1.2 cd/m²) and all six lamps clip, over **17.9 %** of the frame.
+   - V0 (the same pcond A) and the linear anchor clip 16.2 %; plain Blender AgX clips 0 %.
+   - The declared residual was "white lamp *cores*". A road band covering a substantial part of the frame was not
+     declared.
+   - The automatic gates R3/R4/R5 all passed while the visible output had lost the road's gradient. The external
+     visual gate caught what they missed.
+2. **Cold-bluish cast on the lit road: known B residual.** It is the Cao/Kirk rod term on mesopic light (`d2/b2`), and
+   it is what separates D1 (Y) from V0 (X) here, to D1's disadvantage, as on the hero.
+
+**Outcome per the RoadLine PREREG:**
+- **KILL:** a new display-level pathology not in the declared classes. N1 stops before motion (N1.7).
+- Stimulus B (RMA) is not run under this verdict.
+- The axis-A finding is a "new D1 failure", so it is the one category that may open a D2 item (`d2/TEMPLATE.md`).
+  Nothing in D1 is changed here.

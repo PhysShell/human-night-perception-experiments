@@ -1,0 +1,11 @@
+My reading of the RoadLine-A2 blind sheet, written before the observer's verdict; does not count. I built the sheet but
+did not print the key. I am not blind: Z's unclipped grey road looks like the Blender comparator to me. X vs Y I can
+only guess (X has peach/warm lamp heads, Y neutral-white heads and a bluish road).
+All three: all six in-frame lamps are visible, decreasing along the road; 1600 m as a single point; night sky black.
+X, Y: the near lit road is blown to white over a large area (~16-18% of the frame at the display peak in both), the
+field left of the road a light blue-grey. It reads more like a floodlit/overexposed road than a night road; the far
+lamps are fine points. V1 weak, V6: a large clipped area -- I would call it the known global-exposure behaviour of
+pcond's linear scale, not a new artefact class, but it is the dominant visual feature.
+Z: road and field graded, no clipping, lamps as points; reads most like a night road.
+Preference as night: Z > X ~ Y. Risk: D1 does not beat the plain exposure here (V7), and D1 vs V0 differs only in lamp
+and road colour.
