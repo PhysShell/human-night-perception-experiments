@@ -1,0 +1,22 @@
+{
+ "stimulus": "RoadLine-A2 canonical (base + mean(ref0, ref1))",
+ "chosen_exposure_stops": 7,
+ "view": "Blender 5.2 factory AgX, sRGB, no look",
+ "ladder_seen": [
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17
+ ],
+ "reason": "+7 as a normal night grade: lit road reads as a gradient without blowing out, sky black, far lamps visible as points. +6 loses the field; from +8 the near road goes white. The first ladder (+10..+17) was blown out at every step, so it was extended downwards before choosing.",
+ "chosen_before_D1": "no D1 output of RoadLine-A2 exists at this commit",
+ "png_sha256": "9d2d3e7480ecd08e5902f30570523583a8e750695b826249a29c5f0a5b5e7ecc"
+}
