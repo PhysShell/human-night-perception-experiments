@@ -182,3 +182,58 @@ It agrees; it does not count.
 - **Its main purpose is B → K070**, the 70 % of the path the sparse test left unobserved.
 - **P-7** runs per frame over the whole path, with no exposure smoothing.
 - **A temporal FAIL** would be a sharp pcond-scale transition within a narrow t range.
+
+## Addendum 2: dense motion, stage 1 = full-resolution pcond scale trace (before any trace render)
+**Purpose.** Measure EXPOSURE(t) along the whole B → C path, above all B → K070 (70 % of the path, unobserved), before
+any accepted-quality dense clip.
+
+**Frames:**
+- **t = 0, 0.025, …, 1.0: 41 frames.** The step is chosen so that the grid contains the accepted t = 0, 0.70, 0.80,
+  0.875 and 1 as controls. The user suggested "e.g. 48".
+- The path is exactly as above: position linear in t, yaw 180° + 171.6°·t, pitch −3°·(1 − t).
+
+**Rendering:**
+- **Full 1920×820, 128 spp, raw (no OIDN).** The frozen `scene.py` already sets `use_denoising = False`. The trace
+  renderer `n1/n17/trace_render.py` applies `n1/view_render.py`'s camera replacements **without** its OIDN insertion,
+  with 128 samples and the same seed.
+- **Resolution is not reduced**, so small sources and pool edges stay the same raster stimulus for pcond.
+
+**Per frame, numbers only:**
+- the frozen A (`axis_a.sh` + `axis_a_x.sh`) on the ×179 Combined pass;
+- **pcond EXPOSURE**, the tone-map branch (linear/mapped), frozen **Y_A median** and **median predicted Y_disp**
+  (0.1 + 99.9·clip(Y_A, 0, 1));
+- **scene statistics:** frame log-mean luminance, median luminance, Q99.9;
+- lamp head in or out of frame (projected).
+
+No D1 PNG and no OIDN. All render intermediates are deleted frame by frame.
+
+**Validity control:** at t = 0, 0.70, 0.80, 0.875 and 1, the trace EXPOSURE must lie within **5 %** of the accepted
+4096-spp value (453.5, 869.5, 865.2, 868.8, 982.6). Otherwise the 128-spp trace is **INVALID** as a proxy, and it is
+reported, not interpreted.
+
+**Stage-1 KILL (operational; no new numeric derivative threshold):**
+- **automatic:** the mapping branch changes (linear ↔ mapped) anywhere on the path;
+- **judged on the trace plot** (EXPOSURE(t), the scene log-mean(t) and lamp in/out, with each step's log2 change),
+  by the external observer, **before** any stage-2 render:
+  - a **localised sharp discontinuity** in EXPOSURE, clearly larger than the neighbouring steps and not explained by an
+    equally sharp change of the scene statistic; **or**
+  - the source enters the frame and EXPOSURE answers with a jump rather than a smooth transition.
+- **KILL:** no dense 4096 clip. Only the bounded transition interval is studied, under its own addendum.
+
+**Stage 1 smooth:** a prospective stage 2 (its own addendum, written after the trace and before any stage-2 render).
+- **Frames:** 12–16 frames at the accepted settings (4096 spp, OIDN windows gate), at t positions fixed from the
+  trace *before* rendering:
+  - covering the B → K070 segment of largest EXPOSURE change;
+  - several frames around the source entry t ≈ 0.82;
+  - overlap with the accepted B, K070, K080, K0875 and C.
+- **Checks:** OIDN, frozen D1, P-7-like temporal metrics, and a visual clip/contact sheet.
+- If 12–16 frames prove too sparse for P-7, that is a separate fact and a separate budget decision.
+
+**Budget:** 41 × (≈ 1.5 min render + ≈ 1 min A/extraction), about 2 hours. Disk is one frame at a time.
+
+**Prediction:**
+- The controls pass (the log-average is robust to 128-spp noise). Low confidence at t = 0: B stands inside the pool,
+  and fireflies are possible.
+- **EXPOSURE rises smoothly** from 453 to ≈ 870 over t ≈ 0.25–0.6, as the pool and wall leave the frame during the
+  turn. It stays flat through the entry (0.7–0.875), then rises to 983.
+- The branch stays linear. No KILL.
