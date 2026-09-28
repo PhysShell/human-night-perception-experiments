@@ -1,0 +1,9 @@
+N1.7 sequence sheet, my reading before the external verdict (does not count).
+1. New artifact class: none seen. The pole shaft reads as a bright white stripe at K080/K0875 (as in accepted C).
+2. Exposure/tone jumps: B -> K070 is a large change (+0.94 stop pcond scale), but B stands in the pool looking at the
+   lit ground/wall and K070 faces the dark barn after a 0.7 t gap; explained by the viewpoint. K070 -> K080 -> K0875 are
+   flat (+-0.01 stop) while the pole and lamp enter; K0875 -> C +0.18 stop. No unexplained jump.
+3. Source entry: gradual - pool edge (K070), pole + lit ground at the left edge (K080), lamp head inside (K0875), centred (C).
+4. Dark structure: barn mass, lane, field edge kept in all frames; no collapse.
+5. Known residuals: white lamp core, warm/pink pool tint (B), E1 1-px literal G3 on K070 and C.
+My guess: PASS.

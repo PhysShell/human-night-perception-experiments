@@ -121,3 +121,40 @@ visible from the turned camera. That would make OIDN INVALID on 2 of 3 keyframes
 - **K0875 is re-rendered** with the same driver, after freeing package caches (pip/uv, not experiment data).
 - **K070 and K080 were checked.** Their `view_cdm2.exr` and D1 PNGs read without error and contain no zero pixels.
   K080's `view_rgb.exr` (a Cycles-unit copy that D1 does not use) had failed to write and was deleted.
+
+## Automatic results (`results_N17.json`, code `8d8f904`): **all PASS**; visual pending
+`d1/verify_manifest.sh`: all OK (before and after the driver runs, and at evaluation).
+
+| key | t | pcond EXPOSURE (linear) | median Y_disp | luminance ceiling | floor | OIDN (windows) | R3 | SRC |
+|---|---|---|---|---|---|---|---|---|
+| B | 0 | 453.5 | 1.738 | 0 % | 0 % | accepted | accepted | lamp behind |
+| K070 | 0.70 | 869.5 | 0.596 | 0 % | 0 % | PASS (max 0.17 %) | PASS; **G3 literal FAIL, E1 class** | lamp out |
+| K080 | 0.80 | 865.2 | 0.585 | 0.23 % | 0 % | PASS (max 0.15 %) | PASS | lamp out (x ≈ −136) |
+| K0875 | 0.875 | 868.8 | 0.623 | 0.57 % | 0 % | PASS (max 0.11 %; lamp-head window, report only, 0.07 %) | PASS | **PASS** |
+| C | 1 | 982.6 | 0.692 | 0.444 % | 0 % | accepted | accepted (E1, as recorded) | PASS |
+
+**CF:** every keyframe passes. The any-channel ceiling is ≤ 4.3545 % and the floor is 0 %.
+
+**log2 EXPOSURE steps** (report, not gated):
+
+| step | log2 |
+|---|---|
+| B → K070 | +0.94 |
+| K070 → K080 | −0.007 |
+| K080 → K0875 | +0.006 |
+| K0875 → C | +0.18 |
+
+**K070's E1 classification:** one in-gamut pixel with a channel within 10⁻⁸ of the sRGB knee. It is classified by
+'s diagnostic, as in  E1.
+
+**Against the prediction:**
+- **Right:**
+  - OIDN and R3 pass, with E1 1-px as expected;
+  - the scale rises from B to about 870, C-like;
+  - the source enters gradually, with SRC passing at K0875;
+  - no reversal larger than 0.5 stop.
+- **The K080 risk did not materialise in the numbers:** it is flat against its neighbours. The visual gate decides.
+
+**Sequence sheet:** `N17_sequence_sheet.png` (B → K070 → K080 → K0875 → C, t and yaw shown).
+
+**My reading** `N17_my_reading.txt`: sha256 `0ae89a8f412d879d4d7b72640b49e9143c3bed33ba589dfaed34135f5053c190`, taken from the command output.

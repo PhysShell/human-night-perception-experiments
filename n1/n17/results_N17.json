@@ -1,0 +1,218 @@
+{
+ "prereg": "n1/n17/PREREG_N17.md",
+ "verify_manifest": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+ "frames": {
+  "B": {
+   "t": 0.0,
+   "EXPOSURE": 453.5,
+   "tone_map_mode": "linear",
+   "median_Y_disp": 1.7384837874224612,
+   "lum_ceiling": 0.0,
+   "any_ch_ceiling": 0.0,
+   "floor": 0.0,
+   "R3_extraction": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0,
+    "C3_fail_px": 0,
+    "X_le_0_px": 0
+   },
+   "R3_display": {
+    "finite": true,
+    "ch_min": 0.11276350039368253,
+    "ch_max": 42.03148286024186,
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "S-1": true,
+    "S-2": true,
+    "S-3": true
+   },
+   "OIDN": true,
+   "CF_PASS": true,
+   "lamp_px": [
+    -444.0482378229435,
+    -3632.618571192007
+   ]
+  },
+  "K070": {
+   "t": 0.7,
+   "EXPOSURE": 869.49,
+   "tone_map_mode": "linear",
+   "median_Y_disp": 0.5955730882611765,
+   "lum_ceiling": 0.0,
+   "any_ch_ceiling": 0.0,
+   "floor": 0.0,
+   "R3_extraction": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0,
+    "C3_fail_px": 0,
+    "X_le_0_px": 0
+   },
+   "R3_display": {
+    "finite": true,
+    "ch_min": 0.1554846454019971,
+    "ch_max": 30.24448251981485,
+    "G1": true,
+    "G2": true,
+    "G3": false,
+    "S-1": true,
+    "S-2": true,
+    "S-3": true
+   },
+   "OIDN": true,
+   "CF_PASS": true,
+   "lamp_px": [
+    -1019.4677630661474,
+    -204.53342155041423
+   ],
+   "E1_diag": {
+    "bad_px": 2,
+    "bad_in_gamut": 2,
+    "min_abs_dist_to_knee": [
+     1.0941238921813312e-09,
+     1.9019977866990834e-11
+    ],
+    "hue_rad": [
+     1.359888927243702e-06,
+     1.3757252899093688e-06
+    ],
+    "chroma_inc": [
+     -3.750656544056815e-08,
+     -3.721249135864215e-08
+    ]
+   },
+   "E1_class": true
+  },
+  "K080": {
+   "t": 0.8,
+   "EXPOSURE": 865.23,
+   "tone_map_mode": "linear",
+   "median_Y_disp": 0.5846014481279219,
+   "lum_ceiling": 0.002292936991869919,
+   "any_ch_ceiling": 0.004740853658536585,
+   "floor": 0.0,
+   "R3_extraction": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0,
+    "C3_fail_px": 0,
+    "X_le_0_px": 0
+   },
+   "R3_display": {
+    "finite": true,
+    "ch_min": 0.12253251456376238,
+    "ch_max": 100.0,
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "S-1": true,
+    "S-2": true,
+    "S-3": true
+   },
+   "OIDN": true,
+   "CF_PASS": true,
+   "lamp_px": [
+    -136.88060802668156,
+    0.6581543652703203
+   ]
+  },
+  "K0875": {
+   "t": 0.875,
+   "EXPOSURE": 868.78,
+   "tone_map_mode": "linear",
+   "median_Y_disp": 0.6231284710230708,
+   "lum_ceiling": 0.005701854674796748,
+   "any_ch_ceiling": 0.01605373475609756,
+   "floor": 0.0,
+   "R3_extraction": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0,
+    "C3_fail_px": 0,
+    "X_le_0_px": 0
+   },
+   "R3_display": {
+    "finite": true,
+    "ch_min": 0.12283927688850235,
+    "ch_max": 100.0,
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "S-1": true,
+    "S-2": true,
+    "S-3": true
+   },
+   "OIDN": true,
+   "CF_PASS": true,
+   "lamp_px": [
+    324.7338902200838,
+    81.33329910795169
+   ],
+   "SRC_code_above_annulus": 54976.5,
+   "SRC_PASS": true
+  },
+  "C": {
+   "t": 1.0,
+   "EXPOSURE": 982.64,
+   "tone_map_mode": "linear",
+   "median_Y_disp": 0.6917113630933286,
+   "lum_ceiling": 0.004441692073170731,
+   "any_ch_ceiling": 0.011695248983739838,
+   "floor": 0.0,
+   "R3_extraction": {
+    "colour_active": true,
+    "C0_bit_identical": true,
+    "C2_frac_ok": 1.0,
+    "C3_frac_ok": 1.0,
+    "C3_fail_px": 0,
+    "X_le_0_px": 0
+   },
+   "R3_display": {
+    "finite": true,
+    "ch_min": 0.10677406706987079,
+    "ch_max": 100.0,
+    "G1": true,
+    "G2": true,
+    "G3": false,
+    "S-1": true,
+    "S-2": false,
+    "S-3": true
+   },
+   "OIDN": true,
+   "CF_PASS": true,
+   "lamp_px": [
+    960.782662362052,
+    152.921224230194
+   ],
+   "SRC_code_above_annulus": 54377.0,
+   "SRC_PASS": true,
+   "E1_diag": {
+    "bad_px": 1,
+    "bad_in_gamut": 1,
+    "min_abs_dist_to_knee": [
+     8.773170211140435e-11
+    ],
+    "hue_rad": [
+     2.9885197819989887e-05
+    ],
+    "chroma_inc": [
+     8.105527842341455e-09
+    ]
+   },
+   "E1_class": true
+  }
+ },
+ "log2_EXPOSURE_steps": {
+  "B->K070": 0.9390668844452634,
+  "K070->K080": -0.007085746666526818,
+  "K080->K0875": 0.005907203015661879,
+  "K0875->C": 0.1776720760437608
+ },
+ "automatic_PASS": true
+}
