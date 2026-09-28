@@ -222,3 +222,137 @@ r = max over A x alpha x pipeline x relevant regions
 **Control for V:** V is recomputed with the T0b formula (point lamps, E attenuated by T(r), CIE 146, θ clamped at
 0.1°). Its frame-centre value must equal T0b's `results_T0.json` value (glare25 0.0837876, glare70 0.190384) to
 10⁻⁶ relative.
+
+## Results (`results_G0.json`, code `f1f87b3`): **G0.1 KILL, G0.2 KILL, G0.3 KILL**
+**Controls:**
+- `d1/verify_manifest.sh` before and after: all OK.
+- **V control PASS:** the frame-centre veil equals T0b exactly (A = 25: 0.0837876; A = 70: 0.190384).
+- **`-I` validity control PASS:** α = 0 on the unveiled scene gives EXPOSURE 440.9, against the frozen 444.77
+  (−0.87 %, within 5 %).
+- The copies' diffs are asserted equal to the stated change.
+
+### G0.1: WORLD inventory. **KILL of the frame-pixel CIE 146 architecture, NOT only under the bound**
+**Inventory:**
+
+| source | E_axis (lx) | angular size | in frame | note |
+|---|---|---|---|---|
+| lamp 25 m | 3.425 | 0.46° | **no** | |
+| lamp 50 m | 0.0973 | 0.24° | yes | |
+| lamp 100 m | 0.0057 | 0.12° | yes | |
+| lamp 200 m | 4.8·10⁻⁴ | 0.06° | yes | |
+| lamp 400 m | 5.6·10⁻⁵ | 0.03° | yes | |
+| lamp 800 m | 6.5·10⁻⁶ | 0.015° | yes | |
+| lamp 1600 m | 7.1·10⁻⁷ | 0.0075° | yes | |
+| in-frame extended blocks (lamp apertures excluded) | Σ 0.080 | 0.14° | yes | |
+| off-frame extended **bound** | Σ 4.11 | 0.5° cells | no | ground ≤ 0.680 cd/m², sky 4·10⁻⁴ |
+
+No source lies beyond 100° of any target.
+
+**Veil by region** (median over 500 targets). Every region is relevant.
+
+| A | region | veil/scene | veil (cd/m²) | **unsupported** | without the off-frame bound | < 0.1° | off-frame | extended | 0.1–1° / 1–30° / 30–100° |
+|---|---|---|---|---|---|---|---|---|---|
+| 25 | road | 0.42 | 0.27 | **0.930** | 0.927 | 0.26 | 0.20 | 0.85 | 0.45 / 0.26 / 0.02 |
+| 25 | field | 0.79 | 0.074 | **0.925** | 0.911 | 0.10 | 0.56 | 0.67 | 0.25 / 0.31 / 0.27 |
+| 25 | sky | 202 | 0.080 | **0.943** | 0.932 | 0.00 | 0.94 | 0.08 | 0.00 / 0.96 / 0.04 |
+| 70 | road | 0.58 | 0.39 | **0.903** | 0.895 | 0.20 | 0.31 | 0.76 | 0.37 / 0.39 / 0.02 |
+| 70 | field | 1.36 | 0.137 | **0.911** | 0.891 | 0.06 | 0.68 | 0.57 | 0.17 / 0.38 / 0.33 |
+| 70 | sky | 462 | 0.184 | **0.942** | 0.931 | 0.00 | 0.94 | 0.08 | 0.00 / 0.96 / 0.04 |
+
+**What drives the unsupported share:**
+- **Extended sources near the fixation.** The lit road around a road target: the 4×4-px blocks are point-valid only
+  beyond 1.38° by our operational criterion.
+- **The off-frame 25 m luminaire:** field and sky.
+- **Not the off-frame ground bound.** Without it, the unsupported share is still 0.89–0.93.
+
+**Diagnostic** (not pre-registered as a gate): without the fixated extended block, i.e. the < 0.1° self-contribution
+that the clamp produces, the unsupported share is still 0.88–0.94.
+- The < 0.1° share on road (0.20–0.26) is **entirely** that self-block clamp artefact: self-share 0.26/0.20.
+- So "B1 needed for < 0.1°" is **not** established by these numbers. The < 0.1° band on the road is a block-size
+  artefact, recorded as such.
+
+**Reading:**
+- The necessary condition holds only through scene metadata: the dominant off-frame luminaire is enumerable from
+  `lamps.json`.
+- **Glare computed from the frame's pixels alone is not sufficient.** It misses the off-frame point source and treats
+  the near-fixation extended field outside the point-source domain.
+
+### G0.2: coupling α ∈ {0, 0.08, 1}. **KILL of "one α by convention"**
+| A | α | EXPOSURE | C1 (frozen road at peak) | C2 (shoulder) | frozen presence (50…1600 m) | shoulder presence |
+|---|---|---|---|---|---|---|
+| 25 | 0 | 440.9 | **85.1 % holds** | 0 % holds | F F F T T T | F F T T T T |
+| 25 | 0.08 | 137.2 | **1.8 % fails** | 0 % holds | F F F T T T | F T T T T T |
+| 25 | 1 | 34.4 | 0 % fails | 0 % holds | F F T T T T | T T T T T T |
+| 70 | 0 | 440.9 | **89.2 % holds** | 0 % holds | F F F F T T | F F T T T T |
+| 70 | 0.08 | 93.9 | 0 % fails | 0 % holds | F F T T T T | T T T T T T |
+| 70 | 1 | 20.4 | 0 % fails | 0 % holds | F F T T T T | T T T T T T |
+
+pcond stays in the linear branch in every run, and C0 is bit-identical.
+
+- **What triggers the KILL:** for A = 25, presence differs between α = 0.08 and α = 1, under frozen (200 m) and under
+  the shoulder (50 m). C1 and C2 do not differ between 0.08 and 1.
+- **What the table shows:**
+  - The frozen A-side saturation (C1) disappears **already at α = 0.08** (−1.7/−2.2 stops).
+  - C1 holds only at α = 0.
+  - **C2 holds at every α and both ages.**
+  - With the veil in the content, the near lamps lose presence into their own veil blobs, more under frozen D1 than
+    under the shoulder. The blob is the CIE veil clamped at 0.1° around each lamp.
+
+### G0.3: the display's own glare. **KILL: r = 5.38**, "physical display glare can be ignored" is dead
+Median of Vscreen/ΔYsim per region (cd/m² on the display; ΔYsim > 10⁻⁶ everywhere in the gated rows):
+
+| A | α | pipeline | road | field | sky |
+|---|---|---|---|---|---|
+| 25 | 0.08 | frozen | 3.52 | 1.15 | 0.26 |
+| 25 | 0.08 | **shoulder** | **5.38** | 1.20 | 0.25 |
+| 25 | 1 | frozen | 3.54 | 1.20 | 0.29 |
+| 25 | 1 | shoulder | 4.01 | 1.21 | 0.28 |
+| 70 | 0.08 | frozen | 2.09 | 0.85 | 0.33 |
+| 70 | 0.08 | shoulder | 2.85 | 0.87 | 0.32 |
+| 70 | 1 | frozen | 2.13 | 0.91 | 0.36 |
+| 70 | 1 | shoulder | 2.29 | 0.91 | 0.35 |
+
+The α = 0 rows are reported in the JSON and excluded from the gate. In the frozen α = 0 run, 398 of 500 road targets
+have ΔYsim = 0 because both states clip at the peak.
+
+- **The minimum over all gated rows is 0.25**, above the 0.10 KILL limit. The phone's own glare in the viewer's eye is
+  comparable to, or larger than, the simulated veil it displays: 0.25–0.36 on the sky, ≈ 1 on the field, 2–5 on the
+  road.
+- **The mechanism.** The simulated veil adds only ≈ 0.4–6 cd/m² on the display. The physical screen (peaks at
+  100 cd/m², a bright road over a large area) produces a veil of the same order at the viewer's retina.
+- **Report-only, per source** (no-glare images, A = 25):
+
+  | lamp | r_E | r_V |
+  |---|---|---|
+  | 50 m | 0.0044 | 0.026 |
+  | 100 m | 0.031 | 0.19 |
+  | 200 m | 0.17 | 1.0 |
+  | 400 m | 0.82 | 5.1 |
+  | 800 m | 4.3 | 27 |
+  | 1600 m | 18.7 | 117 |
+
+  Shoulder ≈ frozen. This confirms why a per-source ratio was not a usable gate.
+- **Whole-screen E at the eye** (diagnostic): frozen 2.27 lx, shoulder 1.51 lx. Compare 3.4 lx from the real 25 m
+  lamp.
+
+### Against the prediction
+- **G0.1 KILL: right.**
+  - **Wrong:** I predicted in-frame extended E of 0.1–0.3 lx; it is 0.08 lx. Its share is large anyway, because it is
+    near the fixation.
+  - **Wrong:** I predicted a small < 0.1° share; it is 0.2–0.26 on the road, a clamp artefact of my block size.
+- **G0.2 KILL: right, for the wrong reason.** I predicted C1 would hold at 0.08 and fail at 1. It fails already at
+  0.08, and the KILL came from presence.
+- **G0.3: wrong, badly.** I predicted r < 0.01; it is 5.38. My estimate compared the displayed veil (g·V ≈ 20–50
+  cd/m²) with a few bright pixels. The amended exact ΔYsim is only 0.4–6 cd/m², and the screen's extended bright
+  areas dominate its glare. The user's amendment (exact ΔYsim, Vscreen from the glare image) is what exposed this.
+
+### Outcome (pre-registered)
+**All three simplifications are dead:**
+- frame-pixel CIE 146;
+- one α by convention;
+- ignoring the display's own glare.
+
+Nothing is implemented. The next step is the user's decision. D2-B3 stays LOCKED.
+
+**Unaffected:** A1b's result. **C2 held in every G0.2 run** (both ages, all α), so the shoulder's removal of broad
+saturation does not depend on the glare coupling.
