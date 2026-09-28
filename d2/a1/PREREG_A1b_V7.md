@@ -61,3 +61,8 @@ A1b removed the saturation. Its stage 1 and stage 2 passed, but V7 was never re-
   - A1b has a comparable gradient but a cold/lavender cast from B, which the observer has marked as a D1 disadvantage
     before.
   - I expect Blender ≥ A1b, possibly tied.
+
+## Sheet built (before the verdict)
+- Sheet: `renders/V7_blind_sheet.png`, made by `sheet_A1b_V7.py` (seed 1).
+- **Key** `work/V7_blind_key.json` (git-ignored until the reveal): sha256 `7800f99fea0720dfdcc8c6bab5867ecd105d87f6457d9f02499bff0adb4f60b8`.
+- **My reading** `V7_my_reading.txt`: sha256 `0a22f6dea4c34eb75574cd288383568ecfdcccbad87b8c9de7854915d2e1b042`.

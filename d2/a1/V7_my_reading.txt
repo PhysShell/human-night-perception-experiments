@@ -1,0 +1,5 @@
+D2-A1b V7 blind sheet, my reading before the external verdict (does not count).
+- Y: broad roadway saturation (white slab), far-lamp crop road also blown: V6 FAIL. Guess: V0.
+- X: no broad saturation; brightest road with a readable gradient; clear cold/lavender cast on the lit road. Guess: A1b.
+- Z: no broad saturation; darker, neutral grey road with a gradient; lamps as clean points. Guess: Blender AgX +7.
+- Order: Z >= X > Y; X vs Z close, the cast being X's main handicap. Gate call: uncertain, lean FAIL (A1b < Blender).
