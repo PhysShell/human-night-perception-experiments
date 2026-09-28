@@ -179,3 +179,46 @@ with only the JSON kept.
     - The phone's own veil from a few bright pixels is ≪ 1 cd/m².
     - **Predicted PASS (r < 0.01)**, medium confidence. Near the displayed lamps the ratio rises, and the road region
       may land in the 0.01–0.10 band.
+
+## Amendment 1 (user review, before any code; supersedes the conflicting text above)
+**G0.1:**
+- **No double counting.**
+  - The gated quantity is **unsupported_share**: the veil contribution of the **union** of sources that are
+    (θ < 0.1°) OR off-frame OR not point-source-valid, each source/block counted once.
+  - The separate breakdowns (< 0.1°, off-frame, extended, angular bands) stay diagnostic.
+  - **KILL** of the frame-pixel architecture if unsupported_share > 0.10 in any relevant region, for either age.
+- **"angular size ≤ θ/10" is *our* operational point-source criterion.** It is not a property of CIE 146, which defines
+  its point-source formulae and the 0.1°–100° General Equation but states no such size rule.
+- **The off-frame ground is a conservative upper bound.** unsupported_share is also reported *without* the off-frame
+  extended bound. If the KILL holds only with the bound, the recorded wording is:
+  > frame-only sufficiency is not established under the conservative off-frame bound
+
+  **not** "the actual off-frame ground contributes > 10 %".
+
+**G0.2:** unchanged.
+- **Implementation note:** the adaptation histogram comes from Radiance's `phisto`, applied to the adaptation image
+  after the same cd/m² → Radiance conversion as the frozen A script. `pcond -I` reads that histogram on stdin.
+
+**G0.3 (replaces the gated quantity above; the per-source r_E,i and r_V,i stay report-only):**
+```
+for A in {25, 70}, alpha in {0.08, 1}, pipeline in {frozen, shoulder}:
+    M = the mapping chosen in G0.2 for (A, alpha)   # pcond -I with the histogram of L + alpha*V
+    display_with    = output(content = L + V,  mapping M)
+    display_without = output(content = L,      same mapping M)   # same -I histogram => same mapping
+    dYsim(t)   = Y_disp(display_with, t) - Y_disp(display_without, t)            # cd/m^2 on the display
+    Vscreen(t) = CIE 146 veil (age A, p = 0.5) in the viewer's eye from ALL pixels of display_with,
+                 phone geometry 73 px/deg, target t fixated at its display position, sources 0.1-100 deg only
+    r_region   = median over relevant targets [Vscreen / dYsim]
+r = max over A x alpha x pipeline x relevant regions
+```
+- **"Relevant targets":** the targets of the G0.1 relevant regions for that age, with dYsim > 10⁻⁶ cd/m². Targets
+  where the simulated veil adds nothing on the display (e.g. both states clipped at the peak) are excluded, and their
+  count is reported.
+- **Display angles** are the linear pixel offsets / 73 px/deg (small-angle phone geometry). The per-pixel solid angle
+  is (π/180/73)². The < 0.1° screen contribution is reported separately, as an indicator.
+- **The limits are unchanged:** r < 0.01 negligible; 0.01–0.10 bounded correction; **≥ 0.10 KILL**.
+- **α = 0** stays the G0.2 validity/control probe. It is reported for G0.3 but excluded from the gate.
+
+**Control for V:** V is recomputed with the T0b formula (point lamps, E attenuated by T(r), CIE 146, θ clamped at
+0.1°). Its frame-centre value must equal T0b's `results_T0.json` value (glare25 0.0837876, glare70 0.190384) to
+10⁻⁶ relative.
