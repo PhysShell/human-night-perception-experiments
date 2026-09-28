@@ -158,3 +158,27 @@ visible from the turned camera. That would make OIDN INVALID on 2 of 3 keyframes
 **Sequence sheet:** `N17_sequence_sheet.png` (B → K070 → K080 → K0875 → C, t and yaw shown).
 
 **My reading** `N17_my_reading.txt`: sha256 `0ae89a8f412d879d4d7b72640b49e9143c3bed33ba589dfaed34135f5053c190`, taken from the command output.
+
+## Visual verdict (external observer; `N17_sequence_sheet.png` from `f2a7309`, my reading not opened): **PASS**
+| check | verdict | note |
+|---|---|---|
+| new artifact class | **PASS: none** | no halos, bands, colour breaks, geometric flashes or display-path artefacts |
+| sudden exposure/tone jump | **PASS** | K070 → K080 → K0875 → C changes consistently with the turn and the entering lit area |
+| gradual source entry | **PASS** | pool influence, then the pole at the left edge, then the lamp head, then C |
+| dark structure | **PASS** | the barn stays a readable mass; the lane and pool edges are kept; no formless black floor |
+| known residuals | **PASS / known** | white core where expected; warm/pink B flank; K070's E1 pixel not visible |
+
+**The observer's notes:**
+- K070 → K080 → K0875 is the key segment, and it is stable. The practical enters without the rest of the frame jumping.
+  C reads as a natural continuation, not a different tone-mapper regime.
+- **B → K070:** the visual and exposure difference is large (+0.94 stop), but it is **not classified as a
+  discontinuity**. The interval spans Δt = 0.70 and a ≈ 120° turn, so it was not sampled. Keeping it report-only was
+  right.
+
+**My reading** (`N17_my_reading.txt`, sha256 `0ae89a8f…`, committed in `6adafdf` before the verdict): PASS on all five.
+It agrees; it does not count.
+
+**Outcome:** N1.7 sparse keyframe stress **PASS**, and a dense-motion addendum is justified.
+- **Its main purpose is B → K070**, the 70 % of the path the sparse test left unobserved.
+- **P-7** runs per frame over the whole path, with no exposure smoothing.
+- **A temporal FAIL** would be a sharp pcond-scale transition within a narrow t range.
