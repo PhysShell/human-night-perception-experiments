@@ -273,3 +273,80 @@ All are within 5 %. The 128-spp trace sits ≈ 1.5 % high: a small, uniform nois
 
 **My reading** `N17_trace_my_reading.txt`: sha256 `e833ac9981449f91ba06eb7eea7529e1ba8758922eefd55f686d406ff8442860`, taken from the command
 output. **The judged KILL questions go to the external observer.**
+
+## Stage-1 verdict (external observer): **PASS**
+- **Localised exposure discontinuity:** no.
+- **Source-entry exposure jump:** no.
+- **Branch change:** no.
+- **Validity controls:** PASS.
+
+**Observer's notes:**
+- **Largest step.** The largest step (+0.0863 stop, t 0.45 → 0.475) is part of a broader smooth transition, with a
+  matching change in the scene statistic.
+- **Lamp entry.** At t 0.80 → 0.825 there is no abrupt response.
+- **Why it convinces.** EXPOSURE's derivative mirrors the scene log-mean (r = −0.962): pcond responds to content and
+  makes no manoeuvres of its own.
+
+**My reading** (`N17_trace_my_reading.txt`, sha256 `e833ac99…`): smooth, no KILL. It agrees; it does not count.
+
+## Addendum 3: stage 2 (before any stage-2 render)
+**Frames (user decision), 12 new frames at the accepted settings** (4096 spp, OIDN, the same seed, `view_render.py`
+unchanged):
+
+| t | covers |
+|---|---|
+| 0.125, 0.175, 0.225 | the first rise |
+| 0.350, 0.400, 0.450, 0.475, 0.525 | the main change, including the largest step |
+| 0.825, 0.850 | just after the lamp entry |
+| 0.925, 0.975 | the final rise to C |
+
+**The accepted anchors are reused, not re-rendered:** B = 0, K070, K080, K0875, C = 1. That makes **17 states** along
+the path. The keyframe names are K0125 … K0975 (t × 1000), added to `views.json` by `make_keys2.py` (existing entries
+unchanged, asserted).
+
+**Per new frame** (driver `run_stage2.sh`, one frame at a time):
+- render;
+- OIDN windows gate (`gate.py`, amendment 1);
+- `view_rgb.exr` deleted (D1 does not use it);
+- the frozen A;
+- the frozen D1 (`view_eval.py d1`);
+- the per-frame evaluation (`frame_eval.py`);
+- then the caches and `view_cdm2.exr` are deleted (disk). The D1 PNG and the JSON are kept.
+
+**Gates:**
+
+| id | criterion |
+|---|---|
+| OIDN | 5 windows, ≤ 2 % each |
+| R3 | C0 bit-identical, AX-C2/C3 ≥ 99.9 %; display gates; a literal G3/S-2 FAIL is allowed only if the per-frame diagnostic classifies it as E1 (≤ 3 in-gamut px within 10⁻⁸ of the knee) |
+| CF | floor ≤ 0.6250 %; any-channel ceiling ≤ 4.3545 % |
+| SRC | lamp head ≥ 7 px inside the frame: ≥ 1 code above the annulus |
+| TRACE | \|EXPOSURE_4096 / EXPOSURE_trace(t) − 1\| ≤ 5 % (the trace has every stage-2 t) |
+| FLASH | over the 17 states in t order, isolated flashes ≤ 1. A flash is a state whose frame-mean Y_disp deviates by more than 20 % from **both** neighbours **in the same direction**: P-7's isolated-flash definition, applied to the frame mean. |
+
+**P-7's step limits (2 % mean and sky steps) are not applicable:** they are defined for a static-camera clip, and here
+the camera moves and turns by design.
+
+**Visual:**
+- **Who:** the external observer.
+- **Contact sheet:** the 17 states in path order, t shown.
+- **Not blind.**
+- **Questions:**
+  - any flicker or discontinuity not explained by the viewpoint change?
+  - any new artifact class?
+  - is dark structure kept?
+  - do the known residuals stay known?
+- **My reading** is hashed from the command output before the verdict.
+
+**STOP / PASS:**
+- **Any new substantive failure is a STOP:** a gate failure other than E1, or a visual yes to flicker, discontinuity
+  or a new artifact.
+- **All pass:** N1.7 motion stress **PASS** on the B → C path.
+
+**Budget:** 12 × ≈ 47 min, about 9–10 hours. The disk peak is ≈ 110 MB per frame.
+
+**Prediction:**
+- All gates pass.
+- TRACE deviations are about −1.5 % (the trace's noise bias).
+- FLASH = 0.
+- E1 1-px literal FAILs on some frames.

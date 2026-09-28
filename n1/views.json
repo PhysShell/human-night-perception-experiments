@@ -138,5 +138,209 @@
    820
   ],
   "crops": {}
+ },
+ "K0125": {
+  "what": "N1.7 stage-2 keyframe t=0.125 on the B->C path",
+  "t": 0.125,
+  "loc": [
+   2.6875,
+   43.375,
+   1.7
+  ],
+  "yaw_deg": 201.45,
+  "pitch_deg": -2.625,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0175": {
+  "what": "N1.7 stage-2 keyframe t=0.175 on the B->C path",
+  "t": 0.175,
+  "loc": [
+   2.5625,
+   41.925,
+   1.7
+  ],
+  "yaw_deg": 210.03,
+  "pitch_deg": -2.475,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0225": {
+  "what": "N1.7 stage-2 keyframe t=0.225 on the B->C path",
+  "t": 0.225,
+  "loc": [
+   2.4375,
+   40.475,
+   1.7
+  ],
+  "yaw_deg": 218.61,
+  "pitch_deg": -2.325,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0350": {
+  "what": "N1.7 stage-2 keyframe t=0.35 on the B->C path",
+  "t": 0.35,
+  "loc": [
+   2.125,
+   36.85,
+   1.7
+  ],
+  "yaw_deg": 240.06,
+  "pitch_deg": -1.95,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0400": {
+  "what": "N1.7 stage-2 keyframe t=0.4 on the B->C path",
+  "t": 0.4,
+  "loc": [
+   2.0,
+   35.4,
+   1.7
+  ],
+  "yaw_deg": 248.64,
+  "pitch_deg": -1.8,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0450": {
+  "what": "N1.7 stage-2 keyframe t=0.45 on the B->C path",
+  "t": 0.45,
+  "loc": [
+   1.875,
+   33.95,
+   1.7
+  ],
+  "yaw_deg": 257.22,
+  "pitch_deg": -1.65,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0475": {
+  "what": "N1.7 stage-2 keyframe t=0.475 on the B->C path",
+  "t": 0.475,
+  "loc": [
+   1.8125,
+   33.225,
+   1.7
+  ],
+  "yaw_deg": 261.51,
+  "pitch_deg": -1.575,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0525": {
+  "what": "N1.7 stage-2 keyframe t=0.525 on the B->C path",
+  "t": 0.525,
+  "loc": [
+   1.6875,
+   31.775,
+   1.7
+  ],
+  "yaw_deg": 270.09,
+  "pitch_deg": -1.425,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0825": {
+  "what": "N1.7 stage-2 keyframe t=0.825 on the B->C path",
+  "t": 0.825,
+  "loc": [
+   0.9375,
+   23.075,
+   1.7
+  ],
+  "yaw_deg": 321.57,
+  "pitch_deg": -0.525,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0850": {
+  "what": "N1.7 stage-2 keyframe t=0.85 on the B->C path",
+  "t": 0.85,
+  "loc": [
+   0.875,
+   22.35,
+   1.7
+  ],
+  "yaw_deg": 325.86,
+  "pitch_deg": -0.45,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0925": {
+  "what": "N1.7 stage-2 keyframe t=0.925 on the B->C path",
+  "t": 0.925,
+  "loc": [
+   0.6875,
+   20.175,
+   1.7
+  ],
+  "yaw_deg": 338.73,
+  "pitch_deg": -0.225,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0975": {
+  "what": "N1.7 stage-2 keyframe t=0.975 on the B->C path",
+  "t": 0.975,
+  "loc": [
+   0.5625,
+   18.725,
+   1.7
+  ],
+  "yaw_deg": 347.31,
+  "pitch_deg": -0.075,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
  }
 }
