@@ -1,0 +1,95 @@
+{
+ "view": "K0400",
+ "spec": {
+  "what": "N1.7 stage-2 keyframe t=0.4 on the B->C path",
+  "t": 0.4,
+  "loc": [
+   2.0,
+   35.4,
+   1.7
+  ],
+  "yaw_deg": 248.64,
+  "pitch_deg": -1.8,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "oidn_gate": {
+  "windows": {
+   "centre": {
+    "centre_px": [
+     960,
+     410
+    ],
+    "mean_noisy": 0.009335608180887694,
+    "mean_denoised": 0.00935421109859144,
+    "rel_dev": 0.00199268406977815
+   },
+   "UL": {
+    "centre_px": [
+     480,
+     205
+    ],
+    "mean_noisy": 0.001000001174940462,
+    "mean_denoised": 0.0009995312709701397,
+    "rel_dev": -0.00046990341821373516
+   },
+   "UR": {
+    "centre_px": [
+     1440,
+     205
+    ],
+    "mean_noisy": 0.0032916327212487544,
+    "mean_denoised": 0.003292374489063371,
+    "rel_dev": 0.0002253495081112611
+   },
+   "LL": {
+    "centre_px": [
+     480,
+     615
+    ],
+    "mean_noisy": 0.0032031439171526063,
+    "mean_denoised": 0.003200791599649273,
+    "rel_dev": -0.0007343777127017947
+   },
+   "LR": {
+    "centre_px": [
+     1440,
+     615
+    ],
+    "mean_noisy": 0.0024358914313298745,
+    "mean_denoised": 0.0024358279898818425,
+    "rel_dev": -2.604444812936979e-05
+   }
+  },
+  "report": {
+   "whole_frame_rel_dev": 0.0006907113524299291
+  },
+  "PASS": true
+ },
+ "d1": {
+  "extraction_selfcheck": {
+   "colour_active": true,
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0,
+   "C3_fail_px": 0,
+   "X_le_0_px": 0
+  },
+  "tone_map_mode": "linear",
+  "display_gates": {
+   "finite": true,
+   "ch_min": 0.11922276714775579,
+   "ch_max": 14.799733444411684,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  }
+ }
+}

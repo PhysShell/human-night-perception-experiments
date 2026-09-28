@@ -350,3 +350,51 @@ the camera moves and turns by design.
 - TRACE deviations are about −1.5 % (the trace's noise bias).
 - FLASH = 0.
 - E1 1-px literal FAILs on some frames.
+
+## Stage-2 automatic results (`stage2.jsonl`, `stage2_results.json`; driver `9d53192`): **literal STOP on K0850 R3**
+`d1/verify_manifest.sh` before and after: all OK. 12 of 12 frames completed. The branch is linear everywhere.
+
+**Per frame:**
+
+| key | EXPOSURE | vs trace | OIDN max | R3 | CF | SRC |
+|---|---|---|---|---|---|---|
+| K0125 | 484.6 | −0.5 % | 0.17 % | PASS | PASS | lamp out |
+| K0175 | 526.1 | −0.6 % | 0.28 % | PASS | PASS | lamp out |
+| K0225 | 559.8 | −0.7 % | 0.32 % | PASS | PASS | lamp out |
+| K0350 | 611.9 | −0.6 % | 0.19 % | PASS | PASS | lamp out |
+| K0400 | 655.5 | −0.6 % | 0.20 % | PASS | PASS | lamp out |
+| K0450 | 724.3 | −0.7 % | 0.22 % | PASS | PASS | lamp out |
+| K0475 | 768.3 | −0.8 % | 0.17 % | PASS | PASS | lamp out |
+| K0525 | 846.2 | −0.9 % | 0.21 % | PASS | PASS | lamp out |
+| K0825 | 859.6 | −1.5 % | 0.32 % | PASS | PASS | PASS (46 808 codes) |
+| **K0850** | 861.6 | −1.6 % | 0.32 % | **FAIL: G3 and S-2 literal** | PASS | PASS (47 196 codes) |
+| K0925 | 901.5 | −1.5 % | 0.47 % | PASS | PASS | PASS (54 863 codes) |
+| K0975 | 951.7 | −1.4 % | 0.12 % | PASS | PASS | PASS (54 540 codes) |
+
+TRACE: every frame is within 1.6 % of the trace.
+
+**FLASH: PASS** (1 flash ≤ 1).
+- Over the 17 states, **K0525** is flagged as the one isolated flash. It is a *dark dip*: frame-mean Y_disp is 1.01,
+  against 1.31 (K0475) and 1.38 (K070), a 22 % deviation.
+- Note that its right neighbour K070 is 0.175 in t away, over an unsampled stretch.
+
+**K0850's literal R3 FAIL, stated plainly:**
+- **39** pixels fail G3/S-2. **All 39 are in gamut.**
+- The 10 whose distances were recorded lie **3·10⁻¹⁰ to 1.9·10⁻⁹ from the sRGB knee**: the E1 mechanism
+  (`d1/ERRATA.md`).
+- **But addendum 3's E1 rule allows ≤ 3 px**, so by the pre-registered rule this is **not** classified as E1, and it
+  is a **STOP**. The ≤ 3 px bound was my own choice when writing the rule.
+- The frame's `view_cdm2.exr` was deleted by the driver (disk). So the other 29 distances and the hue/chroma
+  magnitudes are **not** available without re-rendering K0850 (≈ 47 min).
+- **The classification of this STOP is the user's decision. It is not reclassified here.**
+
+**The sheet** `N17_stage2_sheet.png` shows the 17 states in path order. **My reading** is `N17_stage2_my_reading.txt`,
+its sha256 given below.
+
+**Against the prediction:**
+- **Right:** all gates pass except R3 on K0850; TRACE is about −1.5 %; E1-type failures were expected.
+- **Wrong:**
+  - FLASH was predicted 0; it is 1, the K0525 dip.
+  - E1 was expected at 1 px scale; it is 39 px on K0850.
+
+My stage-2 reading: sha256 `d51f61075c9d448e9c6bd9247e511a7a9010c4b7c627cef7ec2d4f0bec6300ed` (from the command output).

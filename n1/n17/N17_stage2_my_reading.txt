@@ -1,0 +1,9 @@
+N1.7 stage-2 17-state sheet, my reading before the external verdict (does not count).
+- Flicker/discontinuity: none unexplained. The sequence reads as a continuous turn: barn wall sweeps across (K0125-K0475),
+  the pool leaves and the view darkens to K0525 (facing the dark barn side; the one FLASH-rule dip, mean Y 1.01 vs 1.31/1.38,
+  explained by content and the unsampled 0.525-0.70 gap), pool edge returns (K070), pole enters (K080), lamp head enters
+  (K0825) and moves to centre (C).
+- New artifact class: none visible.
+- Dark structure: barn mass/edges and lane kept in all frames.
+- Known residuals: white lamp core, warm pool (B tint). K0850's literal G3/S-2 (39 in-gamut px at the knee) invisible.
+My guess: visual PASS; the literal R3 STOP on K0850 is the open question (E1 mechanism, count above my 3-px rule).
