@@ -1,0 +1,46 @@
+{
+ "n": 41,
+ "controls": {
+  "0.0": {
+   "trace": 454.82,
+   "accepted": 453.5,
+   "rel": 0.002910694597574315
+  },
+  "0.7": {
+   "trace": 883.34,
+   "accepted": 869.49,
+   "rel": 0.015928877847933842
+  },
+  "0.8": {
+   "trace": 878.81,
+   "accepted": 865.23,
+   "rel": 0.015695248662205286
+  },
+  "0.875": {
+   "trace": 882.72,
+   "accepted": 868.78,
+   "rel": 0.016045489076636166
+  },
+  "1.0": {
+   "trace": 995.31,
+   "accepted": 982.64,
+   "rel": 0.012893837010502285
+  }
+ },
+ "controls_PASS": true,
+ "branches": [
+  "linear"
+ ],
+ "C0_all": true,
+ "max_abs_step_log2E": 0.08632065286980506,
+ "argmax_step_t": [
+  0.45,
+  0.475
+ ],
+ "corr_step_log2E_vs_log2logmean": -0.9616619252746311,
+ "lamp_enters_between": [
+  0.8,
+  0.825
+ ],
+ "auto_KILL_branch_change": false
+}

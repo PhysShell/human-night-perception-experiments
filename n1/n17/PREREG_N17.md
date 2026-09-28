@@ -237,3 +237,39 @@ reported, not interpreted.
 - **EXPOSURE rises smoothly** from 453 to ≈ 870 over t ≈ 0.25–0.6, as the pool and wall leave the frame during the
   turn. It stays flat through the entry (0.7–0.875), then rises to 983.
 - The branch stays linear. No KILL.
+
+## Stage-1 trace results (`trace.jsonl`, `trace_results.json`, plot `N17_trace.png`; driver `235c53e`)
+`d1/verify_manifest.sh` before and after: all OK. 41 frames completed. C0 is bit-identical on every frame.
+
+**Validity controls: PASS.** trace/accepted EXPOSURE:
+
+| t | trace/accepted |
+|---|---|
+| 0 | +0.29 % |
+| 0.70 | +1.59 % |
+| 0.80 | +1.57 % |
+| 0.875 | +1.60 % |
+| 1 | +1.29 % |
+
+All are within 5 %. The 128-spp trace sits ≈ 1.5 % high: a small, uniform noise bias of the log-average.
+
+**Automatic KILL (branch change): none.** The branch is linear on all 41 frames.
+
+**Trace:**
+- **Rise B → t 0.525:** EXPOSURE rises 455 → 854 in two smooth humps (t 0.125–0.25 and t 0.35–0.525).
+- **Plateau t 0.525–0.8:** ≈ 850–893.
+- **Dip at the source entry (t 0.80–0.825):** −0.023/−0.010 stop.
+- **Rise t 0.9–1:** to 995.
+
+**Steps:**
+- The largest step is **+0.086 stop per Δt = 0.025** (t 0.45 → 0.475), flanked by +0.078 and +0.084. It is not
+  localised.
+- Per-step log2 EXPOSURE against per-step log2 scene log-mean: **correlation −0.96**. Every exposure change is matched
+  by the scene statistic.
+
+**Against the prediction:**
+- **Right:** the controls pass; the branch stays linear; the rise is smooth; the entry is flat or dipping.
+- **Mistimed:** I predicted the rise over t ≈ 0.25–0.6; it runs over 0.1–0.525, in two humps.
+
+**My reading** `N17_trace_my_reading.txt`: sha256 `e833ac9981449f91ba06eb7eea7529e1ba8758922eefd55f686d406ff8442860`, taken from the command
+output. **The judged KILL questions go to the external observer.**

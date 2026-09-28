@@ -1,0 +1,8 @@
+N1.7 stage-1 trace plot, my reading before the external verdict (does not count).
+- EXPOSURE rises smoothly B->~t0.525 (455 -> 854), in two humps (t 0.125-0.25, t 0.35-0.525) that mirror the scene
+  log-mean falls (pool/wall leaving the frame); every step tracks the scene statistic (corr -0.96); largest step
+  +0.086 stop per 0.025 t, flanked by neighbours of +0.078/+0.084: no localised discontinuity.
+- Plateau 0.525-0.8 (~850-893). Source entry (0.80-0.825): EXPOSURE dips -0.023/-0.010 stop, matched by log-mean +0.046;
+  no jump. Rise 0.9-1.0 to 995 with log-mean fall.
+- Branch linear throughout; controls within 1.6 %.
+My guess: stage 1 smooth -> no KILL.
