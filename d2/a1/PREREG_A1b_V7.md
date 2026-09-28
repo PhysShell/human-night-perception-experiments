@@ -66,3 +66,52 @@ A1b removed the saturation. Its stage 1 and stage 2 passed, but V7 was never re-
 - Sheet: `renders/V7_blind_sheet.png`, made by `sheet_A1b_V7.py` (seed 1).
 - **Key** `work/V7_blind_key.json` (git-ignored until the reveal): sha256 `7800f99fea0720dfdcc8c6bab5867ecd105d87f6457d9f02499bff0adb4f60b8`.
 - **My reading** `V7_my_reading.txt`: sha256 `0a22f6dea4c34eb75574cd288383568ecfdcccbad87b8c9de7854915d2e1b042`.
+
+## Verdict and reveal: **gate FAIL, A1b ranked below Blender** (Z > X > Y)
+The external blind verdict was given before the reveal, from the sheet only. The observer did not open the key or this
+PREREG.
+
+| label | V1 | V2 | V3 | V4 | V5 | V6 |
+|---|---|---|---|---|---|---|
+| X | PASS | PASS | PASS | PASS | N/A | **PASS** |
+| Y | PASS | PASS (weak) | PASS | PASS (weak) | N/A | **FAIL**: broad roadway saturation / lost highlight structure |
+| Z | PASS | PASS | PASS | PASS | N/A | **PASS** |
+
+**Ranking: Z > X > Y.** The most convincing night road is Z; the worst is Y.
+- **"Z > X is substantive, but not huge."**
+- **X:** already acceptable, without the failure that opened D2-A1. The road stays very light, but its internal
+  gradient, local pools and perspective read. There is a slightly cold/lavender character, classed as frozen B, not a
+  new A-side defect.
+- **Z:** a darker road, not collapsed. It "better preserves the sense of night and the locality of the lighting".
+
+**Key** (`work/V7_blind_key.json`, now committed as `V7_blind_key.json`; sha256 matches `7800f99f…`):
+- **X = A1b**;
+- **Y = V0**;
+- **Z = Blender AgX +7**.
+
+**My reading** (`V7_my_reading.txt`, sha256 matches `0a22f6de…`): Y = V0, X = A1b, Z = Blender, order Z ≥ X > Y,
+"lean FAIL". It agrees; it does not count.
+
+**Outcome (pre-registered):**
+- **The V7 gate FAILS.** A1b is visually worse than Blender.
+- **"The original RoadLine failure is fixed" may not be written.** The shoulder fixed the broad saturation (V6 PASS
+  here too) but not the whole perceptual acceptance problem.
+- **No candidate freeze. No change to A1b.**
+
+**The observer's stated reason, recorded:** mainly that A1b's road is very light and Blender's darker road keeps the
+night and the locality of the lighting. The cold cast is noted, but classed as B and not the main reason. The
+PREREG's "B tint remaining loss" branch is therefore **not** what the observer named.
+
+**Descriptive numbers** (post-hoc, not a gate; geometric masks; display cd/m²):
+
+| variant | road median | road p10 / p90 | road p90/p10 | field median |
+|---|---|---|---|---|
+| A1b | 63.1 | 43.4 / 71.7 | 1.65 | 16.9 |
+| Blender AgX +7 | **39.2** | 21.7 / 48.0 | **2.21** | **5.1** |
+| V0 | 100 | 76 / 100 | 1.31 | 20.2 |
+
+These are consistent with the named reason:
+- A1b keeps pcond's frozen *exposure* (the shoulder only compresses highlights), so the whole scene sits about 1.7×
+  (road) to 3.3× (field) brighter than Blender, with less road contrast.
+- This points at **exposure level / adaptation selection** as the remaining A-side loss, not at the shoulder shape and
+  not primarily at B. That is an observation, not a tested claim.
