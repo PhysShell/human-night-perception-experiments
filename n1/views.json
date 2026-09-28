@@ -87,5 +87,56 @@
     5.92
    ]
   }
+ },
+ "K070": {
+  "what": "N1.7 keyframe t=0.7 on the B->C path",
+  "t": 0.7,
+  "loc": [
+   1.25,
+   26.7,
+   1.7
+  ],
+  "yaw_deg": 300.12,
+  "pitch_deg": -0.9,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K080": {
+  "what": "N1.7 keyframe t=0.8 on the B->C path",
+  "t": 0.8,
+  "loc": [
+   1.0,
+   23.8,
+   1.7
+  ],
+  "yaw_deg": 317.28,
+  "pitch_deg": -0.6,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
+ },
+ "K0875": {
+  "what": "N1.7 keyframe t=0.875 on the B->C path",
+  "t": 0.875,
+  "loc": [
+   0.8125,
+   21.625,
+   1.7
+  ],
+  "yaw_deg": 330.15,
+  "pitch_deg": -0.375,
+  "hfov_deg": 60.0,
+  "res": [
+   1920,
+   820
+  ],
+  "crops": {}
  }
 }

@@ -87,3 +87,28 @@ so the keyframes are rendered one at a time, with the raw EXR deleted after its 
   present with ≥ 1 code.
 - **Main risk:** K080, where the bright pool fills the lower left while the lamp is just outside. A visibly brighter or
   darker frame than its neighbours is possible, because pcond's log-average adaptation shifts with what enters.
+
+## Amendment 1 (before any render; no data seen): OIDN windows in image space
+The pre-registered world-point crop rule gives 0 crops (K070) and 1 crop (K080), because the B/C points are not
+visible from the turned camera. That would make OIDN INVALID on 2 of 3 keyframes. It was my design error.
+
+**Replacement.** The OIDN gate checks the denoiser bias on the rendered frame, so world points are not needed.
+- **Windows:** for every N1.7 intermediate keyframe, five fixed **48×48 image-space windows**, computed once from the
+  1920×820 frame size and **identical for K070/K080/K0875**. Centres:
+
+  | window | centre (px) |
+  |---|---|
+  | frame centre | (960, 410) |
+  | upper-left quadrant | (480, 205) |
+  | upper-right quadrant | (1440, 205) |
+  | lower-left quadrant | (480, 615) |
+  | lower-right quadrant | (1440, 615) |
+
+- **Gate:** |mean_denoised / mean_noisy − 1| ≤ 2 % in **every** window.
+- **Report only:** the whole-frame mean bias.
+- **Lamp head:** if it is inside the frame, one 48×48 lamp-head window is added, **report only**. It does not affect
+  PASS/FAIL, so the gate does not tighten because of the event under study.
+- **A window crossing the frame edge is a design error, not a runtime fallback.** None does with these centres.
+- **Implementation:** the gate step is `n1/n17/gate.py`, which mirrors `n1/view_eval.py`'s gate step with these
+  windows. The D1 step is `n1/view_eval.py VIEW d1`, unchanged. The `views.json` keyframe entries carry `crops: {}`
+  (unused).
