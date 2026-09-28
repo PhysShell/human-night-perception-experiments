@@ -91,3 +91,33 @@ oracle-A1b ≥ Blender (ranked above or tied), with V6 PASS and the automatic ga
 - **Visual: uncertain, a slight lean to PASS (tie or better).** The level and the contrast approach Blender's. The
   remaining risk is the cold/lavender B cast, which the observer noticed but did not name as the main reason, and
   which a darker road may make more or less visible.
+
+## Automatic results (`results_A3a.json`, code `7c91d44`): **all PASS**; blind visual pending
+`d1/verify_manifest.sh` before and after: all OK.
+
+**The one s:**
+- Y* = 39.218 cd/m², the Blender road median.
+- q = 1.7054, the road median of the frozen Y_A.
+- **s = 0.37737, i.e. −1.406 stops.**
+
+**Gates:**
+- **R3:** C0 bit-identical; C2/C3; display G1–G3, S-1…S-3 all PASS.
+- **R4:** no inversion.
+- **R5:** presence identical to the frozen linear anchor. All six lamps stay at 61 380–65 183 codes above the
+  background.
+- **H3:** floor 0 %.
+
+| (report, display cd/m²) | road median | road p10 / p90 | road p90/p10 | field median | H2v2 |
+|---|---|---|---|---|---|
+| **oracle-A1b** | 39.22 | 22.5 / 49.0 | **2.18** | **7.16** | 0 % |
+| A1b | 63.08 | 43.4 / 71.7 | 1.65 | 16.86 | 0 % |
+| Blender AgX +7 | 39.22 | 21.7 / 48.0 | 2.21 | 5.07 | 0 % |
+| frozen D1 | 100 | 76.4 / 100 | 1.31 | 20.23 | 82.0 % |
+
+**Against the prediction:** s, the field ≈ 7 and the contrast approaching ≈ 2 were all right. The contrast is 2.18,
+against Blender's 2.21.
+
+**Blind sheet:**
+- `renders/A3a_blind_sheet.png`, made by `sheet_A3a.py` (seed 2).
+- **Key** `work/A3a_blind_key.json` (git-ignored until the reveal): sha256 `3399efc0a2310a7ecb2dcb1518400f4594fffc2f11d9adf081cdba493453e4ca`.
+- **My reading** `A3a_my_reading.txt`: sha256 `262566e1ffe817b110d9bcaf7d100ea5841b361c9f3f9eee71221502889715d8`.

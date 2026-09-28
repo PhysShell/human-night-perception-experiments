@@ -1,0 +1,94 @@
+{
+ "prereg": "d2/a3/PREREG_A3a.md",
+ "verify_manifest_before": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n",
+ "s": {
+  "Y_star_blender_road_median": 39.21809320178734,
+  "q_road_median_Y_A": 1.705417577536016,
+  "u": 0.3915725045223958,
+  "s": 0.3773745619657116,
+  "stops": -1.4059309177433936
+ },
+ "roadline": {
+  "R3_extraction": {
+   "C0_bit_identical": true,
+   "C2_frac_ok": 1.0,
+   "C3_frac_ok": 1.0
+  },
+  "R3_display_gates": {
+   "finite": true,
+   "G1": true,
+   "G2": true,
+   "G3": true,
+   "S-1": true,
+   "S-2": true,
+   "S-3": true
+  },
+  "R4_inversions": [],
+  "R5_present_final": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "R5_present_raw": {
+   "50": true,
+   "100": true,
+   "200": true,
+   "400": true,
+   "800": true,
+   "1600": true
+  },
+  "lamp_max_code_above_bg": {
+   "50": 65183.0,
+   "100": 65183.0,
+   "200": 65183.0,
+   "400": 65183.0,
+   "800": 65183.0,
+   "1600": 61380.0
+  },
+  "H3_floor_frac": 0.0,
+  "H3_field_floor_frac": 0.0,
+  "R3_PASS": true,
+  "R4_PASS": true,
+  "R5_PASS": true,
+  "H3_PASS": true,
+  "automatic_PASS": true
+ },
+ "report": {
+  "oracle_A1b": {
+   "road_median": 39.218913404703514,
+   "road_p10": 22.45412048582664,
+   "road_p90": 48.95125995627616,
+   "road_p90_over_p10": 2.1800568847564032,
+   "field_median": 7.160795714376061,
+   "H2v2_road_lum_ceiling": 0.0
+  },
+  "A1b": {
+   "road_median": 63.07537249363015,
+   "road_p10": 43.3640721926709,
+   "road_p90": 71.74616559150364,
+   "road_p90_over_p10": 1.6545071060837704,
+   "field_median": 16.856702319479105,
+   "H2v2_road_lum_ceiling": 0.0
+  },
+  "Blender_AgX_+7": {
+   "road_median": 39.21809320178734,
+   "road_p10": 21.664466719852904,
+   "road_p90": 47.98408874773031,
+   "road_p90_over_p10": 2.2148751394724435,
+   "field_median": 5.065686536652191,
+   "H2v2_road_lum_ceiling": 0.0
+  },
+  "frozen_D1": {
+   "road_median": 100.0,
+   "road_p10": 76.41003785092185,
+   "road_p90": 100.0,
+   "road_p90_over_p10": 1.3087285756238314,
+   "field_median": 20.232909376828832,
+   "H2v2_road_lum_ceiling": 0.8199217635109044
+  }
+ },
+ "verify_manifest_after": "== frozen files vs D1 accepted commit 0ee0765\nOK\n== corpus inputs\nOK\n== Radiance source (pcond)\nOK flake.lock pins bcffc2b (sha256-Cgs+2woqLUMKXMTLv+shf6bOUVfFMaydVNkPb0gJteQ=)\n"
+}

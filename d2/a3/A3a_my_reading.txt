@@ -1,0 +1,5 @@
+D2-A3a blind sheet, my reading before the external verdict (does not count).
+- X: brightest, light lavender road, gradient readable; no broad saturation. Guess: plain A1b.
+- Y: darker road with a gradient and pools close to Z's level; cold/lavender cast still visible on the lit road. Guess: oracle-A1b.
+- Z: similar level to Y, neutral grey road. Guess: Blender AgX +7.
+- All three V6 PASS. Order: Z >= Y > X; Y vs Z differ mainly in colour (cast), not level/structure. Gate call: close; tie possible, slight risk of Z > Y on the cast.
