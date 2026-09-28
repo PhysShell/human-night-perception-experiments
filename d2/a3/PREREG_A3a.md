@@ -121,3 +121,47 @@ against Blender's 2.21.
 - `renders/A3a_blind_sheet.png`, made by `sheet_A3a.py` (seed 2).
 - **Key** `work/A3a_blind_key.json` (git-ignored until the reveal): sha256 `3399efc0a2310a7ecb2dcb1518400f4594fffc2f11d9adf081cdba493453e4ca`.
 - **My reading** `A3a_my_reading.txt`: sha256 `262566e1ffe817b110d9bcaf7d100ea5841b361c9f3f9eee71221502889715d8`.
+
+## Verdict and reveal: **KILL. Oracle-A1b ranked below Blender** (Z > Y > X)
+The external blind verdict was given from the sheet only, without the key and without my reading.
+
+| label | V1 | V2 | V3 | V4 | V5 | V6 |
+|---|---|---|---|---|---|---|
+| X | PASS | PASS | PASS | PASS | N/A | PASS |
+| Y | PASS | PASS | PASS | PASS | N/A | PASS |
+| Z | PASS | PASS | PASS | PASS | N/A | PASS |
+
+**Ranking: Z > Y > X.** The strength of the differences:
+- **Z > Y: "small but visible".**
+- **Y > X: "clear".**
+
+**Observer's notes:**
+- **X:** no saturation defect, but the least convincing night: the road and field are too light, and the lighting is
+  less local.
+- **Y:** clearly better than X. The locality of the pools is restored, and the far lamps read. There is no new A-side
+  defect, and a slight cold/lavender cast does not break structure.
+- **Z:** very close to Y in road level and contrast, but "a little more natural in overall tonality and in the
+  separation of the light road from the dark surround".
+
+**Key** (`A3a_blind_key.json`, sha256 matches `3399efc0…`):
+- **X = A1b**;
+- **Y = oracle-A1b**;
+- **Z = Blender AgX +7**.
+
+**My reading** (`A3a_my_reading.txt`, sha256 matches `262566e1…`): X = A1b, Y = oracle, Z = Blender, Z ≥ Y > X,
+"slight risk of Z > Y on the cast". It agrees; it does not count.
+
+**Outcome (pre-registered, literal):**
+- **KILL. Oracle-A1b is ranked below Blender; the exposure-level hypothesis does not close the gap.**
+- Per §4, the exposure branch stops, and **no automatic exposure selector (D2-A3b) is opened.**
+
+**Recorded plainly, not as a PASS:**
+- One pre-shoulder scalar (−1.41 stops) moved A1b from a "clear" loss to a "small but visible" loss.
+- The residual difference is described by the observer as **tonality/colour and a slightly different distribution of
+  local contrast**, not a level error and not saturation. That matches the report numbers:
+  - road level is equal (39.2 vs 39.2), and road p90/p10 is almost equal (2.18 vs 2.21);
+  - the field stays brighter (7.2 vs 5.1);
+  - the B cast is present in Y and absent in Z.
+- Per §4, the remaining difference lies in the curve shape, the local-contrast distribution (the surround level) or
+  the colour rendering, not in exposure selection.
+- **A1b stays "V6 fixed, V7 not restored".** No candidate freeze.
