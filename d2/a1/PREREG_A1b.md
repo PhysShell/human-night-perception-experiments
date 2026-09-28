@@ -269,3 +269,29 @@ result):
 S1 was judged in stage 1.
 
 **My reading** `A1b2_my_reading.txt`: sha256 `97ad653867bceabb64b87a3adbd3d119519dda16b618703428450b934f8cc44c`, taken from the command output.
+
+## Stage 2 visual verdict (external observer), part 1
+| scene | new A-side defect | darkness collapse | structure degraded | verdict |
+|---|---|---|---|---|
+| Hero | no | no | no | PASS |
+| Camera B | no | no | no | PASS |
+| Camera C | no | no | no | PASS |
+| S0 | no | no | no material difference | PASS |
+| S3_bar | no | no | no material difference | PASS |
+| S3_nobar | no | no | no material difference | PASS |
+| S4 | no | no | no | PASS |
+| S5 | no | no | no | PASS |
+
+**Observer's notes:**
+- Hero/C: the shoulder removes part of the hard highlights without eating dark structure.
+- B: practically unchanged.
+- S0/S3: visually practically identical to frozen D1.
+- S4/S5: the practicals are calmer, while the midtones, sky, vegetation and architecture do not go flat. The feared
+  risk, grey mid/high-tone mush, is not seen.
+- The E1 literal FAILs: the classification is agreed. They stay recorded and are not a KILL.
+
+**S2 frames 1/48: visual verdict PENDING.** The observer could not retrieve `renders/A1b2_sheet_S2.png` (960×4352,
+1.3 MB). The automatic and temporal gates (P-7) pass, but that does not replace the declared visual gate.
+- **Re-issue:** a compact layout, `renders/A1b2_sheet_S2_compact.png`, built from the **same** PNGs (frozen frames and
+  the kept shoulder frames 1/48). Layout only, no data change: per frame, the full frames side by side, plus the
+  poplar/horizon band (rows 100–420, cols 0–470) at 1:1, side by side.
