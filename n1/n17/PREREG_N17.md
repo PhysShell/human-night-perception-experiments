@@ -112,3 +112,12 @@ visible from the turned camera. That would make OIDN INVALID on 2 of 3 keyframes
 - **Implementation:** the gate step is `n1/n17/gate.py`, which mirrors `n1/view_eval.py`'s gate step with these
   windows. The D1 step is `n1/view_eval.py VIEW d1`, unchanged. The `views.json` keyframe entries carry `crops: {}`
   (unused).
+
+## Run incident (driver `0b0b8c4`)
+- **The disk filled during the K0875 render.** Blender wrote a **corrupted** raw EXR: OIIO reported "some scanline
+  chunks were missing or corrupted", and the noisy-pass means were 0 in several windows.
+- My gate then deleted that raw file. The K0875 OIDN "FAIL" and D1 output came from corrupted data. **They are
+  invalid, not results**, and they were deleted.
+- **K0875 is re-rendered** with the same driver, after freeing package caches (pip/uv, not experiment data).
+- **K070 and K080 were checked.** Their `view_cdm2.exr` and D1 PNGs read without error and contain no zero pixels.
+  K080's `view_rgb.exr` (a Cycles-unit copy that D1 does not use) had failed to write and was deleted.
