@@ -295,3 +295,36 @@ S1 was judged in stage 1.
 - **Re-issue:** a compact layout, `renders/A1b2_sheet_S2_compact.png`, built from the **same** PNGs (frozen frames and
   the kept shoulder frames 1/48). Layout only, no data change: per frame, the full frames side by side, plus the
   poplar/horizon band (rows 100–420, cols 0–470) at 1:1, side by side.
+
+## Stage 2 visual verdict, part 2: S2 (compact sheet `renders/A1b2_sheet_S2_compact.png`): **PASS**
+| frame | new A-side defect | darkness collapse | visible structural degradation |
+|---|---|---|---|
+| 1 | no | no | no |
+| 48 | no | no | no |
+
+- **Observed:** the lamp line is slightly warmer and less white under the shoulder. The observer classifies this as
+  lower highlight exposure revealing the chroma that frozen B already produces, not a new A-side defect. Source shape,
+  order and readability are not worse.
+- **Temporal appearance:** no visible new instability between the inspected endpoints, consistent with P-7 PASS.
+- **My reading** (`A1b2_my_reading.txt`, sha256 `97ad6538…`, committed in `d9ff444` before the verdict), for S2:
+  "as S1 in stage 1, lamp row slightly warm; sky/poplars unchanged. PASS". It agrees; it does not count.
+
+# D2-A1b: **PASS. Closed**, with the operator unchanged: f(Y) = Y/(1+Y)
+- **Stage 1:**
+  - RoadLine: broad roadway saturation gone, gradient kept;
+  - S1: unchanged.
+- **Stage 2:**
+  - hero, B, C, S0, S3_bar, S3_nobar, S4, S5 and S2: visual PASS;
+  - P-1…P-8, P-7, CF, R3 and HO: all PASS, except four one-pixel E1 knee-artefact literal FAILs (classified, recorded,
+    not a KILL).
+- **Reading (§6.1, pre-registered):** nonlinear highlight compression resolves the global-scalar highlight/shadow
+  trade-off found in D2-A2b. **The A1b hypothesis survives.**
+- **This is a probe result, not an adoption.** Choosing a production curve and changing D1 are a separate decision,
+  with the full no-regression set. The operator is **not** tuned further.
+- **T0 caveat carried forward:**
+  - The RoadLine basis is robust to atmosphere (T0a).
+  - Under a full CIE-veil-before-adaptation coupling, the frozen A-side saturation disappears (T0b, coupling
+    unresolved).
+  - The shoulder's C2 holds either way.
+- **Next, separate:** **D2-G1, observer glare architecture** (G0.1 source inventory, G0.2 adaptation coupling vs
+  VADAPT = 0.08, G0.3 display double-count bound). D2-B3 stays LOCKED.
