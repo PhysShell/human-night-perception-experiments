@@ -145,7 +145,7 @@ visible from the turned camera. That would make OIDN INVALID on 2 of 3 keyframes
 | K0875 → C | +0.18 |
 
 **K070's E1 classification:** one in-gamut pixel with a channel within 10⁻⁸ of the sRGB knee. It is classified by
-'s diagnostic, as in  E1.
+`eval.py`'s diagnostic, as in `d1/ERRATA.md` E1.
 
 **Against the prediction:**
 - **Right:**
